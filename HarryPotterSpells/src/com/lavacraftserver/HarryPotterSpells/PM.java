@@ -28,6 +28,10 @@ public class PM extends JavaPlugin {
 		player.sendMessage(ChatColor.GOLD + "You have selected spell: " + spell);
 	}
 	
+	public static void debug(String message) {
+		log.log(Level.INFO, "[HSP - Debug] " + message);
+	}
+	
 	public static boolean hasPermission(String permission, Player p) {
 		if(Vault.perm != null) {
 			return Vault.perm.has(p, permission);

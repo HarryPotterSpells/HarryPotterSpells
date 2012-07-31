@@ -1,1 +1,4 @@
+# Only enable if you want to enable debugging mode
+DebugMode: false
+
 VaultEnabled: true
