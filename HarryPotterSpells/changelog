@@ -13,4 +13,5 @@ Version 1:
 	+ Change spell with right click
 	+ Spell confringo
 	* /teach only works if spell is in upper case
+	* can /teach a player a spell twice
 	
