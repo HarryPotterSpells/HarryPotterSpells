@@ -1,6 +1,5 @@
 package com.lavacraftserver.HarryPotterSpells;
 
-import java.util.List;
 import java.util.HashMap;
 
 import org.bukkit.Material;
@@ -21,16 +20,14 @@ public class Listeners extends JavaPlugin implements Listener {
 			//Change spell
 			if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				Player p = e.getPlayer();
-				List<String> spellList = PlayerSpellConfig.getPSC().getStringList(p.getName());
-				int spellNumber = 0, max = spellList.size();
+				Object[] spellList = PlayerSpellConfig.getPSC().getStringList(p.getName()).toArray();
+				int spellNumber = 0, max = spellList.length - 1;
 				if(currentSpell.containsKey(p.getName())) {
-					if(currentSpell.get(p.getName()) > max) {
-						spellNumber = 1;
-					} else {
+					if(!(currentSpell.get(p.getName()) + 1 > max)) {
 						spellNumber = currentSpell.get(p.getName()) + 1;
 					}
 				}
-				PM.newSpell(p, spellList.get(spellNumber));
+				PM.newSpell(p, spellList[spellNumber].toString());
 				currentSpell.put(p.getName(), spellNumber);
 				return;
 			}
@@ -47,16 +44,14 @@ public class Listeners extends JavaPlugin implements Listener {
 	public void PIEE(PlayerInteractEntityEvent e) {
 		if(PM.hasPermission("HarryPotterSpells.use", e.getPlayer())) {
 			Player p = e.getPlayer();
-			List<String> spellList = PlayerSpellConfig.getPSC().getStringList(p.getName());
-			int spellNumber = 0, max = spellList.size();
+			Object[] spellList = PlayerSpellConfig.getPSC().getStringList(p.getName()).toArray();
+			int spellNumber = 0, max = spellList.length - 1;
 			if(currentSpell.containsKey(p.getName())) {
-				if(currentSpell.get(p.getName()) > max) {
-					spellNumber = 1;
-				} else {
+				if(!(currentSpell.get(p.getName()) + 1 > max)) {
 					spellNumber = currentSpell.get(p.getName()) + 1;
 				}
 			}
-			PM.newSpell(p, spellList.get(spellNumber));
+			PM.newSpell(p, spellList[spellNumber].toString());
 			currentSpell.put(p.getName(), spellNumber);
 			return;
 		}
