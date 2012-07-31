@@ -33,6 +33,7 @@ public class HarryPotterSpells extends JavaPlugin {
 	
 	public void loadConfig() {
 		FileConfiguration c = getConfig();
+		c.addDefault("TimeSpell.TimeToSet", 0);
 		c.options().copyDefaults(true);
 		saveConfig();
 	}
