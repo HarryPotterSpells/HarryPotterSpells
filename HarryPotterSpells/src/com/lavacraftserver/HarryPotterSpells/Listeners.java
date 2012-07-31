@@ -36,9 +36,15 @@ public class Listeners extends JavaPlugin implements Listener {
 			
 			//Cast spell
 			if(e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) {
-				int currentSpellNumber = currentSpell.get(e.getPlayer().getName());
-				Object[] spellList = PlayerSpellConfig.getPSC().getStringList(e.getPlayer().getName()).toArray();
-				SpellSender.go(spellList[currentSpellNumber].toString(), e.getPlayer(), e);
+				Player p = e.getPlayer();
+				Object[] spellList = PlayerSpellConfig.getPSC().getStringList(p.getName()).toArray();
+				int currentSpellNumber = 0, max = spellList.length - 1;
+				if(currentSpell.containsKey(p.getName())) {
+					if(!(currentSpell.get(p.getName()) + 1 > max)) {
+						currentSpellNumber = currentSpell.get(p.getName()) + 1;
+					}
+				}
+				SpellSender.go(spellList[currentSpellNumber].toString(), p, e);
 			}
 			
 		}
