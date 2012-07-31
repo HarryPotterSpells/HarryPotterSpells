@@ -6,7 +6,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class SpellSender {
 	
 	public static void go(String spell, Player p, PlayerInteractEvent e) {
-		if(spell == "confringo") {Confringo.cast(p, e);}
+		if(spell.equalsIgnoreCase("confringo")) {Confringo.cast(p, e);}
 	}
 
 }

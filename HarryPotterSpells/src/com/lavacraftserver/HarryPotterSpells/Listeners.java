@@ -11,6 +11,8 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.lavacraftserver.HarryPotterSpells.Spells.SpellSender;
+
 public class Listeners extends JavaPlugin implements Listener {
 	public HashMap<String, Integer> currentSpell = new HashMap<String, Integer>();
 	
@@ -34,7 +36,9 @@ public class Listeners extends JavaPlugin implements Listener {
 			
 			//Cast spell
 			if(e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) {
-				
+				int currentSpellNumber = currentSpell.get(e.getPlayer().getName());
+				Object[] spellList = PlayerSpellConfig.getPSC().getStringList(e.getPlayer().getName()).toArray();
+				SpellSender.go(spellList[currentSpellNumber].toString(), e.getPlayer(), e);
 			}
 			
 		}
