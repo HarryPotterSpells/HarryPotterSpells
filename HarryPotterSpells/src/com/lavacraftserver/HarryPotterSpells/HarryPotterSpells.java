@@ -18,6 +18,7 @@ public class HarryPotterSpells extends JavaPlugin {
 		PM.hps = this;
 		loadConfig();
 		PlayerSpellConfig.getPSC();
+		PlayerSpellConfig.savePSC();
 		getServer().getPluginManager().registerEvents(new Listeners(), this);
 		if(getConfig().getBoolean("VaultEnabled") == true) {
 			Vault.setupVault();
@@ -32,16 +33,21 @@ public class HarryPotterSpells extends JavaPlugin {
 	
 	public void loadConfig() {
 		FileConfiguration c = getConfig();
-		c.addDefault("VaultEnabled", true);
 		c.options().copyDefaults(true);
 		saveConfig();
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if(commandLabel.equalsIgnoreCase("teach")) {
-			Teach.teach((Player)sender, args);
+			if(sender instanceof Player) {
+				Teach.teach((Player)sender, args);
+			} else {
+				Teach.teachConsole(args);
+			}
 			return true;
 		}
+		
+		
 		return true;
 	}
 

@@ -10,7 +10,7 @@ commands:
 permissions:
   HarryPotterSpells.use:
     description: Use the wand
-    default: false
+    default: op
   HarryPotterSpells.commands.teach:
     description: Access to /teach
-    default: false
+    default: op

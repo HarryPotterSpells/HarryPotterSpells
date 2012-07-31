@@ -22,10 +22,13 @@ public class Listeners extends JavaPlugin implements Listener {
 			if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				Player p = e.getPlayer();
 				List<String> spellList = PlayerSpellConfig.getPSC().getStringList(p.getName());
-				int spellNumber = currentSpell.get(p.getName()) + 1;
-				int max = spellList.size();
-				if(currentSpell.get(p.getName()) + 1 > max) {
-					spellNumber = 0;
+				int spellNumber = 0, max = spellList.size();
+				if(currentSpell.containsKey(p.getName())) {
+					if(currentSpell.get(p.getName()) > max) {
+						spellNumber = 1;
+					} else {
+						spellNumber = currentSpell.get(p.getName()) + 1;
+					}
 				}
 				PM.newSpell(p, spellList.get(spellNumber));
 				currentSpell.put(p.getName(), spellNumber);
@@ -45,10 +48,13 @@ public class Listeners extends JavaPlugin implements Listener {
 		if(PM.hasPermission("HarryPotterSpells.use", e.getPlayer())) {
 			Player p = e.getPlayer();
 			List<String> spellList = PlayerSpellConfig.getPSC().getStringList(p.getName());
-			int spellNumber = currentSpell.get(p.getName()) + 1;
-			int max = spellList.size();
-			if(currentSpell.get(p.getName()) + 1 > max) {
-				spellNumber = 0;
+			int spellNumber = 0, max = spellList.size();
+			if(currentSpell.containsKey(p.getName())) {
+				if(currentSpell.get(p.getName()) > max) {
+					spellNumber = 1;
+				} else {
+					spellNumber = currentSpell.get(p.getName()) + 1;
+				}
 			}
 			PM.newSpell(p, spellList.get(spellNumber));
 			currentSpell.put(p.getName(), spellNumber);

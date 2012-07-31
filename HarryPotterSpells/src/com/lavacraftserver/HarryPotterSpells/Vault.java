@@ -14,7 +14,7 @@ public class Vault extends JavaPlugin {
 	public static Economy econ = null;
 	
 	public static void setupVault() {
-		if(Bukkit.getServer().getPluginManager().getPlugin("Vault").isEnabled()) {
+		if(Bukkit.getServer().getPluginManager().getPlugin("Vault") != null) {
 			PM.log("Hooked into Vault", Level.INFO);
 			if(!setupEconomy()) {
 				PM.log("Economy plugin not found. Economy features have been disabled", Level.WARNING);

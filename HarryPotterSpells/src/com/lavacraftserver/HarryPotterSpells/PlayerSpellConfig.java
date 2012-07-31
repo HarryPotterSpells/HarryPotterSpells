@@ -23,6 +23,7 @@ public class PlayerSpellConfig extends JavaPlugin {
 	        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
 	        PSC.setDefaults(defConfig);
 	    }
+	    savePSC();
 	}
 	
 	public static FileConfiguration getPSC() {
@@ -32,7 +33,7 @@ public class PlayerSpellConfig extends JavaPlugin {
 	    return PSC;
 	}
 	
-	public void saveCustomConfig() {
+	public static void savePSC() {
 	    if (PSC == null || PSCFile == null) {return;}
 	    try {
 	        getPSC().save(PSCFile);
