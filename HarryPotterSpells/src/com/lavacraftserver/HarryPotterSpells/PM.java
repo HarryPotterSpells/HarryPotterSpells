@@ -29,7 +29,9 @@ public class PM extends JavaPlugin {
 	}
 	
 	public static void debug(String message) {
-		log.log(Level.INFO, "[HSP - Debug] " + message);
+		if(hps.getConfig().getBoolean("DebugMode")) {
+			log.log(Level.INFO, "[HSP - Debug] " + message);
+		}
 	}
 	
 	public static boolean hasPermission(String permission, Player p) {
