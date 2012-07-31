@@ -18,6 +18,7 @@ public class HarryPotterSpells extends JavaPlugin {
 		PM.hps = this;
 		loadConfig();
 		PlayerSpellConfig.getPSC();
+		getServer().getPluginManager().registerEvents(new Listeners(), this);
 		if(getConfig().getBoolean("VaultEnabled") == true) {
 			Vault.setupVault();
 		}

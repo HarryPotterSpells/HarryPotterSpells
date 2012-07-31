@@ -24,6 +24,10 @@ public class PM extends JavaPlugin {
 		player.sendMessage("[" + ChatColor.GOLD + "HarryPotterSpells" + ChatColor.WHITE + "] " + ChatColor.RED + message);
 	}
 	
+	public static void newSpell(Player player, String spell) {
+		player.sendMessage(ChatColor.GOLD + "You have selected spell: " + spell);
+	}
+	
 	public static boolean hasPermission(String permission, Player p) {
 		if(Vault.perm != null) {
 			return Vault.perm.has(p, permission);
