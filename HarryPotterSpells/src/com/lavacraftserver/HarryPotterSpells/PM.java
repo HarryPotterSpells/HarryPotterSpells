@@ -1,0 +1,35 @@
+package com.lavacraftserver.HarryPotterSpells;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
+
+public class PM extends JavaPlugin {
+	public static Logger log;
+	public static Plugin hps;
+	
+	public static void log(String message, Level level) {
+		log.log(level, "[HarryPotterSpells] " + message);
+	}
+	
+	public static void tell(Player player, String message) {
+		player.sendMessage("[" + ChatColor.GOLD + "HarryPotterSpells" + ChatColor.WHITE + "] " + ChatColor.YELLOW + message);
+	}
+	
+	public static void warn(Player player, String message) {
+		player.sendMessage("[" + ChatColor.GOLD + "HarryPotterSpells" + ChatColor.WHITE + "] " + ChatColor.RED + message);
+	}
+	
+	public static boolean hasPermission(String permission, Player p) {
+		if(Vault.perm != null) {
+			return Vault.perm.has(p, permission);
+		} else {
+			return p.hasPermission(permission);
+		}
+	}
+
+}
