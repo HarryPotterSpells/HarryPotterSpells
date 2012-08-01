@@ -1,7 +1,10 @@
 package com.lavacraftserver.HarryPotterSpells;
 
 import java.util.HashMap;
+import java.util.List;
 
+import org.bukkit.Effect;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,7 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.lavacraftserver.HarryPotterSpells.Spells.SpellSender;
 
 public class Listeners extends JavaPlugin implements Listener {
-	public HashMap<String, Integer> currentSpell = new HashMap<String, Integer>();
+	public static HashMap<String, Integer> currentSpell = new HashMap<String, Integer>();
 	
 	@EventHandler
 	public void PIE(PlayerInteractEvent e) {
@@ -22,14 +25,14 @@ public class Listeners extends JavaPlugin implements Listener {
 			//Change spell
 			if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				Player p = e.getPlayer();
-				Object[] spellList = PlayerSpellConfig.getPSC().getStringList(p.getName()).toArray();
-				int spellNumber = 0, max = spellList.length - 1;
+				List<String> spellList = PlayerSpellConfig.getPSC().getStringList(p.getName());
+				int spellNumber = 0, max = spellList.size() - 1;
 				if(currentSpell.containsKey(p.getName())) {
-					if(!(currentSpell.get(p.getName()) + 1 > max)) {
+					if(!(currentSpell.get(p.getName()) == max)) {
 						spellNumber = currentSpell.get(p.getName()) + 1;
 					}
 				}
-				PM.newSpell(p, spellList[spellNumber].toString());
+				PM.newSpell(p, spellList.get(spellNumber));
 				currentSpell.put(p.getName(), spellNumber);
 				return;
 			}
@@ -37,14 +40,15 @@ public class Listeners extends JavaPlugin implements Listener {
 			//Cast spell
 			if(e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) {
 				Player p = e.getPlayer();
-				Object[] spellList = PlayerSpellConfig.getPSC().getStringList(p.getName()).toArray();
-				int currentSpellNumber = 0, max = spellList.length - 1;
+				List<String> spellList = PlayerSpellConfig.getPSC().getStringList(p.getName());
+				int spellNumber = 0;
 				if(currentSpell.containsKey(p.getName())) {
-					if(!(currentSpell.get(p.getName()) + 1 > max)) {
-						currentSpellNumber = currentSpell.get(p.getName()) + 1;
-					}
+					spellNumber = currentSpell.get(p.getName());
 				}
-				SpellSender.go(spellList[currentSpellNumber].toString(), p, e);
+				Location l = p.getLocation();
+				l.setY(l.getY() + 1);
+				p.getWorld().playEffect(l, Effect.ENDER_SIGNAL, 0);
+				SpellSender.go(spellList.get(spellNumber), p, e);
 			}
 			
 		}
@@ -54,14 +58,14 @@ public class Listeners extends JavaPlugin implements Listener {
 	public void PIEE(PlayerInteractEntityEvent e) {
 		if(PM.hasPermission("HarryPotterSpells.use", e.getPlayer()) && e.getPlayer().getItemInHand().getType() == Material.STICK) {
 			Player p = e.getPlayer();
-			Object[] spellList = PlayerSpellConfig.getPSC().getStringList(p.getName()).toArray();
-			int spellNumber = 0, max = spellList.length - 1;
+			List<String> spellList = PlayerSpellConfig.getPSC().getStringList(p.getName());
+			int spellNumber = 0, max = spellList.size() - 1;
 			if(currentSpell.containsKey(p.getName())) {
-				if(!(currentSpell.get(p.getName()) + 1 > max)) {
+				if(!(currentSpell.get(p.getName()) == max)) {
 					spellNumber = currentSpell.get(p.getName()) + 1;
 				}
 			}
-			PM.newSpell(p, spellList[spellNumber].toString());
+			PM.newSpell(p, spellList.get(spellNumber));
 			currentSpell.put(p.getName(), spellNumber);
 			return;
 		}
