@@ -13,6 +13,7 @@ public enum Spell {
 	IMMOBULUS("Freeze"),
 	EXPULSO("Explosion"),
 	LUMOS("Light"),
+	WINGARDIUMLEVIOSA("Fly"),
 			
 	//Other Spells
 	LIGHTNING(null),
