@@ -9,7 +9,7 @@ public class Confringo {
 	public static void cast(Player p, PlayerInteractEvent e) {
 		Fireball fb = p.launchProjectile(Fireball.class);
 		fb.setShooter(p);
-		fb.setYield(7);
+		fb.setYield(2);
 		fb.setBounce(false);
 	}
 	
