@@ -4,7 +4,6 @@ import java.util.logging.Level;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -34,9 +33,7 @@ public class HarryPotterSpells extends JavaPlugin {
 	}
 	
 	public void loadConfig() {
-		FileConfiguration c = getConfig();
-		c.addDefault("TimeSpell.TimeToSet", 0);
-		c.options().copyDefaults(true);
+		getConfig().options().copyDefaults(true);
 		saveConfig();
 	}
 	
