@@ -1,10 +1,11 @@
 Changelog
 
+See https://github.com/kezz101/HarryPotterSpells/issues for the issue list
+
 KEY:
 	+ Addition
 	- Removal
 	~ Change
-	* Bug fix
 	# Note
 	
 Version 1:
@@ -12,9 +13,3 @@ Version 1:
 	+ Vault support
 	+ Change spell with right click
 	+ Spell confringo
-
-
-CURRENT BUG LIST:
-	* /teach only works if spell is in upper case
-	* can /teach a player a spell twice
-	
