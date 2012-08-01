@@ -18,7 +18,7 @@ public class Listeners extends JavaPlugin implements Listener {
 	
 	@EventHandler
 	public void PIE(PlayerInteractEvent e) {
-		if(PM.hasPermission("HarryPotterSpells.use", e.getPlayer()) || e.getMaterial() != Material.STICK) {
+		if(PM.hasPermission("HarryPotterSpells.use", e.getPlayer()) && e.getPlayer().getItemInHand().getType() == Material.STICK) {
 			//Change spell
 			if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				Player p = e.getPlayer();
@@ -52,7 +52,7 @@ public class Listeners extends JavaPlugin implements Listener {
 	
 	@EventHandler
 	public void PIEE(PlayerInteractEntityEvent e) {
-		if(PM.hasPermission("HarryPotterSpells.use", e.getPlayer())) {
+		if(PM.hasPermission("HarryPotterSpells.use", e.getPlayer()) && e.getPlayer().getItemInHand().getType() == Material.STICK) {
 			Player p = e.getPlayer();
 			Object[] spellList = PlayerSpellConfig.getPSC().getStringList(p.getName()).toArray();
 			int spellNumber = 0, max = spellList.length - 1;
