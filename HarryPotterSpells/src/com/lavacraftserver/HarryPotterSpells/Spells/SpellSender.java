@@ -7,7 +7,7 @@ public class SpellSender {
 	
 	public static void go(String spell, Player p, PlayerInteractEvent e) {
 		if(spell.equalsIgnoreCase("confringo")) {Confringo.cast(p, e);}
-		if(spell.equalsIgnoreCase("time")) {TimeSpell.cast(p);}
+		if(spell.equalsIgnoreCase("time")) {TimeSpell.cast(p, e);}
 		if(spell.equalsIgnoreCase("tree")) {TreeSpell.cast(p);}
 	}
 }
