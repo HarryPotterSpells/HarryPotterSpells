@@ -12,19 +12,22 @@ public class TimeSpell {
 	//Night == 15000L
 
 	public static void cast(Player p, PlayerInteractEvent e) {
-		if(e.getClickedBlock().getType() == Material.GLOWSTONE) {
-			p.getWorld().setTime(0L);
-		} else if(e.getClickedBlock().getType() == Material.OBSIDIAN) {
-			p.getWorld().setTime(15000L);
-		} else {
-			long time = p.getWorld().getTime();
-			if(time < 12000) {
-				time = time + 12000L;
-			} else {
-				time = time - 12000L;
+		if(e.getClickedBlock() != null) {
+			if(e.getClickedBlock().getType() == Material.GLOWSTONE) {
+				p.getWorld().setTime(0L);
+				return;
+			} else if(e.getClickedBlock().getType() == Material.OBSIDIAN) {
+				p.getWorld().setTime(15000L);
+				return;
 			}
-			p.getWorld().setTime(time);
 		}
+		long time = p.getWorld().getTime();
+		if(time < 12000) {
+			time = time + 12000L;
+		} else {
+			time = time - 12000L;
+		}
+		p.getWorld().setTime(time);
 	}
 	
 }

@@ -7,6 +7,10 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class Confringo {
 	
 	public static void cast(Player p, PlayerInteractEvent e) {
-		p.launchProjectile(Fireball.class);
+		Fireball fb = p.launchProjectile(Fireball.class);
+		fb.setShooter(p);
+		fb.setYield(7);
+		fb.setBounce(false);
 	}
+	
 }

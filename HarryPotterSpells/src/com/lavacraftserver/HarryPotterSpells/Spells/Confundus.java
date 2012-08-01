@@ -13,6 +13,9 @@ public class Confundus {
 	
 	public static void cast(Player p) {
 		SmallFireball sf = p.launchProjectile(SmallFireball.class);
+		sf.setBounce(false);
+		sf.setShooter(p);
+		sf.setYield(7);
 		Targeter.NeedsTargeted.put(sf.getUniqueId(), Spell.CONFUNDUS);
 	}
 	
