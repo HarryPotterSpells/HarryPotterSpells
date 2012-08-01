@@ -1,6 +1,5 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,7 +13,7 @@ import org.bukkit.entity.Player;
 public class TreeSpell {
 
 	public static void cast(Player p) {
-		Block block = p.getTargetBlock(tranlist(), 50);
+		Block block = p.getTargetBlock(null, 50);
 		if (block.getType() == Material.GRASS || block.getType() == Material.DIRT) {
 			p.getWorld().generateTree(block.getLocation(), TreeType.BIG_TREE);
 			boom(block, block.getWorld());
@@ -92,21 +91,5 @@ public class TreeSpell {
 		}
 	}
 	
-	public static HashSet<Byte> tranlist() {
-		HashSet<Byte> list = new HashSet<Byte>();
-		list.add((byte)0);
-		list.add((byte)8);
-		list.add((byte)9);
-		list.add((byte)10);
-		list.add((byte)11);
-		list.add((byte)31);
-		list.add((byte)32);
-		list.add((byte)37);
-		list.add((byte)38);
-		list.add((byte)39);
-		list.add((byte)40);
-		list.add((byte)106);
-		return list;
-	}
 }
 
