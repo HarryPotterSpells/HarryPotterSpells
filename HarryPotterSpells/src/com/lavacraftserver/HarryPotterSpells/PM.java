@@ -13,7 +13,7 @@ public class PM extends JavaPlugin {
 	public static Plugin hps;
 	
 	public static void log(String message, Level level) {
-		log.log(level, "[HarryPotterSpells] " + message);
+		log.log(level, message);
 	}
 	
 	public static void tell(Player player, String message) {
@@ -30,7 +30,7 @@ public class PM extends JavaPlugin {
 	
 	public static void debug(String message) {
 		if(hps.getConfig().getBoolean("DebugMode")) {
-			log.log(Level.INFO, "[HSP - Debug] " + message);
+			log.log(Level.INFO, "[Debug] " + message);
 		}
 	}
 	
