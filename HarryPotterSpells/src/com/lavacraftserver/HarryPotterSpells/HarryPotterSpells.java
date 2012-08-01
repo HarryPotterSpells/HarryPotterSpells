@@ -16,6 +16,7 @@ public class HarryPotterSpells extends JavaPlugin {
 	public void onEnable() {
 		PM.log = getLogger();
 		PM.hps = this;
+		Listeners.currentSpell.clear();
 		loadConfig();
 		PlayerSpellConfig.getPSC();
 		PlayerSpellConfig.savePSC();
@@ -29,6 +30,7 @@ public class HarryPotterSpells extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
+		Listeners.currentSpell.clear();
 		PM.log("Plugin disabled", Level.INFO);
 	}
 	
