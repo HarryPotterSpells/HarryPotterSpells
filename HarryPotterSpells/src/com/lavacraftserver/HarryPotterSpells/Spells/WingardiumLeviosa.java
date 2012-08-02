@@ -9,11 +9,16 @@ public class WingardiumLeviosa {
 	public static void cast(final Player p) {
 		if(p.isFlying()) {
 			p.setFlying(false);
+			p.setAllowFlight(false);
 		} else {
+			p.setAllowFlight(true);
 			p.setFlying(true);
 			PM.hps.getServer().getScheduler().scheduleSyncDelayedTask(PM.hps, new Runnable() {
 				   public void run() {
-				       p.setFlying(false);
+					   if(p.isFlying()) {
+						   p.setFlying(false);
+						   p.setAllowFlight(false);
+					   } 
 				   }
 				}, 300L);
 		}
