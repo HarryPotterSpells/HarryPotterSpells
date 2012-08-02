@@ -1,5 +1,6 @@
 package com.lavacraftserver.HarryPotterSpells;
 
+import java.io.File;
 import java.util.logging.Level;
 
 import org.bukkit.command.Command;
@@ -19,7 +20,6 @@ public class HarryPotterSpells extends JavaPlugin {
 		Listeners.currentSpell.clear();
 		loadConfig();
 		PlayerSpellConfig.getPSC();
-		PlayerSpellConfig.savePSC();
 		getServer().getPluginManager().registerEvents(new Listeners(), this);
 		getServer().getPluginManager().registerEvents(new Targeter(), this);
 		if(getConfig().getBoolean("VaultEnabled") == true) {
@@ -35,8 +35,11 @@ public class HarryPotterSpells extends JavaPlugin {
 	}
 	
 	public void loadConfig() {
-		getConfig().options().copyDefaults(true);
-		saveConfig();
+		File file = new File(PM.hps.getDataFolder(), "config.yml");
+		if(!file.exists()) {
+			getConfig().options().copyDefaults(true);
+			saveConfig();
+		}
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
