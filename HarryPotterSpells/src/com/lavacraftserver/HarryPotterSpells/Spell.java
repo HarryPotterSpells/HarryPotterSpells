@@ -2,25 +2,13 @@ package com.lavacraftserver.HarryPotterSpells;
 
 public enum Spell {
 	//Harry Potter Spells
-	AGUAMENTI("Water"),
-	INCENDIO("Fire"),
-	STUPEFY("Push"),
-	AVADAKEDAVRA("Kill"),
 	CONFUNDO("Confuse"),
 	CONFRINGO("Fireball"),
-	EXPELLIARMUS("Disarm"),
-	PROTEGO("Protect"),
-	IMMOBULUS("Freeze"),
-	EXPULSO("Explosion"),
-	LUMOS("Light"),
 	WINGARDIUMLEVIOSA("Fly"),
 			
 	//Other Spells
-	LIGHTNING(null),
 	TREE(null),
-	WEATHER(null),
-	TIME(null),
-	ARROW(null);
+	TIME(null);
 	
 	private final String friendlyName;
 	
