@@ -15,23 +15,21 @@ public class TimeSpell {
 
 	public static void cast(Player p, PlayerInteractEvent e) {
 		World w = p.getWorld();
-		if(p.getEyeLocation().getBlock() != null) {
-			if(p.getEyeLocation().getBlock().getType() == Material.GLOWSTONE) {
-				w.setTime(0L);
-				return;
-			} else if(p.getEyeLocation().getBlock().getType() == Material.OBSIDIAN) {
-				w.setTime(15000L);
-				return;
-			}
-		}
-		long time = w.getTime();
-		if(time < 12000) {
-			time = time + 12000L;
+		Material m = p.getTargetBlock(null, 50).getType();
+		if(m == Material.GLOWSTONE) {
+			w.setTime(0L);
+		} else if(m == Material.OBSIDIAN) {
+			w.setTime(15000L);
 		} else {
-			time = time - 12000L;
+			long time = w.getTime();
+			if(time < 12000) {
+				time = time + 12000L;
+			} else {
+				time = time - 12000L;
+			}
+			awesomeLightning(p.getLocation(), w);
+			w.setTime(time);
 		}
-		awesomeLightning(p.getLocation(), w);
-		w.setTime(time);
 	}
 
 	public static void awesomeLightning(Location l, World w) {
