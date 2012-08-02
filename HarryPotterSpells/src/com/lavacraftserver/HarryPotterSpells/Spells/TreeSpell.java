@@ -15,7 +15,7 @@ public class TreeSpell {
 	public static void cast(Player p) {
 		Block block = p.getTargetBlock(null, 50);
 		if (block.getType() == Material.GRASS || block.getType() == Material.DIRT) {
-			p.getWorld().generateTree(block.getLocation(), TreeType.BIG_TREE);
+			p.getWorld().generateTree(block.getLocation(), TreeType.TREE);
 			boom(block, block.getWorld());
 		}
 	}
