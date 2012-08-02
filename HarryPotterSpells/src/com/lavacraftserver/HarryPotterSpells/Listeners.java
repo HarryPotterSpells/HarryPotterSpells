@@ -26,6 +26,10 @@ public class Listeners extends JavaPlugin implements Listener {
 			if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				Player p = e.getPlayer();
 				List<String> spellList = PlayerSpellConfig.getPSC().getStringList(p.getName());
+				if(spellList == null || spellList.isEmpty()) {
+					PM.tell(p, "You don't know any spells.");
+					return;
+				}
 				int spellNumber = 0, max = spellList.size() - 1;
 				if(currentSpell.containsKey(p.getName())) {
 					if(!(currentSpell.get(p.getName()) == max)) {
@@ -41,6 +45,10 @@ public class Listeners extends JavaPlugin implements Listener {
 			if(e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) {
 				Player p = e.getPlayer();
 				List<String> spellList = PlayerSpellConfig.getPSC().getStringList(p.getName());
+				if(spellList == null || spellList.isEmpty()) {
+					PM.tell(p, "You don't know any spells.");
+					return;
+				}
 				int spellNumber = 0;
 				if(currentSpell.containsKey(p.getName())) {
 					spellNumber = currentSpell.get(p.getName());
@@ -59,6 +67,10 @@ public class Listeners extends JavaPlugin implements Listener {
 		if(PM.hasPermission("HarryPotterSpells.use", e.getPlayer()) && e.getPlayer().getItemInHand().getType() == Material.STICK) {
 			Player p = e.getPlayer();
 			List<String> spellList = PlayerSpellConfig.getPSC().getStringList(p.getName());
+			if(spellList == null || spellList.isEmpty()) {
+				PM.tell(p, "You don't know any spells.");
+				return;
+			}
 			int spellNumber = 0, max = spellList.size() - 1;
 			if(currentSpell.containsKey(p.getName())) {
 				if(!(currentSpell.get(p.getName()) == max)) {
