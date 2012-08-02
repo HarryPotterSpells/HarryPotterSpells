@@ -14,7 +14,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.lavacraftserver.HarryPotterSpells.Spells.SpellSender;
+import com.lavacraftserver.HarryPotterSpells.Utils.SpellSender;
 
 public class Listeners extends JavaPlugin implements Listener {
 	public static HashMap<String, Integer> currentSpell = new HashMap<String, Integer>();

@@ -1,7 +1,13 @@
-package com.lavacraftserver.HarryPotterSpells.Spells;
+package com.lavacraftserver.HarryPotterSpells.Utils;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
+
+import com.lavacraftserver.HarryPotterSpells.Spells.Confringo;
+import com.lavacraftserver.HarryPotterSpells.Spells.Confundus;
+import com.lavacraftserver.HarryPotterSpells.Spells.TimeSpell;
+import com.lavacraftserver.HarryPotterSpells.Spells.TreeSpell;
+import com.lavacraftserver.HarryPotterSpells.Spells.WingardiumLeviosa;
 
 public class SpellSender {
 	
