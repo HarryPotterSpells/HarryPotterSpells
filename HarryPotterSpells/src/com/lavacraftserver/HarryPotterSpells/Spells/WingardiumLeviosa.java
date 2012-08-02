@@ -1,21 +1,19 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
+
+import com.lavacraftserver.HarryPotterSpells.PM;
 
 public class WingardiumLeviosa {
 	
-	public static void cast(Player p) {
+	public static void cast(final Player p) {
 		if(p.isFlying()) {
 			p.setFlying(false);
 		} else {
-			Location l = p.getLocation();
-			p.teleport(new Location(p.getWorld(), l.getX(), l.getY() + 1, l.getZ()));
 			p.setFlying(true);
-			myPlugin.getServer().getScheduler().scheduleSyncDelayedTask(myPlugin, new Runnable() {
-
+			PM.hps.getServer().getScheduler().scheduleSyncDelayedTask(PM.hps, new Runnable() {
 				   public void run() {
-				       getServer().broadcastMessage("This message is broadcast by the main thread");
+				       p.setFlying(false);
 				   }
 				}, 300L);
 		}
