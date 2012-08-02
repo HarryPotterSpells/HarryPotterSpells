@@ -6,7 +6,7 @@ public enum Spell {
 	INCENDIO("Fire"),
 	STUPEFY("Push"),
 	AVADAKEDAVRA("Kill"),
-	CONFUNDUS("Confuse"),
+	CONFUNDO("Confuse"),
 	CONFRINGO("Fireball"),
 	EXPELLIARMUS("Disarm"),
 	PROTEGO("Protect"),

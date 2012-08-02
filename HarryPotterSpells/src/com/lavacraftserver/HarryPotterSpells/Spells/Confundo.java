@@ -9,14 +9,14 @@ import org.bukkit.potion.PotionEffectType;
 import com.lavacraftserver.HarryPotterSpells.Spell;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
-public class Confundus {
+public class Confundo {
 	
 	public static void cast(Player p) {
 		SmallFireball sf = p.launchProjectile(SmallFireball.class);
 		sf.setBounce(false);
 		sf.setShooter(p);
 		sf.setYield(0);
-		Targeter.NeedsTargeted.put(sf.getUniqueId(), Spell.CONFUNDUS);
+		Targeter.NeedsTargeted.put(sf.getUniqueId(), Spell.CONFUNDO);
 	}
 	
 	public static void hit(Entity e) {

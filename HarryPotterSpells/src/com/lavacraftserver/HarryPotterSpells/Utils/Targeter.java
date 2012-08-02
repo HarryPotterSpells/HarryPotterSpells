@@ -11,7 +11,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.lavacraftserver.HarryPotterSpells.Spell;
-import com.lavacraftserver.HarryPotterSpells.Spells.Confundus;
+import com.lavacraftserver.HarryPotterSpells.Spells.Confundo;
 
 public class Targeter extends JavaPlugin implements Listener {
 	public static Map<UUID, Spell> NeedsTargeted = new HashMap<UUID, Spell>();
@@ -22,7 +22,7 @@ public class Targeter extends JavaPlugin implements Listener {
 		Entity attacker = e.getDamager();
 		if(NeedsTargeted.containsKey(attacker.getUniqueId())) {
 			Spell spell = NeedsTargeted.get(attacker.getUniqueId());
-			if(spell == Spell.CONFUNDUS) {Confundus.hit(victim);}
+			if(spell == Spell.CONFUNDO) {Confundo.hit(victim);}
 		}
 	}
 
