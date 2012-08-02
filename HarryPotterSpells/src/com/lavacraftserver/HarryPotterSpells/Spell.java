@@ -5,6 +5,7 @@ public enum Spell {
 	CONFUNDO("Confuse"),
 	CONFRINGO("Fireball"),
 	WINGARDIUMLEVIOSA("Fly"),
+	NOX("Darkness"),
 			
 	//Other Spells
 	TREE(null),
