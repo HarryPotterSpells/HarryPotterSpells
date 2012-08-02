@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -22,7 +23,7 @@ public class Targeter extends JavaPlugin implements Listener {
 		Entity attacker = e.getDamager();
 		if(NeedsTargeted.containsKey(attacker.getUniqueId())) {
 			Spell spell = NeedsTargeted.get(attacker.getUniqueId());
-			if(spell == Spell.CONFUNDO) {Confundo.hit(victim);}
+			if(spell == Spell.CONFUNDO && attacker instanceof Snowball) {Confundo.hit(victim, (Snowball)attacker);}
 		}
 	}
 

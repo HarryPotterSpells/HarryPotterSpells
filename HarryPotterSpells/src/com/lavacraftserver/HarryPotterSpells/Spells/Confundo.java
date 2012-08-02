@@ -1,8 +1,9 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
+import org.bukkit.Effect;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.SmallFireball;
+import org.bukkit.entity.Snowball;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -12,17 +13,25 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 public class Confundo {
 	
 	public static void cast(Player p) {
-		SmallFireball sf = p.launchProjectile(SmallFireball.class);
-		sf.setBounce(false);
-		sf.setShooter(p);
-		sf.setYield(0);
-		Targeter.NeedsTargeted.put(sf.getUniqueId(), Spell.CONFUNDO);
+		Snowball snowball = p.launchProjectile(Snowball.class);
+		snowball.setBounce(false);
+		snowball.setShooter(p);
+		enderPearlEffect(snowball);
+		Targeter.NeedsTargeted.put(snowball.getUniqueId(), Spell.CONFUNDO);
 	}
 	
-	public static void hit(Entity e) {
+	public static void hit(Entity e, Snowball s) {
 		if(e instanceof Player) {
+			Targeter.NeedsTargeted.remove(s.getUniqueId());
 			Player player = (Player)e;
 			player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 600, 1));
 		}
 	}
+	
+	public static void enderPearlEffect(Snowball s) {
+		while(Targeter.NeedsTargeted.containsKey(s.getUniqueId())) {
+			s.getWorld().playEffect(s.getLocation(), Effect.ENDER_SIGNAL, 0);
+		}
+	}
+	
 }
