@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.lavacraftserver.HarryPotterSpells.Commands.Teach;
+import com.lavacraftserver.HarryPotterSpells.Utils.MiscListeners;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
 public class HarryPotterSpells extends JavaPlugin {
@@ -22,6 +23,7 @@ public class HarryPotterSpells extends JavaPlugin {
 		PlayerSpellConfig.getPSC();
 		getServer().getPluginManager().registerEvents(new Listeners(), this);
 		getServer().getPluginManager().registerEvents(new Targeter(), this);
+		getServer().getPluginManager().registerEvents(new MiscListeners(), this);
 		if(getConfig().getBoolean("VaultEnabled") == true) {
 			Vault.setupVault();
 		}
