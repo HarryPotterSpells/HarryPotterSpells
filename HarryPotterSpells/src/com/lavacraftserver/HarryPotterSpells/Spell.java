@@ -14,7 +14,8 @@ public enum Spell {
 	SPONGIFY("Sponge"),
 	AGUAMENTI("Water"),
 	ALARTEASCENDARE("MobThrow"),
-			
+	MULTICORFORS("WoolChanger"),
+	
 	//Other Spells
 	TREE(null),
 	TIME(null);
