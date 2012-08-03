@@ -1,6 +1,7 @@
 package com.lavacraftserver.HarryPotterSpells.Utils;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -9,12 +10,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 
 import com.lavacraftserver.HarryPotterSpells.PM;
 
 public class MiscListeners implements Listener {
 	public static HashMap<String, Boolean> sonorus = new HashMap<String, Boolean>();
 	public static HashMap<String, Boolean> spongify = new HashMap<String, Boolean>();
+	public static HashSet<String> deprimo = new HashSet<String>();
 	
 	@EventHandler
 	public static void onPlayerChat(PlayerChatEvent e) {
@@ -33,6 +36,16 @@ public class MiscListeners implements Listener {
 				e.setDamage(0);
 				spongify.remove(p.getName());
 			}
+		}
+	}
+	
+	@EventHandler
+	public static void onPlayerMover(PlayerMoveEvent e) {
+		if(deprimo.contains(e.getPlayer().getName())) {
+			e.getPlayer().setSneaking(true);
+			if(e.getFrom().getY() < e.getTo().getY()) {
+				e.getPlayer().getLocation().setY(e.getFrom().getY());
+			}	
 		}
 	}
 

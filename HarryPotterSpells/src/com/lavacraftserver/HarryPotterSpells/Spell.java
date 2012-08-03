@@ -15,6 +15,7 @@ public enum Spell {
 	AGUAMENTI("Water"),
 	ALARTEASCENDARE("MobThrow"),
 	MULTICORFORS("WoolChanger"),
+	DEPRIMO("Pressure"),
 	
 	//Other Spells
 	TREE(null),
