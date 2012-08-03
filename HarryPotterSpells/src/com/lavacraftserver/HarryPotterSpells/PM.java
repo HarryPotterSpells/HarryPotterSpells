@@ -25,7 +25,7 @@ public class PM extends JavaPlugin {
 	}
 	
 	public static void newSpell(Player player, String spell) {
-		player.sendMessage(ChatColor.GOLD + "You have selected spell: " + spell);
+		player.sendMessage(ChatColor.GOLD + "You have selected spell: " + ChatColor.AQUA + spell);
 	}
 	
 	public static void debug(String message) {
