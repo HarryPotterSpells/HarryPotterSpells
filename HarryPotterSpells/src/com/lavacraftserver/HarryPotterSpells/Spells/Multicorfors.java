@@ -1,77 +1,39 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
 
 import org.bukkit.DyeColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
-import org.bukkit.util.BlockIterator;
 
 import com.lavacraftserver.HarryPotterSpells.PM;
+import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
 public class Multicorfors {
 	
 	public static void cast(Player p) {
 		final Block b = p.getTargetBlock(transparentBlocks(), 25);
-		if(getTarget(p) instanceof Sheep) {
-			final Sheep sheep = (Sheep)getTarget(p);
+		if(Targeter.getTarget(p, 25) instanceof Sheep) {
+			final Sheep sheep = (Sheep) Targeter.getTarget(p, 25);
 			sheep.getWorld().createExplosion(sheep.getLocation(), 0F);
 			PM.hps.getServer().getScheduler().scheduleSyncDelayedTask(PM.hps, new Runnable() {
 				   public void run() {
 					   sheep.setColor(randomDyeColor());
 				   }
-				}, 6L);
+				}, 4L);
 		} else if(b.getType() == Material.WOOL) {
 			p.getWorld().createExplosion(b.getLocation(), 0F);
 			PM.hps.getServer().getScheduler().scheduleSyncDelayedTask(PM.hps, new Runnable() {
 				   public void run() {
 					   b.setData(randomDyeColorInt());
 				   }
-				}, 6L);
+				}, 4L);
 		} else {
 			PM.warn(p, "You can only cast this spell on Sheep or Wool.");
 		}
-	}
-	
-	public static LivingEntity getTarget(Player p) {
-		List<Entity> nearbyE = p.getNearbyEntities(25, 25, 25);
-        ArrayList<LivingEntity> livingE = new ArrayList<LivingEntity>();
-        for (Entity e : nearbyE) {
-            if (e instanceof LivingEntity) {
-            	livingE.add((Sheep) e);
-            }
-        }
-        LivingEntity target = null;
-        BlockIterator bItr = new BlockIterator(p, 25);
-        Block block;
-        Location loc;
-        int bx, by, bz;
-        double ex, ey, ez;
-        while (bItr.hasNext()) {
-                block = bItr.next();
-                bx = block.getX();
-                by = block.getY();
-                bz = block.getZ();
-                for (LivingEntity e : livingE) {
-                    loc = e.getLocation();
-                    ex = loc.getX();
-                    ey = loc.getY();
-                    ez = loc.getZ();
-                    if ((bx-.75 <= ex && ex <= bx+1.75) && (bz-.75 <= ez && ez <= bz+1.75) && (by-1 <= ey && ey <= by+2.5)) {
-                    	target = e;
-                        break;
-                    }
-                }
-        }
-        return target;
 	}
 	
 	public static DyeColor randomDyeColor() {
