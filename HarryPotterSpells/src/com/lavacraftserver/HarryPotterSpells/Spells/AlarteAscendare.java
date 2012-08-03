@@ -14,7 +14,6 @@ public class AlarteAscendare {
 			return;
 		}
 		mob.setVelocity(p.getEyeLocation().getDirection().multiply(2));
-		mob.
 	}
 	
 	public static EntityType randomEntity() {
