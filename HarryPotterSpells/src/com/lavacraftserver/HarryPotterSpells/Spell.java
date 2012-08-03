@@ -11,6 +11,8 @@ public enum Spell {
 	EVANESCO("Vanish"),
 	REDUCTO("Explode"),
 	SONORUS("Amplify"),
+	SPONGIFY("Sponge"),
+	AGUAMENTI("Water"),
 			
 	//Other Spells
 	TREE(null),
