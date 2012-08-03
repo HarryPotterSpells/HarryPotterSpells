@@ -32,7 +32,13 @@ public class Listeners extends JavaPlugin implements Listener {
 				}
 				int spellNumber = 0, max = spellList.size() - 1;
 				if(currentSpell.containsKey(p.getName())) {
-					if(!(currentSpell.get(p.getName()) == max)) {
+					if(p.isSneaking()) {
+						if(currentSpell.get(p.getName()) == 0) {
+							spellNumber = max;
+						} else {
+							spellNumber = currentSpell.get(p.getName()) - 1;
+						}
+					} else if(!(currentSpell.get(p.getName()) == max)) {
 						spellNumber = currentSpell.get(p.getName()) + 1;
 					}
 				}
@@ -73,7 +79,13 @@ public class Listeners extends JavaPlugin implements Listener {
 			}
 			int spellNumber = 0, max = spellList.size() - 1;
 			if(currentSpell.containsKey(p.getName())) {
-				if(!(currentSpell.get(p.getName()) == max)) {
+				if(p.isSneaking()) {
+					if(currentSpell.get(p.getName()) == 0) {
+						spellNumber = max;
+					} else {
+						spellNumber = currentSpell.get(p.getName()) - 1;
+					}
+				} else if(!(currentSpell.get(p.getName()) == max)) {
 					spellNumber = currentSpell.get(p.getName()) + 1;
 				}
 			}
