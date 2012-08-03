@@ -8,6 +8,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Confundo;
 //import com.lavacraftserver.HarryPotterSpells.Spells.Nox;
 import com.lavacraftserver.HarryPotterSpells.Spells.Evanesco;
 import com.lavacraftserver.HarryPotterSpells.Spells.Reducto;
+import com.lavacraftserver.HarryPotterSpells.Spells.Sonorus;
 import com.lavacraftserver.HarryPotterSpells.Spells.TimeSpell;
 import com.lavacraftserver.HarryPotterSpells.Spells.TreeSpell;
 import com.lavacraftserver.HarryPotterSpells.Spells.WingardiumLeviosa;
@@ -23,5 +24,6 @@ public class SpellSender {
 //		if(spell.equalsIgnoreCase("nox")) {Nox.cast(p);}
 		if(spell.equalsIgnoreCase("evanesco")) {Evanesco.cast(p);}
 		if(spell.equalsIgnoreCase("reducto")) {Reducto.cast(p);}
+		if(spell.equalsIgnoreCase("sonorus")) {Sonorus.cast(p);}
 	}
 }
