@@ -13,6 +13,7 @@ public enum Spell {
 	SONORUS("Amplify"),
 	SPONGIFY("Sponge"),
 	AGUAMENTI("Water"),
+	ALARTEASCENDARE("MobThrow"),
 			
 	//Other Spells
 	TREE(null),

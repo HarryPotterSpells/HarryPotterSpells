@@ -7,6 +7,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Confringo;
 import com.lavacraftserver.HarryPotterSpells.Spells.Confundo;
 //import com.lavacraftserver.HarryPotterSpells.Spells.Nox;
 import com.lavacraftserver.HarryPotterSpells.Spells.Aguamenti;
+import com.lavacraftserver.HarryPotterSpells.Spells.AlarteAscendare;
 import com.lavacraftserver.HarryPotterSpells.Spells.Evanesco;
 import com.lavacraftserver.HarryPotterSpells.Spells.Reducto;
 import com.lavacraftserver.HarryPotterSpells.Spells.Sonorus;
@@ -29,5 +30,6 @@ public class SpellSender {
 		if(spell.equalsIgnoreCase("sonorus")) {Sonorus.cast(p);}
 		if(spell.equalsIgnoreCase("spongify")) {Spongify.cast(p);}
 		if(spell.equalsIgnoreCase("aguamenti")) {Aguamenti.cast(p);}
+		if(spell.equalsIgnoreCase("alarteascendare")) {AlarteAscendare.cast(p);}
 	}
 }
