@@ -8,6 +8,7 @@ public enum Spell {
 	NOX("Darkness"),
 	AVADAKEDAVRA("Kill"),
 	EXPELLIARMUS("Disarm"),
+	EVANESCO("Vanish"),
 			
 	//Other Spells
 	TREE(null),
