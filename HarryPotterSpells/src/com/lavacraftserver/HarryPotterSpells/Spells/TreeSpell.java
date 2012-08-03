@@ -10,13 +10,20 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
+import com.lavacraftserver.HarryPotterSpells.PM;
+
 public class TreeSpell {
 
 	public static void cast(Player p) {
 		Block block = p.getTargetBlock(null, 50);
 		if (block.getType() == Material.GRASS || block.getType() == Material.DIRT) {
-			p.getWorld().generateTree(block.getLocation(), TreeType.TREE);
-			boom(block, block.getWorld());
+			if(!p.getWorld().generateTree(block.getLocation(), TreeType.TREE)) {
+				PM.warn(p, "You cannot place a tree here.");
+			} else {
+				boom(block, block.getWorld());
+			}
+		} else {
+			PM.warn(p, "You can only place a tree on grass or dirt.");
 		}
 	}
 	
