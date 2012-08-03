@@ -6,6 +6,8 @@ public enum Spell {
 	CONFRINGO("Fireball"),
 	WINGARDIUMLEVIOSA("Fly"),
 	NOX("Darkness"),
+	AVADAKEDAVRA("Kill"),
+	EXPELLIARMUS("Disarm"),
 			
 	//Other Spells
 	TREE(null),
