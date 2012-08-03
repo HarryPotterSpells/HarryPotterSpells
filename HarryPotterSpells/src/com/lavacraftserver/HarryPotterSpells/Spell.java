@@ -9,6 +9,7 @@ public enum Spell {
 	AVADAKEDAVRA("Kill"),
 	EXPELLIARMUS("Disarm"),
 	EVANESCO("Vanish"),
+	REDUCTO("Explode"),
 			
 	//Other Spells
 	TREE(null),
