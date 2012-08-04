@@ -11,4 +11,4 @@ For more infomation check out our [Bukkit Dev page](http://dev.bukkit.org/server
 + [Kezz101](http://forums.bukkit.org/members/kezz101.90637645/): Head Coder
 + [np98765](http://forums.bukkit.org/members/np98765.17954/): Head Coder
 
-We are looking for more team members to help make this plugin awesomer! If you are interested just let us know!
+We are looking for more team members to help make this plugin awesomer! If you are interested just let us know [here](http://forums.bukkit.org/threads/developers-wanted-for-new-spells-plugin.90642/)!
