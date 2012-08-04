@@ -47,13 +47,6 @@ public class Expelliarmus {
 			if (target.getItemInHand().getType().equals(bow)) {
 				target.getWorld().dropItem(targetloc, bow);
 			}
-			
-			if (PM.hps.getConfig().getBoolean("shout-on-spell-use") == true) {
-				//caster.chat("Expelliarmus!");
-			}
-			if (PM.hps.getConfig().getBoolean("notify-on-spell-use") == true) {
-				//caster.sendMessage(ChatColor.AQUA + "You have cast Expelliarmus!");
-			}
 		} else {
 			PM.warn(p, "You can only cast this on players.");
 		}
