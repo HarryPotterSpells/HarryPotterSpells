@@ -13,7 +13,7 @@ public class Episkey {
 	public static void cast(Player p) {
 		if(Targeter.getTarget(p, 50) instanceof LivingEntity) {
 			LivingEntity livingentity = Targeter.getTarget(p, 50);
-			livingentity.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 600, 1));;
+			livingentity.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 600, 1));
 			if (PM.hps.getConfig().getBoolean("shout-on-spell-use") == true) {
 				p.chat("Episkey!");
 			}
