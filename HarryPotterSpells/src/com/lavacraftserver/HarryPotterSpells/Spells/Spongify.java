@@ -15,7 +15,7 @@ public class Spongify {
 					   MiscListeners.spongify.remove(p.getName());
 				   } 
 			   }
-			}, 600L);
+			}, 200L);
 	}
 
 }
