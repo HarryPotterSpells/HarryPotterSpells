@@ -28,6 +28,12 @@ public class PM extends JavaPlugin {
 		player.sendMessage(ChatColor.GOLD + "You have selected spell: " + ChatColor.AQUA + spell);
 	}
 	
+	public static void notify(Player player, String spell) {
+		if (PM.hps.getConfig().getBoolean("notify-on-spell-use") == true) {
+			player.sendMessage(ChatColor.GOLD + "You have cast " + ChatColor.AQUA + spell + "!");
+		}
+	}
+	
 	public static void debug(String message) {
 		if(hps.getConfig().getBoolean("DebugMode")) {
 			log.log(Level.INFO, "[Debug] " + message);
