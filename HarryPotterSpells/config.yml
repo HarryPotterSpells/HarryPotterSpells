@@ -2,3 +2,6 @@
 DebugMode: false
 
 VaultEnabled: true
+
+shout-on-spell-use: false
+notify-on-spell-use: true
