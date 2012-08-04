@@ -5,3 +5,12 @@ VaultEnabled: true
 
 shout-on-spell-use: false
 notify-on-spell-use: true
+
+## Unimplemented in the code ##
+spell-castable-with-command: true
+spell-castable-with-chat: true
+disable-stick-crafting: true
+
+##########################################
+## Ability to define custom spell names ##
+##########################################
