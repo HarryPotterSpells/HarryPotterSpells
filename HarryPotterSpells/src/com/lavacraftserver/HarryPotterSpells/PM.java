@@ -34,6 +34,12 @@ public class PM extends JavaPlugin {
 		}
 	}
 	
+	public static void shout(Player player, String spell) {
+		if (PM.hps.getConfig().getBoolean("shout-on-spell-use") == true) {
+			player.chat(spell + "!");
+		}
+	}
+	
 	public static void debug(String message) {
 		if(hps.getConfig().getBoolean("DebugMode")) {
 			log.log(Level.INFO, "[Debug] " + message);
