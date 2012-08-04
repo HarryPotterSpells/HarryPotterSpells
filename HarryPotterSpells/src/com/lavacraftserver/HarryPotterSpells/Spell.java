@@ -2,21 +2,26 @@ package com.lavacraftserver.HarryPotterSpells;
 
 public enum Spell {
 	//Harry Potter Spells
-	CONFUNDO("Confuse"),
-	CONFRINGO("Fireball"),
-	WINGARDIUMLEVIOSA("Fly"),
-	NOX("Darkness"),
+	AGUAMENTI("Water"),
+	ALARTEASCENDARE("MobThrow"),
 	AVADAKEDAVRA("Kill"),
-	EXPELLIARMUS("Disarm"),
+	CONFRINGO("Fireball"),
+	CONFUNDO("Confuse"),
+	DEPRIMO("Pressure"),
+	EPISKEY("Heal"),
 	EVANESCO("Vanish"),
+	EXPELLIARMUS("Disarm"),
+	MULTICORFORS("WoolChanger"),
 	REDUCTO("Explode"),
 	SONORUS("Amplify"),
 	SPONGIFY("Sponge"),
-	AGUAMENTI("Water"),
-	ALARTEASCENDARE("MobThrow"),
-	MULTICORFORS("WoolChanger"),
-	DEPRIMO("Pressure"),
+	WINGARDIUMLEVIOSA("Fly"),
 	
+	//Unimplemented
+	LUMOS("Light"),
+	NOX("Darkness"),
+
+
 	//Other Spells
 	TREE(null),
 	TIME(null);
