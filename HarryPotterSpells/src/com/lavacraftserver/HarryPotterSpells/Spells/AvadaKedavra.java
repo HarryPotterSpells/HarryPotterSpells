@@ -21,7 +21,7 @@ public class AvadaKedavra {
 				p.sendMessage(ChatColor.AQUA + "You have cast Avada Kedavra!");
 			}
 		} else {
-			p.sendMessage(ChatColor.RED + "You must be targetting a player or mob!");
+			PM.warn(p, "You can only cast this on a player or mob!");
 		}
 	}
 	

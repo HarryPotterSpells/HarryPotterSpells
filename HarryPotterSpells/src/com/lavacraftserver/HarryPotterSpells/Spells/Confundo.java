@@ -14,7 +14,7 @@ public class Confundo {
 			Player player = (Player) Targeter.getTarget(p, 50);
 			player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 600, 1));
 		} else {
-			PM.warn(p, "You can only cast this on people.");
+			PM.warn(p, "You can only cast this on players!");
 		}
 	}
 	
