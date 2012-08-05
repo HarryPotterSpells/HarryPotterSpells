@@ -8,10 +8,10 @@ import com.lavacraftserver.HarryPotterSpells.Utils.MiscListeners;
 public class Spongify {
 	
 	public static void cast(final Player p) {
-		MiscListeners.spongify.put(p.getName(), true);
+		MiscListeners.spongify.add(p.getName());
 		PM.hps.getServer().getScheduler().scheduleSyncDelayedTask(PM.hps, new Runnable() {
 			   public void run() {
-				   if(MiscListeners.spongify.containsKey(p.getName())) {
+				   if(MiscListeners.spongify.contains(p.getName())) {
 					   MiscListeners.spongify.remove(p.getName());
 				   } 
 			   }
