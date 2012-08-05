@@ -10,25 +10,31 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.lavacraftserver.HarryPotterSpells.Commands.Sort;
 import com.lavacraftserver.HarryPotterSpells.Commands.Teach;
+import com.lavacraftserver.HarryPotterSpells.Hooks.LogBlock;
 import com.lavacraftserver.HarryPotterSpells.Hooks.Vault;
 import com.lavacraftserver.HarryPotterSpells.Utils.MiscListeners;
-import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
 public class HarryPotterSpells extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
+		// Misc
 		PM.log = getLogger();
 		PM.hps = this;
 		Listeners.currentSpell.clear();
+		
+		// Config
 		loadConfig();
 		PlayerSpellConfig.getPSC();
+		
+		// Listeners
 		getServer().getPluginManager().registerEvents(new Listeners(), this);
-		getServer().getPluginManager().registerEvents(new Targeter(), this);
 		getServer().getPluginManager().registerEvents(new MiscListeners(), this);
-		if(getConfig().getBoolean("VaultEnabled") == true) {
-			Vault.setupVault();
-		}
+		
+		// Hooks
+		Vault.setupVault();
+		LogBlock.setupLogBlock();
+		
 		PM.log("Plugin enabled", Level.INFO);
 	}
 	
