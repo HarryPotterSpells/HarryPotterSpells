@@ -9,6 +9,8 @@ VaultEnabled: true
   # Vault is required for spell signs and sorting
 WorldGuardEnabled: true
   # WorldGuard is required for build checks on block editing spells
+LogBlockEnabled: true
+  # LogBlock is required for spell logging
   
 SortingHat:
     enabled: true

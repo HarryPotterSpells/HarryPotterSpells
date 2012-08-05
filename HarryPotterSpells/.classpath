@@ -13,5 +13,6 @@
 			<attribute name="javadoc_location" value="http://jd.evil-co.de/worldguard/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Kieran/Desktop/Coding/Java/Java Build Paths/LogBlock 1.56.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
