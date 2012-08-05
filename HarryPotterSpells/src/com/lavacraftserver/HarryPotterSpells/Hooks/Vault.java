@@ -16,6 +16,9 @@ public class Vault extends JavaPlugin {
 	public static Economy econ = null;
 	
 	public static void setupVault() {
+		if(PM.hps.getConfig().getBoolean("VaultEnabled") != true) {
+			return;
+		}
 		if(Bukkit.getServer().getPluginManager().getPlugin("Vault") != null) {
 			PM.log("Hooked into Vault", Level.INFO);
 			if(!setupEconomy()) {

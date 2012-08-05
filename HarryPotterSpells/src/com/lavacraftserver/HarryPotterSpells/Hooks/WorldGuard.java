@@ -1,5 +1,7 @@
 package com.lavacraftserver.HarryPotterSpells.Hooks;
 
+import java.util.logging.Level;
+
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
@@ -17,7 +19,9 @@ public class WorldGuard {
 	 
 			// WorldGuard may not be loaded
 			if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
-				return null; // Maybe you want throw an exception instead
+				PM.log("Could not hook into WorldGuard. WorldGuard features have been disabled.", Level.WARNING);
+				PM.hps.getConfig().set("WorldGuardEnabled", false);
+				return null;
 			}
 			
 			return (WorldGuardPlugin) plugin;
