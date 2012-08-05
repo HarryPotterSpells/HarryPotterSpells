@@ -9,7 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import com.lavacraftserver.HarryPotterSpells.PM;
@@ -20,7 +20,7 @@ public class MiscListeners implements Listener {
 	public static Set<String> deprimo = new HashSet<String>();
 	
 	@EventHandler
-	public static void onPlayerChat(PlayerChatEvent e) {
+	public static void onPlayerChat(AsyncPlayerChatEvent e) {
 		if(PM.hps.getConfig().getBoolean("spell-castable-with-chat")) {
 			
 		}
