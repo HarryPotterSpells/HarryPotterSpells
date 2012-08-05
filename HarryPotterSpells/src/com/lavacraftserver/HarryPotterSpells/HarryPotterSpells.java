@@ -55,7 +55,7 @@ public class HarryPotterSpells extends JavaPlugin {
 			}
 			return true;
 		}
-		if(commandLabel.equalsIgnoreCase("sort")) {
+		if(commandLabel.equalsIgnoreCase("sort") && getConfig().getBoolean("SortingHat.enabled")) {
 			if(sender instanceof Player) {
 				Sort.go((Player)sender);
 			} else {
