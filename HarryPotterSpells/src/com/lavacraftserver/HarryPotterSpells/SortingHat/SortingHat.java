@@ -11,25 +11,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class SortingHat extends JavaPlugin {
 
-	@Override
-	public void onEnable() {
-		getLogger().info("SortingHat has been enabled!");
-		setupPermissions();
-		if (!setupPermissions() ) {
-            getLogger().severe("Vault not found! Disabling SortingHat...");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-		}
-	}
-
-	@Override
-	public void onDisable() {
-		getLogger().info("SortingHat has been disabled.");
-	}
-	
     public static Permission perms = null;
 	
-	private boolean setupPermissions() {
+	public static boolean setupPermissions() {
         RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
         perms = rsp.getProvider();
         return perms != null;
@@ -50,9 +34,9 @@ public class SortingHat extends JavaPlugin {
 						Random generator = new Random();
 			        
 						int minValue = 1;
-						int maxValue = 5;
+						int maxValue = 4;
 			        
-						int houseNumber = generator.nextInt(maxValue - minValue) + minValue;
+						int houseNumber = generator.nextInt(maxValue - minValue + 1) + minValue;
 			        
 						if (houseNumber == 1) {
 							getServer().broadcastMessage(ChatColor.GOLD + p.getName() + " has been sorted into... " + ChatColor.DARK_RED + "Gryffindor!");

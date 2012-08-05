@@ -2,6 +2,14 @@
 DebugMode: false
 
 VaultEnabled: true
+  # Vault is required for spell signs and sorting
+  
+sorting:
+    enabled: true
+    permission-node: true
+      # Whether the user will gain house.housename when sorted
+    permission-group: false
+      # Whether the user will be sorted into a permissions group
 
 shout-on-spell-use: false
 notify-on-spell-use: true
@@ -10,11 +18,8 @@ notify-on-spell-use: true
 spell-castable-with-command: true
 spell-castable-with-chat: true
 disable-stick-crafting: true
-sorting:
-    permission-node: false
-      # Whether the user will gain house.housename when sorted
-    permission-group: false
-      # Whether the user will be sorted into a permissions group
+
+
 
 ##########################################
 ## Ability to define custom spell names ##
