@@ -1,14 +1,20 @@
+##################
+# General Config #
+##################
+
 # Only enable if you want to enable debugging mode
 DebugMode: false
 
 VaultEnabled: true
   # Vault is required for spell signs and sorting
+WorldGuardEnabled: true
+  # WorldGuard is required for build checks on block editing spells
   
-sorting:
+SortingHat:
     enabled: true
-    permission-node: true
+    addHousePermissionNodes: true
       # Whether the user will gain house.housename when sorted
-    permission-group: false
+    addHouseGroups: false
       # Whether the user will be sorted into a permissions group
 
 shout-on-spell-use: false
