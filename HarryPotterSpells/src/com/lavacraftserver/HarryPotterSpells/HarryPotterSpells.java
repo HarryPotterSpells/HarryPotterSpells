@@ -8,8 +8,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.lavacraftserver.HarryPotterSpells.Commands.Sort;
 import com.lavacraftserver.HarryPotterSpells.Commands.Teach;
-import com.lavacraftserver.HarryPotterSpells.SortingHat.SortingHat;
 import com.lavacraftserver.HarryPotterSpells.Utils.MiscListeners;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
@@ -27,9 +27,6 @@ public class HarryPotterSpells extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new MiscListeners(), this);
 		if(getConfig().getBoolean("VaultEnabled") == true) {
 			Vault.setupVault();
-		}
-		if (getConfig().getBoolean("Sorting.enabled") == true) {
-			SortingHat.setupPermissions();
 		}
 		PM.log("Plugin enabled", Level.INFO);
 	}
@@ -54,6 +51,14 @@ public class HarryPotterSpells extends JavaPlugin {
 				Teach.teach((Player)sender, args);
 			} else {
 				Teach.teachConsole(args);
+			}
+			return true;
+		}
+		if(commandLabel.equalsIgnoreCase("sort")) {
+			if(sender instanceof Player) {
+				Sort.go((Player)sender);
+			} else {
+				PM.log("You must be a player to be sorted.", Level.INFO);
 			}
 			return true;
 		}
