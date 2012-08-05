@@ -8,11 +8,10 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.BlockIterator;
 
-public class Targeter extends JavaPlugin implements Listener {
+public class Targeter extends JavaPlugin {
 	
 	public static LivingEntity getTarget(Player p, int range) {
 		List<Entity> nearbyE = p.getNearbyEntities(range, range, range);
