@@ -3,6 +3,7 @@ package com.lavacraftserver.HarryPotterSpells.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import com.lavacraftserver.HarryPotterSpells.Hooks.LogBlock;
 import com.lavacraftserver.HarryPotterSpells.Spells.Confringo;
 import com.lavacraftserver.HarryPotterSpells.Spells.Confundo;
 //import com.lavacraftserver.HarryPotterSpells.Spells.Nox;
@@ -35,5 +36,8 @@ public class SpellSender {
 		if(spell.equalsIgnoreCase("alarteascendare")) {AlarteAscendare.cast(p);}
 		if(spell.equalsIgnoreCase("multicorfors")) {Multicorfors.cast(p);}
 		if(spell.equalsIgnoreCase("deprimo")) {Deprimo.cast(p);}
+		
+		LogBlock.logSpell(p, spell);
 	}
+	
 }

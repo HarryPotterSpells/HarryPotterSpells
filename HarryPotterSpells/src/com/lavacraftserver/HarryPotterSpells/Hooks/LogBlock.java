@@ -3,6 +3,7 @@ package com.lavacraftserver.HarryPotterSpells.Hooks;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import com.lavacraftserver.HarryPotterSpells.PM;
@@ -24,6 +25,13 @@ public class LogBlock {
 				PM.hps.getConfig().set("LogBlockEnabled", false);
 			}
 		}
+	}
+
+	public static void logSpell(Player p, String spell) {
+		if(LogBlockConsumer != null) {
+			LogBlockConsumer.queueChat(p.getName(), "SPELL CAST: " + spell);
+		}
+		
 	}
 
 }
