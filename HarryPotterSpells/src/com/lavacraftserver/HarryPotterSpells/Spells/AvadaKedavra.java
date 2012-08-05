@@ -1,6 +1,5 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -14,12 +13,6 @@ public class AvadaKedavra {
 		if(Targeter.getTarget(p, 50) instanceof LivingEntity) {
 			LivingEntity livingentity = Targeter.getTarget(p, 50);
 			livingentity.setHealth(0);
-			if (PM.hps.getConfig().getBoolean("shout-on-spell-use") == true) {
-				p.chat("Avada Kedavra!");
-			}
-			if (PM.hps.getConfig().getBoolean("notify-on-spell-use") == true) {
-				p.sendMessage(ChatColor.AQUA + "You have cast Avada Kedavra!");
-			}
 		} else {
 			PM.warn(p, "You can only cast this on a player or mob!");
 		}

@@ -32,7 +32,7 @@ public class Multicorfors {
 				   }
 				}, 4L);
 		} else {
-			PM.warn(p, "You can only cast this spell on Sheep or Wool.");
+			PM.warn(p, "You can only cast this spell on sheep or wool.");
 		}
 	}
 	

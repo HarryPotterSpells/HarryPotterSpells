@@ -20,6 +20,8 @@ public class Deprimo {
 					   MiscListeners.deprimo.remove(target.getName());
 				   }
 				}, 400L);
+		} else {
+			PM.warn(p, "You can only cast this on a player!");
 		}
 	}
 
