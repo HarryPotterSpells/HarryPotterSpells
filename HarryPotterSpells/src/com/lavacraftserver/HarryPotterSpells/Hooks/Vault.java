@@ -1,4 +1,4 @@
-package com.lavacraftserver.HarryPotterSpells;
+package com.lavacraftserver.HarryPotterSpells.Hooks;
 
 import java.util.logging.Level;
 
@@ -8,6 +8,8 @@ import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.lavacraftserver.HarryPotterSpells.PM;
 
 public class Vault extends JavaPlugin {
 	public static Permission perm = null;

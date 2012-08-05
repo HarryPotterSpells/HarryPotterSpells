@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.lavacraftserver.HarryPotterSpells.Commands.Sort;
 import com.lavacraftserver.HarryPotterSpells.Commands.Teach;
+import com.lavacraftserver.HarryPotterSpells.Hooks.Vault;
 import com.lavacraftserver.HarryPotterSpells.Utils.MiscListeners;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 

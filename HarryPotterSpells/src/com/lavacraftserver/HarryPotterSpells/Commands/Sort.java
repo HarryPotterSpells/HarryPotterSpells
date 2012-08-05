@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.lavacraftserver.HarryPotterSpells.PM;
-import com.lavacraftserver.HarryPotterSpells.Vault;
+import com.lavacraftserver.HarryPotterSpells.Hooks.Vault;
 
 public class Sort extends JavaPlugin {
 	

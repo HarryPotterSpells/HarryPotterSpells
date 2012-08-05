@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.lavacraftserver.HarryPotterSpells.Hooks.Vault;
+
 public class PM extends JavaPlugin {
 	public static Logger log;
 	public static Plugin hps;
