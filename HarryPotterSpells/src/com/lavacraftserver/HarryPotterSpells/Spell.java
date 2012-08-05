@@ -11,6 +11,7 @@ public enum Spell {
 	EPISKEY("Heal"),
 	EVANESCO("Vanish"),
 	EXPELLIARMUS("Disarm"),
+	INCENDIO("Fire"),
 	MULTICORFORS("WoolChanger"),
 	REDUCTO("Explode"),
 	SONORUS("Amplify"),
