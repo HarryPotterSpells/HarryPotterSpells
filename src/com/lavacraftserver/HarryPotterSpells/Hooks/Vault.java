@@ -7,36 +7,39 @@ import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import com.lavacraftserver.HarryPotterSpells.PM;
+import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
-public class Vault extends JavaPlugin {
-	public static Permission perm = null;
-	public static Economy econ = null;
+public class Vault  {
+	HarryPotterSpells plugin;
+	public Vault(HarryPotterSpells instance){
+		plugin=instance;
+	}
+	public Permission perm = null;
+	public Economy econ = null;
 	
-	public static void setupVault() {
-		if(PM.hps.getConfig().getBoolean("VaultEnabled") != true) {
+	public void setupVault() {
+		if(plugin.getConfig().getBoolean("VaultEnabled") != true) {
 			return;
 		}
 		if(Bukkit.getServer().getPluginManager().getPlugin("Vault") != null) {
-			PM.log("Hooked into Vault", Level.INFO);
+			plugin.PM.log("Hooked into Vault", Level.INFO);
 			if(!setupEconomy()) {
-				PM.log("Economy plugin not found. Economy features have been disabled", Level.WARNING);
+				plugin.PM.log("Economy plugin not found. Economy features have been disabled", Level.WARNING);
 			} else {
-				PM.log("Hooked into " + econ.getName(), Level.INFO);
+				plugin.PM.log("Hooked into " + econ.getName(), Level.INFO);
 			}
 			if(setupPermissions()) {
-				PM.log("Hooked into " + perm.getName(), Level.INFO);
+				plugin.PM.log("Hooked into " + perm.getName(), Level.INFO);
 			}
     	} else {
-    		PM.hps.getConfig().set("VaultEnabled", false);
-    		PM.log("Could not hook into Vault. Economy features have been disabled.", Level.WARNING);
+    		plugin.getConfig().set("VaultEnabled", false);
+    		plugin.PM.log("Could not hook into Vault. Economy features have been disabled.", Level.WARNING);
     		return;
     	}
 	}
 	
-	public static boolean setupPermissions() {
+	public boolean setupPermissions() {
     	RegisteredServiceProvider<Permission> rsp = Bukkit.getServer().getServicesManager().getRegistration(Permission.class);
     	if (rsp == null) {
             return false;
@@ -45,7 +48,7 @@ public class Vault extends JavaPlugin {
         return perm != null;
     }
     
-    public static boolean setupEconomy() {
+    public boolean setupEconomy() {
         RegisteredServiceProvider<Economy> rsp = Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
         if (rsp == null) {
             return false;

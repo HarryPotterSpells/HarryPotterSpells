@@ -7,18 +7,22 @@ import java.util.logging.Level;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
 
-public class PlayerSpellConfig extends JavaPlugin {
-	private static FileConfiguration PSC = null;
-	private static File PSCFile = null;
+public class PlayerSpellConfig {
+	HarryPotterSpells plugin;
+	public PlayerSpellConfig(HarryPotterSpells instance){
+		plugin=instance;
+	}
 	
-	public static void reloadPSC() {
+	private FileConfiguration PSC = null;
+	private File PSCFile = null;
+	
+	public void reloadPSC() {
 	    if (PSCFile == null) {
-	    	PSCFile = new File(PM.hps.getDataFolder(), "PlayerSpellConfig.yml");
+	    	PSCFile = new File(plugin.getDataFolder(), "PlayerSpellConfig.yml");
 	    }
 	    PSC = YamlConfiguration.loadConfiguration(PSCFile);
-	    InputStream defConfigStream = PM.hps.getResource("PlayerSpellConfig.yml");
+	    InputStream defConfigStream = plugin.getResource("PlayerSpellConfig.yml");
 	    if (defConfigStream != null) {
 	        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
 	        PSC.setDefaults(defConfig);
@@ -26,19 +30,19 @@ public class PlayerSpellConfig extends JavaPlugin {
 	    savePSC();
 	}
 	
-	public static FileConfiguration getPSC() {
+	public FileConfiguration getPSC() {
 	    if (PSC == null) {
 	        reloadPSC();
 	    }
 	    return PSC;
 	}
 	
-	public static void savePSC() {
+	public void savePSC() {
 	    if (PSC == null || PSCFile == null) {return;}
 	    try {
 	        getPSC().save(PSCFile);
 	    } catch (IOException ex) {
-	        PM.log("Could not save config to " + PSCFile + ". Error: " + ex.getMessage(), Level.SEVERE);
+	        plugin.PM.log("Could not save config to " + PSCFile + ". Error: " + ex.getMessage(), Level.SEVERE);
 	    }
 	}
 

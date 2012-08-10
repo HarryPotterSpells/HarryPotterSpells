@@ -6,12 +6,16 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.lavacraftserver.HarryPotterSpells.PM;
+import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
-public class Expelliarmus {
+public class Expelliarmus extends Spell {
 	
-	public static void cast(Player p) {
+	public Expelliarmus(HarryPotterSpells instance) {
+		super(instance);
+	}
+
+	public void cast(Player p) {
 		if(Targeter.getTarget(p, 25) instanceof Player) {
 			Player target = (Player) Targeter.getTarget(p, 25);
 			
@@ -48,7 +52,7 @@ public class Expelliarmus {
 				target.getWorld().dropItem(targetloc, bow);
 			}
 		} else {
-			PM.warn(p, "You can only cast this on players.");
+			plugin.PM.warn(p, "You can only cast this on players.");
 		}
 	}
 }

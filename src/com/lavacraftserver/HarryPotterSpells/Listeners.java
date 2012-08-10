@@ -12,22 +12,24 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import com.lavacraftserver.HarryPotterSpells.Utils.SpellSender;
 
-public class Listeners extends JavaPlugin implements Listener {
-	public static HashMap<String, Integer> currentSpell = new HashMap<String, Integer>();
-	
+
+public class Listeners implements Listener {
+	public HashMap<String, Integer> currentSpell = new HashMap<String, Integer>();
+	HarryPotterSpells plugin;
+	public Listeners(HarryPotterSpells instance){
+		plugin=instance;
+	}
 	@EventHandler
 	public void PIE(PlayerInteractEvent e) {
-		if(PM.hasPermission("HarryPotterSpells.use", e.getPlayer()) && e.getPlayer().getItemInHand().getType() == Material.STICK) {
+		if(plugin.PM.hasPermission("HarryPotterSpells.use", e.getPlayer()) && e.getPlayer().getItemInHand().getType() == Material.STICK) {
 			//Change spell
 			if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				Player p = e.getPlayer();
-				List<String> spellList = PlayerSpellConfig.getPSC().getStringList(p.getName());
+				List<String> spellList = plugin.PlayerSpellConfig.getPSC().getStringList(p.getName());
 				if(spellList == null || spellList.isEmpty()) {
-					PM.tell(p, "You don't know any spells.");
+					plugin.PM.tell(p, "You don't know any spells.");
 					return;
 				}
 				int spellNumber = 0, max = spellList.size() - 1;
@@ -42,7 +44,7 @@ public class Listeners extends JavaPlugin implements Listener {
 						spellNumber = currentSpell.get(p.getName()) + 1;
 					}
 				}
-				PM.newSpell(p, spellList.get(spellNumber));
+				plugin.PM.newSpell(p, spellList.get(spellNumber));
 				currentSpell.put(p.getName(), spellNumber);
 				return;
 			}
@@ -50,9 +52,9 @@ public class Listeners extends JavaPlugin implements Listener {
 			//Cast spell
 			if(e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) {
 				Player p = e.getPlayer();
-				List<String> spellList = PlayerSpellConfig.getPSC().getStringList(p.getName());
+				List<String> spellList = plugin.PlayerSpellConfig.getPSC().getStringList(p.getName());
 				if(spellList == null || spellList.isEmpty()) {
-					PM.tell(p, "You don't know any spells.");
+					plugin.PM.tell(p, "You don't know any spells.");
 					return;
 				}
 				int spellNumber = 0;
@@ -62,7 +64,8 @@ public class Listeners extends JavaPlugin implements Listener {
 				Location l = p.getLocation();
 				l.setY(l.getY() + 1);
 				p.getWorld().playEffect(l, Effect.ENDER_SIGNAL, 0);
-				SpellSender.go(spellList.get(spellNumber), p, e);
+				plugin.spellManager.getSpell(spellList.get(spellNumber)).cast(e.getPlayer());
+				plugin.LogBlock.logSpell(p,spellList.get(spellNumber));
 			}
 			
 		}
@@ -70,11 +73,11 @@ public class Listeners extends JavaPlugin implements Listener {
 	
 	@EventHandler
 	public void PIEE(PlayerInteractEntityEvent e) {
-		if(PM.hasPermission("HarryPotterSpells.use", e.getPlayer()) && e.getPlayer().getItemInHand().getType() == Material.STICK) {
+		if(plugin.PM.hasPermission("HarryPotterSpells.use", e.getPlayer()) && e.getPlayer().getItemInHand().getType() == Material.STICK) {
 			Player p = e.getPlayer();
-			List<String> spellList = PlayerSpellConfig.getPSC().getStringList(p.getName());
+			List<String> spellList = plugin.PlayerSpellConfig.getPSC().getStringList(p.getName());
 			if(spellList == null || spellList.isEmpty()) {
-				PM.tell(p, "You don't know any spells.");
+				plugin.PM.tell(p, "You don't know any spells.");
 				return;
 			}
 			int spellNumber = 0, max = spellList.size() - 1;
@@ -89,7 +92,7 @@ public class Listeners extends JavaPlugin implements Listener {
 					spellNumber = currentSpell.get(p.getName()) + 1;
 				}
 			}
-			PM.newSpell(p, spellList.get(spellNumber));
+			plugin.PM.newSpell(p, spellList.get(spellNumber));
 			currentSpell.put(p.getName(), spellNumber);
 			return;
 		}

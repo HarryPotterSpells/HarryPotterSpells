@@ -2,18 +2,22 @@ package com.lavacraftserver.HarryPotterSpells.Spells;
 
 import org.bukkit.entity.Player;
 
-import com.lavacraftserver.HarryPotterSpells.PM;
+import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
-public class Evanesco {
+public class Evanesco extends Spell {
 	
-	public static void cast(final Player p) {
-		for (Player players : PM.hps.getServer().getOnlinePlayers()) {
+	public Evanesco(HarryPotterSpells instance) {
+		super(instance);
+	}
+
+	public void cast(final Player p) {
+		for (Player players : plugin.getServer().getOnlinePlayers()) {
             players.hidePlayer(p);
             p.getWorld().createExplosion(p.getLocation(), 0, false);
         }
-		PM.hps.getServer().getScheduler().scheduleSyncDelayedTask(PM.hps, new Runnable() {
+		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 			   public void run() {
-				   for (Player players : PM.hps.getServer().getOnlinePlayers()) {
+				   for (Player players : plugin.getServer().getOnlinePlayers()) {
 			            players.showPlayer(p);
 			       }
 				   p.getWorld().createExplosion(p.getLocation(), 0, false);

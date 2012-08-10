@@ -10,24 +10,28 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
-import com.lavacraftserver.HarryPotterSpells.PM;
+import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
-public class TreeSpell {
+public class TreeSpell extends Spell {
 
-	public static void cast(Player p) {
+	public TreeSpell(HarryPotterSpells instance) {
+		super(instance);
+	}
+
+	public void cast(Player p) {
 		Block block = p.getTargetBlock(null, 50);
 		if (block.getType() == Material.GRASS || block.getType() == Material.DIRT) {
 			if(!p.getWorld().generateTree(block.getLocation(), TreeType.TREE)) {
-				PM.warn(p, "You cannot place a tree here.");
+				plugin.PM.warn(p, "You cannot place a tree here.");
 			} else {
 				boom(block, block.getWorld());
 			}
 		} else {
-			PM.warn(p, "You can only place a tree on grass or dirt.");
+			plugin.PM.warn(p, "You can only place a tree on grass or dirt.");
 		}
 	}
 	
-	public static void boom (Block block, World world) {
+	public  void boom (Block block, World world) {
 		List <Block> blocks = new LinkedList <Block>();
 		Block highest = getHighestLog(block);
 		getBlocksToChop(block, highest, blocks);
@@ -35,14 +39,14 @@ public class TreeSpell {
 		return;
 	}
 	
-	public static Block getHighestLog(Block block) {
+	public Block getHighestLog(Block block) {
 		while (block.getRelative(BlockFace.UP).getType() == Material.LOG) {
 			block = block.getRelative(BlockFace.UP);
 		}
 		return block;
 	}
 	
-	public static void getBlocksToChop (Block block, Block highest, List <Block> blocks) {
+	public void getBlocksToChop (Block block, Block highest, List <Block> blocks) {
 		while (block.getY() <= highest.getY()) {
 			if (!blocks.contains(block)) {
 				blocks.add(block);
@@ -85,13 +89,13 @@ public class TreeSpell {
 		}
 	}
 	
-	public static void getBranches(Block block, List<Block> blocks, Block other) {
+	public void getBranches(Block block, List<Block> blocks, Block other) {
 		if (!blocks.contains(other) && other.getType() == Material.LOG) {
 			getBlocksToChop(other, getHighestLog(other), blocks);
 		}
 	}
 	
-	public static void explode (Block block, List<Block> blocks, World world) {
+	public void explode (Block block, List<Block> blocks, World world) {
 		for (int counter = 0; counter < blocks.size(); counter++) {
 			block = blocks.get(counter);
 			world.createExplosion(block.getLocation(), 0);

@@ -9,34 +9,38 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 
-import com.lavacraftserver.HarryPotterSpells.PM;
+import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
-public class Multicorfors {
+public class Multicorfors extends Spell{
 	
-	public static void cast(Player p) {
+	public Multicorfors(HarryPotterSpells instance) {
+		super(instance);
+	}
+
+	public void cast(Player p) {
 		final Block b = p.getTargetBlock(transparentBlocks(), 25);
 		if(Targeter.getTarget(p, 25) instanceof Sheep) {
 			final Sheep sheep = (Sheep) Targeter.getTarget(p, 25);
 			sheep.getWorld().createExplosion(sheep.getLocation(), 0F);
-			PM.hps.getServer().getScheduler().scheduleSyncDelayedTask(PM.hps, new Runnable() {
+			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 				   public void run() {
 					   sheep.setColor(randomDyeColor());
 				   }
 				}, 4L);
 		} else if(b.getType() == Material.WOOL) {
 			p.getWorld().createExplosion(b.getLocation(), 0F);
-			PM.hps.getServer().getScheduler().scheduleSyncDelayedTask(PM.hps, new Runnable() {
+			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 				   public void run() {
 					   b.setData(randomDyeColorInt());
 				   }
 				}, 4L);
 		} else {
-			PM.warn(p, "You can only cast this spell on sheep or wool.");
+			plugin.PM.warn(p, "You can only cast this spell on sheep or wool.");
 		}
 	}
 	
-	public static DyeColor randomDyeColor() {
+	public DyeColor randomDyeColor() {
 		DyeColor et;
 		int maxMobs = 16, minMobs = 1;
 		int randomNum = new Random().nextInt(maxMobs - minMobs + 1) + minMobs;
@@ -80,13 +84,13 @@ public class Multicorfors {
 		return et;
 	}
 	
-	public static byte randomDyeColorInt() {
+	public byte randomDyeColorInt() {
 		int maxMobs = 16, minMobs = 1;
 		int randomNum = new Random().nextInt(maxMobs - minMobs + 1) + minMobs;
 		return (byte)randomNum;
 	}
 	
-	public static HashSet<Byte> transparentBlocks() {
+	public HashSet<Byte> transparentBlocks() {
 		HashSet<Byte> b = new HashSet<Byte>();
 		b.add((byte) 0);
 		b.add((byte) 8);

@@ -2,17 +2,20 @@ package com.lavacraftserver.HarryPotterSpells.Spells;
 
 import org.bukkit.entity.Player;
 
-import com.lavacraftserver.HarryPotterSpells.PM;
-import com.lavacraftserver.HarryPotterSpells.Utils.MiscListeners;
+import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
-public class Spongify {
+public class Spongify extends Spell {
 	
-	public static void cast(final Player p) {
-		MiscListeners.spongify.add(p.getName());
-		PM.hps.getServer().getScheduler().scheduleSyncDelayedTask(PM.hps, new Runnable() {
+	public Spongify(HarryPotterSpells instance) {
+		super(instance);
+	}
+
+	public  void cast(final Player p) {
+		plugin.MiscListeners.spongify.add(p.getName());
+		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 			   public void run() {
-				   if(MiscListeners.spongify.contains(p.getName())) {
-					   MiscListeners.spongify.remove(p.getName());
+				   if(plugin.MiscListeners.spongify.contains(p.getName())) {
+					   plugin.MiscListeners.spongify.remove(p.getName());
 				   } 
 			   }
 			}, 200L);

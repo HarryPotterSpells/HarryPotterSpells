@@ -2,18 +2,22 @@ package com.lavacraftserver.HarryPotterSpells.Spells;
 
 import org.bukkit.entity.Player;
 
-import com.lavacraftserver.HarryPotterSpells.PM;
+import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
-public class WingardiumLeviosa {
+public class WingardiumLeviosa extends Spell{
 	
-	public static void cast(final Player p) {
+	public WingardiumLeviosa(HarryPotterSpells instance) {
+		super(instance);
+	}
+
+	public void cast(final Player p) {
 		if(p.isFlying()) {
 			p.setFlying(false);
 			p.setAllowFlight(false);
 		} else {
 			p.setAllowFlight(true);
 			p.setFlying(true);
-			PM.hps.getServer().getScheduler().scheduleSyncDelayedTask(PM.hps, new Runnable() {
+			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 				   public void run() {
 					   if(p.isFlying()) {
 						   p.setFlying(false);
