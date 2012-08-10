@@ -6,9 +6,15 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-public class AlarteAscendare {
+import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+
+public class AlarteAscendare extends Spell {
 	
-	public static void cast(Player p) {
+	public AlarteAscendare(HarryPotterSpells instance) {
+		super(instance);
+	}
+
+	public void cast(Player p) {
 		Entity mob = p.getWorld().spawnEntity(p.getEyeLocation(), randomEntity());
 		if (mob == null){
 			return;
@@ -16,7 +22,7 @@ public class AlarteAscendare {
 		mob.setVelocity(p.getEyeLocation().getDirection().multiply(2));
 	}
 	
-	public static EntityType randomEntity() {
+	public EntityType randomEntity() {
 		EntityType et;
 		int maxMobs = 17, minMobs = 1;
 		int randomNum = new Random().nextInt(maxMobs - minMobs + 1) + minMobs;

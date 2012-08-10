@@ -5,26 +5,30 @@ import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
-import com.lavacraftserver.HarryPotterSpells.PM;
+import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class WorldGuard {
 	// API can be found here: http://wiki.sk89q.com/wiki/WorldGuard/Regions/API
+	HarryPotterSpells plugin;
+	public WorldGuard(HarryPotterSpells instance){
+		plugin=instance;
+	}
 	
-	public static WorldGuardPlugin getWorldGuard() {
-		if(PM.hps.getConfig().getBoolean("WorldGuardEnabled") != true) {
+	public WorldGuardPlugin getWorldGuard() {
+		if(plugin.getConfig().getBoolean("WorldGuardEnabled") != true) {
 			return null;
 		} else {
-			Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
+			Plugin wgplugin = Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
 	 
 			// WorldGuard may not be loaded
-			if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
-				PM.log("Could not hook into WorldGuard. WorldGuard features have been disabled.", Level.WARNING);
-				PM.hps.getConfig().set("WorldGuardEnabled", false);
+			if (wgplugin == null || !(wgplugin instanceof WorldGuardPlugin)) {
+				plugin.PM.log("Could not hook into WorldGuard. WorldGuard features have been disabled.", Level.WARNING);
+				plugin.getConfig().set("WorldGuardEnabled", false);
 				return null;
 			}
 			
-			return (WorldGuardPlugin) plugin;
+			return (WorldGuardPlugin) wgplugin;
 		}
 	}
 

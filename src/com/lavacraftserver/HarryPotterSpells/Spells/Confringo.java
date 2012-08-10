@@ -2,11 +2,16 @@ package com.lavacraftserver.HarryPotterSpells.Spells;
 
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEvent;
 
-public class Confringo {
+import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+
+public class Confringo extends Spell {
 	
-	public static void cast(Player p, PlayerInteractEvent e) {
+	public Confringo(HarryPotterSpells instance) {
+		super(instance);
+	}
+
+	public void cast(Player p) {
 		Fireball fb = p.launchProjectile(Fireball.class);
 		fb.setShooter(p);
 		fb.setYield(2);
