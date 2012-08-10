@@ -1,6 +1,6 @@
 name: HarryPotterSpells
 main: com.lavacraftserver.HarryPotterSpells.HarryPotterSpells
-authors: [Kezz101, np98765]
+authors: [np98765, Kezz101]
 version: 1.0
 softdepend: [Vault]
 commands:
