@@ -31,8 +31,7 @@ HarryPotterSpells plugin;
 }
 	public Spell getSpell(String name){
 		for(Spell spell:spellList){
-			//we need to consider a .getName() method for spells.
-			if(spell.getClass().getSimpleName().equalsIgnoreCase(name)){
+			if(spell.toString().equalsIgnoreCase(name)){
 				return spell;
 			}
 		}
