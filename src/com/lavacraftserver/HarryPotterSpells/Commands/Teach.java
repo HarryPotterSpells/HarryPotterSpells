@@ -41,12 +41,9 @@ spell.teach((Player)sender,teachTo);
 				if(spell.playerKnows(teachTo)) {
 					plugin.PM.log(teachTo.getName() + " already knows that spell!", Level.INFO);
 				} else {
-					List<String> list = plugin.PlayerSpellConfig.getPSC().getStringList(teachTo.getName());
-					list.add(spell.toString());
-					plugin.PlayerSpellConfig.getPSC().set(teachTo.getName(), list);
-					plugin.PlayerSpellConfig.savePSC();
+					spell.teach(teachTo);
 					plugin.PM.log("You have taught " + teachTo.getName() + " the spell " + spell.toString() + ".", Level.INFO);
-					plugin.PM.tell(teachTo, "You have been taught " + spell.toString());
+					
 				}
 			} else {
 				plugin.PM.log("The player was not found.", Level.INFO);
