@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -28,8 +29,9 @@ public class SpellLoader {
 		File file = new File(p.getDataFolder()+File.separator+"Spells"+File.separator);
 		if (!file.exists())
 			file.mkdirs();
+		p.log.info("Loading "+Integer.toString(file.listFiles().length)+ " files");
 		for (File f : file.listFiles()){
-			if (!file.isDirectory() && file.getName().endsWith(".jar")){
+			if (!f.isDirectory() && f.getAbsolutePath().endsWith(".jar")){
 				loadSpell(f, getDescriptionFile(f));
 			}
 		}
@@ -52,22 +54,19 @@ public class SpellLoader {
 		return null;
 	}
 	public void loadSpell(File file, SpellDescriptionFile desc){
+		p.log.info("Now loading:" + file.getName());
 		Validate.notNull(file, "File Cannot be null."); 
 		if (!file.exists() || !file.getAbsolutePath().endsWith(".jar") || file.isDirectory()){
 			throw new InvalidSpellException("Spell must not be a directoy, and must be a .jar file.");
 		}
         try {
             URL[] urls = new URL[1];
-
             urls[0] = file.toURI().toURL();
-
-            ClassLoader loader = getClass().getClassLoader();
-            Class<?> jarClass = Class.forName(desc.getMain(), true, loader);
+            Class<?> jarClass = Class.forName(desc.getMain(), true, new URLClassLoader(urls, this.getClass().getClassLoader()));
             Class<? extends Spell> type = jarClass.asSubclass(Spell.class);
             p.spellManager.addSpell(newInstance(type));
         } catch (Throwable e) {
         	throw new InvalidSpellException(e);
-            
         } 
 		
 	}
