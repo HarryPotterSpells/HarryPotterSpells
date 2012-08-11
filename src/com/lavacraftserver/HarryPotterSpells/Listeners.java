@@ -4,12 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Effect;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -66,6 +68,10 @@ public class Listeners implements Listener {
 				p.getWorld().playEffect(l, Effect.ENDER_SIGNAL, 0);
 				plugin.spellManager.getSpell(spellList.get(spellNumber)).cast(e.getPlayer());
 				plugin.LogBlock.logSpell(p,spellList.get(spellNumber));
+				//Cancel event if player is in creative to prevent block damage.
+				if (p.getGameMode().equals(GameMode.CREATIVE)){
+					e.setCancelled(true);
+				}
 			}
 			
 		}
