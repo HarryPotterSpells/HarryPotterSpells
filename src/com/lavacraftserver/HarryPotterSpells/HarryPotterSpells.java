@@ -45,7 +45,7 @@ public class HarryPotterSpells extends JavaPlugin {
 		Vault.setupVault();
 		LogBlock.setupLogBlock();
 		
-		//Initialization -  I think we need to move all object initialization code to here.
+		// Misc Initialisation
 		loader = new SpellLoader(this);
 		
 		PM.log("Plugin enabled", Level.INFO);
