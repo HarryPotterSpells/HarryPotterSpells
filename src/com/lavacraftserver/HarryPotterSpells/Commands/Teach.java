@@ -1,6 +1,5 @@
 package com.lavacraftserver.HarryPotterSpells.Commands;
 
-import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
