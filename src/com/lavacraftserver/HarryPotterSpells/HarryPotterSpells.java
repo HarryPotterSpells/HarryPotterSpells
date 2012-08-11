@@ -13,8 +13,8 @@ import com.lavacraftserver.HarryPotterSpells.Commands.Sort;
 import com.lavacraftserver.HarryPotterSpells.Commands.Teach;
 import com.lavacraftserver.HarryPotterSpells.Hooks.LogBlock;
 import com.lavacraftserver.HarryPotterSpells.Hooks.Vault;
-import com.lavacraftserver.HarryPotterSpells.Spells.SpellManager;
 import com.lavacraftserver.HarryPotterSpells.Utils.MiscListeners;
+import com.lavacraftserver.HarryPotterSpells.Utils.SpellManager;
 import com.lavacraftserver.HarryPotterSpells.api.SpellLoader;
 
 public class HarryPotterSpells extends JavaPlugin {
