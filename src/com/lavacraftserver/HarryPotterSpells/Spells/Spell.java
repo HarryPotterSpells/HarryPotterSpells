@@ -20,16 +20,20 @@ public void teach(Player sender,Player target){
 		if(playerKnows(target)) {
 			plugin.PM.warn(sender, target.getName() + " already knows that spell!");
 		} else {
-			List<String> list = plugin.PlayerSpellConfig.getPSC().getStringList(target.getName());
-			list.add(toString());
-			plugin.PlayerSpellConfig.getPSC().set(target.getName(), list);
-			plugin.PlayerSpellConfig.savePSC();
+			teach(target);
 			plugin.PM.tell(sender, "You have taught " + target.getName() + " the spell " + toString() + ".");
-			plugin.PM.tell(target, "You have been taught " + toString());
 		}
 	} else {
 		plugin.PM.warn(sender, "The player was not found.");
 	}
+}
+
+public void teach(Player p){
+	List<String> list = plugin.PlayerSpellConfig.getPSC().getStringList(p.getName());
+	list.add(toString());
+	plugin.PlayerSpellConfig.getPSC().set(p.getName(), list);
+	plugin.PlayerSpellConfig.savePSC();
+	plugin.PM.tell(p, "You have been taught " + toString());
 }
 
 public boolean playerKnows(Player p){
@@ -39,6 +43,14 @@ public boolean playerKnows(Player p){
 	} else {
 		return false;
 	}
+}
+
+public void unTeach(Player p){
+	List<String> list = plugin.PlayerSpellConfig.getPSC().getStringList(p.getName());
+	list.remove(toString());
+	plugin.PlayerSpellConfig.getPSC().set(p.getName(), list);
+	plugin.PlayerSpellConfig.savePSC();
+	plugin.PM.tell(p, "You have forgotten " + toString());
 }
 
 public String toString(){
