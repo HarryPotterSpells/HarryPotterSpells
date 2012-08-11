@@ -31,7 +31,7 @@ public class HarryPotterSpells extends JavaPlugin {
 	public SpellLoader loader;
 	@Override
 	public void onEnable() {
-		Listeners.currentSpell.clear();
+		PM.clearStorage();
 		
 		// Config
 		loadConfig();
@@ -53,7 +53,7 @@ public class HarryPotterSpells extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
-		Listeners.currentSpell.clear();
+		PM.clearStorage();
 		PM.log("Plugin disabled", Level.INFO);
 	}
 	

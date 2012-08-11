@@ -54,5 +54,12 @@ public class PM extends JavaPlugin {
 			return p.hasPermission(permission);
 		}
 	}
+	
+	public void clearStorage() {
+		plugin.MiscListeners.deprimo.clear();
+		plugin.MiscListeners.sonorus.clear();
+		plugin.MiscListeners.spongify.clear();
+		plugin.Listeners.currentSpell.clear();
+	}
 
 }
