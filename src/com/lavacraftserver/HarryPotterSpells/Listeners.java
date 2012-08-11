@@ -64,7 +64,9 @@ public class Listeners implements Listener {
 				}
 				Location l = p.getLocation();
 				l.setY(l.getY() + 1);
-				p.getWorld().playEffect(l, Effect.ENDER_SIGNAL, 0);
+				if(plugin.getConfig().getBoolean("spell-particle-toggle")) {
+					p.getWorld().playEffect(l, Effect.ENDER_SIGNAL, 0);
+				}
 				plugin.spellManager.getSpell(spellList.get(spellNumber)).cast(e.getPlayer());
 				plugin.LogBlock.logSpell(p,spellList.get(spellNumber));
 				//Cancel event if player is in creative to prevent block damage.
