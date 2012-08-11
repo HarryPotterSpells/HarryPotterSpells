@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
@@ -26,13 +27,21 @@ public class MiscListeners implements Listener {
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
 		if(plugin.getConfig().getBoolean("spell-castable-with-chat")) {
-			
+
 		}
 		
 		if(sonorus.contains(e.getPlayer().getName())) {
 			e.setCancelled(true);
 			plugin.getServer().broadcastMessage(e.getPlayer().getDisplayName() + ChatColor.WHITE + ": " + e.getMessage());
 			sonorus.remove(e.getPlayer().getName());
+		}
+	}
+	
+	@EventHandler
+	public void onCommand(PlayerCommandPreprocessEvent e) {
+		String spell = e.getMessage().replace('/', ' ');
+		if(plugin.spellManager.getSpell(spell) != null) {
+			plugin.spellManager.getSpell(spell).cast(e.getPlayer());
 		}
 	}
 	
