@@ -1,27 +1,8 @@
-package com.lavacraftserver.HarryPotterSpells.Utils;
+package com.lavacraftserver.HarryPotterSpells.Spells;
 
 import java.util.ArrayList;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
-import com.lavacraftserver.HarryPotterSpells.Spells.Aguamenti;
-import com.lavacraftserver.HarryPotterSpells.Spells.AlarteAscendare;
-import com.lavacraftserver.HarryPotterSpells.Spells.AvadaKedavra;
-import com.lavacraftserver.HarryPotterSpells.Spells.Confringo;
-import com.lavacraftserver.HarryPotterSpells.Spells.Confundo;
-import com.lavacraftserver.HarryPotterSpells.Spells.Deprimo;
-import com.lavacraftserver.HarryPotterSpells.Spells.Episkey;
-import com.lavacraftserver.HarryPotterSpells.Spells.Evanesco;
-import com.lavacraftserver.HarryPotterSpells.Spells.Expelliarmus;
-import com.lavacraftserver.HarryPotterSpells.Spells.Incendio;
-import com.lavacraftserver.HarryPotterSpells.Spells.InvalidSpell;
-import com.lavacraftserver.HarryPotterSpells.Spells.Multicorfors;
-import com.lavacraftserver.HarryPotterSpells.Spells.Reducto;
-import com.lavacraftserver.HarryPotterSpells.Spells.Sonorus;
-import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
-import com.lavacraftserver.HarryPotterSpells.Spells.Spongify;
-import com.lavacraftserver.HarryPotterSpells.Spells.TimeSpell;
-import com.lavacraftserver.HarryPotterSpells.Spells.TreeSpell;
-import com.lavacraftserver.HarryPotterSpells.Spells.WingardiumLeviosa;
 
 public class SpellManager {
 
