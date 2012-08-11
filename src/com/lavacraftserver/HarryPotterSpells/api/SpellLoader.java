@@ -25,7 +25,7 @@ public class SpellLoader {
 		loadSpells();
 	}
 	public void loadSpells(){
-		File file = new File(p.getDataFolder()+File.pathSeparator+"Spells"+File.pathSeparator);
+		File file = new File(p.getDataFolder()+File.separator+"Spells"+File.separator);
 		if (!file.exists())
 			file.mkdirs();
 		for (File f : file.listFiles()){
