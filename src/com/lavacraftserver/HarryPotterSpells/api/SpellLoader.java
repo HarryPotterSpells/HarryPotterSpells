@@ -29,7 +29,6 @@ public class SpellLoader {
 		File file = new File(p.getDataFolder()+File.separator+"Spells"+File.separator);
 		if (!file.exists())
 			file.mkdirs();
-		p.log.info("Loading "+Integer.toString(file.listFiles().length)+ " files");
 		for (File f : file.listFiles()){
 			if (!f.isDirectory() && f.getAbsolutePath().endsWith(".jar")){
 				loadSpell(f, getDescriptionFile(f));
@@ -54,7 +53,6 @@ public class SpellLoader {
 		return null;
 	}
 	public void loadSpell(File file, SpellDescriptionFile desc){
-		p.log.info("Now loading:" + file.getName());
 		Validate.notNull(file, "File Cannot be null."); 
 		if (!file.exists() || !file.getAbsolutePath().endsWith(".jar") || file.isDirectory()){
 			throw new InvalidSpellException("Spell must not be a directoy, and must be a .jar file.");
