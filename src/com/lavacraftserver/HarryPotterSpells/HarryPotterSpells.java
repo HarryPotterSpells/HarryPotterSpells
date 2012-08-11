@@ -15,6 +15,7 @@ import com.lavacraftserver.HarryPotterSpells.Hooks.LogBlock;
 import com.lavacraftserver.HarryPotterSpells.Hooks.Vault;
 import com.lavacraftserver.HarryPotterSpells.Spells.SpellManager;
 import com.lavacraftserver.HarryPotterSpells.Utils.MiscListeners;
+import com.lavacraftserver.HarryPotterSpells.api.SpellLoader;
 
 public class HarryPotterSpells extends JavaPlugin {
 	public PlayerSpellConfig PlayerSpellConfig=new PlayerSpellConfig(this);
@@ -27,6 +28,7 @@ public class HarryPotterSpells extends JavaPlugin {
 	public Logger log = Logger.getLogger("Minecraft");
 	public Sort Sort = new Sort(this);
 	public Teach Teach = new Teach(this);
+	public SpellLoader loader;
 	@Override
 	public void onEnable() {
 		Listeners.currentSpell.clear();
@@ -42,6 +44,9 @@ public class HarryPotterSpells extends JavaPlugin {
 		// Hooks
 		Vault.setupVault();
 		LogBlock.setupLogBlock();
+		
+		//Initialization -  I think we need to move all object initialization code to here.
+		loader = new SpellLoader(this);
 		
 		PM.log("Plugin enabled", Level.INFO);
 	}
