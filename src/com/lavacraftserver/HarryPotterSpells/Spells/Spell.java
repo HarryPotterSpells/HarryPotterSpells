@@ -1,5 +1,6 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
+import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
@@ -13,6 +14,8 @@ public abstract class Spell {
 	public Spell(HarryPotterSpells instance){
 		plugin=instance;
 	}
+public String name;
+
 public abstract void cast(Player p);
 
 public void teach(Player sender,Player target){
@@ -52,14 +55,35 @@ public void unTeach(Player p){
 	plugin.PlayerSpellConfig.savePSC();
 	plugin.PM.tell(p, "You have forgotten " + toString());
 }
-
 public String toString(){
 	return this.getClass().getSimpleName();
 }
 
-@Retention(RetentionPolicy.RUNTIME) @interface spell{ //not in use as of yet
-	boolean chat() default false;
-	boolean wand() default true;
+public String getName(){
+	for(Annotation a:this.getClass().getAnnotations()){
+		if(a instanceof spell){
+			spell s=(spell)a;
+			if(s.name()!=""){
+				return s.name();
+			}
+		}
+	}
+	return toString();
+}
+
+public String getDescription(){
+	for(Annotation a:this.getClass().getAnnotations()){
+		if(a instanceof spell){
+			spell s=(spell)a;
+				return s.description();
+		}
+	}
+	return toString();
+}
+
+
+@Retention(RetentionPolicy.RUNTIME) @interface spell{
 	String description() default "A mysterious spell";
+	String name() default ""; //"" defaults to class name
 }
 }

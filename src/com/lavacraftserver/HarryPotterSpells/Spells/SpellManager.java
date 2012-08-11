@@ -31,7 +31,7 @@ HarryPotterSpells plugin;
 }
 	public Spell getSpell(String name){
 		for(Spell spell:spellList){
-			if(spell.toString().equalsIgnoreCase(name)){
+			if(spell.getName().equalsIgnoreCase(name)||spell.toString().equalsIgnoreCase(name)){
 				return spell;
 			}
 		}
