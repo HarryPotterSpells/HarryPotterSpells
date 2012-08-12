@@ -1,7 +1,7 @@
 name: HarryPotterSpells
 main: com.lavacraftserver.HarryPotterSpells.HarryPotterSpells
 authors: [np98765, Kezz101]
-version: 1.0
+version: ALPHA 0.1
 softdepend: [Vault]
 commands:
   teach:
