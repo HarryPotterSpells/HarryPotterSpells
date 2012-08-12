@@ -9,7 +9,7 @@
 * **#** Note
 
 ##### CONTENTS:
-* [Version 1](version-1)
+* [Version 1](#version-1)
 
 ###### Version 1:
 \+ First release
