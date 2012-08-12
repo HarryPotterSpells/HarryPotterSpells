@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
-public class Teach implements HPCommand{
+public class Teach extends HPCommand{
 	HarryPotterSpells plugin;
 	
 	public Teach(HarryPotterSpells instance){
@@ -65,14 +65,6 @@ public class Teach implements HPCommand{
 		}
 		teach(sender, args);
 		
-	}
-
-	public String[] getNames() {
-		return new String[]{"teach"};
-	}
-
-	public String getPermissionNode() {
-		return null;
 	}
 
 }

@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
-public class Sort implements HPCommand{
+public class Sort extends HPCommand{
 	HarryPotterSpells plugin;
 	
 	public Sort(HarryPotterSpells instance){
@@ -76,9 +76,6 @@ public class Sort implements HPCommand{
 		plugin.Vault.perm.playerAdd(p, perm);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.lavacraftserver.HarryPotterSpells.Commands.HPCommand#run(org.bukkit.command.CommandSender, java.lang.String[], com.lavacraftserver.HarryPotterSpells.HarryPotterSpells)
-	 */
 	public void run(CommandSender sender, String[] args, HarryPotterSpells plugin) {
 		if (!(sender instanceof Player)){
 			sender.sendMessage("Only players can be sorted.");
@@ -103,13 +100,6 @@ public class Sort implements HPCommand{
 		}
 		
 	}
-	public String[] getNames() {
-		return new String[]{"sort"};
-	}
 
-
-	public String getPermissionNode() {
-		return null;
-	}
 
 }

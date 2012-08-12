@@ -25,13 +25,10 @@ public class HPCommandDispatcher implements CommandExecutor{
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
+		//Permissions are handled by the plugin.yml
 		HPCommand command = getCommand(cmd.getName());
 		if (command == null){
 			sender.sendMessage("There's a command that's registered to this plugin, but somehow there's no HPCommand for it.");
-			return true;
-		}
-		if (command.getPermissionNode() != null && !sender.hasPermission(command.getPermissionNode())){
-			sender.sendMessage(ChatColor.RED+"You don't have permission to do that.");
 			return true;
 		}
 		command.run(sender, args, p);
@@ -39,9 +36,8 @@ public class HPCommandDispatcher implements CommandExecutor{
 	}
 	public HPCommand getCommand(String cmd){
 		for (HPCommand command : commands)
-			for (String s : command.getNames())
-				if (s.equalsIgnoreCase(cmd))
-					return command;
+			if (command.getName().equalsIgnoreCase(cmd))
+				return command;
 		return null;
 	}
 
