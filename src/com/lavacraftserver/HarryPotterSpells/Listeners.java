@@ -85,7 +85,7 @@ public class Listeners implements Listener {
 		}
 		
 		//Spell sign
-		if(plugin.PM.hasPermission("HarryPotterSpells.buyfromsign", e.getPlayer()) && e.getClickedBlock().getType() == Material.SIGN) {
+		if (e.getClickedBlock() != null && plugin.PM.hasPermission("HarryPotterSpells.buyfromsign", e.getPlayer()) && e.getClickedBlock().getType() == Material.SIGN) {
 			String[] signText = ((Sign)e.getClickedBlock()).getLines();
 			String identifier = "[" + ChatColor.GREEN + plugin.getConfig().getString("SpellSigns.textForLine1") + ChatColor.RESET + "]";
 			if(signText[0].equals(identifier)) {
