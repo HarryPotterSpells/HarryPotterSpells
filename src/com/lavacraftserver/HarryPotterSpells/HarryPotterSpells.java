@@ -1,6 +1,7 @@
 package com.lavacraftserver.HarryPotterSpells;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,6 +48,14 @@ public class HarryPotterSpells extends JavaPlugin {
 		
 		// Misc Initialisation
 		loader = new SpellLoader(this);
+		
+		// Plugin Metrics
+		try {
+		    Metrics metrics = new Metrics(this);
+		    metrics.start();
+		} catch (IOException e) {
+		    // Sad face...
+		}
 		
 		PM.log("Plugin enabled", Level.INFO);
 	}
