@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
 public class SpellManager {
-
-private ArrayList<Spell> spellList;
-HarryPotterSpells plugin;
+	private ArrayList<Spell> spellList;
+	HarryPotterSpells plugin;
+	
 	public SpellManager(HarryPotterSpells instance){
 		plugin=instance;
 		spellList=new ArrayList<Spell>();
@@ -28,8 +28,9 @@ HarryPotterSpells plugin;
 		spellList.add(new TimeSpell(plugin));
 		spellList.add(new TreeSpell(plugin));
 		spellList.add(new WingardiumLeviosa(plugin));
-}
-	public Spell getSpell(String name){
+	}
+	
+	public Spell getSpell(String name) {
 		for(Spell spell:spellList){
 			if(spell.getName().equalsIgnoreCase(name)||spell.toString().equalsIgnoreCase(name)){
 				return spell;
@@ -38,13 +39,21 @@ HarryPotterSpells plugin;
 		return new InvalidSpell(plugin);
 	}
 	
-	public void addSpell(Spell spell){
+	public void addSpell(Spell spell) {
 		spellList.add(spell);
 	}
 	
-	public ArrayList<Spell> getSpells(){
+	public ArrayList<Spell> getSpells() {
 		return spellList;
 	}
 	
+	public boolean isSpell(String name) {
+		for(Spell spell:spellList){
+			if(spell.getName().equalsIgnoreCase(name)||spell.toString().equalsIgnoreCase(name)){
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

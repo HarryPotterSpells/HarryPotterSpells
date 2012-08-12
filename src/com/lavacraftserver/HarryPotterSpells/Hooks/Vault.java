@@ -12,9 +12,11 @@ import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
 public class Vault  {
 	HarryPotterSpells plugin;
+	
 	public Vault(HarryPotterSpells instance){
 		plugin=instance;
 	}
+	
 	public Permission perm = null;
 	public Economy econ = null;
 	

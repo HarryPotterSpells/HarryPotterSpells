@@ -19,6 +19,10 @@ SortingHat:
     addHouseGroups: false
       # Whether the user will be sorted into a permissions group
 
+SpellSigns:
+    textForLine1: SpellShop!
+      # The text that should be on Line 1 of a SpellSign
+
 shout-on-spell-use: false
 notify-on-spell-use: true
 

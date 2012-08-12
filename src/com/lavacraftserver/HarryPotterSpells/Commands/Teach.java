@@ -11,10 +11,10 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
 public class Teach {
 	HarryPotterSpells plugin;
+	
 	public Teach(HarryPotterSpells instance){
 		plugin=instance;
 	}
-	
 	
 	public void teach(CommandSender sender, String[] args) {
 		Player player = (Player)sender;
@@ -23,9 +23,7 @@ public class Teach {
 		} else {
 			Player teachTo = Bukkit.getPlayer(args[0]);
 			Spell spell = plugin.spellManager.getSpell(args[1]);
-
-spell.teach((Player)sender,teachTo);
-			
+			spell.teach((Player)sender,teachTo);
 		}
 	}
 
@@ -50,7 +48,5 @@ spell.teach((Player)sender,teachTo);
 			}
 		}
 	}
-	
-	
 
 }
