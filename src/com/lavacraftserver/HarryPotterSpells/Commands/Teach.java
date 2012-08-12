@@ -21,6 +21,10 @@ public class Teach {
 		if(args.length != 2) {
 			plugin.PM.warn(player, "Correct Syntax: /teach <player> <spell>");
 		} else {
+			if(!plugin.spellManager.isSpell(args[1])) {
+				plugin.PM.warn(player, "That spell was not recognised");
+				return;
+			}
 			Player teachTo = Bukkit.getPlayer(args[0]);
 			Spell spell = plugin.spellManager.getSpell(args[1]);
 			spell.teach((Player)sender,teachTo);
@@ -31,6 +35,10 @@ public class Teach {
 		if(args.length != 2) {
 			plugin.PM.log("Correct Syntax: /teach <player> <spell>", Level.INFO);
 		} else {
+			if(!plugin.spellManager.isSpell(args[1])) {
+				plugin.PM.log("That spell was not recognised", Level.WARNING);
+				return;
+			}
 			Player teachTo = Bukkit.getPlayer(args[0]);
 			Spell spell = plugin.spellManager.getSpell(args[1]);
 
