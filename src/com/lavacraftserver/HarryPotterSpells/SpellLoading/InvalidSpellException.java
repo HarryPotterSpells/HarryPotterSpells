@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.lavacraftserver.HarryPotterSpells.api;
+package com.lavacraftserver.HarryPotterSpells.SpellLoading;
 
 @SuppressWarnings("serial")
 public class InvalidSpellException extends RuntimeException{

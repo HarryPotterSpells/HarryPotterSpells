@@ -15,6 +15,7 @@ public abstract class Spell {
 		plugin=instance;
 	}
 public String name;
+public String description;
 
 public abstract void cast(Player p);
 
