@@ -3,12 +3,13 @@ package com.lavacraftserver.HarryPotterSpells.Commands;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
-public class UnTeach {
+public class UnTeach implements HPCommand{
 	HarryPotterSpells plugin;
 	
 	public UnTeach(HarryPotterSpells instance){
@@ -40,7 +41,7 @@ public class UnTeach {
 
 	public void unTeachConsole(String[] args) {
 		if(args.length != 2) {
-			plugin.PM.log("Correct Syntax: /teach <player> <spell>", Level.INFO);
+			plugin.PM.log("Correct Syntax: /unteach <player> <spell>", Level.INFO);
 		} else {
 			if(!plugin.spellManager.isSpell(args[1])) {
 				plugin.PM.log("That spell was not recognised", Level.WARNING);
@@ -60,6 +61,24 @@ public class UnTeach {
 				return;
 			}
 		}
+	}
+
+	public void run(CommandSender sender, String[] args, HarryPotterSpells p) {
+		if (!(sender instanceof Player)){
+			unTeachConsole(args);
+			return;
+		}
+		unTeach((Player)sender, args);
+		
+	}
+
+	public String[] getNames() {
+		return new String[]{"unteach"};
+	}
+
+
+	public String getPermissionNode() {
+		return null;
 	}
 
 }

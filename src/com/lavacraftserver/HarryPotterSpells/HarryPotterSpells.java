@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.lavacraftserver.HarryPotterSpells.Commands.HPCommandDispatcher;
 import com.lavacraftserver.HarryPotterSpells.Commands.Sort;
 import com.lavacraftserver.HarryPotterSpells.Commands.Teach;
 import com.lavacraftserver.HarryPotterSpells.Commands.UnTeach;
@@ -28,10 +29,8 @@ public class HarryPotterSpells extends JavaPlugin {
 	public Vault Vault = new Vault(this);
 	public LogBlock LogBlock=new LogBlock(this);
 	public Logger log = Logger.getLogger("Minecraft");
-	public Sort Sort = new Sort(this);
-	public Teach Teach = new Teach(this);
 	public SpellLoader loader;
-	public UnTeach UnTeach = new UnTeach(this);
+	public HPCommandDispatcher dispatcher = new HPCommandDispatcher(this);
 	
 	@Override
 	public void onEnable() {
@@ -62,6 +61,11 @@ public class HarryPotterSpells extends JavaPlugin {
 		}
 		
 		PM.log("Plugin enabled", Level.INFO);
+		
+		// Commands
+		getCommand("teach").setExecutor(dispatcher);
+		getCommand("unteach").setExecutor(dispatcher);
+		getCommand("sort").setExecutor(dispatcher);
 	}
 	
 	@Override
@@ -78,33 +82,5 @@ public class HarryPotterSpells extends JavaPlugin {
 		}
 	}
 	
-	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		if(commandLabel.equalsIgnoreCase("teach")) {
-			if(sender instanceof Player) {
-				Teach.teach((Player)sender, args);
-			} else {
-				Teach.teachConsole(args);
-			}
-			return true;
-		}
-		if(commandLabel.equalsIgnoreCase("sort") && getConfig().getBoolean("SortingHat.enabled")) {
-			if(sender instanceof Player) {
-				Sort.go((Player)sender);
-			} else {
-				PM.log("You must be a player to be sorted.", Level.INFO);
-			}
-			return true;
-		}
-		if(commandLabel.equalsIgnoreCase("unteach")) {
-			if(sender instanceof Player) {
-				UnTeach.unTeach((Player)sender, args);
-			} else {
-				UnTeach.unTeachConsole(args);
-			}
-			return true;
-		}
-		
-		return true;
-	}
 
 }

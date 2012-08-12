@@ -1,0 +1,48 @@
+/**
+ * 
+ */
+package com.lavacraftserver.HarryPotterSpells.Commands;
+
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+
+import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+
+/**
+ * @author Nate Mortensen
+ *
+ */
+public class HPCommandDispatcher implements CommandExecutor{
+
+	public HarryPotterSpells p;
+	HPCommand[] commands;
+	
+	public HPCommandDispatcher(HarryPotterSpells instance){
+		this.p = instance;
+		commands = new HPCommand[]{new Sort(p), new Teach(p), new UnTeach(p)};
+	}
+	
+	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
+		HPCommand command = getCommand(cmd.getName());
+		if (command == null){
+			sender.sendMessage("There's a command that's registered to this plugin, but somehow there's no HPCommand for it.");
+			return true;
+		}
+		if (command.getPermissionNode() != null && !sender.hasPermission(command.getPermissionNode())){
+			sender.sendMessage(ChatColor.RED+"You don't have permission to do that.");
+			return true;
+		}
+		command.run(sender, args, p);
+		return true;
+	}
+	public HPCommand getCommand(String cmd){
+		for (HPCommand command : commands)
+			for (String s : command.getNames())
+				if (s.equalsIgnoreCase(cmd))
+					return command;
+		return null;
+	}
+
+}
