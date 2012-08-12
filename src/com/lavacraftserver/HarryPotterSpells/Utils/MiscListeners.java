@@ -43,7 +43,7 @@ public class MiscListeners implements Listener {
 	@EventHandler
 	public void onCommand(PlayerCommandPreprocessEvent e) {
 		String spell = e.getMessage().replace('/', ' ');
-		if(plugin.spellManager.getSpell(spell) != null) {
+		if(plugin.spellManager.isSpell(spell)) {
 			plugin.spellManager.getSpell(spell).cast(e.getPlayer());
 		}
 	}
