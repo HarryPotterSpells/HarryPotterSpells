@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.lavacraftserver.HarryPotterSpells.Commands.Sort;
 import com.lavacraftserver.HarryPotterSpells.Commands.Teach;
+import com.lavacraftserver.HarryPotterSpells.Commands.UnTeach;
 import com.lavacraftserver.HarryPotterSpells.Hooks.LogBlock;
 import com.lavacraftserver.HarryPotterSpells.Hooks.Vault;
 import com.lavacraftserver.HarryPotterSpells.SpellLoading.SpellLoader;
@@ -30,6 +31,8 @@ public class HarryPotterSpells extends JavaPlugin {
 	public Sort Sort = new Sort(this);
 	public Teach Teach = new Teach(this);
 	public SpellLoader loader;
+	public UnTeach UnTeach = new UnTeach(this);
+	
 	@Override
 	public void onEnable() {
 		// General
@@ -92,7 +95,14 @@ public class HarryPotterSpells extends JavaPlugin {
 			}
 			return true;
 		}
-		
+		if(commandLabel.equalsIgnoreCase("unteach")) {
+			if(sender instanceof Player) {
+				UnTeach.unTeach((Player)sender, args);
+			} else {
+				UnTeach.unTeachConsole(args);
+			}
+			return true;
+		}
 		
 		return true;
 	}
