@@ -25,11 +25,10 @@ SpellSigns:
 
 shout-on-spell-use: false
 notify-on-spell-use: true
-
+spell-castable-with-command: true
 spell-particle-toggle: true
 
 ## Unimplemented in the code ##
-spell-castable-with-command: true
 spell-castable-with-chat: true
 disable-stick-crafting: true
 

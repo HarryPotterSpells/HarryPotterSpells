@@ -4,11 +4,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -63,6 +66,13 @@ public class MiscListeners implements Listener {
 			if(e.getFrom().getY() < e.getTo().getY()) {
 				e.getPlayer().getLocation().setY(e.getFrom().getY());
 			}	
+		}
+	}
+	
+	@EventHandler
+	public void onPlayerCraft(CraftItemEvent e) {
+		if(e.getRecipe().getResult().getType() == Material.STICK && plugin.getConfig().getBoolean("disable-stick-crafting")) {
+			e.setResult(Result.DENY);
 		}
 	}
 

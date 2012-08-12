@@ -32,6 +32,7 @@ public class HarryPotterSpells extends JavaPlugin {
 	public SpellLoader loader;
 	@Override
 	public void onEnable() {
+		// General
 		PM.clearStorage();
 		
 		// Config
