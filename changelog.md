@@ -8,8 +8,10 @@
 * **~** Change
 * **#** Note
 
-##### CONTENTS:
-* [Version 1](#version-1)
+#### CONTENTS:
+* [Alpha](#alpha)
+    * [Version 0.1](#version-01)
 
-###### Version 1:
+##### ALPHA
+###### Version 0.1:
 \+ First release

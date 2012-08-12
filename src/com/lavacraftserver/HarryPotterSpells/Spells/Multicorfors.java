@@ -22,14 +22,18 @@ public class Multicorfors extends Spell{
 		final Block b = p.getTargetBlock(transparentBlocks(), 25);
 		if(Targeter.getTarget(p, 25) instanceof Sheep) {
 			final Sheep sheep = (Sheep) Targeter.getTarget(p, 25);
-			sheep.getWorld().createExplosion(sheep.getLocation(), 0F);
+			if(plugin.getConfig().getBoolean("Multicorfors.explosionEffect")) {
+				sheep.getWorld().createExplosion(sheep.getLocation(), 0F);
+			}
 			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 				   public void run() {
 					   sheep.setColor(randomDyeColor());
 				   }
 				}, 4L);
 		} else if(b.getType() == Material.WOOL) {
-			p.getWorld().createExplosion(b.getLocation(), 0F);
+			if(plugin.getConfig().getBoolean("Multicorfors.explosionEffect")) {
+				p.getWorld().createExplosion(b.getLocation(), 0F);
+			}
 			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
 				   public void run() {
 					   b.setData(randomDyeColorInt());
