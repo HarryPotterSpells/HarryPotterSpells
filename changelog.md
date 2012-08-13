@@ -16,8 +16,8 @@
 
 ##### ALPHA
 ###### Version 0.2:
-\+ Added sort and unteach to plugin.yml
-\@ Fixed NPE in PlayerInteractEvent
-\~ Simplified Command System
+\+ Added sort and unteach to plugin.yml  
+@ Fixed NPE in PlayerInteractEvent  
+\~ Simplified Command System  
 ###### Version 0.1:
-\+ First release
+\+ First release  
