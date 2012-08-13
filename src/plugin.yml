@@ -5,8 +5,14 @@ version: ALPHA 0.1
 softdepend: [Vault]
 commands:
   teach:
-    description: Teach a player a spell
+    description: Teach a player a spell.
     permission: HarryPotterSpells.commands.teach
+  unteach:
+    description: Specified player loses ability to cast specified spell.
+    permission: HarryPotterSpells.commands.unteach
+  sort:
+    description: Specified player is assigned a house.
+    permission: HarryPotterSpells.commands.sort
 permissions:
   HarryPotterSpells.use:
     description: Use the wand
