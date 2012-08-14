@@ -13,6 +13,7 @@ public class SpellManager {
 		spellList=new ArrayList<Spell>();
 		spellList.add(new Aguamenti(plugin));
 		spellList.add(new AlarteAscendare(plugin));
+		spellList.add(new Alohomora(plugin));
 		spellList.add(new AvadaKedavra(plugin));
 		spellList.add(new Confringo(plugin));
 		spellList.add(new Confundo(plugin));
@@ -22,7 +23,10 @@ public class SpellManager {
 		spellList.add(new Expelliarmus(plugin));
 		spellList.add(new Incendio(plugin));
 		spellList.add(new Multicorfors(plugin));
+		spellList.add(new Obscuro(plugin));
+		spellList.add(new Orchideous(plugin));
 		spellList.add(new Reducto(plugin));
+		spellList.add(new Sectumsempra(plugin));
 		spellList.add(new Sonorus(plugin));
 		spellList.add(new Spongify(plugin));
 		spellList.add(new TimeSpell(plugin));
