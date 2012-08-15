@@ -16,7 +16,7 @@ public class Alohomora extends Spell {
 	public void cast(Player p) {
 		Block b = p.getTargetBlock(null, 50);
 		if (isDoor(b)) {
-			((Door) b).setOpen(true);
+			((Door) b.getState().getData()).setOpen(true);
 		} else {
 			plugin.PM.warn(p, "This spell can only be used on doors.");
 		}
