@@ -25,6 +25,9 @@ public class Alohomora extends Spell {
 	}
 	
 	public boolean isDoor(Block b) {
+		if (b == null) {
+			return false;
+		}
 		switch (b.getTypeId()) {
 		case 64: return true;
 		case 71: return true;
