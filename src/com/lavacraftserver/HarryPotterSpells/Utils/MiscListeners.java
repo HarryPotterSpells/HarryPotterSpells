@@ -12,9 +12,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
@@ -26,20 +31,20 @@ public class MiscListeners implements Listener {
 	public Set<String> sonorus = new HashSet<String>();
 	public Set<String> spongify = new HashSet<String>();
 	public Set<String> deprimo = new HashSet<String>();
-	
+
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
 		if(plugin.getConfig().getBoolean("spell-castable-with-chat")) {
 
 		}
-		
+
 		if(sonorus.contains(e.getPlayer().getName())) {
 			e.setCancelled(true);
 			plugin.getServer().broadcastMessage(e.getPlayer().getDisplayName() + ChatColor.WHITE + ": " + e.getMessage());
 			sonorus.remove(e.getPlayer().getName());
 		}
 	}
-	
+
 	@EventHandler
 	public void onCommand(PlayerCommandPreprocessEvent e) {
 		String spell = e.getMessage().replace('/', ' ');
@@ -47,7 +52,7 @@ public class MiscListeners implements Listener {
 			plugin.spellManager.getSpell(spell).cast(e.getPlayer());
 		}
 	}
-	
+
 	@EventHandler
 	public void onPlayerDamage(EntityDamageEvent e) {
 		if(e.getEntity() instanceof Player && e.getCause() == DamageCause.FALL) {
@@ -58,7 +63,7 @@ public class MiscListeners implements Listener {
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent e) {
 		if(deprimo.contains(e.getPlayer().getName())) {
@@ -69,11 +74,26 @@ public class MiscListeners implements Listener {
 		}
 	}
 	
+	// Tested way of preventing players from crafting sticks
 	@EventHandler
-	public void onPlayerCraft(CraftItemEvent e) {
-		if(e.getRecipe().getResult().getType() == Material.STICK && plugin.getConfig().getBoolean("disable-stick-crafting")) {
-			e.setResult(Result.DENY);
+	public void onInventoryClick(InventoryClickEvent event) {
+		if (plugin.getConfig().getBoolean("disable-stick-crafting")) {
+			Inventory inventory = event.getInventory();
+			if (inventory.getType() == InventoryType.CRAFTING || inventory.getType() == InventoryType.WORKBENCH) {
+				int rs = event.getRawSlot();
+				ItemStack stack = null;
+				if (rs >= 0) {
+					stack = event.getCurrentItem();
+				}
+				SlotType st = event.getSlotType();
+
+				if (st == SlotType.RESULT && stack != null) {
+					if (stack.getType() == Material.STICK) {
+						event.setCancelled(true);
+						return;
+					}
+				}
+			}
 		}
 	}
-
 }
