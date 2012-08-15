@@ -23,7 +23,7 @@ public class Alohomora extends Spell {
 		return;
 
 	}
-
+	
 	public boolean isDoor(Block b) {
 		switch (b.getTypeId()) {
 		case 64: return true;
