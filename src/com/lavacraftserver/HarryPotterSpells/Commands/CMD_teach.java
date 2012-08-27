@@ -9,10 +9,10 @@ import org.bukkit.entity.Player;
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
-public class CMD_Teach {
+public class CMD_teach {
 	HarryPotterSpells plugin;
 	
-	public CMD_Teach(HarryPotterSpells instance){
+	public CMD_teach(HarryPotterSpells instance){
 		plugin=instance;
 	}
 	

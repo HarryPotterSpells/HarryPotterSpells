@@ -9,10 +9,10 @@ import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
-public class CMD_Sort {
+public class CMD_sort {
 	HarryPotterSpells plugin;
 	
-	public CMD_Sort(HarryPotterSpells instance){
+	public CMD_sort(HarryPotterSpells instance){
 		plugin = instance;
 	}
 	
