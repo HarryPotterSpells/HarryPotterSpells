@@ -9,25 +9,26 @@ import org.bukkit.entity.Player;
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
-public class CMD_unteach {
+public class teach {
 	HarryPotterSpells plugin;
 	
-	public CMD_unteach(HarryPotterSpells instance){
+	public teach(HarryPotterSpells instance){
 		plugin=instance;
 	}
 	
 	public void run(CommandSender sender, String[] args, HarryPotterSpells p) {
 		if (!(sender instanceof Player)){
-			unTeachConsole(args);
+			teachConsole(args);
 			return;
 		}
-		unTeach((Player)sender, args);
+		teachto(sender, args);
 		
 	}
 	
-	public void unTeach(Player player, String[] args) {
+	public void teachto(CommandSender sender, String[] args) {
+		Player player = (Player)sender;
 		if(args.length != 2) {
-			plugin.PM.warn(player, "Correct Syntax: /unteach <player> <spell>");
+			plugin.PM.warn(player, "Correct Syntax: /teach <player> <spell>");
 		} else {
 			if(!plugin.spellManager.isSpell(args[1])) {
 				plugin.PM.warn(player, "That spell was not recognised");
@@ -35,22 +36,13 @@ public class CMD_unteach {
 			}
 			Player teachTo = Bukkit.getPlayer(args[0]);
 			Spell spell = plugin.spellManager.getSpell(args[1]);
-			if(teachTo != null) {
-				if(spell.playerKnows(teachTo)) {
-					spell.unTeach(teachTo);
-					plugin.PM.tell(player, teachTo.getName() + " has forgot " + spell.getName() + ".");
-				} else {
-					plugin.PM.warn(player, teachTo.getName() + " doesn't know that spell.");
-				}
-			} else {
-				plugin.PM.warn(player, "That player was not found.");
-			}
+			spell.teach((Player)sender,teachTo);
 		}
 	}
 
-	public void unTeachConsole(String[] args) {
+	public void teachConsole(String[] args) {
 		if(args.length != 2) {
-			plugin.PM.log("Correct Syntax: /unteach <player> <spell>", Level.INFO);
+			plugin.PM.log("Correct Syntax: /teach <player> <spell>", Level.INFO);
 		} else {
 			if(!plugin.spellManager.isSpell(args[1])) {
 				plugin.PM.log("That spell was not recognised", Level.WARNING);
@@ -58,12 +50,14 @@ public class CMD_unteach {
 			}
 			Player teachTo = Bukkit.getPlayer(args[0]);
 			Spell spell = plugin.spellManager.getSpell(args[1]);
+
 			if(teachTo != null) {
 				if(spell.playerKnows(teachTo)) {
-					spell.unTeach(teachTo);
-					plugin.PM.log(teachTo.getName() + " has forgotton " + spell.getName(), Level.INFO);
+					plugin.PM.log(teachTo.getName() + " already knows that spell!", Level.INFO);
 				} else {
-					plugin.PM.log(teachTo.getName() + " doesn't know " + spell.getName() + ".", Level.INFO);
+					spell.teach(teachTo);
+					plugin.PM.log("You have taught " + teachTo.getName() + " the spell " + spell.toString() + ".", Level.INFO);
+					
 				}
 			} else {
 				plugin.PM.log("The player was not found.", Level.INFO);
