@@ -9,11 +9,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.lavacraftserver.HarryPotterSpells.Commands.HPCommandDispatcher;
 import com.lavacraftserver.HarryPotterSpells.Hooks.LogBlock;
 import com.lavacraftserver.HarryPotterSpells.Hooks.Vault;
 import com.lavacraftserver.HarryPotterSpells.SpellLoading.SpellLoader;
 import com.lavacraftserver.HarryPotterSpells.Spells.SpellManager;
+import com.lavacraftserver.HarryPotterSpells.Utils.HPCommandDispatcher;
 import com.lavacraftserver.HarryPotterSpells.Utils.MiscListeners;
 
 public class HarryPotterSpells extends JavaPlugin {
