@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.lavacraftserver.HarryPotterSpells.Commands.HPCommandDispatcher;
@@ -23,8 +25,8 @@ public class HarryPotterSpells extends JavaPlugin {
 	public Vault Vault = new Vault(this);
 	public LogBlock LogBlock=new LogBlock(this);
 	public Logger log = Logger.getLogger("Minecraft");
-	public SpellLoader loader;
-	public HPCommandDispatcher dispatcher = new HPCommandDispatcher(this);
+	public SpellLoader SpellLoader;
+	public HPCommandDispatcher HPCommandDispatcher;
 	
 	@Override
 	public void onEnable() {
@@ -44,7 +46,8 @@ public class HarryPotterSpells extends JavaPlugin {
 		LogBlock.setupLogBlock();
 		
 		// Misc Initialisation
-		loader = new SpellLoader(this);
+		SpellLoader = new SpellLoader(this);
+		HPCommandDispatcher = new HPCommandDispatcher(this);
 		
 		// Plugin Metrics
 		try {
@@ -55,11 +58,6 @@ public class HarryPotterSpells extends JavaPlugin {
 		}
 		
 		PM.log("Plugin enabled", Level.INFO);
-		
-		// Commands
-		getCommand("teach").setExecutor(dispatcher);
-		getCommand("unteach").setExecutor(dispatcher);
-		getCommand("sort").setExecutor(dispatcher);
 	}
 	
 	@Override
@@ -76,5 +74,8 @@ public class HarryPotterSpells extends JavaPlugin {
 		}
 	}
 	
+	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+		return HPCommandDispatcher.onCommand(sender, cmd, commandLabel, args);
+	}
 
 }
