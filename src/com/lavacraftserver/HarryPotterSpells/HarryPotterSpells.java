@@ -5,15 +5,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.lavacraftserver.HarryPotterSpells.Commands.HPCommandDispatcher;
-import com.lavacraftserver.HarryPotterSpells.Commands.Sort;
-import com.lavacraftserver.HarryPotterSpells.Commands.Teach;
-import com.lavacraftserver.HarryPotterSpells.Commands.UnTeach;
 import com.lavacraftserver.HarryPotterSpells.Hooks.LogBlock;
 import com.lavacraftserver.HarryPotterSpells.Hooks.Vault;
 import com.lavacraftserver.HarryPotterSpells.SpellLoading.SpellLoader;
