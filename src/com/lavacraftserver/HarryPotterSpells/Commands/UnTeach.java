@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
-public class UnTeach extends HPCommand{
+public class UnTeach {
 	HarryPotterSpells plugin;
 	
 	public UnTeach(HarryPotterSpells instance){
