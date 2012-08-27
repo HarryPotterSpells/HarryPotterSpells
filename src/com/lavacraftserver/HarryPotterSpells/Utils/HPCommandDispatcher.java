@@ -1,4 +1,4 @@
-package com.lavacraftserver.HarryPotterSpells.Commands;
+package com.lavacraftserver.HarryPotterSpells.Utils;
 
 import java.lang.reflect.Method;
 import java.util.logging.Level;
@@ -20,12 +20,12 @@ public class HPCommandDispatcher implements CommandExecutor {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String cmdAlias, String[] args) {
-		String cmd = command.getName().toLowerCase();
+		String cmd = command.getName();
 
 		try {
 			Class<?>[] proto = new Class[] {CommandSender.class, String.class, String[].class};
 			Object[] params = new Object[] {sender, cmdAlias, args};
-			Class<?> c = Class.forName("com.lavacraftserver.HarryPotterSpells.Commands.CMD_" + cmd);
+			Class<?> c = Class.forName("com.lavacraftserver.HarryPotterSpells.Commands." + cmd);
 			Method method = c.getDeclaredMethod("run", proto);
 			Object ret = method.invoke(null, params);
 			return Boolean.TRUE.equals(ret);
