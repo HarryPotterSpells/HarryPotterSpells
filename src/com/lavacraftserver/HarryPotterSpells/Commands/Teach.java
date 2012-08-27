@@ -16,6 +16,15 @@ public class Teach {
 		plugin=instance;
 	}
 	
+	public void run(CommandSender sender, String[] args, HarryPotterSpells p) {
+		if (!(sender instanceof Player)){
+			teachConsole(args);
+			return;
+		}
+		teach(sender, args);
+		
+	}
+	
 	public void teach(CommandSender sender, String[] args) {
 		Player player = (Player)sender;
 		if(args.length != 2) {
@@ -55,16 +64,6 @@ public class Teach {
 				return;
 			}
 		}
-	}
-
-
-	public void run(CommandSender sender, String[] args, HarryPotterSpells p) {
-		if (!(sender instanceof Player)){
-			teachConsole(args);
-			return;
-		}
-		teach(sender, args);
-		
 	}
 
 }

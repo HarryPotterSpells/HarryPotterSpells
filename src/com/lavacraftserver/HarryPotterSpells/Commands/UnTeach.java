@@ -16,6 +16,15 @@ public class UnTeach {
 		plugin=instance;
 	}
 	
+	public void run(CommandSender sender, String[] args, HarryPotterSpells p) {
+		if (!(sender instanceof Player)){
+			unTeachConsole(args);
+			return;
+		}
+		unTeach((Player)sender, args);
+		
+	}
+	
 	public void unTeach(Player player, String[] args) {
 		if(args.length != 2) {
 			plugin.PM.warn(player, "Correct Syntax: /unteach <player> <spell>");
@@ -62,15 +71,5 @@ public class UnTeach {
 			}
 		}
 	}
-
-	public void run(CommandSender sender, String[] args, HarryPotterSpells p) {
-		if (!(sender instanceof Player)){
-			unTeachConsole(args);
-			return;
-		}
-		unTeach((Player)sender, args);
-		
-	}
-
 
 }
