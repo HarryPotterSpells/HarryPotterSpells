@@ -72,7 +72,7 @@ public class MiscListeners implements Listener {
 			}	
 		}
 		if (petrificustotalus.contains(e.getPlayer().getName())) {
-			e.setCancelled(true);
+			e.setTo(e.getFrom());
 		}
 	}
 	
