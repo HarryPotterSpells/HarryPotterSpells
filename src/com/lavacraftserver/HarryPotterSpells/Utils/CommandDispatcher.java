@@ -11,11 +11,11 @@ import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
-public class HPCommandDispatcher implements CommandExecutor {
+public class CommandDispatcher implements CommandExecutor {
 
 	public HarryPotterSpells plugin;
 	
-	public HPCommandDispatcher(HarryPotterSpells instance){
+	public CommandDispatcher(HarryPotterSpells instance){
 		plugin = instance;
 	}
 	

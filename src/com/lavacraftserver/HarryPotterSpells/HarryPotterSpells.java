@@ -13,7 +13,7 @@ import com.lavacraftserver.HarryPotterSpells.Hooks.LogBlock;
 import com.lavacraftserver.HarryPotterSpells.Hooks.Vault;
 import com.lavacraftserver.HarryPotterSpells.SpellLoading.SpellLoader;
 import com.lavacraftserver.HarryPotterSpells.Spells.SpellManager;
-import com.lavacraftserver.HarryPotterSpells.Utils.HPCommandDispatcher;
+import com.lavacraftserver.HarryPotterSpells.Utils.CommandDispatcher;
 import com.lavacraftserver.HarryPotterSpells.Utils.MiscListeners;
 
 public class HarryPotterSpells extends JavaPlugin {
@@ -26,7 +26,7 @@ public class HarryPotterSpells extends JavaPlugin {
 	public LogBlock LogBlock=new LogBlock(this);
 	public Logger log = Logger.getLogger("Minecraft");
 	public SpellLoader SpellLoader;
-	public HPCommandDispatcher HPCommandDispatcher;
+	public CommandDispatcher CommandDispatcher;
 	
 	@Override
 	public void onEnable() {
@@ -47,7 +47,7 @@ public class HarryPotterSpells extends JavaPlugin {
 		
 		// Misc Initialisation
 		SpellLoader = new SpellLoader(this);
-		HPCommandDispatcher = new HPCommandDispatcher(this);
+		CommandDispatcher = new CommandDispatcher(this);
 		
 		// Plugin Metrics
 		try {
@@ -75,7 +75,7 @@ public class HarryPotterSpells extends JavaPlugin {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-		return HPCommandDispatcher.onCommand(sender, cmd, commandLabel, args);
+		return CommandDispatcher.onCommand(sender, cmd, commandLabel, args);
 	}
 
 }
