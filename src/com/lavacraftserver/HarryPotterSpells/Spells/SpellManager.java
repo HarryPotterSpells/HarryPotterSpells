@@ -25,6 +25,7 @@ public class SpellManager {
 		spellList.add(new Multicorfors(plugin));
 		spellList.add(new Obscuro(plugin));
 		spellList.add(new Orchideous(plugin));
+		spellList.add(new PetrificusTotalus(plugin));
 		spellList.add(new Reducto(plugin));
 		spellList.add(new Sectumsempra(plugin));
 		spellList.add(new Sonorus(plugin));

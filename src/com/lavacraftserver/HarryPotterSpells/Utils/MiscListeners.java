@@ -6,12 +6,10 @@ import java.util.Set;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.InventoryType.SlotType;
@@ -31,6 +29,7 @@ public class MiscListeners implements Listener {
 	public Set<String> sonorus = new HashSet<String>();
 	public Set<String> spongify = new HashSet<String>();
 	public Set<String> deprimo = new HashSet<String>();
+	public Set<String> petrificustotalus = new HashSet<String>();
 
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
@@ -71,6 +70,9 @@ public class MiscListeners implements Listener {
 			if(e.getFrom().getY() < e.getTo().getY()) {
 				e.getPlayer().getLocation().setY(e.getFrom().getY());
 			}	
+		}
+		if (petrificustotalus.contains(e.getPlayer().getName())) {
+			e.setCancelled(true);
 		}
 	}
 	
