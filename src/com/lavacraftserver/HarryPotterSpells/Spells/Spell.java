@@ -1,8 +1,10 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
 import java.lang.annotation.Annotation;
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.util.List;
 
 import org.bukkit.entity.Player;
@@ -85,9 +87,11 @@ public abstract class Spell {
 	}
 
 
-	@Retention(RetentionPolicy.RUNTIME) @interface spell{
-		String description() default "A mysterious spell";
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target(ElementType.TYPE)
+	public @interface spell {
 		String name() default ""; //"" defaults to class name
+		String description() default "A mysterious spell";
 	}
 	
 }
