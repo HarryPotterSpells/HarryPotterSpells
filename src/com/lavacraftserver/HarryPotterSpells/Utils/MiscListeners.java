@@ -23,13 +23,14 @@ import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
 public class MiscListeners implements Listener {
 	HarryPotterSpells plugin;
-	public MiscListeners(HarryPotterSpells instance){
-		plugin=instance;
-	}
 	public Set<String> sonorus = new HashSet<String>();
 	public Set<String> spongify = new HashSet<String>();
 	public Set<String> deprimo = new HashSet<String>();
 	public Set<String> petrificustotalus = new HashSet<String>();
+	
+	public MiscListeners(HarryPotterSpells instance){
+		plugin=instance;
+	}
 
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
@@ -79,7 +80,7 @@ public class MiscListeners implements Listener {
 	// Tested way of preventing players from crafting sticks
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
-		if (plugin.getConfig().getBoolean("disable-stick-crafting")) {
+		if (plugin.getConfig().getBoolean("disable-wand-crafting")) {
 			Inventory inventory = event.getInventory();
 			if (inventory.getType() == InventoryType.CRAFTING || inventory.getType() == InventoryType.WORKBENCH) {
 				int rs = event.getRawSlot();
@@ -90,7 +91,7 @@ public class MiscListeners implements Listener {
 				SlotType st = event.getSlotType();
 
 				if (st == SlotType.RESULT && stack != null) {
-					if (stack.getType() == Material.STICK) {
+					if (stack.getType() == Material.getMaterial(plugin.getConfig().getInt("wand-id", 280))) {
 						event.setCancelled(true);
 						return;
 					}
@@ -98,4 +99,5 @@ public class MiscListeners implements Listener {
 			}
 		}
 	}
+	
 }
