@@ -31,7 +31,7 @@ public class Listeners implements Listener {
 	
 	@EventHandler
 	public void PIE(PlayerInteractEvent e) {
-		if(plugin.PM.hasPermission("HarryPotterSpells.use", e.getPlayer()) && e.getPlayer().getItemInHand().getType() == Material.STICK) {
+		if(plugin.PM.hasPermission("HarryPotterSpells.use", e.getPlayer()) && e.getPlayer().getItemInHand().getType() == Material.getMaterial(plugin.getConfig().getInt("wand-id", 280))) {
 			//Change spell
 			if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				Player p = e.getPlayer();
@@ -108,7 +108,7 @@ public class Listeners implements Listener {
 	
 	@EventHandler
 	public void PIEE(PlayerInteractEntityEvent e) {
-		if(plugin.PM.hasPermission("HarryPotterSpells.use", e.getPlayer()) && e.getPlayer().getItemInHand().getType() == Material.STICK) {
+		if(plugin.PM.hasPermission("HarryPotterSpells.use", e.getPlayer()) && e.getPlayer().getItemInHand().getType() == Material.getMaterial(plugin.getConfig().getInt("wand-id", 180))) {
 			Player p = e.getPlayer();
 			List<String> spellList = plugin.PlayerSpellConfig.getPSC().getStringList(p.getName());
 			if(spellList == null || spellList.isEmpty()) {
