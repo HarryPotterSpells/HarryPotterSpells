@@ -15,6 +15,7 @@ import com.lavacraftserver.HarryPotterSpells.SpellLoading.SpellLoader;
 import com.lavacraftserver.HarryPotterSpells.Spells.SpellManager;
 import com.lavacraftserver.HarryPotterSpells.Utils.CommandDispatcher;
 import com.lavacraftserver.HarryPotterSpells.Utils.MiscListeners;
+import com.lavacraftserver.HarryPotterSpells.Utils.Wand;
 
 public class HarryPotterSpells extends JavaPlugin {
 	public PlayerSpellConfig PlayerSpellConfig=new PlayerSpellConfig(this);
@@ -24,6 +25,7 @@ public class HarryPotterSpells extends JavaPlugin {
 	public Listeners Listeners = new Listeners(this);
 	public Vault Vault = new Vault(this);
 	public LogBlock LogBlock=new LogBlock(this);
+	public Wand Wand = new Wand(this);
 	public Logger log = Logger.getLogger("Minecraft");
 	public SpellLoader SpellLoader;
 	public CommandDispatcher CommandDispatcher;
