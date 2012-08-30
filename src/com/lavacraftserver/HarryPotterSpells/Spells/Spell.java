@@ -89,7 +89,7 @@ public abstract class Spell {
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.TYPE)
-	public @interface spell {
+	@interface spell {
 		String name() default ""; //"" defaults to class name
 		String description() default "A mysterious spell";
 	}
