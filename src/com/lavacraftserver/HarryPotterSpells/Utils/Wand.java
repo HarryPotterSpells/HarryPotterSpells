@@ -33,5 +33,13 @@ public class Wand {
 			return false;
 		}
 	}
+	
+	public ItemStack getWand() {
+		ItemStack wand = new ItemStack(plugin.getConfig().getInt("wand-id", 280));
+		if(plugin.getConfig().getBoolean("apply-wand-enchantment", false)) {
+			wand.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
+		}
+		return wand;
+	}
 
 }
