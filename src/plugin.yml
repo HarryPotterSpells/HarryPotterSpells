@@ -2,7 +2,7 @@ name: HarryPotterSpells
 main: com.lavacraftserver.HarryPotterSpells.HarryPotterSpells
 authors: [np98765, Kezz101]
 version: ALPHA 0.1
-softdepend: [Vault]
+softdepend: [Vault, WorldGuard, LogBlock]
 commands:
   teach:
     description: Teach a player a spell.
@@ -13,6 +13,9 @@ commands:
   sort:
     description: Specified player is assigned a house.
     permission: HarryPotterSpells.commands.sort
+  wand:
+    description: Gives the sender a wand
+    permission: HarryPotterSpells.commands.wand
 permissions:
   HarryPotterSpells.use:
     description: Use the wand
