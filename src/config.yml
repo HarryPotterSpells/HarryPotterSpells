@@ -5,28 +5,26 @@
 # Only enable if you want to enable debugging mode
 DebugMode: false
 
-VaultEnabled: true
-  # Vault is required for spell signs and sorting
-WorldGuardEnabled: true
-  # WorldGuard is required for build checks on block editing spells
-LogBlockEnabled: true
-  # LogBlock is required for spell logging
+VaultEnabled: true # Vault is required for spell signs and sorting
+WorldGuardEnabled: true # WorldGuard is required for build checks on block editing spells
+LogBlockEnabled: true # LogBlock is required for spell logging
   
 SortingHat:
-    enabled: true
-    addHousePermissionNodes: true
-      # Whether the user will gain house.housename when sorted
-    addHouseGroups: false
-      # Whether the user will be sorted into a permissions group
+  enabled: true
+  addHousePermissionNodes: true # Whether the user will gain house.housename when sorted
+  addHouseGroups: false # Whether the user will be sorted into a permissions group
+      
+WandGive: # The command that 'summons' a wand with a command
+  enabled: true
+  explosionEffect: false
 
 SpellSigns:
-    textForLine1: SpellShop!
-      # The text that should be on Line 1 of a SpellSign
+    textForLine1: SpellShop! # The text that should be on Line 1 of a SpellSign
 
 wand-id: 280 # Will default to 280 (stick)
-apply-wand-enchantment: false #This will apply a hidden enchantment to the wand which enables the wand to be used as a normal
-                              #item. This should go with the enabling of '/wand' for easy access to the special wand
-                              #It is recomended that this is left false unless you know what it does.
+apply-wand-enchantment: false # This will apply a hidden enchantment to the wand which enables the wand to be used as a normal
+                              # item. This should go with the enabling of '/wand' for easy access to the special wand
+                              # It is recomended that this is left false unless you know for sure what it does.
 shout-on-spell-use: false # If the player should say 'Spellname!' on every spell cast
 notify-on-spell-use: true # If we should notify the player when they cast a spell
 spell-castable-with-command: true # If spell is castable with '/spellname'
