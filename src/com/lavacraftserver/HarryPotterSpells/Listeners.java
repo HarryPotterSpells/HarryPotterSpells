@@ -20,6 +20,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
+import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
 public class Listeners implements Listener {
 	public HashMap<String, Integer> currentSpell = new HashMap<String, Integer>();
@@ -74,11 +75,22 @@ public class Listeners implements Listener {
 				if(plugin.getConfig().getBoolean("spell-particle-toggle")) {
 					p.getWorld().playEffect(l, Effect.ENDER_SIGNAL, 0);
 				}
-				plugin.spellManager.getSpell(spellList.get(spellNumber)).cast(e.getPlayer());
-				plugin.LogBlock.logSpell(p,spellList.get(spellNumber));
-				//Cancel event if player is in creative to prevent block damage.
-				if (p.getGameMode().equals(GameMode.CREATIVE)){
-					e.setCancelled(true);
+				Location loc;
+				Spell spell = plugin.spellManager.getSpell(spellList.get(spellNumber));
+				if(plugin.Targeter.isTargetEntity(p, spell.range)) {
+					loc = Targeter.getTargetNoMessage(p, spell.range).getLocation();
+				} else {
+					loc = p.getTargetBlock(plugin.Targeter.transparentBlocks(), spell.range).getLocation();
+				}
+				if(plugin.spellManager.canCastSpell(p, spell, l, loc) == 0) {
+					spell.cast(p);
+					plugin.LogBlock.logSpell(p, spellList.get(spellNumber));
+					//Cancel event if player is in creative to prevent block damage.
+					if (p.getGameMode().equals(GameMode.CREATIVE)){
+						e.setCancelled(true);
+					}
+				} else {
+					plugin.PM.warn(p, plugin.spellManager.getCastSpellErrorMessage(plugin.spellManager.canCastSpell(p, spell, l, loc)));
 				}
 			}
 			
