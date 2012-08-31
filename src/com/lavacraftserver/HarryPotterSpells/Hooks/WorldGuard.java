@@ -36,5 +36,13 @@ public class WorldGuard {
 			return;
 		}
 	}
+	
+	public boolean isEnabled() {
+		if(WorldGuard != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 }

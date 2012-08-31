@@ -14,7 +14,7 @@ public class Towny {
 		plugin = instance;
 	}
 	
-	com.palmergames.bukkit.towny.Towny Towny;
+	public com.palmergames.bukkit.towny.Towny Towny;
 	
 	public void setupTowny() {
 		if(plugin.getConfig().getBoolean("TownyEnabled") != false) {
@@ -30,6 +30,14 @@ public class Towny {
 			Towny = (com.palmergames.bukkit.towny.Towny)townyplugin;
 			
 			return;
+		}
+	}
+	
+	public boolean isEnabled() {
+		if(Towny != null) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 
