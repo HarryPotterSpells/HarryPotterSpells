@@ -12,9 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.lavacraftserver.HarryPotterSpells.Hooks.*;
 import com.lavacraftserver.HarryPotterSpells.SpellLoading.SpellLoader;
 import com.lavacraftserver.HarryPotterSpells.Spells.SpellManager;
-import com.lavacraftserver.HarryPotterSpells.Utils.CommandDispatcher;
-import com.lavacraftserver.HarryPotterSpells.Utils.MiscListeners;
-import com.lavacraftserver.HarryPotterSpells.Utils.Wand;
+import com.lavacraftserver.HarryPotterSpells.Utils.*;
 
 public class HarryPotterSpells extends JavaPlugin {
 	public PlayerSpellConfig PlayerSpellConfig=new PlayerSpellConfig(this);
@@ -27,6 +25,7 @@ public class HarryPotterSpells extends JavaPlugin {
 	public WorldGuard WorldGuard = new WorldGuard(this);
 	public Towny Towny = new Towny(this);
 	public Wand Wand = new Wand(this);
+	public Targeter Targeter = new Targeter(this);
 	public Logger log = Logger.getLogger("Minecraft");
 	public SpellLoader SpellLoader;
 	public CommandDispatcher CommandDispatcher;
