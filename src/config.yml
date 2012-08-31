@@ -5,6 +5,7 @@
 # Only enable if you want to enable debugging mode
 DebugMode: false
 
+## For more infomation see below section: Hook Configuration ##
 VaultEnabled: true # Vault is required for spell signs and sorting
 WorldGuardEnabled: true # WorldGuard is required for build checks on block editing spells
 LogBlockEnabled: true # LogBlock is required for spell logging
@@ -42,3 +43,13 @@ spell-castable-with-chat: true
 
 Multicorfors:
   explosionEffect: true
+  
+########################
+## Hook Configuration ##
+########################
+
+Towny:
+  canCastSpellInTown: true # Should people be allowed to cast spells while in a town
+  canCastSpellOntoTown: true # Should people be allowed to cast spells into a town
+  canCastSpellInWilderness: true # Should people be allowed to cast spells while in the wilderness
+  canCastSpellOntoWilderness: true # Should people be allowed to cast spells into the wilderness
