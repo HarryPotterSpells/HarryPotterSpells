@@ -1,14 +1,11 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
-import java.util.HashSet;
-
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
-import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
 public class Aguamenti extends Spell {
 	
@@ -17,7 +14,7 @@ public class Aguamenti extends Spell {
 	}
 
 	public void cast(Player p) {
-		Block hit = p.getTargetBlock(transparentBlocks(), 50);
+		Block hit = p.getTargetBlock(plugin.Targeter.transparentBlocks(), 50);
 		float dir = (float)Math.toDegrees(Math.atan2(p.getLocation().getBlockX() - hit.getX(), hit.getZ() - p.getLocation().getBlockZ()));
 		Block b = hit.getRelative(getClosestFace(dir));
 		if(!(hit.getType() == Material.AIR)) {
@@ -25,16 +22,6 @@ public class Aguamenti extends Spell {
 		} else {
 			plugin.PM.warn(p, "You cannot place water here.");
 		}
-	}
-	
-	public HashSet<Byte> transparentBlocks() {
-		HashSet<Byte> b = new HashSet<Byte>();
-		b.add((byte) 0);
-		b.add((byte) 8);
-		b.add((byte) 9);
-		b.add((byte) 10);
-		b.add((byte) 11);
-		return b;
 	}
 	
 	public BlockFace getClosestFace(float direction) {
