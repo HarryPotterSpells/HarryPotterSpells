@@ -20,6 +20,7 @@ public abstract class Spell {
 	
 	public String name;
 	public String description;
+	public int range;
 
 	public abstract void cast(Player p);
 
@@ -92,6 +93,7 @@ public abstract class Spell {
 	@interface spell {
 		String name() default ""; //"" defaults to class name
 		String description() default "A mysterious spell";
+		int range() default 25;
 	}
 	
 }
