@@ -7,6 +7,7 @@ import org.bukkit.plugin.Plugin;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
+// JavaDocs http://palmergames.com/javadoc/
 public class Towny {
 	HarryPotterSpells plugin;
 
