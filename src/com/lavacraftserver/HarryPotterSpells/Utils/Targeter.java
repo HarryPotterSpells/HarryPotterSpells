@@ -1,6 +1,7 @@
 package com.lavacraftserver.HarryPotterSpells.Utils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -33,7 +34,32 @@ import org.bukkit.entity.Zombie;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.BlockIterator;
 
+import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+
 public class Targeter extends JavaPlugin {
+	HarryPotterSpells plugin;
+
+	public Targeter(HarryPotterSpells instance) {
+		plugin = instance;
+	}
+	
+	public HashSet<Byte> transparentBlocks() {
+		HashSet<Byte> b = new HashSet<Byte>();
+		b.add((byte) 0);
+		b.add((byte) 8);
+		b.add((byte) 9);
+		b.add((byte) 10);
+		b.add((byte) 11);
+		return b;
+	}
+	
+	public boolean isTargetEntity(Player p, int range) {
+		if(getTargetNoMessage(p, range) instanceof LivingEntity) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	public static LivingEntity getTarget(Player p, int range) {
 			List<Entity> nearbyE = p.getNearbyEntities(range, range, range);
@@ -78,6 +104,49 @@ public class Targeter extends JavaPlugin {
 	        }
 	        p.sendMessage(ChatColor.RED+"Not a Selected Entity!");
 	        return null;
+	}
+	
+	public static LivingEntity getTargetNoMessage(Player p, int range) {
+		List<Entity> nearbyE = p.getNearbyEntities(range, range, range);
+        ArrayList<LivingEntity> livingE = new ArrayList<LivingEntity>();
+        for (Entity e : nearbyE) {
+            if (e instanceof LivingEntity) {
+            	livingE.add((LivingEntity) e);
+            }
+        }
+
+        LivingEntity target = null;
+        BlockIterator bItr;
+        try {
+        	bItr = new BlockIterator(p, range);
+        }catch (IllegalStateException e) {
+			return null;
+        }
+        Block block;
+        Location loc;
+        int bx, by, bz;
+        double ex, ey, ez;
+        while (bItr.hasNext()) {
+                block = bItr.next();
+                bx = block.getX();
+                by = block.getY();
+                bz = block.getZ();
+                for (LivingEntity e : livingE) {
+                    loc = e.getLocation();
+                    ex = loc.getX();
+                    ey = loc.getY();
+                    ez = loc.getZ();
+
+                    float cY = getYMod(e);
+                    float cV = 1.2f;
+
+                    if ((bx-cV <= ex && ex <= bx+cV) && (bz-cV <= ez && ez <= bz+cV) && (by-cY <= ey && ey <= by+0.1)) {
+                    	target = e;
+                        return target;
+                    }
+                }
+        }
+        return null;
 	}
 
 	private static float getYMod (Entity e) {
