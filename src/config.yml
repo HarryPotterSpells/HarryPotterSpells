@@ -53,3 +53,7 @@ Towny:
   canCastSpellOntoTown: true # Should people be allowed to cast spells into a town
   canCastSpellInWilderness: true # Should people be allowed to cast spells while in the wilderness
   canCastSpellOntoWilderness: true # Should people be allowed to cast spells into the wilderness
+
+WorldGuard:
+  canCastWhereNotAllowedToBuild: false # Should people be allowed to cast spells where they cannot build
+  canCastWhereNotAllowedToBuildTarget: false # Should people be allowed to cast spells if they cannot build at the target location of the spell
