@@ -11,13 +11,16 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 public class WorldGuard {
 	// API can be found here: http://wiki.sk89q.com/wiki/WorldGuard/Regions/API
 	HarryPotterSpells plugin;
+	
 	public WorldGuard(HarryPotterSpells instance){
 		plugin=instance;
 	}
 	
-	public WorldGuardPlugin getWorldGuard() {
+	public WorldGuardPlugin WorldGuard;
+	
+	public void setupWorldGuard() {
 		if(plugin.getConfig().getBoolean("WorldGuardEnabled") != true) {
-			return null;
+			return;
 		} else {
 			Plugin wgplugin = Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
 	 
@@ -25,10 +28,12 @@ public class WorldGuard {
 			if (wgplugin == null || !(wgplugin instanceof WorldGuardPlugin)) {
 				plugin.PM.log("Could not hook into WorldGuard. WorldGuard features have been disabled.", Level.WARNING);
 				plugin.getConfig().set("WorldGuardEnabled", false);
-				return null;
+				return;
 			}
 			
-			return (WorldGuardPlugin) wgplugin;
+			WorldGuard = (WorldGuardPlugin)wgplugin;
+			
+			return;
 		}
 	}
 
