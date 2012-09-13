@@ -4,7 +4,7 @@
 
 As the name suggests, this plugin adds spells and more to a Minecraft server! The spells are taken from Harry Potter but this doesn't mean you have to be a Harry Potter server to use it! Almost everything in this plugin is configurable, allowing you to make your own Spells plugin! You can view the Plugin Metrics stats page [here](http://mcstats.org/plugin/HarryPotterSpells)!
 
-For more information check out our [Bukkit Dev page](http://dev.bukkit.org/server-mods/harrypotterspells)!
+For more information check out our [BukkitDev page](http://dev.bukkit.org/server-mods/harrypotterspells)!
 
 ### The HarryPotterSpells Team
 
@@ -13,6 +13,7 @@ For more information check out our [Bukkit Dev page](http://dev.bukkit.org/serve
 + [korikisulda](http://forums.bukkit.org/members/korikisulda.90675487/): Contributor
 + [RingOfStorms](http://forums.bukkit.org/members/ringofstorms.52391/): Contributor
 + [evilmidget38](http://forums.bukkit.org/members/evilmidget38.97830/): Contributor
++ [KeybordPiano459](http://forums.bukkit.org/members/keybordpiano459.90643667/): Contributor
 
 We are looking for more team members to help make this plugin awesomer! If you are interested just let us know [here](http://forums.bukkit.org/threads/developers-wanted-for-new-spells-plugin.90642/)!
 
