@@ -3,9 +3,11 @@ package com.lavacraftserver.HarryPotterSpells.Spells;
 import java.util.ArrayList;
 
 import org.bukkit.Location;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.Utils.AreaDenyReason;
 import com.palmergames.bukkit.towny.object.TownyUniverse;
 
 public class SpellManager {
@@ -37,6 +39,8 @@ public class SpellManager {
 		spellList.add(new TimeSpell(plugin));
 		spellList.add(new TreeSpell(plugin));
 		spellList.add(new WingardiumLeviosa(plugin));
+		
+		load();
 	}
 	
 	public Spell getSpell(String name) {
@@ -106,5 +110,27 @@ public class SpellManager {
 		}
 		return errorMessage;
 	}
+	
+	
+	
+	public void save(){
+		plugin.getConfig().createSection("spells");
+		ConfigurationSection configSpells = plugin.getConfig().getConfigurationSection("spells");
+		for(Spell s:spellList){
+			configSpells.createSection(s.getInternalName());
+			configSpells.set(s.getInternalName(), s.save(configSpells.getConfigurationSection(s.getInternalName())));
+		}
+		plugin.getConfig().set("arenas", configSpells);
+	}
+
+	public void load(){
+		if(!plugin.getConfig().isSet("spells")) plugin.getConfig().getConfigurationSection("spells");
+		ConfigurationSection configSpells = plugin.getConfig().getConfigurationSection("spells");
+		for(String k:configSpells.getKeys(false)){
+getSpell(k).load(configSpells.getConfigurationSection(k));
+		}
+	}
+	
+	
 
 }
