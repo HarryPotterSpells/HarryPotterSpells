@@ -23,8 +23,8 @@ public class CommandDispatcher implements CommandExecutor {
 		String cmd = command.getName();
 
 		try {
-			Class<?>[] proto = new Class[] {CommandSender.class, String.class, String[].class};
-			Object[] params = new Object[] {sender, cmdAlias, args};
+			Class<?>[] proto = new Class[] {CommandSender.class, String[].class,HarryPotterSpells.class};
+			Object[] params = new Object[] {sender, args,plugin};
 			Class<?> c = Class.forName("com.lavacraftserver.HarryPotterSpells.Commands." + cmd);
 			Method method = c.getDeclaredMethod("run", proto);
 			Object ret = method.invoke(null, params);
