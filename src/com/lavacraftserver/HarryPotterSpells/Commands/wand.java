@@ -19,7 +19,7 @@ public class wand {
 			if(sender instanceof Player) {
 				Player player = (Player)sender;
 				player.getInventory().setItem(player.getInventory().firstEmpty(), plugin.Wand.getWand());
-				plugin.PM.tell(player, "You have been given a Wand!");
+				plugin.PM.tell(player, "You have been given a wand!");
 				if(plugin.getConfig().getBoolean("WandGive.explosionEffect")) {
 					player.getWorld().createExplosion(player.getLocation(), 0, false);
 				}

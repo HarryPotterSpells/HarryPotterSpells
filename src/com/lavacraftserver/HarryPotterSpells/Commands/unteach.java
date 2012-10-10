@@ -30,7 +30,7 @@ public class unteach {
 			plugin.PM.warn(player, "Correct Syntax: /unteach <player> <spell>");
 		} else {
 			if(!plugin.spellManager.isSpell(args[1])) {
-				plugin.PM.warn(player, "That spell was not recognised");
+				plugin.PM.warn(player, "That spell was not recognized");
 				return;
 			}
 			Player teachTo = Bukkit.getPlayer(args[0]);
@@ -38,7 +38,7 @@ public class unteach {
 			if(teachTo != null) {
 				if(spell.playerKnows(teachTo)) {
 					spell.unTeach(teachTo);
-					plugin.PM.tell(player, teachTo.getName() + " has forgot " + spell.getName() + ".");
+					plugin.PM.tell(player, teachTo.getName() + " has forgotten " + spell.getName() + ".");
 				} else {
 					plugin.PM.warn(player, teachTo.getName() + " doesn't know that spell.");
 				}
@@ -53,7 +53,7 @@ public class unteach {
 			plugin.PM.log("Correct Syntax: /unteach <player> <spell>", Level.INFO);
 		} else {
 			if(!plugin.spellManager.isSpell(args[1])) {
-				plugin.PM.log("That spell was not recognised", Level.WARNING);
+				plugin.PM.log("That spell was not recognized", Level.WARNING);
 				return;
 			}
 			Player teachTo = Bukkit.getPlayer(args[0]);
@@ -61,7 +61,7 @@ public class unteach {
 			if(teachTo != null) {
 				if(spell.playerKnows(teachTo)) {
 					spell.unTeach(teachTo);
-					plugin.PM.log(teachTo.getName() + " has forgotton " + spell.getName(), Level.INFO);
+					plugin.PM.log(teachTo.getName() + " has forgotten " + spell.getName(), Level.INFO);
 				} else {
 					plugin.PM.log(teachTo.getName() + " doesn't know " + spell.getName() + ".", Level.INFO);
 				}
