@@ -68,6 +68,8 @@ public class HarryPotterSpells extends JavaPlugin {
 	public void onDisable() {
 		PM.clearStorage();
 		PM.log("Plugin disabled", Level.INFO);
+		
+		spellManager.save();
 	}
 	
 	public void loadConfig() {

@@ -5,8 +5,11 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.Field;
 import java.util.List;
 
+import org.bukkit.Location;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
@@ -18,9 +21,9 @@ public abstract class Spell {
 		plugin=instance;
 	}
 	
-	public String name;
-	public String description;
-	public int range;
+	@config public String name;
+	@config public String description;
+	@config public int range;
 
 	public abstract void cast(Player p);
 
@@ -76,6 +79,10 @@ public abstract class Spell {
 		}
 		return toString();
 	}
+	
+	public String getInternalName(){
+		return toString();
+	}
 
 	public String getDescription(){
 		for(Annotation a:this.getClass().getAnnotations()){
@@ -95,5 +102,64 @@ public abstract class Spell {
 		String description() default "A mysterious spell";
 		int range() default 25;
 	}
+	
+	
+////////Used for saving any config options attached to this command
+	
+public ConfigurationSection save(ConfigurationSection c){
+	for(Field f:this.getClass().getFields()){
+		if(f.isAnnotationPresent(config.class)){
+			try{
+				
+			if(f.get(this) instanceof Location){
+c.set(f.getName() + ".world", ((Location)f.get(this)).getWorld().getName());				
+c.set(f.getName() + ".x", ((Location)f.get(this)).getX());
+c.set(f.getName() + ".y", ((Location)f.get(this)).getY());
+c.set(f.getName() + ".z", ((Location)f.get(this)).getZ());
+			}else{
+c.set(f.getName(), f.get(this));
+			}
+			
+			}catch(Exception e){
+				
+			}
+		}
+		}
+	return c;
+}
+
+public void load(ConfigurationSection c){
+	for(Field f:this.getClass().getFields()){
+		if(f.isAnnotationPresent(config.class)&&c.isSet(f.getName())){
+			try{
+				
+				if(f.get(this) instanceof String){
+					f.set(this, c.getString(f.getName()));
+				}else if(f.get(this) instanceof Long){
+					f.set(this, c.getLong(f.getName()));
+				}else if(f.get(this) instanceof Integer){
+					f.set(this, c.getInt(f.getName()));
+				}else if(f.get(this) instanceof Double){
+					f.set(this, c.getDouble(f.getName()));
+				}else if(f.get(this) instanceof Boolean){
+					f.set(this, c.getBoolean(f.getName()));
+				}else if(f.getType()==Location.class){
+					f.set(this, new Location(
+							plugin.getServer().getWorld(c.getString(f.getName() + ".world")),
+							c.getDouble(f.getName() + ".x"),
+							c.getDouble(f.getName() + ".y"),
+							c.getDouble(f.getName() + ".z")
+							));
+				}
+			}catch(Exception e){
+				
+			}
+		}
+		}
+
+}
+
+@Retention(RetentionPolicy.RUNTIME) public @interface config{
+}
 	
 }

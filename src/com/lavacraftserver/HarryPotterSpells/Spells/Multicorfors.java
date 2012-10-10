@@ -14,6 +14,8 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
 public class Multicorfors extends Spell{
 	
+	@config public boolean explosionEffect=true;
+	
 	public Multicorfors(HarryPotterSpells instance) {
 		super(instance);
 	}
@@ -22,7 +24,7 @@ public class Multicorfors extends Spell{
 		final Block b = p.getTargetBlock(transparentBlocks(), 25);
 		if(Targeter.getTarget(p, 25) instanceof Sheep) {
 			final Sheep sheep = (Sheep) Targeter.getTarget(p, 25);
-			if(plugin.getConfig().getBoolean("Multicorfors.explosionEffect")) {
+			if(explosionEffect) {
 				sheep.getWorld().createExplosion(sheep.getLocation(), 0F);
 			}
 			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
