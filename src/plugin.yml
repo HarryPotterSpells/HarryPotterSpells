@@ -1,8 +1,7 @@
 name: HarryPotterSpells
 main: com.lavacraftserver.HarryPotterSpells.HarryPotterSpells
-authors: [np98765, Kezz101]
 version: ALPHA 0.1
-softdepend: [Vault, WorldGuard, LogBlock]
+softdepend: [Vault, WorldGuard, LogBlock, Towny]
 commands:
   teach:
     description: Teach a player a spell.

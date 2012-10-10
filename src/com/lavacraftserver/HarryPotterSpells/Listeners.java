@@ -155,7 +155,7 @@ public class Listeners implements Listener {
 			if(signText[0].equals(identifier)) {
 				if(!plugin.spellManager.isSpell(signText[1])) {
 					sign.setLine(1, "[" + ChatColor.RED + plugin.getConfig().getString("SpellSigns.textForLine1") + ChatColor.RESET + "]");
-					plugin.PM.warn(e.getPlayer(), "That spell was not recognised.");
+					plugin.PM.warn(e.getPlayer(), "That spell was not recognized.");
 					error = true;
 				} else {
 					error = false;
