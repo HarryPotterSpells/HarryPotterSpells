@@ -3,29 +3,19 @@ package com.lavacraftserver.HarryPotterSpells.Commands;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
-public class unteach {
-	HarryPotterSpells plugin;
+public class unteach extends Executor {
 	
 	public unteach(HarryPotterSpells instance){
-		plugin=instance;
+		super(instance);
 	}
 	
-	public void run(CommandSender sender, String[] args, HarryPotterSpells p) {
-		if (!(sender instanceof Player)){
-			unTeachConsole(args);
-			return;
-		}
-		unTeach((Player)sender, args);
-		
-	}
 	
-	public void unTeach(Player player, String[] args) {
+	public void runPlayer(Player player, String[] args) {
 		if(args.length != 2) {
 			plugin.PM.warn(player, "Correct Syntax: /unteach <player> <spell>");
 		} else {
@@ -48,7 +38,7 @@ public class unteach {
 		}
 	}
 
-	public void unTeachConsole(String[] args) {
+	public void runConsole(String[] args) {
 		if(args.length != 2) {
 			plugin.PM.log("Correct Syntax: /unteach <player> <spell>", Level.INFO);
 		} else {

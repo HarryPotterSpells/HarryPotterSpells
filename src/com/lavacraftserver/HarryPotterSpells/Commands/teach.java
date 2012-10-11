@@ -3,30 +3,18 @@ package com.lavacraftserver.HarryPotterSpells.Commands;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
-public class teach {
-	HarryPotterSpells plugin;
-	
+public class teach extends Executor {
 	public teach(HarryPotterSpells instance){
-		plugin=instance;
+		super(instance);
 	}
 	
-	public void run(CommandSender sender, String[] args, HarryPotterSpells p) {
-		if (!(sender instanceof Player)){
-			teachConsole(args);
-			return;
-		}
-		teachto(sender, args);
-		
-	}
 	
-	public void teachto(CommandSender sender, String[] args) {
-		Player player = (Player)sender;
+	public void runPlayer(Player player, String[] args) {
 		if(args.length != 2) {
 			plugin.PM.warn(player, "Correct Syntax: /teach <player> <spell>");
 		} else {
@@ -36,11 +24,11 @@ public class teach {
 			}
 			Player teachTo = Bukkit.getPlayer(args[0]);
 			Spell spell = plugin.spellManager.getSpell(args[1]);
-			spell.teach((Player)sender,teachTo);
+			spell.teach(player,teachTo);
 		}
 	}
 
-	public void teachConsole(String[] args) {
+	public void runConsole(String[] args) {
 		if(args.length != 2) {
 			plugin.PM.log("Correct Syntax: /teach <player> <spell>", Level.INFO);
 		} else {
