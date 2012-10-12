@@ -1,20 +1,15 @@
 package com.lavacraftserver.HarryPotterSpells.Commands;
 
-import java.util.logging.Level;
-
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
-public class wand {
-	HarryPotterSpells plugin;
-	
+public class wand extends Executor {
 	public wand(HarryPotterSpells instance) {
-		plugin = instance;
+		super(instance);
 	}
 	
-	public void run(CommandSender sender, String[] args, HarryPotterSpells plugin) {
+	public void runPlayer(Player sender,String[] args) {
 		if(plugin.getConfig().getBoolean("WandGive.enabled")) {
 			if(sender instanceof Player) {
 				Player player = (Player)sender;
@@ -23,10 +18,8 @@ public class wand {
 				if(plugin.getConfig().getBoolean("WandGive.explosionEffect")) {
 					player.getWorld().createExplosion(player.getLocation(), 0, false);
 				}
-			} else {
-				plugin.PM.log("This command cannot be run from the console", Level.INFO);
-			}	
 		}
+	}
 	}
 
 }

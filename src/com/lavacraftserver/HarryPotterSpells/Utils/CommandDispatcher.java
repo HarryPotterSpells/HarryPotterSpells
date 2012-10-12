@@ -1,6 +1,5 @@
 package com.lavacraftserver.HarryPotterSpells.Utils;
 
-import java.lang.reflect.Method;
 import java.util.logging.Level;
 
 import org.bukkit.ChatColor;
@@ -10,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.Commands.Executor;
 
 public class CommandDispatcher implements CommandExecutor {
 
@@ -23,12 +23,11 @@ public class CommandDispatcher implements CommandExecutor {
 		String cmd = command.getName();
 
 		try {
-			Class<?>[] proto = new Class[] {CommandSender.class, String[].class,HarryPotterSpells.class};
-			Object[] params = new Object[] {sender, args,plugin};
-			Class<?> c = Class.forName("com.lavacraftserver.HarryPotterSpells.Commands." + cmd);
-			Method method = c.getDeclaredMethod("run", proto);
-			Object ret = method.invoke(null, params);
-			return Boolean.TRUE.equals(ret);
+			Class<? extends Executor> c = Class.forName("com.lavacraftserver.HarryPotterSpells.Commands." + cmd).asSubclass(Executor.class);
+			Executor executor=c.getConstructor(new Class[] {HarryPotterSpells.class}).newInstance(plugin);
+			executor.run(sender, args);
+			
+			return true; //any syntax errors are picked up elsewhere
 		} catch (Throwable e) {
 			if(sender instanceof Player) {
 				plugin.PM.warn((Player)sender, ChatColor.DARK_RED + "An internal error occured.");

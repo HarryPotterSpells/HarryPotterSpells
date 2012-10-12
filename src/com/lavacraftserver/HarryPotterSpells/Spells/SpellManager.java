@@ -7,7 +7,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
-import com.lavacraftserver.HarryPotterSpells.Utils.AreaDenyReason;
 import com.palmergames.bukkit.towny.object.TownyUniverse;
 
 public class SpellManager {
@@ -124,10 +123,14 @@ public class SpellManager {
 	}
 
 	public void load(){
+		try{
 		if(!plugin.getConfig().isSet("spells")) plugin.getConfig().getConfigurationSection("spells");
 		ConfigurationSection configSpells = plugin.getConfig().getConfigurationSection("spells");
 		for(String k:configSpells.getKeys(false)){
 getSpell(k).load(configSpells.getConfigurationSection(k));
+		}
+		}catch(Exception e){
+			
 		}
 	}
 	

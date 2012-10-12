@@ -4,41 +4,16 @@ import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
-public class sort {
-	HarryPotterSpells plugin;
+public class sort extends Executor{
 	
 	public sort(HarryPotterSpells instance){
-		plugin = instance;
+		super(instance);
 	}
 	
-	public void run(CommandSender sender, String[] args, HarryPotterSpells plugin) {
-		if (!(sender instanceof Player)){
-			sender.sendMessage("Only players can be sorted.");
-			return;
-		}
-		Player p = (Player)sender;
-		if(plugin.getConfig().getBoolean("SortingHat.addHousePermissionNodes")) {
-			if (p.hasPermission("HarryPotterSpells.house.gryffindor") || p.hasPermission("HarryPotterSpells.house.hufflepuff") || p.hasPermission("HarryPotterSpells.house.ravenclaw") || p.hasPermission("HarryPotterSpells.house.slytherin")) {
-				plugin.PM.warn((Player)p, "You have already been sorted.");
-			} else {
-				perm(p);
-			}
-			return;
-		}
-		if(plugin.getConfig().getBoolean("SortingHat.addHouseGroups")) {
-			if(p.hasPermission("HarryPotterSpells.house.gryffindor") || p.hasPermission("HarryPotterSpells.house.hufflepuff") || p.hasPermission("HarryPotterSpells.house.ravenclaw") || p.hasPermission("HarryPotterSpells.house.slytherin")) {
-				plugin.PM.warn(p, "You have already been sorted.");
-			} else {
-				group(p);
-			}
-			return;
-		}
-	}
 	
 	public void group(Player p) {
 		int houseNumber = new Random().nextInt(4 - 1 + 1) + 1;
@@ -100,4 +75,28 @@ public class sort {
 		plugin.Vault.perm.playerAdd(p, perm);
 	}
 
+
+	public void runPlayer(Player sender, String[] args) {
+		Player p = (Player)sender;
+		if(plugin.getConfig().getBoolean("SortingHat.addHousePermissionNodes")) {
+			if (p.hasPermission("HarryPotterSpells.house.gryffindor") || p.hasPermission("HarryPotterSpells.house.hufflepuff") || p.hasPermission("HarryPotterSpells.house.ravenclaw") || p.hasPermission("HarryPotterSpells.house.slytherin")) {
+				plugin.PM.warn((Player)p, "You have already been sorted.");
+			} else {
+				perm(p);
+			}
+			return;
+		}
+		if(plugin.getConfig().getBoolean("SortingHat.addHouseGroups")) {
+			if(p.hasPermission("HarryPotterSpells.house.gryffindor") || p.hasPermission("HarryPotterSpells.house.hufflepuff") || p.hasPermission("HarryPotterSpells.house.ravenclaw") || p.hasPermission("HarryPotterSpells.house.slytherin")) {
+				plugin.PM.warn(p, "You have already been sorted.");
+			} else {
+				group(p);
+			}
+			return;
+		}
+		
+	}//
+
+	
+	
 }
