@@ -18,7 +18,6 @@ public class SpellManager {
 		spellList=new ArrayList<Spell>();
 		spellList.add(new Aguamenti(plugin));
 		spellList.add(new AlarteAscendare(plugin));
-		spellList.add(new Alohomora(plugin));
 		spellList.add(new AvadaKedavra(plugin));
 		spellList.add(new Confringo(plugin));
 		spellList.add(new Confundo(plugin));
