@@ -11,7 +11,10 @@
 
 #### CONTENTS:
 * [Alpha](#alpha)
+<<<<<<< HEAD
     * [Version 0.3](#version-03)
+=======
+>>>>>>> b34959feee3a6e91346289427e00333f0f76ab9f
     * [Version 0.2](#version-02)
     * [Version 0.1](#version-01)
 
@@ -32,4 +35,8 @@
 ~ Updated Plugin Metrics to Revision 6  
 \# Sectumsempra may cause crashing and unknown errors  
 ###### Version 0.1:
+<<<<<<< HEAD
 \+ First release  
+=======
+\+ First release  
+>>>>>>> b34959feee3a6e91346289427e00333f0f76ab9f
