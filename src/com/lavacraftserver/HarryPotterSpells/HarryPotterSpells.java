@@ -58,7 +58,7 @@ public class HarryPotterSpells extends JavaPlugin {
 		    Metrics metrics = new Metrics(this);
 		    metrics.start();
 		} catch (IOException e) {
-		    // Sad face...
+		    PM.log("An error occurred whilst enabling Plugin Metrics. " + e.getMessage() + ".", Level.WARNING);
 		}
 		
 		PM.log("Plugin enabled", Level.INFO);
@@ -67,9 +67,9 @@ public class HarryPotterSpells extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		PM.clearStorage();
-		PM.log("Plugin disabled", Level.INFO);
-		
 		spellManager.save();
+		
+		PM.log("Plugin disabled", Level.INFO);
 	}
 	
 	public void loadConfig() {

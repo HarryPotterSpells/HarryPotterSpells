@@ -35,7 +35,7 @@ public class MiscListeners implements Listener {
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
 		if(plugin.getConfig().getBoolean("spell-castable-with-chat")) {
-
+			// TODO yes?
 		}
 
 		if(sonorus.contains(e.getPlayer().getName())) {

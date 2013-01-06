@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.lavacraftserver.HarryPotterSpells.SpellLoading;
 
 import java.lang.annotation.Retention;

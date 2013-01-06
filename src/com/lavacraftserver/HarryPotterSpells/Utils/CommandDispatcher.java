@@ -29,17 +29,15 @@ public class CommandDispatcher implements CommandExecutor {
 			
 			return true; //any syntax errors are picked up elsewhere
 		} catch (Throwable e) {
-			if(sender instanceof Player) {
+			if(sender instanceof Player)
 				plugin.PM.warn((Player)sender, ChatColor.DARK_RED + "An internal error occured.");
-			} else {
+			else 
 				plugin.PM.log("An internal error occured.", Level.WARNING);
-			}
 			plugin.PM.log("Couldn't handle function call for '" + cmd + "'", Level.WARNING);
 			plugin.PM.debug("Message: " + e.getMessage() + ", cause: "+ e.getCause());
 			
-			if (plugin.getConfig().getBoolean("DebugMode")){
+			if (plugin.getConfig().getBoolean("DebugMode"))
 				e.printStackTrace();
-			}
     		return true;
     	}
 	}

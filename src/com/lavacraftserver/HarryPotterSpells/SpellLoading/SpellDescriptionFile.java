@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.lavacraftserver.HarryPotterSpells.SpellLoading;
 
 import java.io.InputStream;
@@ -15,6 +12,7 @@ public class SpellDescriptionFile {
 	String main;
 	@Load
 	String name;
+	
 	public SpellDescriptionFile (InputStream s){
 		c = YamlConfiguration.loadConfiguration(s);
 		//Reflection.
@@ -22,34 +20,33 @@ public class SpellDescriptionFile {
 			if (field.isAnnotationPresent(Load.class)) {
 				String path = field.getName();
 				try {
-					if (c.isSet(path)) {
+					if (c.isSet(path))
 						field.set(this, c.get(path));
-					} else {
-						if (field.get(this) != null){
+					else {
+						if (field.get(this) != null)
 							c.set(path, field.get(this));
-						}
-						else if (field.getAnnotation(Load.class).value()){
-							throw new InvalidSpellException(c.getCurrentPath()+"."+path +" in "+ c.getName() + " for spell: "+name+" may not be null!");
-						}
+						else if (field.getAnnotation(Load.class).value())
+							throw new InvalidSpellException(c.getCurrentPath() + "." + path + " in " + c.getName() + " for spell: " + name + " may not be null!");
 					}
-				} catch (IllegalAccessException ex) {
-
-				}
+				} catch (IllegalAccessException ex) {}
 			}
 		}
 	}
+	
 	/**
 	 * @return the c
 	 */
 	public FileConfiguration getC() {
 		return c;
 	}
+	
 	/**
 	 * @return the main
 	 */
 	public String getMain() {
 		return main;
 	}
+	
 	/**
 	 * @return the name
 	 */
@@ -57,5 +54,4 @@ public class SpellDescriptionFile {
 		return name;
 	}
 	
-
 }
