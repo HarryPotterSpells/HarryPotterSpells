@@ -23,7 +23,7 @@
 \+ Added hooking into WorldGuard, Towny, Vault and LogBlock
 \- Removed Alohomora due to door bug in latest CraftBukkit
 @ Fixed NPE in PlayerInteractEvent  
-@ Fixed all sort of minor bugs within the code
+@ Fixed all sort of minor bugs within the code  
 ~ Simplified command system  
 ~ Removed quite a few bits of unneeded code  
 ~ Updated Plugin Metrics to Revision 6
