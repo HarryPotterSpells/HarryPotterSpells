@@ -26,7 +26,7 @@
 @ Fixed all sort of minor bugs within the code  
 ~ Simplified command system  
 ~ Removed quite a few bits of unneeded code  
-~ Updated Plugin Metrics to Revision 6
+~ Updated Plugin Metrics to Revision 6  
 \# Sectumsempra may cause crashing and unknown errors  
 ###### Version 0.1:
 \+ First release  
