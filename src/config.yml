@@ -33,10 +33,7 @@ spell-castable-with-command: true # If spell is castable with '/spellname'
 spell-particle-toggle: true # The purple particle effect that happens when the spell is cast
 disable-wand-crafting: true # Fairly obvious... Should we disable wand crafting?
 disable-all-crafting: false # Should we disable all crafting?
-
-
-## Unimplemented in the code ##
-spell-castable-with-chat: true
+spell-castable-with-chat: true # If a spell is castable on the chatting of 'Spellname!'
 
 #########################
 ## Spell Configuration ##

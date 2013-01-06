@@ -17,10 +17,7 @@ import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
 public class MiscListeners implements Listener {
 	HarryPotterSpells plugin;
-	public Set<String> sonorus = new HashSet<String>();
-	public Set<String> spongify = new HashSet<String>();
-	public Set<String> deprimo = new HashSet<String>();
-	public Set<String> petrificustotalus = new HashSet<String>();
+	public Set<String> sonorus = new HashSet<String>(), spongify = new HashSet<String>(), deprimo = new HashSet<String>(), petrificustotalus = new HashSet<String>();
 	
 	public MiscListeners(HarryPotterSpells instance){
 		plugin=instance;
@@ -29,7 +26,10 @@ public class MiscListeners implements Listener {
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
 		if(plugin.getConfig().getBoolean("spell-castable-with-chat")) {
-			// TODO yes?
+			if(plugin.spellManager.isSpell(e.getMessage().substring(0, e.getMessage().length() - 1))) {
+				plugin.spellManager.getSpell(e.getMessage().substring(0, e.getMessage().length() - 1)).cast(e.getPlayer());
+				return;
+			}
 		}
 
 		if(sonorus.contains(e.getPlayer().getName())) {
