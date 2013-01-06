@@ -3,7 +3,14 @@ package com.lavacraftserver.HarryPotterSpells.Spells;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
+@spell (
+		name="WingardiumLeviosa",
+		description="Makes the caster fly for a short while or until next cast",
+		range=0,
+		goThroughWalls=false
+)
 public class WingardiumLeviosa extends Spell{
 	
 	public WingardiumLeviosa(HarryPotterSpells instance) {

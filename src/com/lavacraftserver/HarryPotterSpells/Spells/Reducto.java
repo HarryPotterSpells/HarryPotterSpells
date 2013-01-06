@@ -5,7 +5,14 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
+@spell (
+		name="Reducto",
+		description="Creates an explosion",
+		range=50,
+		goThroughWalls=false
+)
 public class Reducto extends Spell {
 	
 	public Reducto(HarryPotterSpells instance) {
@@ -13,7 +20,7 @@ public class Reducto extends Spell {
 	}
 
 	public void cast(Player p) {
-		Block b = p.getTargetBlock(null, 50);
+		Block b = p.getTargetBlock(null, this.getRange());
 		Material m = b.getType();
 		if(m != Material.AIR) {
 			b.getWorld().createExplosion(b.getLocation(), 4, false);

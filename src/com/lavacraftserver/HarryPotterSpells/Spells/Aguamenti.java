@@ -6,7 +6,15 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
+@spell (
+	name="Aguamenti",
+	description="Places water at your target block",
+	range=50,
+	goThroughWalls=false
+)
 public class Aguamenti extends Spell {
 	
 	public Aguamenti(HarryPotterSpells instance) {
@@ -14,7 +22,7 @@ public class Aguamenti extends Spell {
 	}
 
 	public void cast(Player p) {
-		Block hit = p.getTargetBlock(plugin.Targeter.transparentBlocks(), 50);
+		Block hit = p.getTargetBlock(Targeter.getTransparentBlocks(), 50);
 		float dir = (float)Math.toDegrees(Math.atan2(p.getLocation().getBlockX() - hit.getX(), hit.getZ() - p.getLocation().getBlockZ()));
 		Block b = hit.getRelative(getClosestFace(dir));
 		if(!(hit.getType() == Material.AIR)) {

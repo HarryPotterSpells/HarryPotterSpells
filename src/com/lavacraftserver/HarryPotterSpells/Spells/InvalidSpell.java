@@ -29,7 +29,7 @@ public class InvalidSpell extends Spell {
 	
 	@Override
 	public void load(ConfigurationSection c){
-		plugin.getLogger().warning("Attempted to load invalid spell with display name '" + name + "'!");
+		plugin.getLogger().warning("Attempted to load invalid spell with display name '" + this.getName() + "'!");
 	}
 
 }

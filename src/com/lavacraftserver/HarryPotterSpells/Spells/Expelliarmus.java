@@ -7,8 +7,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
+@spell (
+		name="Expelliarmus",
+		description="Disarms your target",
+		range=25,
+		goThroughWalls=false
+)
 public class Expelliarmus extends Spell {
 	
 	public Expelliarmus(HarryPotterSpells instance) {
@@ -16,8 +23,8 @@ public class Expelliarmus extends Spell {
 	}
 
 	public void cast(Player p) {
-		if(Targeter.getTarget(p, 25) instanceof Player) {
-			Player target = (Player) Targeter.getTarget(p, 25);
+		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {
+			Player target = (Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			
 			Location targetloc = target.getLocation();
 			//We need to get the direction the target is facing, add 2, and drop it there.

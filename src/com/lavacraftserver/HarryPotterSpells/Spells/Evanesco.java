@@ -3,7 +3,14 @@ package com.lavacraftserver.HarryPotterSpells.Spells;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
+@spell (
+		name="Evanesco",
+		description="Makes the caster invisible",
+		range=0,
+		goThroughWalls=false
+)
 public class Evanesco extends Spell {
 	
 	public Evanesco(HarryPotterSpells instance) {

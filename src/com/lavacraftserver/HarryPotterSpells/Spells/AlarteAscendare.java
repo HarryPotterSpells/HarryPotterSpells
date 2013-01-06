@@ -7,7 +7,14 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
+@spell (
+		name="AlarteAscendare",
+		description="Shoots a random mob from your wand",
+		range=0,
+		goThroughWalls=false
+)
 public class AlarteAscendare extends Spell {
 	
 	public AlarteAscendare(HarryPotterSpells instance) {

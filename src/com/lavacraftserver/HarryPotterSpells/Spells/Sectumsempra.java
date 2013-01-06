@@ -6,8 +6,15 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
+@spell (
+		name="Sectumsempra",
+		description="Slowly damages the target player",
+		range=50,
+		goThroughWalls=false
+)
 public class Sectumsempra extends Spell {
 
 	public Sectumsempra(HarryPotterSpells instance) {
@@ -16,8 +23,8 @@ public class Sectumsempra extends Spell {
 
 	@Override
 	public void cast(Player p) {
-		if (Targeter.getTarget(p, 50) instanceof LivingEntity) {
-			LivingEntity le = Targeter.getTarget(p, 50);
+		if (Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) {
+			LivingEntity le = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			SectumsempraRunnable sectumsemprarunnable = new SectumsempraRunnable();
 			sectumsemprarunnable.le = le;
 			sectumsemprarunnable.taskID = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, sectumsemprarunnable, 0L, 20L);

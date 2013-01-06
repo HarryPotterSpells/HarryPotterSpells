@@ -21,9 +21,10 @@ public abstract class Spell {
 		plugin=instance;
 	}
 	
-	@config public String name;
-	@config public String description;
-	@config public int range;
+	@config private String name;
+	@config private String description;
+	@config private int range;
+	@config private boolean goThroughWalls;
 
 	public abstract void cast(Player p);
 
@@ -91,7 +92,7 @@ public abstract class Spell {
 				return s.description();
 			}
 		}
-		return toString();
+		return null;
 	}
 
 
@@ -101,6 +102,27 @@ public abstract class Spell {
 		String name() default ""; //"" defaults to class name
 		String description() default "A mysterious spell";
 		int range() default 25;
+		boolean goThroughWalls() default false;
+	}
+	
+	public boolean canBeCastThroughWalls() {
+		for(Annotation a:this.getClass().getAnnotations()){
+			if(a instanceof spell){
+				spell s=(spell)a;
+				return s.goThroughWalls();
+			}
+		}
+		return false;
+	}
+	
+	public int getRange() {
+		for(Annotation a:this.getClass().getAnnotations()){
+			if(a instanceof spell){
+				spell s=(spell)a;
+				return s.range();
+			}
+		}
+		return 25;
 	}
 	
 	

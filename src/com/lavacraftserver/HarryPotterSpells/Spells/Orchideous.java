@@ -6,17 +6,24 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
+import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
+@spell (
+		name="Orchideous",
+		description="Plants a red rose on the target block",
+		range=50,
+		goThroughWalls=false
+)
 public class Orchideous extends Spell {
 
 	public Orchideous(HarryPotterSpells instance) {
 		super(instance);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void cast(Player p) {
-		Block b = p.getTargetBlock(null, 50);
+		Block b = p.getTargetBlock(Targeter.getTransparentBlocks(), this.getRange());
 		if (isValidBlock(b) && blockAboveIsValidBlock(b)) {
 			getBlockAbove(b).setType(Material.RED_ROSE);
 		} else {

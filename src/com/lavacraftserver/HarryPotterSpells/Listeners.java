@@ -77,10 +77,10 @@ public class Listeners implements Listener {
 				}
 				Location loc;
 				Spell spell = plugin.spellManager.getSpell(spellList.get(spellNumber));
-				if(plugin.Targeter.isTargetEntity(p, spell.range)) {
-					loc = Targeter.getTargetNoMessage(p, spell.range).getLocation();
+				if(Targeter.getTarget(p, spell.getRange(), spell.canBeCastThroughWalls()) != null) {
+					loc = Targeter.getTarget(p, spell.getRange(), spell.canBeCastThroughWalls()).getLocation();
 				} else {
-					loc = p.getTargetBlock(plugin.Targeter.transparentBlocks(), spell.range).getLocation();
+					loc = p.getTargetBlock(Targeter.getTransparentBlocks(), spell.getRange()).getLocation();
 				}
 				if(plugin.spellManager.canCastSpell(p, spell, l, loc) == 0) {
 					spell.cast(p);

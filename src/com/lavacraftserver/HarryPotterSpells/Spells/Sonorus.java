@@ -3,7 +3,14 @@ package com.lavacraftserver.HarryPotterSpells.Spells;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
+@spell (
+		name="Sonorus",
+		description="Broadcasts what ever you next shout to the whole server",
+		range=0,
+		goThroughWalls=false
+)
 public class Sonorus extends Spell {
 	
 	public Sonorus(HarryPotterSpells instance) {

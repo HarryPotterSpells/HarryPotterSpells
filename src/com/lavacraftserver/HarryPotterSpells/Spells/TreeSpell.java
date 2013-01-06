@@ -11,7 +11,14 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
+@spell (
+		name="Tree",
+		description="Produces a tree from your target block",
+		range=50,
+		goThroughWalls=false
+)
 public class TreeSpell extends Spell {
 
 	public TreeSpell(HarryPotterSpells instance) {
@@ -19,7 +26,7 @@ public class TreeSpell extends Spell {
 	}
 
 	public void cast(Player p) {
-		Block block = p.getTargetBlock(null, 50);
+		Block block = p.getTargetBlock(null, this.getRange());
 		if (block.getType() == Material.GRASS || block.getType() == Material.DIRT) {
 			if(!p.getWorld().generateTree(block.getLocation(), TreeType.TREE)) {
 				plugin.PM.warn(p, "You cannot place a tree here.");

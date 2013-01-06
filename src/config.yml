@@ -43,6 +43,12 @@ spell-castable-with-chat: true
 #########################
 
 spells:
+  incendio:
+    duration: 10 # How long the fire should last in ticks (1/20 of a second)
+  multicorfors:
+    explosionEffect: true # Should an explosion happen on colour change?
+  time:
+    lightning: true # Should lightning strike on casting of the spell
   
 ########################
 ## Hook Configuration ##

@@ -10,21 +10,26 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
+@spell (
+		name="Multicorfors",
+		description="Changes the colour of any targeted wool or sheep",
+		range=25,
+		goThroughWalls=false
+)
 public class Multicorfors extends Spell{
-	
-	@config public boolean explosionEffect=true;
-	
+		
 	public Multicorfors(HarryPotterSpells instance) {
 		super(instance);
 	}
 
 	public void cast(Player p) {
 		final Block b = p.getTargetBlock(transparentBlocks(), 25);
-		if(Targeter.getTarget(p, 25) instanceof Sheep) {
-			final Sheep sheep = (Sheep) Targeter.getTarget(p, 25);
-			if(explosionEffect) {
+		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Sheep) {
+			final Sheep sheep = (Sheep) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
+			if(plugin.getConfig().getBoolean("spells.multicorfors.explosionEffect", true)) {
 				sheep.getWorld().createExplosion(sheep.getLocation(), 0F);
 			}
 			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
@@ -33,7 +38,7 @@ public class Multicorfors extends Spell{
 				   }
 				}, 4L);
 		} else if(b.getType() == Material.WOOL) {
-			if(plugin.getConfig().getBoolean("Multicorfors.explosionEffect")) {
+			if(plugin.getConfig().getBoolean("spells.multicorfors.explosionEffect", true)) {
 				p.getWorld().createExplosion(b.getLocation(), 0F);
 			}
 			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {

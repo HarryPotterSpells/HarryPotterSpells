@@ -19,7 +19,6 @@ import com.lavacraftserver.HarryPotterSpells.SpellLoading.SpellLoader;
 import com.lavacraftserver.HarryPotterSpells.Spells.SpellManager;
 import com.lavacraftserver.HarryPotterSpells.Utils.CommandDispatcher;
 import com.lavacraftserver.HarryPotterSpells.Utils.MiscListeners;
-import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 import com.lavacraftserver.HarryPotterSpells.Utils.Wand;
 
 public class HarryPotterSpells extends JavaPlugin {
@@ -33,7 +32,6 @@ public class HarryPotterSpells extends JavaPlugin {
 	public WorldGuard WorldGuard = new WorldGuard(this);
 	public Towny Towny = new Towny(this);
 	public Wand Wand = new Wand(this);
-	public Targeter Targeter = new Targeter(this);
 	public Logger log = Logger.getLogger("Minecraft");
 	public SpellLoader SpellLoader;
 	public CommandDispatcher CommandDispatcher;

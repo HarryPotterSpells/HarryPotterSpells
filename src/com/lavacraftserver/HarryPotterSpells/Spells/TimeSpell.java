@@ -6,7 +6,14 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
+@spell (
+		name="Time",
+		description="Toggles the time depending on your target block",
+		range=0,
+		goThroughWalls=false
+)
 public class TimeSpell extends Spell{
 
 	public TimeSpell(HarryPotterSpells instance) {
@@ -32,7 +39,8 @@ public class TimeSpell extends Spell{
 			} else {
 				time = time - 12000L;
 			}
-			awesomeLightning(p.getLocation(), w);
+			if(plugin.getConfig().getBoolean("spells.time.lightning", true))
+				awesomeLightning(p.getLocation(), w);
 			w.setTime(time);
 		}
 	}
