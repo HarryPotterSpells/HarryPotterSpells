@@ -20,8 +20,8 @@
 \+ Added loads of new spells  
 \+ You can now define a custom wand id  
 \+ You can now disable crafting of the wand and crafting of anything  
-\+ Added hooking into WorldGuard, Towny, Vault and LogBlock
-\- Removed Alohomora due to door bug in latest CraftBukkit
+\+ Added hooking into WorldGuard, Towny, Vault and LogBlock  
+\- Removed Alohomora due to door bug in latest CraftBukkit  
 @ Fixed NPE in PlayerInteractEvent  
 @ Fixed all sort of minor bugs within the code  
 ~ Simplified command system  
