@@ -4,20 +4,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
@@ -74,29 +68,6 @@ public class MiscListeners implements Listener {
 		}
 		if (petrificustotalus.contains(e.getPlayer().getName())) {
 			e.setTo(e.getFrom());
-		}
-	}
-	
-	// Tested way of preventing players from crafting sticks
-	@EventHandler
-	public void onInventoryClick(InventoryClickEvent event) {
-		if (plugin.getConfig().getBoolean("disable-wand-crafting")) {
-			Inventory inventory = event.getInventory();
-			if (inventory.getType() == InventoryType.CRAFTING || inventory.getType() == InventoryType.WORKBENCH) {
-				int rs = event.getRawSlot();
-				ItemStack stack = null;
-				if (rs >= 0) {
-					stack = event.getCurrentItem();
-				}
-				SlotType st = event.getSlotType();
-
-				if (st == SlotType.RESULT && stack != null) {
-					if (stack.getType() == Material.getMaterial(plugin.getConfig().getInt("wand-id", 280))) {
-						event.setCancelled(true);
-						return;
-					}
-				}
-			}
 		}
 	}
 	
