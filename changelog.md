@@ -11,8 +11,8 @@
 
 #### CONTENTS:
 * [Alpha](#alpha)
-    * [Version 0.1](#version-01)
     * [Version 0.2](#version-02)
+    * [Version 0.1](#version-01)
 
 ##### ALPHA
 ###### Version 0.2:
