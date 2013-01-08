@@ -17,7 +17,7 @@
 
 ##### ALPHA
 ###### Version 0.3:
-\# We now use www.travis-ci.org for regular builds
+
 ###### Version 0.2:
 \+ Added sort and unteach to plugin.yml  
 \+ Added loads of new spells  
