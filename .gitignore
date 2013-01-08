@@ -14,6 +14,7 @@
 /bin
 /dist
 /manifest.mf
+/.fatjar
 
 # Mac filesystem dust
 .DS_Store
