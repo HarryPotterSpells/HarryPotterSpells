@@ -8,9 +8,9 @@ import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
-public class sort extends Executor{
+public class Sort extends Executor{
 	
-	public sort(HarryPotterSpells instance){
+	public Sort(HarryPotterSpells instance){
 		super(instance);
 	}
 	

@@ -4,8 +4,8 @@ import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
-public class wand extends Executor {
-	public wand(HarryPotterSpells instance) {
+public class Wand extends Executor {
+	public Wand(HarryPotterSpells instance) {
 		super(instance);
 	}
 	
