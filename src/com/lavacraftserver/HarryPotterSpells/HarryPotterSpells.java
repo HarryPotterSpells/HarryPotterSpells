@@ -39,6 +39,7 @@ public class HarryPotterSpells extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		// General
+		loadInstances();
 		PM.clearStorage();
 		
 		// Config
@@ -63,9 +64,8 @@ public class HarryPotterSpells extends JavaPlugin {
 		    PM.log("An error occurred whilst enabling Plugin Metrics. " + e.getMessage() + ".", Level.WARNING);
 		}
 		
-		// Enable Functions
+		// Other Functions
 		craftingChanges();
-		loadInstances();
 		
 		PM.log("Plugin enabled", Level.INFO);
 	}
