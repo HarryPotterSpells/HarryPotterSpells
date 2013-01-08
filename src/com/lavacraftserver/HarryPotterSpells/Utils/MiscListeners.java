@@ -26,8 +26,8 @@ public class MiscListeners implements Listener {
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
 		if(plugin.getConfig().getBoolean("spell-castable-with-chat")) {
-			if(plugin.spellManager.isSpell(e.getMessage().substring(0, e.getMessage().length() - 1))) {
-				plugin.spellManager.getSpell(e.getMessage().substring(0, e.getMessage().length() - 1)).cast(e.getPlayer());
+			if(plugin.SpellManager.isSpell(e.getMessage().substring(0, e.getMessage().length() - 1))) {
+				plugin.SpellManager.getSpell(e.getMessage().substring(0, e.getMessage().length() - 1)).cast(e.getPlayer());
 				return;
 			}
 		}
@@ -42,8 +42,8 @@ public class MiscListeners implements Listener {
 	@EventHandler
 	public void onCommand(PlayerCommandPreprocessEvent e) {
 		String spell = e.getMessage().replace('/', ' ');
-		if(plugin.spellManager.isSpell(spell)) {
-			plugin.spellManager.getSpell(spell).cast(e.getPlayer());
+		if(plugin.SpellManager.isSpell(spell)) {
+			plugin.SpellManager.getSpell(spell).cast(e.getPlayer());
 		}
 	}
 

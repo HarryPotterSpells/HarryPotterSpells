@@ -59,7 +59,7 @@ public class SpellLoader {
             urls[0] = file.toURI().toURL();
             Class<?> jarClass = Class.forName(desc.getMain(), true, new URLClassLoader(urls, this.getClass().getClassLoader()));
             Class<? extends Spell> type = jarClass.asSubclass(Spell.class);
-            p.spellManager.addSpell(newInstance(type));
+            p.SpellManager.addSpell(newInstance(type));
         } catch (Throwable e) {
         	throw new InvalidSpellException(e);
         } 

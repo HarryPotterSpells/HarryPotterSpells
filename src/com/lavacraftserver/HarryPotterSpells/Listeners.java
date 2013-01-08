@@ -76,13 +76,13 @@ public class Listeners implements Listener {
 					p.getWorld().playEffect(l, Effect.ENDER_SIGNAL, 0);
 				}
 				Location loc;
-				Spell spell = plugin.spellManager.getSpell(spellList.get(spellNumber));
+				Spell spell = plugin.SpellManager.getSpell(spellList.get(spellNumber));
 				if(Targeter.getTarget(p, spell.getRange(), spell.canBeCastThroughWalls()) != null) {
 					loc = Targeter.getTarget(p, spell.getRange(), spell.canBeCastThroughWalls()).getLocation();
 				} else {
 					loc = p.getTargetBlock(Targeter.getTransparentBlocks(), spell.getRange()).getLocation();
 				}
-				if(plugin.spellManager.canCastSpell(p, spell, l, loc) == 0) {
+				if(plugin.SpellManager.canCastSpell(p, spell, l, loc) == 0) {
 					spell.cast(p);
 					plugin.LogBlock.logSpell(p, spellList.get(spellNumber));
 					//Cancel event if player is in creative to prevent block damage.
@@ -90,7 +90,7 @@ public class Listeners implements Listener {
 						e.setCancelled(true);
 					}
 				} else {
-					plugin.PM.warn(p, plugin.spellManager.getCastSpellErrorMessage(plugin.spellManager.canCastSpell(p, spell, l, loc)));
+					plugin.PM.warn(p, plugin.SpellManager.getCastSpellErrorMessage(plugin.SpellManager.canCastSpell(p, spell, l, loc)));
 				}
 			}
 			
@@ -102,7 +102,7 @@ public class Listeners implements Listener {
 			String identifier = "[" + ChatColor.GREEN + plugin.getConfig().getString("SpellSigns.textForLine1") + ChatColor.RESET + "]";
 			if(signText[0].equals(identifier)) {
 				double amount = (double)Integer.parseInt(signText[2]);
-				Spell spell = plugin.spellManager.getSpell(signText[1]);
+				Spell spell = plugin.SpellManager.getSpell(signText[1]);
 				EconomyResponse r = plugin.Vault.econ.depositPlayer(e.getPlayer().getName(), amount);
 				if(spell.playerKnows(e.getPlayer())) {
 					plugin.PM.warn(e.getPlayer(), "You already know that spell.");
@@ -153,7 +153,7 @@ public class Listeners implements Listener {
 			String[] signText = sign.getLines();
 			boolean error = false;
 			if(signText[0].equals(identifier)) {
-				if(!plugin.spellManager.isSpell(signText[1])) {
+				if(!plugin.SpellManager.isSpell(signText[1])) {
 					sign.setLine(1, "[" + ChatColor.RED + plugin.getConfig().getString("SpellSigns.textForLine1") + ChatColor.RESET + "]");
 					plugin.PM.warn(e.getPlayer(), "That spell was not recognised.");
 					error = true;

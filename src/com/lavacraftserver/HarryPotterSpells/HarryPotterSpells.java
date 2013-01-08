@@ -22,17 +22,17 @@ import com.lavacraftserver.HarryPotterSpells.Utils.MiscListeners;
 import com.lavacraftserver.HarryPotterSpells.Utils.Wand;
 
 public class HarryPotterSpells extends JavaPlugin {
-	public PlayerSpellConfig PlayerSpellConfig=new PlayerSpellConfig(this);
-	public PM PM=new PM(this);
-	public SpellManager spellManager=new SpellManager(this);
-	public MiscListeners MiscListeners = new MiscListeners(this);
-	public Listeners Listeners = new Listeners(this);
-	public Vault Vault = new Vault(this);
-	public LogBlock LogBlock=new LogBlock(this);
-	public WorldGuard WorldGuard = new WorldGuard(this);
-	public Towny Towny = new Towny(this);
-	public Wand Wand = new Wand(this);
-	public Logger log = Logger.getLogger("Minecraft");
+	public PlayerSpellConfig PlayerSpellConfig;
+	public PM PM;
+	public SpellManager SpellManager;
+	public MiscListeners MiscListeners;
+	public Listeners Listeners;
+	public Vault Vault;
+	public LogBlock LogBlock;
+	public WorldGuard WorldGuard;
+	public Towny Towny;
+	public Wand Wand;
+	public Logger Log;
 	public SpellLoader SpellLoader;
 	public CommandDispatcher CommandDispatcher;
 	
@@ -55,10 +55,6 @@ public class HarryPotterSpells extends JavaPlugin {
 		WorldGuard.setupWorldGuard();
 		Towny.setupTowny();
 		
-		// Misc Initialisation
-		SpellLoader = new SpellLoader(this);
-		CommandDispatcher = new CommandDispatcher(this);
-		
 		// Plugin Metrics
 		try {
 		    Metrics metrics = new Metrics(this);
@@ -69,6 +65,7 @@ public class HarryPotterSpells extends JavaPlugin {
 		
 		// Enable Functions
 		craftingChanges();
+		loadInstances();
 		
 		PM.log("Plugin enabled", Level.INFO);
 	}
@@ -76,7 +73,7 @@ public class HarryPotterSpells extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		PM.clearStorage();
-		spellManager.save();
+		SpellManager.save();
 		
 		PM.log("Plugin disabled", Level.INFO);
 	}
@@ -118,6 +115,22 @@ public class HarryPotterSpells extends JavaPlugin {
 			}
 		}
 		PM.log("Crafting changes implemented.", Level.INFO);
+	}
+	
+	private void loadInstances() {
+		PlayerSpellConfig = new PlayerSpellConfig(this);
+		PM = new PM(this);
+		SpellManager = new SpellManager(this);
+		MiscListeners = new MiscListeners(this);
+		Listeners = new Listeners(this);
+		Vault = new Vault(this);
+		LogBlock = new LogBlock(this);
+		WorldGuard = new WorldGuard(this);
+		Towny = new Towny(this);
+		Wand = new Wand(this);
+		Log = getLogger();
+		SpellLoader = new SpellLoader(this);
+		CommandDispatcher = new CommandDispatcher(this);
 	}
 
 }
