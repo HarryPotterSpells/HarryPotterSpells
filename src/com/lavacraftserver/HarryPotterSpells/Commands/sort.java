@@ -14,6 +14,10 @@ public class sort extends Executor{
 		super(instance);
 	}
 	
+	@Override
+	public String getCommand() {
+		return "sort";
+	}
 	
 	public void group(Player p) {
 		int houseNumber = new Random().nextInt(4 - 1 + 1) + 1;

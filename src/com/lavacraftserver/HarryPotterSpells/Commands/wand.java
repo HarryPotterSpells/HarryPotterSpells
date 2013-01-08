@@ -9,6 +9,11 @@ public class wand extends Executor {
 		super(instance);
 	}
 	
+	@Override
+	public String getCommand() {
+		return "wand";
+	}
+	
 	public void runPlayer(Player sender,String[] args) {
 		if(plugin.getConfig().getBoolean("WandGive.enabled")) {
 			if(sender instanceof Player) {

@@ -13,6 +13,10 @@ public class teach extends Executor {
 		super(instance);
 	}
 	
+	@Override
+	public String getCommand() {
+		return "teach";
+	}
 	
 	public void runPlayer(Player player, String[] args) {
 		if(args.length != 2) {

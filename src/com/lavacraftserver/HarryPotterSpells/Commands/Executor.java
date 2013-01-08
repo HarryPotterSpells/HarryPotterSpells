@@ -27,6 +27,8 @@ public abstract class Executor implements CommandExecutor {
 			runConsole(args);
 	}
 	
+	public abstract String getCommand();
+	
 	/*
 	 * Override the functions below depending on who can run the command
 	 */
