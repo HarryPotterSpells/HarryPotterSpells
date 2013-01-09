@@ -1,6 +1,5 @@
 package com.lavacraftserver.HarryPotterSpells.Utils;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -24,7 +23,7 @@ public class CommandDispatcher implements CommandExecutor {
 			Executor cmd;
 			try {
 				cmd = clazz.getConstructor(HarryPotterSpells.class).newInstance(plugin);
-			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+			} catch (Exception e) {
 				plugin.PM.log("An error occurred whilst adding the " + clazz.getName() + " command to the command list. That command will not be available." , Level.WARNING);
 				e.printStackTrace();
 				continue;
