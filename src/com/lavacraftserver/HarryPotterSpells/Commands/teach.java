@@ -26,9 +26,23 @@ public class Teach extends Executor {
 				plugin.PM.warn(player, "That spell was not recognised");
 				return;
 			}
-			Player teachTo = Bukkit.getPlayer(args[0]);
+			Player teachTo;
+			if(args[0].equalsIgnoreCase("me"))
+				teachTo = player;
+			else
+				teachTo = Bukkit.getPlayer(args[0]);
 			Spell spell = plugin.SpellManager.getSpell(args[1]);
-			spell.teach(player,teachTo);
+			
+			if(teachTo != null) {
+				if(spell.playerKnows(teachTo)) {
+					plugin.PM.warn(player, teachTo.getName() + " already knows that spell!");
+				} else {
+					spell.teach(teachTo);
+					plugin.PM.tell(player, "You have taught " + teachTo.getName() + " the spell " + spell.toString() + ".");
+				}
+			} else {
+				plugin.PM.log("The player was not found.", Level.INFO);
+			}
 		}
 	}
 
