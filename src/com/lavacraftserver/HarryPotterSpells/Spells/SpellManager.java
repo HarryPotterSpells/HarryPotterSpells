@@ -1,42 +1,36 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.reflections.Reflections;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 import com.palmergames.bukkit.towny.object.TownyUniverse;
 
 public class SpellManager {
-	private ArrayList<Spell> spellList;
+	private ArrayList<Spell> spellList = new ArrayList<Spell>();
 	HarryPotterSpells plugin;
 	
 	public SpellManager(HarryPotterSpells instance){
 		plugin=instance;
-		spellList=new ArrayList<Spell>();
-		spellList.add(new Aguamenti(plugin));
-		spellList.add(new AlarteAscendare(plugin));
-		spellList.add(new AvadaKedavra(plugin));
-		spellList.add(new Confringo(plugin));
-		spellList.add(new Confundo(plugin));
-		spellList.add(new Deprimo(plugin));
-		spellList.add(new Episkey(plugin));
-		spellList.add(new Evanesco(plugin));
-		spellList.add(new Expelliarmus(plugin));
-		spellList.add(new Incendio(plugin));
-		spellList.add(new Multicorfors(plugin));
-		spellList.add(new Obscuro(plugin));
-		spellList.add(new Orchideous(plugin));
-		spellList.add(new PetrificusTotalus(plugin));
-		spellList.add(new Reducto(plugin));
-		spellList.add(new Sectumsempra(plugin));
-		spellList.add(new Sonorus(plugin));
-		spellList.add(new Spongify(plugin));
-		spellList.add(new TimeSpell(plugin));
-		spellList.add(new TreeSpell(plugin));
-		spellList.add(new WingardiumLeviosa(plugin));
+		Reflections ref = new Reflections("com.lavacraftserver.HarryPotterSpells.Spells");
+		for(Class<?> clazz : ref.getTypesAnnotatedWith(Spell.spell.class)) {
+			Spell spell;
+			if(clazz == Spell.class || clazz == InvalidSpell.class || !Spell.class.isAssignableFrom(clazz))
+				continue;
+			try {
+				spell = (Spell) clazz.getConstructor(HarryPotterSpells.class).newInstance(plugin);
+			} catch (Exception e) {
+				plugin.PM.log("An error occurred whilst adding the " + clazz.getName() + " spell to the spell list. That spell will not be available." , Level.WARNING);
+				e.printStackTrace();
+				continue;
+			}
+			spellList.add(spell);
+		}
 		
 		load();
 	}
@@ -114,7 +108,7 @@ public class SpellManager {
 	public void save(){
 		plugin.getConfig().createSection("spells");
 		ConfigurationSection configSpells = plugin.getConfig().getConfigurationSection("spells");
-		for(Spell s:spellList){
+		for(Spell s:spellList) {
 			configSpells.createSection(s.getInternalName());
 			configSpells.set(s.getInternalName(), s.save(configSpells.getConfigurationSection(s.getInternalName())));
 		}
@@ -123,12 +117,13 @@ public class SpellManager {
 
 	public void load(){
 		try{
-		if(!plugin.getConfig().isSet("spells")) plugin.getConfig().getConfigurationSection("spells");
-		ConfigurationSection configSpells = plugin.getConfig().getConfigurationSection("spells");
-		for(String k:configSpells.getKeys(false)){
-getSpell(k).load(configSpells.getConfigurationSection(k));
-		}
-		}catch(Exception e){
+			if(!plugin.getConfig().isSet("spells"))
+				plugin.getConfig().getConfigurationSection("spells");
+			ConfigurationSection configSpells = plugin.getConfig().getConfigurationSection("spells");
+			for(String k:configSpells.getKeys(false)) {
+				getSpell(k).load(configSpells.getConfigurationSection(k));
+			}
+		} catch(Exception e){
 			
 		}
 	}
