@@ -16,5 +16,6 @@ For more information check out our [BukkitDev page](http://dev.bukkit.org/server
 + [KeybordPiano459](http://forums.bukkit.org/members/keybordpiano459.90643667/): Contributor
 
 We are looking for more team members to help make this plugin awesomer! If you are interested just let us know [here](http://forums.bukkit.org/threads/developers-wanted-for-new-spells-plugin.90642/)!
+If you are looking for our guide on how to contribute to HarryPotterSpells then see [here](https://github.com/kezz101/HarryPotterSpells/wiki/Contributing).
 
 ![Plugin Metrics for HarryPotterSpells](http://mcstats.org/signature/harrypotterspells.png)
