@@ -20,7 +20,7 @@ public class CommandDispatcher implements CommandExecutor {
 		for(Class<? extends Executor> clazz : ref.getSubTypesOf(Executor.class)) {
 			Executor cmd;
 			try {
-				cmd = clazz.getConstructor(HPS.class).newInstance();
+				cmd = clazz.newInstance();
 			} catch (Exception e) {
 				HPS.PM.log("An error occurred whilst adding the " + clazz.getName() + " command to the command list. That command will not be available." , Level.WARNING);
 				e.printStackTrace();

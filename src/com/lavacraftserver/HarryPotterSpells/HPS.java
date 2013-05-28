@@ -39,6 +39,10 @@ public class HPS extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
+		
+		// After (not anymore!) instance loading
+		Plugin = this;
+		
 		//Before instance loading
 		PlayerSpellConfig = new PlayerSpellConfig();
 		PM = new PM();
@@ -100,9 +104,6 @@ public class HPS extends JavaPlugin {
 			}
 		}
 		PM.log("Crafting changes implemented.", Level.INFO);
-		
-		// After instance loading
-		Plugin = this;
 		
 		PM.log("Plugin enabled", Level.INFO);
 	}
