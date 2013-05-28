@@ -1,5 +1,6 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
@@ -12,10 +13,6 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		goThroughWalls=false
 )
 public class WingardiumLeviosa extends Spell{
-	
-	public WingardiumLeviosa(HarryPotterSpells instance) {
-		super(instance);
-	}
 
 	public void cast(final Player p) {
 		if(p.isFlying()) {
@@ -24,7 +21,7 @@ public class WingardiumLeviosa extends Spell{
 		} else {
 			p.setAllowFlight(true);
 			p.setFlying(true);
-			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HarryPotterSpells.Plugin, new Runnable() {
 				   public void run() {
 					   if(p.isFlying()) {
 						   p.setFlying(false);

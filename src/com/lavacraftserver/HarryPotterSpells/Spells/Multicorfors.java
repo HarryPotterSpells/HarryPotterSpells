@@ -3,6 +3,7 @@ package com.lavacraftserver.HarryPotterSpells.Spells;
 import java.util.HashSet;
 import java.util.Random;
 
+import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -20,34 +21,30 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		goThroughWalls=false
 )
 public class Multicorfors extends Spell{
-		
-	public Multicorfors(HarryPotterSpells instance) {
-		super(instance);
-	}
 
 	public void cast(Player p) {
 		final Block b = p.getTargetBlock(transparentBlocks(), 25);
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Sheep) {
 			final Sheep sheep = (Sheep) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
-			if(plugin.getConfig().getBoolean("spells.multicorfors.explosionEffect", true)) {
+			if(HarryPotterSpells.Plugin.getConfig().getBoolean("spells.multicorfors.explosionEffect", true)) {
 				sheep.getWorld().createExplosion(sheep.getLocation(), 0F);
 			}
-			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HarryPotterSpells.Plugin, new Runnable() {
 				   public void run() {
 					   sheep.setColor(randomDyeColor());
 				   }
 				}, 4L);
 		} else if(b.getType() == Material.WOOL) {
-			if(plugin.getConfig().getBoolean("spells.multicorfors.explosionEffect", true)) {
+			if(HarryPotterSpells.Plugin.getConfig().getBoolean("spells.multicorfors.explosionEffect", true)) {
 				p.getWorld().createExplosion(b.getLocation(), 0F);
 			}
-			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HarryPotterSpells.Plugin, new Runnable() {
 				   public void run() {
 					   b.setData(randomDyeColorInt());
 				   }
 				}, 4L);
 		} else {
-			plugin.PM.warn(p, "You can only cast this spell on sheep or wool.");
+			HarryPotterSpells.PM.warn(p, "You can only cast this spell on sheep or wool.");
 		}
 	}
 	

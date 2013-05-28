@@ -10,19 +10,17 @@ import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
 public class SpellManager {
 	private ArrayList<Spell> spellList = new ArrayList<Spell>();
-	HarryPotterSpells plugin;
 	
-	public SpellManager(HarryPotterSpells instance){
-		plugin=instance;
+	public SpellManager(){
 		Reflections ref = new Reflections("com.lavacraftserver.HarryPotterSpells.Spells");
 		for(Class<?> clazz : ref.getTypesAnnotatedWith(Spell.spell.class)) {
 			Spell spell;
 			if(clazz == Spell.class || clazz == InvalidSpell.class || !Spell.class.isAssignableFrom(clazz))
 				continue;
 			try {
-				spell = (Spell) clazz.getConstructor(HarryPotterSpells.class).newInstance(plugin);
+				spell = (Spell) clazz.getConstructor(HarryPotterSpells.class).newInstance();
 			} catch (Exception e) {
-				plugin.PM.log("An error occurred whilst adding the " + clazz.getName() + " spell to the spell list. That spell will not be available." , Level.WARNING);
+				HarryPotterSpells.PM.log("An error occurred whilst adding the " + clazz.getName() + " spell to the spell list. That spell will not be available." , Level.WARNING);
 				e.printStackTrace();
 				continue;
 			}
@@ -38,7 +36,7 @@ public class SpellManager {
 				return spell;
 			}
 		}
-		return new InvalidSpell(plugin);
+		return new InvalidSpell();
 	}
 	
 	public void addSpell(Spell spell) {
@@ -59,20 +57,20 @@ public class SpellManager {
 	}
 	
 	public void save() {
-		plugin.getConfig().createSection("spells");
-		ConfigurationSection configSpells = plugin.getConfig().getConfigurationSection("spells");
+		HarryPotterSpells.Plugin.getConfig().createSection("spells");
+		ConfigurationSection configSpells = HarryPotterSpells.Plugin.getConfig().getConfigurationSection("spells");
 		for(Spell s : spellList) {
 			configSpells.createSection(s.getInternalName());
 			configSpells.set(s.getInternalName(), s.save(configSpells.getConfigurationSection(s.getInternalName())));
 		}
-		plugin.getConfig().set("arenas", configSpells);
+		HarryPotterSpells.Plugin.getConfig().set("arenas", configSpells);
 	}
 
 	public void load() {
 		try{
-			if(!plugin.getConfig().isSet("spells"))
-				plugin.getConfig().getConfigurationSection("spells");
-			ConfigurationSection configSpells = plugin.getConfig().getConfigurationSection("spells");
+			if(!HarryPotterSpells.Plugin.getConfig().isSet("spells"))
+				HarryPotterSpells.Plugin.getConfig().getConfigurationSection("spells");
+			ConfigurationSection configSpells = HarryPotterSpells.Plugin.getConfig().getConfigurationSection("spells");
 			for(String k : configSpells.getKeys(false))
 				getSpell(k).load(configSpells.getConfigurationSection(k));
 		} catch(Exception e){

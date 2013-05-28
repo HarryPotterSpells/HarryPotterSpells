@@ -16,16 +16,13 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		goThroughWalls=false
 )
 public class Episkey extends Spell {
-	public Episkey(HarryPotterSpells instance) {
-		super(instance);
-	}
 
 	public void cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) {
 			LivingEntity livingentity = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			livingentity.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 600, 1));
 		} else {
-			plugin.PM.warn(p, "You can only cast this on a player or mob!");
+			HarryPotterSpells.PM.warn(p, "You can only cast this on a player or mob!");
 		}
 	}
 }

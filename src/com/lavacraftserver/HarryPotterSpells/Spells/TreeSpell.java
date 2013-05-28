@@ -21,20 +21,16 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 )
 public class TreeSpell extends Spell {
 
-	public TreeSpell(HarryPotterSpells instance) {
-		super(instance);
-	}
-
 	public void cast(Player p) {
 		Block block = p.getTargetBlock(null, this.getRange());
 		if (block.getType() == Material.GRASS || block.getType() == Material.DIRT) {
 			if(!p.getWorld().generateTree(block.getLocation(), TreeType.TREE)) {
-				plugin.PM.warn(p, "You cannot place a tree here.");
+				HarryPotterSpells.PM.warn(p, "You cannot place a tree here.");
 			} else {
 				boom(block, block.getWorld());
 			}
 		} else {
-			plugin.PM.warn(p, "You can only place a tree on grass or dirt.");
+			HarryPotterSpells.PM.warn(p, "You can only place a tree on grass or dirt.");
 		}
 	}
 	

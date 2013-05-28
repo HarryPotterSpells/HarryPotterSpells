@@ -8,6 +8,7 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -15,11 +16,6 @@ import org.bukkit.entity.Player;
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
 public abstract class Spell {
-	protected HarryPotterSpells plugin;
-	
-	public Spell(HarryPotterSpells instance){
-		plugin=instance;
-	}
 	
 	@config private String name;
 	@config private String description;
@@ -31,26 +27,26 @@ public abstract class Spell {
 	public void teach(Player sender, Player target){
 		if(target != null) {
 			if(playerKnows(target)) {
-				plugin.PM.warn(sender, target.getName() + " already knows that spell!");
+				HarryPotterSpells.PM.warn(sender, target.getName() + " already knows that spell!");
 			} else {
 				teach(target);
-				plugin.PM.tell(sender, "You have taught " + target.getName() + " the spell " + toString() + ".");
+				HarryPotterSpells.PM.tell(sender, "You have taught " + target.getName() + " the spell " + toString() + ".");
 			}
 		} else {
-			plugin.PM.warn(sender, "The player was not found.");
+			HarryPotterSpells.PM.warn(sender, "The player was not found.");
 		}
 	}
 
 	public void teach(Player p){
-		List<String> list = plugin.PlayerSpellConfig.getPSC().getStringList(p.getName());
+		List<String> list = HarryPotterSpells.PlayerSpellConfig.getPSC().getStringList(p.getName());
 		list.add(toString());
-		plugin.PlayerSpellConfig.getPSC().set(p.getName(), list);
-		plugin.PlayerSpellConfig.savePSC();
-		plugin.PM.tell(p, "You have been taught " + toString());
+		HarryPotterSpells.PlayerSpellConfig.getPSC().set(p.getName(), list);
+		HarryPotterSpells.PlayerSpellConfig.savePSC();
+		HarryPotterSpells.PM.tell(p, "You have been taught " + toString());
 	}	
 
 	public boolean playerKnows(Player p){
-		List<String> list = plugin.PlayerSpellConfig.getPSC().getStringList(p.getName());
+		List<String> list = HarryPotterSpells.PlayerSpellConfig.getPSC().getStringList(p.getName());
 		if(list.contains(toString())) {
 			return true;
 		} else {
@@ -59,11 +55,11 @@ public abstract class Spell {
 	}
 
 	public void unTeach(Player p){
-		List<String> list = plugin.PlayerSpellConfig.getPSC().getStringList(p.getName());
+		List<String> list = HarryPotterSpells.PlayerSpellConfig.getPSC().getStringList(p.getName());
 		list.remove(toString());
-		plugin.PlayerSpellConfig.getPSC().set(p.getName(), list);
-		plugin.PlayerSpellConfig.savePSC();
-		plugin.PM.tell(p, "You have forgotten " + toString());
+		HarryPotterSpells.PlayerSpellConfig.getPSC().set(p.getName(), list);
+		HarryPotterSpells.PlayerSpellConfig.savePSC();
+		HarryPotterSpells.PM.tell(p, "You have forgotten " + toString());
 	}
 	public String toString(){
 		return this.getClass().getSimpleName();
@@ -167,7 +163,7 @@ public void load(ConfigurationSection c){
 					f.set(this, c.getBoolean(f.getName()));
 				}else if(f.getType()==Location.class){
 					f.set(this, new Location(
-							plugin.getServer().getWorld(c.getString(f.getName() + ".world")),
+							Bukkit.getServer().getWorld(c.getString(f.getName() + ".world")),
 							c.getDouble(f.getName() + ".x"),
 							c.getDouble(f.getName() + ".y"),
 							c.getDouble(f.getName() + ".z")

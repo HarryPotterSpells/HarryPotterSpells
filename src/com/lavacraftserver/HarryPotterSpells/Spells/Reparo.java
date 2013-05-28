@@ -1,10 +1,9 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
-import org.bukkit.entity.Player;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
@@ -14,10 +13,6 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		goThroughWalls=false
 )
 public class Reparo extends Spell {
-
-	public Reparo(HarryPotterSpells instance) {
-		super(instance);
-	}
 
 	@Override
 	public void cast(Player p) {

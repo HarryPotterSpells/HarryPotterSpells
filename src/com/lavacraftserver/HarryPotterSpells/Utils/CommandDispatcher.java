@@ -13,18 +13,16 @@ import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 import com.lavacraftserver.HarryPotterSpells.Commands.Executor;
 
 public class CommandDispatcher implements CommandExecutor {
-	public HarryPotterSpells plugin;
 	Map<String, Executor> cmds = new HashMap<String, Executor>();
 	
-	public CommandDispatcher(HarryPotterSpells instance){
-		plugin = instance;
+	public CommandDispatcher() {
 		Reflections ref = new Reflections("com.lavacraftserver.HarryPotterSpells.Commands");
 		for(Class<? extends Executor> clazz : ref.getSubTypesOf(Executor.class)) {
 			Executor cmd;
 			try {
-				cmd = clazz.getConstructor(HarryPotterSpells.class).newInstance(plugin);
+				cmd = clazz.getConstructor(HarryPotterSpells.class).newInstance();
 			} catch (Exception e) {
-				plugin.PM.log("An error occurred whilst adding the " + clazz.getName() + " command to the command list. That command will not be available." , Level.WARNING);
+				HarryPotterSpells.PM.log("An error occurred whilst adding the " + clazz.getName() + " command to the command list. That command will not be available." , Level.WARNING);
 				e.printStackTrace();
 				continue;
 			}

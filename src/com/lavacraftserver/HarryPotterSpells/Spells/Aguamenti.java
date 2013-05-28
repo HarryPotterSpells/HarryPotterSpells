@@ -17,10 +17,6 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 )
 public class Aguamenti extends Spell {
 	
-	public Aguamenti(HarryPotterSpells instance) {
-		super(instance);
-	}
-
 	public void cast(Player p) {
 		Block hit = p.getTargetBlock(Targeter.getTransparentBlocks(), 50);
 		float dir = (float)Math.toDegrees(Math.atan2(p.getLocation().getBlockX() - hit.getX(), hit.getZ() - p.getLocation().getBlockZ()));
@@ -28,7 +24,7 @@ public class Aguamenti extends Spell {
 		if(!(hit.getType() == Material.AIR)) {
 			b.setType(Material.WATER);
 		} else {
-			plugin.PM.warn(p, "You cannot place water here.");
+			HarryPotterSpells.PM.warn(p, "You cannot place water here.");
 		}
 	}
 	

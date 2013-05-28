@@ -17,14 +17,13 @@ import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
 public class SpellLoader {
-	HarryPotterSpells p;
-	public SpellLoader(HarryPotterSpells p){
-		this.p = p;
+
+	public SpellLoader(){
 		loadSpells();
 	}
 	
 	public void loadSpells(){
-		File file = new File(p.getDataFolder() + File.separator + "Spells" + File.separator);
+		File file = new File(HarryPotterSpells.Plugin.getDataFolder() + File.separator + "Spells" + File.separator);
 		if (!file.exists())
 			file.mkdirs();
 		for (File f : file.listFiles()){
@@ -36,7 +35,7 @@ public class SpellLoader {
 	public Spell newInstance(Class<? extends Spell> clazz){
 		try {
 			Constructor<? extends Spell> constructor = clazz.getConstructor(HarryPotterSpells.class);
-			Spell t = constructor.newInstance(p);
+			Spell t = constructor.newInstance();
 			return t;
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
@@ -59,7 +58,7 @@ public class SpellLoader {
             urls[0] = file.toURI().toURL();
             Class<?> jarClass = Class.forName(desc.getMain(), true, new URLClassLoader(urls, this.getClass().getClassLoader()));
             Class<? extends Spell> type = jarClass.asSubclass(Spell.class);
-            p.SpellManager.addSpell(newInstance(type));
+            HarryPotterSpells.SpellManager.addSpell(newInstance(type));
         } catch (Throwable e) {
         	throw new InvalidSpellException(e);
         } 

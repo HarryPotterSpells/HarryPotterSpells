@@ -2,6 +2,7 @@ package com.lavacraftserver.HarryPotterSpells.Spells;
 
 import java.util.Random;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -17,19 +18,15 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 )
 public class Sectumsempra extends Spell {
 
-	public Sectumsempra(HarryPotterSpells instance) {
-		super(instance);
-	}
-
 	@Override
 	public void cast(Player p) {
 		if (Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) {
 			LivingEntity le = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			SectumsempraRunnable sectumsemprarunnable = new SectumsempraRunnable();
 			sectumsemprarunnable.le = le;
-			sectumsemprarunnable.taskID = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, sectumsemprarunnable, 0L, 20L);
+			sectumsemprarunnable.taskID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(HarryPotterSpells.Plugin, sectumsemprarunnable, 0L, 20L);
 		} else {
-			plugin.PM.warn(p, "This may only be used on a player or a mob.");
+			HarryPotterSpells.PM.warn(p, "This may only be used on a player or a mob.");
 		}
 	}
 
@@ -53,7 +50,7 @@ public class Sectumsempra extends Spell {
 		}
 		
 		public void cancelTask() {
-			plugin.getServer().getScheduler().cancelTask(taskID);
+			Bukkit.getServer().getScheduler().cancelTask(taskID);
 		}
 
 	}

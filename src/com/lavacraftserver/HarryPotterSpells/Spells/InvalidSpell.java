@@ -1,5 +1,6 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
+import java.util.logging.Level;
 
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
@@ -10,15 +11,12 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
 public class InvalidSpell extends Spell {
 
-	public InvalidSpell(HarryPotterSpells instance) {
-		super(instance);
-	}
 	public void cast(Player p) {
 		p.sendMessage(ChatColor.RED + "Invalid spell!");
 	}
 	@Override
 	public void teach(Player sender,Player target){
-		plugin.PM.warn(sender,"You cannot teach this, it's not a correct spell!");
+		HarryPotterSpells.PM.warn(sender,"You cannot teach this, it's not a correct spell!");
 	}
 	
 	@Override
@@ -29,7 +27,7 @@ public class InvalidSpell extends Spell {
 	
 	@Override
 	public void load(ConfigurationSection c){
-		plugin.getLogger().warning("Attempted to load invalid spell with display name '" + this.getName() + "'!");
+		HarryPotterSpells.PM.log("Attempted to load invalid spell with display name '" + this.getName() + "'!", Level.WARNING);
 	}
 
 }

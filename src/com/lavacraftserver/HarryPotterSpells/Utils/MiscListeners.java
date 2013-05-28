@@ -3,6 +3,7 @@ package com.lavacraftserver.HarryPotterSpells.Utils;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,26 +16,21 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
-public class MiscListeners implements Listener {
-	HarryPotterSpells plugin;
+public class MiscListeners implements Listener { //TODO this class is just morally wrong
 	public Set<String> sonorus = new HashSet<String>(), spongify = new HashSet<String>(), deprimo = new HashSet<String>(), petrificustotalus = new HashSet<String>();
-	
-	public MiscListeners(HarryPotterSpells instance){
-		plugin=instance;
-	}
 
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
-		if(plugin.getConfig().getBoolean("spell-castable-with-chat")) {
-			if(plugin.SpellManager.isSpell(e.getMessage().substring(0, e.getMessage().length() - 1))) {
-				plugin.SpellManager.getSpell(e.getMessage().substring(0, e.getMessage().length() - 1)).cast(e.getPlayer());
+		if(HarryPotterSpells.Plugin.getConfig().getBoolean("spell-castable-with-chat")) {
+			if(HarryPotterSpells.SpellManager.isSpell(e.getMessage().substring(0, e.getMessage().length() - 1))) {
+				HarryPotterSpells.SpellManager.getSpell(e.getMessage().substring(0, e.getMessage().length() - 1)).cast(e.getPlayer());
 				return;
 			}
 		}
 
 		if(sonorus.contains(e.getPlayer().getName())) {
 			e.setCancelled(true);
-			plugin.getServer().broadcastMessage(e.getPlayer().getDisplayName() + ChatColor.WHITE + ": " + e.getMessage());
+			Bukkit.getServer().broadcastMessage(e.getPlayer().getDisplayName() + ChatColor.WHITE + ": " + e.getMessage());
 			sonorus.remove(e.getPlayer().getName());
 		}
 	}
@@ -42,8 +38,8 @@ public class MiscListeners implements Listener {
 	@EventHandler
 	public void onCommand(PlayerCommandPreprocessEvent e) {
 		String spell = e.getMessage().replace('/', ' ');
-		if(plugin.SpellManager.isSpell(spell)) {
-			plugin.SpellManager.getSpell(spell).cast(e.getPlayer());
+		if(HarryPotterSpells.SpellManager.isSpell(spell)) {
+			HarryPotterSpells.SpellManager.getSpell(spell).cast(e.getPlayer());
 		}
 	}
 

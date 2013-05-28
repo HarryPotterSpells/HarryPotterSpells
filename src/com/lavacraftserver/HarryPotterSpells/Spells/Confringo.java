@@ -3,7 +3,6 @@ package com.lavacraftserver.HarryPotterSpells.Spells;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
@@ -13,10 +12,6 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		goThroughWalls=false
 )
 public class Confringo extends Spell {
-	
-	public Confringo(HarryPotterSpells instance) {
-		super(instance);
-	}
 
 	public void cast(Player p) {
 		Fireball fb = p.launchProjectile(Fireball.class);

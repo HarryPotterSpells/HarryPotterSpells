@@ -15,17 +15,13 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		goThroughWalls=false
 )
 public class Confundo extends Spell {
-	
-	public Confundo(HarryPotterSpells instance) {
-		super(instance);
-	}
 
 	public void cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {
 			Player player = (Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 600, 1));
 		} else {
-			plugin.PM.warn(p, "You can only cast this on a player!");
+			HarryPotterSpells.PM.warn(p, "You can only cast this on a player!");
 		}
 	}
 	

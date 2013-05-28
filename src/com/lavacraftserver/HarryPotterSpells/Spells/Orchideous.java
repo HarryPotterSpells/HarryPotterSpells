@@ -17,17 +17,13 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 )
 public class Orchideous extends Spell {
 
-	public Orchideous(HarryPotterSpells instance) {
-		super(instance);
-	}
-
 	@Override
 	public void cast(Player p) {
 		Block b = p.getTargetBlock(Targeter.getTransparentBlocks(), this.getRange());
 		if (isValidBlock(b) && blockAboveIsValidBlock(b)) {
 			getBlockAbove(b).setType(Material.RED_ROSE);
 		} else {
-			plugin.PM.warn(p, "This spell cannot be cast on that block.");
+			HarryPotterSpells.PM.warn(p, "This spell cannot be cast on that block.");
 		}
 
 	}

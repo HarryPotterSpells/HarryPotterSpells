@@ -6,7 +6,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
@@ -16,10 +15,6 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		goThroughWalls=false
 )
 public class AlarteAscendare extends Spell {
-	
-	public AlarteAscendare(HarryPotterSpells instance) {
-		super(instance);
-	}
 
 	public void cast(Player p) {
 		Entity mob = p.getWorld().spawnEntity(p.getEyeLocation(), randomEntity());

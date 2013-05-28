@@ -20,10 +20,6 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		goThroughWalls=false
 )
 public class Expelliarmus extends Spell {
-	
-	public Expelliarmus(HarryPotterSpells instance) {
-		super(instance);
-	}
 
 	public void cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {
@@ -37,7 +33,7 @@ public class Expelliarmus extends Spell {
 				i.setVelocity(new Vector(vector.getX() * 2, vector.getY() * 2, vector.getZ() * 2));
 			}
 		} else {
-			plugin.PM.warn(p, "You can only cast this on players.");
+			HarryPotterSpells.PM.warn(p, "You can only cast this on players.");
 		}
 	}
 }

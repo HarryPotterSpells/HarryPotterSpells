@@ -18,14 +18,10 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 )
 public class Incendio extends Spell{
 
-	public Incendio(HarryPotterSpells instance) {
-		super(instance);
-	}
-
 	public void cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) {
 			LivingEntity le = (LivingEntity) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
-			int fireTicks = plugin.getConfig().getInt("spells.incendio.duration");
+			int fireTicks = HarryPotterSpells.Plugin.getConfig().getInt("spells.incendio.duration");
 			le.setFireTicks(fireTicks);
 		} else {
 			Block b = p.getTargetBlock(null, this.getRange());

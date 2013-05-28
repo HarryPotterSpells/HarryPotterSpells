@@ -17,17 +17,13 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 )
 public class Obscuro extends Spell {
 
-	public Obscuro(HarryPotterSpells instance) {
-		super(instance);
-	}
-
 	@Override
 	public void cast(Player p) {
 		if (Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) {
 			LivingEntity le = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			le.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 10));
 		} else {
-			plugin.PM.warn(p, "This may only be used on a player or a mob.");
+			HarryPotterSpells.PM.warn(p, "This may only be used on a player or a mob.");
 		}
 	}
 

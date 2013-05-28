@@ -10,10 +10,6 @@ import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
 public class sort extends Executor{ //TODO Move away!
 	
-	public sort(HarryPotterSpells instance){
-		super(instance);
-	}
-	
 	@Override
 	public String getCommand() {
 		return "sort";
@@ -75,24 +71,24 @@ public class sort extends Executor{ //TODO Move away!
 					 break;
 		}
 		player += p.getName();
-		plugin.getServer().broadcastMessage(player + ChatColor.WHITE + " has been sorted into... " + house + "!");
+		HarryPotterSpells.Plugin.getServer().broadcastMessage(player + ChatColor.WHITE + " has been sorted into... " + house + "!");
 		//plugin.Vault.perm.playerAdd(p, perm);
 	}
 
 
 	public void runPlayer(Player sender, String[] args) {
 		Player p = (Player)sender;
-		if(plugin.getConfig().getBoolean("SortingHat.addHousePermissionNodes")) {
+		if(HarryPotterSpells.Plugin.getConfig().getBoolean("SortingHat.addHousePermissionNodes")) {
 			if (p.hasPermission("HarryPotterSpells.house.gryffindor") || p.hasPermission("HarryPotterSpells.house.hufflepuff") || p.hasPermission("HarryPotterSpells.house.ravenclaw") || p.hasPermission("HarryPotterSpells.house.slytherin")) {
-				plugin.PM.warn((Player)p, "You have already been sorted.");
+				HarryPotterSpells.PM.warn((Player)p, "You have already been sorted.");
 			} else {
 				perm(p);
 			}
 			return;
 		}
-		if(plugin.getConfig().getBoolean("SortingHat.addHouseGroups")) {
+		if(HarryPotterSpells.Plugin.getConfig().getBoolean("SortingHat.addHouseGroups")) {
 			if(p.hasPermission("HarryPotterSpells.house.gryffindor") || p.hasPermission("HarryPotterSpells.house.hufflepuff") || p.hasPermission("HarryPotterSpells.house.ravenclaw") || p.hasPermission("HarryPotterSpells.house.slytherin")) {
-				plugin.PM.warn(p, "You have already been sorted.");
+				HarryPotterSpells.PM.warn(p, "You have already been sorted.");
 			} else {
 				group(p);
 			}

@@ -1,5 +1,6 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
@@ -12,19 +13,15 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		goThroughWalls=false
 )
 public class Evanesco extends Spell {
-	
-	public Evanesco(HarryPotterSpells instance) {
-		super(instance);
-	}
 
 	public void cast(final Player p) {
-		for (Player players : plugin.getServer().getOnlinePlayers()) {
+		for (Player players : Bukkit.getServer().getOnlinePlayers()) {
             players.hidePlayer(p);
             p.getWorld().createExplosion(p.getLocation(), 0, false);
         }
-		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HarryPotterSpells.Plugin, new Runnable() {
 			   public void run() {
-				   for (Player players : plugin.getServer().getOnlinePlayers()) {
+				   for (Player players : Bukkit.getServer().getOnlinePlayers()) {
 			            players.showPlayer(p);
 			       }
 				   p.getWorld().createExplosion(p.getLocation(), 0, false);

@@ -15,10 +15,6 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		goThroughWalls=false
 )
 public class TimeSpell extends Spell{
-
-	public TimeSpell(HarryPotterSpells instance) {
-		super(instance);
-	}
 	
 	//Dawn == 0L
 	//Morning == 2500L
@@ -39,7 +35,7 @@ public class TimeSpell extends Spell{
 			} else {
 				time = time - 12000L;
 			}
-			if(plugin.getConfig().getBoolean("spells.time.lightning", true))
+			if(HarryPotterSpells.Plugin.getConfig().getBoolean("spells.time.lightning", true))
 				awesomeLightning(p.getLocation(), w);
 			w.setTime(time);
 		}

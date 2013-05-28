@@ -10,10 +10,6 @@ import org.bukkit.entity.Player;
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
 public abstract class Executor implements CommandExecutor {
-	HarryPotterSpells plugin;
-	public Executor(HarryPotterSpells instance) {
-		plugin=instance;
-	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		run(sender,args);
@@ -33,12 +29,12 @@ public abstract class Executor implements CommandExecutor {
 	 * Override the functions below depending on who can run the command
 	 */
 	
-	public void runPlayer(Player sender, String[] args) {
-		plugin.PM.log("This command cannot be run from in game.", Level.WARNING);
+	public void runPlayer(Player sender, String[] args) { //TODO this whole run console crap is pointless
+		HarryPotterSpells.PM.log("This command cannot be run from in game.", Level.WARNING);
 	}
 	
 	public void runConsole(String[] args){
-		plugin.PM.log("This command cannot be run from the console.",Level.WARNING);
+		HarryPotterSpells.PM.log("This command cannot be run from the console.",Level.WARNING);
 	}
 	
 }

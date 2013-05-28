@@ -9,20 +9,15 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class PlayerSpellConfig {
-	HarryPotterSpells plugin;
-	public PlayerSpellConfig(HarryPotterSpells instance){
-		plugin=instance;
-	}
-	
 	private FileConfiguration PSC = null;
 	private File PSCFile = null;
 	
 	public void reloadPSC() {
 	    if (PSCFile == null) {
-	    	PSCFile = new File(plugin.getDataFolder(), "PlayerSpellConfig.yml");
+	    	PSCFile = new File(HarryPotterSpells.Plugin.getDataFolder(), "PlayerSpellConfig.yml");
 	    }
 	    PSC = YamlConfiguration.loadConfiguration(PSCFile);
-	    InputStream defConfigStream = plugin.getResource("PlayerSpellConfig.yml");
+	    InputStream defConfigStream = HarryPotterSpells.Plugin.getResource("PlayerSpellConfig.yml");
 	    if (defConfigStream != null) {
 	        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
 	        PSC.setDefaults(defConfig);
@@ -42,7 +37,7 @@ public class PlayerSpellConfig {
 	    try {
 	        getPSC().save(PSCFile);
 	    } catch (IOException ex) {
-	        plugin.PM.log("Could not save config to " + PSCFile + ". Error: " + ex.getMessage(), Level.SEVERE);
+	    	HarryPotterSpells.PM.log("Could not save config to " + PSCFile + ". Error: " + ex.getMessage(), Level.SEVERE);
 	    }
 	}
 
