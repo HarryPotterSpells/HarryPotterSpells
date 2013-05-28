@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
@@ -21,14 +21,14 @@ public class Deprimo extends Spell{
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {
 			final Player target = (Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 500, 1));
-			HarryPotterSpells.MiscListeners.deprimo.add(target.getName());
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HarryPotterSpells.Plugin, new Runnable() {
+			HPS.MiscListeners.deprimo.add(target.getName());
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
 				   public void run() {
-					   HarryPotterSpells.MiscListeners.deprimo.remove(target.getName());
+					   HPS.MiscListeners.deprimo.remove(target.getName());
 				   }
 				}, 400L);
 		} else {
-			HarryPotterSpells.PM.warn(p, "You can only cast this on a player!");
+			HPS.PM.warn(p, "You can only cast this on a player!");
 		}
 	}
 

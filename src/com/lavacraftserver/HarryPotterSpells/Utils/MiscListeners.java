@@ -14,16 +14,16 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.HPS;
 
 public class MiscListeners implements Listener { //TODO this class is just morally wrong
 	public Set<String> sonorus = new HashSet<String>(), spongify = new HashSet<String>(), deprimo = new HashSet<String>(), petrificustotalus = new HashSet<String>();
 
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
-		if(HarryPotterSpells.Plugin.getConfig().getBoolean("spell-castable-with-chat")) {
-			if(HarryPotterSpells.SpellManager.isSpell(e.getMessage().substring(0, e.getMessage().length() - 1))) {
-				HarryPotterSpells.SpellManager.getSpell(e.getMessage().substring(0, e.getMessage().length() - 1)).cast(e.getPlayer());
+		if(HPS.Plugin.getConfig().getBoolean("spell-castable-with-chat")) {
+			if(HPS.SpellManager.isSpell(e.getMessage().substring(0, e.getMessage().length() - 1))) {
+				HPS.SpellManager.getSpell(e.getMessage().substring(0, e.getMessage().length() - 1)).cast(e.getPlayer());
 				return;
 			}
 		}
@@ -38,8 +38,8 @@ public class MiscListeners implements Listener { //TODO this class is just moral
 	@EventHandler
 	public void onCommand(PlayerCommandPreprocessEvent e) {
 		String spell = e.getMessage().replace('/', ' ');
-		if(HarryPotterSpells.SpellManager.isSpell(spell)) {
-			HarryPotterSpells.SpellManager.getSpell(spell).cast(e.getPlayer());
+		if(HPS.SpellManager.isSpell(spell)) {
+			HPS.SpellManager.getSpell(spell).cast(e.getPlayer());
 		}
 	}
 

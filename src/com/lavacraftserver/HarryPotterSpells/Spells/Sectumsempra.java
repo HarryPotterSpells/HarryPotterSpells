@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
@@ -24,9 +24,9 @@ public class Sectumsempra extends Spell {
 			LivingEntity le = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			SectumsempraRunnable sectumsemprarunnable = new SectumsempraRunnable();
 			sectumsemprarunnable.le = le;
-			sectumsemprarunnable.taskID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(HarryPotterSpells.Plugin, sectumsemprarunnable, 0L, 20L);
+			sectumsemprarunnable.taskID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(HPS.Plugin, sectumsemprarunnable, 0L, 20L);
 		} else {
-			HarryPotterSpells.PM.warn(p, "This may only be used on a player or a mob.");
+			HPS.PM.warn(p, "This may only be used on a player or a mob.");
 		}
 	}
 

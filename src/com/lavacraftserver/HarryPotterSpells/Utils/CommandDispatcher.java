@@ -9,7 +9,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.reflections.Reflections;
 
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Commands.Executor;
 
 public class CommandDispatcher implements CommandExecutor {
@@ -20,9 +20,9 @@ public class CommandDispatcher implements CommandExecutor {
 		for(Class<? extends Executor> clazz : ref.getSubTypesOf(Executor.class)) {
 			Executor cmd;
 			try {
-				cmd = clazz.getConstructor(HarryPotterSpells.class).newInstance();
+				cmd = clazz.getConstructor(HPS.class).newInstance();
 			} catch (Exception e) {
-				HarryPotterSpells.PM.log("An error occurred whilst adding the " + clazz.getName() + " command to the command list. That command will not be available." , Level.WARNING);
+				HPS.PM.log("An error occurred whilst adding the " + clazz.getName() + " command to the command list. That command will not be available." , Level.WARNING);
 				e.printStackTrace();
 				continue;
 			}

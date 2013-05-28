@@ -14,10 +14,10 @@ public class PlayerSpellConfig {
 	
 	public void reloadPSC() {
 	    if (PSCFile == null) {
-	    	PSCFile = new File(HarryPotterSpells.Plugin.getDataFolder(), "PlayerSpellConfig.yml");
+	    	PSCFile = new File(HPS.Plugin.getDataFolder(), "PlayerSpellConfig.yml");
 	    }
 	    PSC = YamlConfiguration.loadConfiguration(PSCFile);
-	    InputStream defConfigStream = HarryPotterSpells.Plugin.getResource("PlayerSpellConfig.yml");
+	    InputStream defConfigStream = HPS.Plugin.getResource("PlayerSpellConfig.yml");
 	    if (defConfigStream != null) {
 	        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
 	        PSC.setDefaults(defConfig);
@@ -37,7 +37,7 @@ public class PlayerSpellConfig {
 	    try {
 	        getPSC().save(PSCFile);
 	    } catch (IOException ex) {
-	    	HarryPotterSpells.PM.log("Could not save config to " + PSCFile + ". Error: " + ex.getMessage(), Level.SEVERE);
+	    	HPS.PM.log("Could not save config to " + PSCFile + ". Error: " + ex.getMessage(), Level.SEVERE);
 	    }
 	}
 

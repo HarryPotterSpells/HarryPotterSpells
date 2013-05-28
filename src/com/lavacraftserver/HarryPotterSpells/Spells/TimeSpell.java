@@ -5,7 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
@@ -35,7 +35,7 @@ public class TimeSpell extends Spell{
 			} else {
 				time = time - 12000L;
 			}
-			if(HarryPotterSpells.Plugin.getConfig().getBoolean("spells.time.lightning", true))
+			if(HPS.Plugin.getConfig().getBoolean("spells.time.lightning", true))
 				awesomeLightning(p.getLocation(), w);
 			w.setTime(time);
 		}

@@ -3,7 +3,7 @@ package com.lavacraftserver.HarryPotterSpells.Spells;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
@@ -15,11 +15,11 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 public class Spongify extends Spell {
 
 	public  void cast(final Player p) {
-		HarryPotterSpells.MiscListeners.spongify.add(p.getName());
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HarryPotterSpells.Plugin, new Runnable() {
+		HPS.MiscListeners.spongify.add(p.getName());
+		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
 			   public void run() {
-				   if(HarryPotterSpells.MiscListeners.spongify.contains(p.getName())) {
-					   HarryPotterSpells.MiscListeners.spongify.remove(p.getName());
+				   if(HPS.MiscListeners.spongify.contains(p.getName())) {
+					   HPS.MiscListeners.spongify.remove(p.getName());
 				   } 
 			   }
 			}, 200L);

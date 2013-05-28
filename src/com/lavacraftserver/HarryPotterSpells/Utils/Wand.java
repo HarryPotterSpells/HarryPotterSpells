@@ -6,13 +6,13 @@ import java.util.Map;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.HPS;
 
 public class Wand {
 
 	public boolean isWand(ItemStack i) {
-		if(i.getTypeId() == HarryPotterSpells.Plugin.getConfig().getInt("wand-id", 280)) {
-			if(HarryPotterSpells.Plugin.getConfig().getBoolean("apply-wand-enchantment", false)) {
+		if(i.getTypeId() == HPS.Plugin.getConfig().getInt("wand-id", 280)) {
+			if(HPS.Plugin.getConfig().getBoolean("apply-wand-enchantment", false)) {
 				Map<Enchantment, Integer> wand = new HashMap<Enchantment, Integer>();
 				wand.put(Enchantment.DURABILITY, 1);
 				Map<Enchantment, Integer> item = (HashMap<Enchantment, Integer>)i.getEnchantments();
@@ -30,8 +30,8 @@ public class Wand {
 	}
 	
 	public ItemStack getWand() {
-		ItemStack wand = new ItemStack(HarryPotterSpells.Plugin.getConfig().getInt("wand-id", 280));
-		if(HarryPotterSpells.Plugin.getConfig().getBoolean("apply-wand-enchantment", false)) {
+		ItemStack wand = new ItemStack(HPS.Plugin.getConfig().getInt("wand-id", 280));
+		if(HPS.Plugin.getConfig().getBoolean("apply-wand-enchantment", false)) {
 			wand.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
 		}
 		return wand;

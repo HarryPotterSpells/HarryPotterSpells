@@ -6,7 +6,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
@@ -21,7 +21,7 @@ public class Incendio extends Spell{
 	public void cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) {
 			LivingEntity le = (LivingEntity) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
-			int fireTicks = HarryPotterSpells.Plugin.getConfig().getInt("spells.incendio.duration");
+			int fireTicks = HPS.Plugin.getConfig().getInt("spells.incendio.duration");
 			le.setFireTicks(fireTicks);
 		} else {
 			Block b = p.getTargetBlock(null, this.getRange());

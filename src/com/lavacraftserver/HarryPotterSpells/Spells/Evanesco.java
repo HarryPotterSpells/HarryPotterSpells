@@ -3,7 +3,7 @@ package com.lavacraftserver.HarryPotterSpells.Spells;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
@@ -19,7 +19,7 @@ public class Evanesco extends Spell {
             players.hidePlayer(p);
             p.getWorld().createExplosion(p.getLocation(), 0, false);
         }
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HarryPotterSpells.Plugin, new Runnable() {
+		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
 			   public void run() {
 				   for (Player players : Bukkit.getServer().getOnlinePlayers()) {
 			            players.showPlayer(p);

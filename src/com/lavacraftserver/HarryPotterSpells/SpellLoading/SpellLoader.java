@@ -13,7 +13,7 @@ import java.util.jar.JarFile;
 import org.apache.commons.lang.Validate;
 import org.yaml.snakeyaml.error.YAMLException;
 
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
 public class SpellLoader {
@@ -23,7 +23,7 @@ public class SpellLoader {
 	}
 	
 	public void loadSpells(){
-		File file = new File(HarryPotterSpells.Plugin.getDataFolder() + File.separator + "Spells" + File.separator);
+		File file = new File(HPS.Plugin.getDataFolder() + File.separator + "Spells" + File.separator);
 		if (!file.exists())
 			file.mkdirs();
 		for (File f : file.listFiles()){
@@ -34,7 +34,7 @@ public class SpellLoader {
 	}
 	public Spell newInstance(Class<? extends Spell> clazz){
 		try {
-			Constructor<? extends Spell> constructor = clazz.getConstructor(HarryPotterSpells.class);
+			Constructor<? extends Spell> constructor = clazz.getConstructor(HPS.class);
 			Spell t = constructor.newInstance();
 			return t;
 		} catch (NoSuchMethodException e) {
@@ -58,7 +58,7 @@ public class SpellLoader {
             urls[0] = file.toURI().toURL();
             Class<?> jarClass = Class.forName(desc.getMain(), true, new URLClassLoader(urls, this.getClass().getClassLoader()));
             Class<? extends Spell> type = jarClass.asSubclass(Spell.class);
-            HarryPotterSpells.SpellManager.addSpell(newInstance(type));
+            HPS.SpellManager.addSpell(newInstance(type));
         } catch (Throwable e) {
         	throw new InvalidSpellException(e);
         } 

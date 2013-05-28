@@ -9,7 +9,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
@@ -33,7 +33,7 @@ public class Expelliarmus extends Spell {
 				i.setVelocity(new Vector(vector.getX() * 2, vector.getY() * 2, vector.getZ() * 2));
 			}
 		} else {
-			HarryPotterSpells.PM.warn(p, "You can only cast this on players.");
+			HPS.PM.warn(p, "You can only cast this on players.");
 		}
 	}
 }

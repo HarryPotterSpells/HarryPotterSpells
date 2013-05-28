@@ -1,6 +1,6 @@
 name: HarryPotterSpells
-main: com.lavacraftserver.HarryPotterSpells.HarryPotterSpells
-version: ALPHA 0.1
+main: com.lavacraftserver.HarryPotterSpells.HPS
+version: ALPHA 0.3
 softdepend: [Vault, WorldGuard, LogBlock, Towny]
 commands:
   teach:

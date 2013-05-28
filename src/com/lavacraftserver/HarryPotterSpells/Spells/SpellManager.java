@@ -6,7 +6,7 @@ import java.util.logging.Level;
 import org.bukkit.configuration.ConfigurationSection;
 import org.reflections.Reflections;
 
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.HPS;
 
 public class SpellManager {
 	private ArrayList<Spell> spellList = new ArrayList<Spell>();
@@ -18,9 +18,9 @@ public class SpellManager {
 			if(clazz == Spell.class || clazz == InvalidSpell.class || !Spell.class.isAssignableFrom(clazz))
 				continue;
 			try {
-				spell = (Spell) clazz.getConstructor(HarryPotterSpells.class).newInstance();
+				spell = (Spell) clazz.getConstructor(HPS.class).newInstance();
 			} catch (Exception e) {
-				HarryPotterSpells.PM.log("An error occurred whilst adding the " + clazz.getName() + " spell to the spell list. That spell will not be available." , Level.WARNING);
+				HPS.PM.log("An error occurred whilst adding the " + clazz.getName() + " spell to the spell list. That spell will not be available." , Level.WARNING);
 				e.printStackTrace();
 				continue;
 			}
@@ -57,20 +57,20 @@ public class SpellManager {
 	}
 	
 	public void save() {
-		HarryPotterSpells.Plugin.getConfig().createSection("spells");
-		ConfigurationSection configSpells = HarryPotterSpells.Plugin.getConfig().getConfigurationSection("spells");
+		HPS.Plugin.getConfig().createSection("spells");
+		ConfigurationSection configSpells = HPS.Plugin.getConfig().getConfigurationSection("spells");
 		for(Spell s : spellList) {
 			configSpells.createSection(s.getInternalName());
 			configSpells.set(s.getInternalName(), s.save(configSpells.getConfigurationSection(s.getInternalName())));
 		}
-		HarryPotterSpells.Plugin.getConfig().set("arenas", configSpells);
+		HPS.Plugin.getConfig().set("arenas", configSpells);
 	}
 
 	public void load() {
 		try{
-			if(!HarryPotterSpells.Plugin.getConfig().isSet("spells"))
-				HarryPotterSpells.Plugin.getConfig().getConfigurationSection("spells");
-			ConfigurationSection configSpells = HarryPotterSpells.Plugin.getConfig().getConfigurationSection("spells");
+			if(!HPS.Plugin.getConfig().isSet("spells"))
+				HPS.Plugin.getConfig().getConfigurationSection("spells");
+			ConfigurationSection configSpells = HPS.Plugin.getConfig().getConfigurationSection("spells");
 			for(String k : configSpells.getKeys(false))
 				getSpell(k).load(configSpells.getConfigurationSection(k));
 		} catch(Exception e){

@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
@@ -22,7 +22,7 @@ public class Episkey extends Spell {
 			LivingEntity livingentity = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			livingentity.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 600, 1));
 		} else {
-			HarryPotterSpells.PM.warn(p, "You can only cast this on a player or mob!");
+			HPS.PM.warn(p, "You can only cast this on a player or mob!");
 		}
 	}
 }

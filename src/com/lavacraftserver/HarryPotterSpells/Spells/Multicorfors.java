@@ -10,7 +10,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
@@ -26,25 +26,25 @@ public class Multicorfors extends Spell{
 		final Block b = p.getTargetBlock(transparentBlocks(), 25);
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Sheep) {
 			final Sheep sheep = (Sheep) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
-			if(HarryPotterSpells.Plugin.getConfig().getBoolean("spells.multicorfors.explosionEffect", true)) {
+			if(HPS.Plugin.getConfig().getBoolean("spells.multicorfors.explosionEffect", true)) {
 				sheep.getWorld().createExplosion(sheep.getLocation(), 0F);
 			}
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HarryPotterSpells.Plugin, new Runnable() {
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
 				   public void run() {
 					   sheep.setColor(randomDyeColor());
 				   }
 				}, 4L);
 		} else if(b.getType() == Material.WOOL) {
-			if(HarryPotterSpells.Plugin.getConfig().getBoolean("spells.multicorfors.explosionEffect", true)) {
+			if(HPS.Plugin.getConfig().getBoolean("spells.multicorfors.explosionEffect", true)) {
 				p.getWorld().createExplosion(b.getLocation(), 0F);
 			}
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HarryPotterSpells.Plugin, new Runnable() {
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
 				   public void run() {
 					   b.setData(randomDyeColorInt());
 				   }
 				}, 4L);
 		} else {
-			HarryPotterSpells.PM.warn(p, "You can only cast this spell on sheep or wool.");
+			HPS.PM.warn(p, "You can only cast this spell on sheep or wool.");
 		}
 	}
 	

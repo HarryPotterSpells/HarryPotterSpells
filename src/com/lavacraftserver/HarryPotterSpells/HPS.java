@@ -15,6 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 import org.reflections.Reflections;
 
+import com.lavacraftserver.HarryPotterSpells.Addons.AddonManager;
 import com.lavacraftserver.HarryPotterSpells.Jobs.ClearJob;
 import com.lavacraftserver.HarryPotterSpells.Jobs.JobManager;
 import com.lavacraftserver.HarryPotterSpells.SpellLoading.SpellLoader;
@@ -23,7 +24,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.CommandDispatcher;
 import com.lavacraftserver.HarryPotterSpells.Utils.MiscListeners;
 import com.lavacraftserver.HarryPotterSpells.Utils.Wand;
 
-public class HarryPotterSpells extends JavaPlugin {
+public class HPS extends JavaPlugin {
 	public static PlayerSpellConfig PlayerSpellConfig;
 	public static PM PM;
 	public static SpellManager SpellManager;
@@ -35,6 +36,7 @@ public class HarryPotterSpells extends JavaPlugin {
 	public static PluginManager PluginManager = Bukkit.getServer().getPluginManager();
 	public static Plugin Plugin;
 	public static JobManager JobManager;
+	public static AddonManager AddonManager;
 	
 	@Override
 	public void onEnable() {
@@ -48,6 +50,7 @@ public class HarryPotterSpells extends JavaPlugin {
 		SpellLoader = new SpellLoader();
 		CommandDispatcher = new CommandDispatcher();
 		JobManager = new JobManager();
+		AddonManager = new AddonManager();
 		
 		// Reflections
 		Reflections reflections = new Reflections("com.lavacraftserver.HarryPotterSpells");

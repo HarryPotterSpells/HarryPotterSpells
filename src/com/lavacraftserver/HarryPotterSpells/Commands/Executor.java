@@ -7,7 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.HPS;
 
 public abstract class Executor implements CommandExecutor {
 	
@@ -30,11 +30,11 @@ public abstract class Executor implements CommandExecutor {
 	 */
 	
 	public void runPlayer(Player sender, String[] args) { //TODO this whole run console crap is pointless
-		HarryPotterSpells.PM.log("This command cannot be run from in game.", Level.WARNING);
+		HPS.PM.log("This command cannot be run from in game.", Level.WARNING);
 	}
 	
 	public void runConsole(String[] args){
-		HarryPotterSpells.PM.log("This command cannot be run from the console.",Level.WARNING);
+		HPS.PM.log("This command cannot be run from the console.",Level.WARNING);
 	}
 	
 }

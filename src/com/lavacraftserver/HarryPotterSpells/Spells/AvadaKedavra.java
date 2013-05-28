@@ -3,7 +3,7 @@ package com.lavacraftserver.HarryPotterSpells.Spells;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
@@ -20,7 +20,7 @@ public class AvadaKedavra extends Spell {
 			LivingEntity livingentity = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			livingentity.setHealth(0);
 		} else {
-			HarryPotterSpells.PM.warn(p, "You can only cast this on a player or mob!");
+			HPS.PM.warn(p, "You can only cast this on a player or mob!");
 		}
 	}
 	

@@ -5,7 +5,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
@@ -24,7 +24,7 @@ public class Aguamenti extends Spell {
 		if(!(hit.getType() == Material.AIR)) {
 			b.setType(Material.WATER);
 		} else {
-			HarryPotterSpells.PM.warn(p, "You cannot place water here.");
+			HPS.PM.warn(p, "You cannot place water here.");
 		}
 	}
 	

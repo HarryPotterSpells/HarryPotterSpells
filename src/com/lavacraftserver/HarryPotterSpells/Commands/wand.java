@@ -2,7 +2,7 @@ package com.lavacraftserver.HarryPotterSpells.Commands;
 
 import org.bukkit.entity.Player;
 
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.HPS;
 
 public class wand extends Executor {
 	
@@ -12,12 +12,12 @@ public class wand extends Executor {
 	}
 	
 	public void runPlayer(Player sender,String[] args) {
-		if(HarryPotterSpells.Plugin.getConfig().getBoolean("WandGive.enabled")) {
+		if(HPS.Plugin.getConfig().getBoolean("WandGive.enabled")) {
 			if(sender instanceof Player) {
 				Player player = (Player)sender;
-				player.getInventory().setItem(player.getInventory().firstEmpty(), HarryPotterSpells.Wand.getWand());
-				HarryPotterSpells.PM.tell(player, "You have been given a wand!");
-				if(HarryPotterSpells.Plugin.getConfig().getBoolean("WandGive.explosionEffect")) {
+				player.getInventory().setItem(player.getInventory().firstEmpty(), HPS.Wand.getWand());
+				HPS.PM.tell(player, "You have been given a wand!");
+				if(HPS.Plugin.getConfig().getBoolean("WandGive.explosionEffect")) {
 					player.getWorld().createExplosion(player.getLocation(), 0, false);
 				}
 		}

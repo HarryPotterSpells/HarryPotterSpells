@@ -28,19 +28,19 @@ public class PM extends JavaPlugin {
 	}
 	
 	public void notify(Player player, String spell) {
-		if (HarryPotterSpells.Plugin.getConfig().getBoolean("notify-on-spell-use") == true) {
+		if (HPS.Plugin.getConfig().getBoolean("notify-on-spell-use") == true) {
 			player.sendMessage(ChatColor.GOLD + "You have cast " + ChatColor.AQUA + spell + "!");
 		}
 	}
 	
 	public void shout(Player player, String spell) {
-		if (HarryPotterSpells.Plugin.getConfig().getBoolean("shout-on-spell-use") == true) {
+		if (HPS.Plugin.getConfig().getBoolean("shout-on-spell-use") == true) {
 			player.chat(spell + "!");
 		}
 	}
 	
 	public void debug(String message) {
-		if(HarryPotterSpells.Plugin.getConfig().getBoolean("DebugMode")) {
+		if(HPS.Plugin.getConfig().getBoolean("DebugMode")) {
 			log("[HPS - Debug] " + message, Level.INFO);
 		}
 	}

@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.HPS;
 
 public class sort extends Executor{ //TODO Move away!
 	
@@ -71,24 +71,24 @@ public class sort extends Executor{ //TODO Move away!
 					 break;
 		}
 		player += p.getName();
-		HarryPotterSpells.Plugin.getServer().broadcastMessage(player + ChatColor.WHITE + " has been sorted into... " + house + "!");
+		HPS.Plugin.getServer().broadcastMessage(player + ChatColor.WHITE + " has been sorted into... " + house + "!");
 		//plugin.Vault.perm.playerAdd(p, perm);
 	}
 
 
 	public void runPlayer(Player sender, String[] args) {
 		Player p = (Player)sender;
-		if(HarryPotterSpells.Plugin.getConfig().getBoolean("SortingHat.addHousePermissionNodes")) {
+		if(HPS.Plugin.getConfig().getBoolean("SortingHat.addHousePermissionNodes")) {
 			if (p.hasPermission("HarryPotterSpells.house.gryffindor") || p.hasPermission("HarryPotterSpells.house.hufflepuff") || p.hasPermission("HarryPotterSpells.house.ravenclaw") || p.hasPermission("HarryPotterSpells.house.slytherin")) {
-				HarryPotterSpells.PM.warn((Player)p, "You have already been sorted.");
+				HPS.PM.warn((Player)p, "You have already been sorted.");
 			} else {
 				perm(p);
 			}
 			return;
 		}
-		if(HarryPotterSpells.Plugin.getConfig().getBoolean("SortingHat.addHouseGroups")) {
+		if(HPS.Plugin.getConfig().getBoolean("SortingHat.addHouseGroups")) {
 			if(p.hasPermission("HarryPotterSpells.house.gryffindor") || p.hasPermission("HarryPotterSpells.house.hufflepuff") || p.hasPermission("HarryPotterSpells.house.ravenclaw") || p.hasPermission("HarryPotterSpells.house.slytherin")) {
-				HarryPotterSpells.PM.warn(p, "You have already been sorted.");
+				HPS.PM.warn(p, "You have already been sorted.");
 			} else {
 				group(p);
 			}

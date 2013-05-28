@@ -13,7 +13,7 @@ import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.HPS;
 
 public abstract class Spell {
 	
@@ -27,26 +27,26 @@ public abstract class Spell {
 	public void teach(Player sender, Player target){
 		if(target != null) {
 			if(playerKnows(target)) {
-				HarryPotterSpells.PM.warn(sender, target.getName() + " already knows that spell!");
+				HPS.PM.warn(sender, target.getName() + " already knows that spell!");
 			} else {
 				teach(target);
-				HarryPotterSpells.PM.tell(sender, "You have taught " + target.getName() + " the spell " + toString() + ".");
+				HPS.PM.tell(sender, "You have taught " + target.getName() + " the spell " + toString() + ".");
 			}
 		} else {
-			HarryPotterSpells.PM.warn(sender, "The player was not found.");
+			HPS.PM.warn(sender, "The player was not found.");
 		}
 	}
 
 	public void teach(Player p){
-		List<String> list = HarryPotterSpells.PlayerSpellConfig.getPSC().getStringList(p.getName());
+		List<String> list = HPS.PlayerSpellConfig.getPSC().getStringList(p.getName());
 		list.add(toString());
-		HarryPotterSpells.PlayerSpellConfig.getPSC().set(p.getName(), list);
-		HarryPotterSpells.PlayerSpellConfig.savePSC();
-		HarryPotterSpells.PM.tell(p, "You have been taught " + toString());
+		HPS.PlayerSpellConfig.getPSC().set(p.getName(), list);
+		HPS.PlayerSpellConfig.savePSC();
+		HPS.PM.tell(p, "You have been taught " + toString());
 	}	
 
 	public boolean playerKnows(Player p){
-		List<String> list = HarryPotterSpells.PlayerSpellConfig.getPSC().getStringList(p.getName());
+		List<String> list = HPS.PlayerSpellConfig.getPSC().getStringList(p.getName());
 		if(list.contains(toString())) {
 			return true;
 		} else {
@@ -55,11 +55,11 @@ public abstract class Spell {
 	}
 
 	public void unTeach(Player p){
-		List<String> list = HarryPotterSpells.PlayerSpellConfig.getPSC().getStringList(p.getName());
+		List<String> list = HPS.PlayerSpellConfig.getPSC().getStringList(p.getName());
 		list.remove(toString());
-		HarryPotterSpells.PlayerSpellConfig.getPSC().set(p.getName(), list);
-		HarryPotterSpells.PlayerSpellConfig.savePSC();
-		HarryPotterSpells.PM.tell(p, "You have forgotten " + toString());
+		HPS.PlayerSpellConfig.getPSC().set(p.getName(), list);
+		HPS.PlayerSpellConfig.savePSC();
+		HPS.PM.tell(p, "You have forgotten " + toString());
 	}
 	public String toString(){
 		return this.getClass().getSimpleName();

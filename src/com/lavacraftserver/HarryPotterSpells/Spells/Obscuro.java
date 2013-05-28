@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
+import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
@@ -23,7 +23,7 @@ public class Obscuro extends Spell {
 			LivingEntity le = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			le.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 10));
 		} else {
-			HarryPotterSpells.PM.warn(p, "This may only be used on a player or a mob.");
+			HPS.PM.warn(p, "This may only be used on a player or a mob.");
 		}
 	}
 
