@@ -3,24 +3,19 @@ package com.lavacraftserver.HarryPotterSpells;
 import java.util.HashMap;
 import java.util.List;
 
-//TODO MOVE TO VAULT ADDON import net.milkbowl.vault.economy.EconomyResponse;
-
-import org.bukkit.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import com.lavacraftserver.HarryPotterSpells.API.SpellCastEvent;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
-import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
 public class Listeners implements Listener {
 	public HashMap<String, Integer> currentSpell = new HashMap<String, Integer>();
@@ -66,32 +61,26 @@ public class Listeners implements Listener {
 					plugin.PM.tell(p, "You don't know any spells.");
 					return;
 				}
+				
 				int spellNumber = 0;
-				if(currentSpell.containsKey(p.getName())) {
+				if(currentSpell.containsKey(p.getName()))
 					spellNumber = currentSpell.get(p.getName());
-				}
-				Location l = p.getLocation();
-				l.setY(l.getY() + 1);
+	
 				if(plugin.getConfig().getBoolean("spell-particle-toggle")) {
+					Location l = p.getLocation();
+					l.setY(l.getY() + 1);
 					p.getWorld().playEffect(l, Effect.ENDER_SIGNAL, 0);
 				}
-				Location loc;
 				Spell spell = plugin.SpellManager.getSpell(spellList.get(spellNumber));
-				if(Targeter.getTarget(p, spell.getRange(), spell.canBeCastThroughWalls()) != null) {
-					loc = Targeter.getTarget(p, spell.getRange(), spell.canBeCastThroughWalls()).getLocation();
-				} else {
-					loc = p.getTargetBlock(Targeter.getTransparentBlocks(), spell.getRange()).getLocation();
-				}
-				if(plugin.SpellManager.canCastSpell(p, spell, l, loc) == 0) {
+				
+				SpellCastEvent sce = new SpellCastEvent(spell, p);
+				Bukkit.getServer().getPluginManager().callEvent(sce);
+				if(!sce.isCancelled())
 					spell.cast(p);
-					//plugin.LogBlock.logSpell(p, spellList.get(spellNumber)); //TODO Move to addon
-					//Cancel event if player is in creative to prevent block damage.
-					if (p.getGameMode().equals(GameMode.CREATIVE)){
-						e.setCancelled(true);
-					}
-				} else {
-					plugin.PM.warn(p, plugin.SpellManager.getCastSpellErrorMessage(plugin.SpellManager.canCastSpell(p, spell, l, loc)));
-				}
+
+				//Cancel event if player is in creative to prevent block damage.
+				if (p.getGameMode().equals(GameMode.CREATIVE))
+					e.setCancelled(true);
 			}
 			
 		}
@@ -148,6 +137,7 @@ public class Listeners implements Listener {
 		}
 	}
 	
+	/*
 	@EventHandler
 	public void onPlayerBlockPlace(BlockPlaceEvent e) {
 		if(plugin.PM.hasPermission("HarryPotterSpells.sign.create", e.getPlayer()) && e.getBlockPlaced().getType() == Material.SIGN) {
@@ -178,5 +168,6 @@ public class Listeners implements Listener {
 			}
 		}
 	}
+	*/ //TODO move to addon
 
 }
