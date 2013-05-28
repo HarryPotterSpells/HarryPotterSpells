@@ -1,14 +1,7 @@
 package com.lavacraftserver.HarryPotterSpells.Hooks;
 
-import java.util.logging.Level;
-
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
-
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-
 public class WorldGuard {
+	/* TODO move to addon
 	// API can be found here: http://wiki.sk89q.com/wiki/WorldGuard/Regions/API
 	HarryPotterSpells plugin;
 	
@@ -44,5 +37,7 @@ public class WorldGuard {
 			return false;
 		}
 	}
+	
+	*/
 
 }

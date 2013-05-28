@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.reflections.Reflections;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
-import com.palmergames.bukkit.towny.object.TownyUniverse;
 
 public class SpellManager {
 	private ArrayList<Spell> spellList = new ArrayList<Spell>();
@@ -62,6 +61,7 @@ public class SpellManager {
 	}
 	
 	public int canCastSpell(Player player, Spell spell, Location playerLocation, Location targetLocation) {
+		/* TODO move to addons
 		//Towny checks first
 		if(plugin.Towny.isEnabled()) {
 			if(!plugin.getConfig().getBoolean("Towny.canCastSpellInTown")) {
@@ -87,6 +87,7 @@ public class SpellManager {
 			}
 		}
 		
+		*/
 		return 0;
 	}
 	

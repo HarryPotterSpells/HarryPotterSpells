@@ -8,9 +8,9 @@ import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
-public class Sort extends Executor{
+public class sort extends Executor{ //TODO Move away!
 	
-	public Sort(HarryPotterSpells instance){
+	public sort(HarryPotterSpells instance){
 		super(instance);
 	}
 	
@@ -46,7 +46,7 @@ public class Sort extends Executor{
 		}
 		player += p.getName();
 		Bukkit.getServer().broadcastMessage(player + ChatColor.WHITE + " has been sorted into... " + house + "!");
-		plugin.Vault.perm.playerAddGroup(p, group);
+		//plugin.Vault.perm.playerAddGroup(p, group);
 	}
 	
 	public void perm(Player p) {
@@ -76,7 +76,7 @@ public class Sort extends Executor{
 		}
 		player += p.getName();
 		plugin.getServer().broadcastMessage(player + ChatColor.WHITE + " has been sorted into... " + house + "!");
-		plugin.Vault.perm.playerAdd(p, perm);
+		//plugin.Vault.perm.playerAdd(p, perm);
 	}
 
 

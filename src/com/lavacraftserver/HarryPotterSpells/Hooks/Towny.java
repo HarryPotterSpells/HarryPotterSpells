@@ -1,14 +1,8 @@
 package com.lavacraftserver.HarryPotterSpells.Hooks;
 
-import java.util.logging.Level;
-
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
-
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
-
 // JavaDocs http://palmergames.com/javadoc/
 public class Towny {
+	/* TODO move to addon
 	HarryPotterSpells plugin;
 
 	public Towny(HarryPotterSpells instance) {
@@ -41,5 +35,7 @@ public class Towny {
 			return false;
 		}
 	}
+	
+	*/
 
 }

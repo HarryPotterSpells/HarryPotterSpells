@@ -11,10 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.lavacraftserver.HarryPotterSpells.Hooks.LogBlock;
 import com.lavacraftserver.HarryPotterSpells.Hooks.Towny;
-import com.lavacraftserver.HarryPotterSpells.Hooks.Vault;
-import com.lavacraftserver.HarryPotterSpells.Hooks.WorldGuard;
 import com.lavacraftserver.HarryPotterSpells.SpellLoading.SpellLoader;
 import com.lavacraftserver.HarryPotterSpells.Spells.SpellManager;
 import com.lavacraftserver.HarryPotterSpells.Utils.CommandDispatcher;
@@ -27,9 +24,9 @@ public class HarryPotterSpells extends JavaPlugin {
 	public SpellManager SpellManager;
 	public MiscListeners MiscListeners;
 	public Listeners Listeners;
-	public Vault Vault;
-	public LogBlock LogBlock;
-	public WorldGuard WorldGuard;
+	//public Vault Vault;
+	//public LogBlock LogBlock; TODO ADD ALL THIS TO SEPERATE ADDONS
+	//public WorldGuard WorldGuard;
 	public Towny Towny;
 	public Wand Wand;
 	public Logger Log;
@@ -51,10 +48,10 @@ public class HarryPotterSpells extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(MiscListeners, this);
 		
 		// Hooks
-		Vault.setupVault();
-		LogBlock.setupLogBlock();
-		WorldGuard.setupWorldGuard();
-		Towny.setupTowny();
+		//Vault.setupVault();
+		//LogBlock.setupLogBlock();
+		//WorldGuard.setupWorldGuard();
+		//Towny.setupTowny();
 		
 		// Plugin Metrics
 		try {
@@ -123,10 +120,10 @@ public class HarryPotterSpells extends JavaPlugin {
 		SpellManager = new SpellManager(this);
 		MiscListeners = new MiscListeners(this);
 		Listeners = new Listeners(this);
-		Vault = new Vault(this);
-		LogBlock = new LogBlock(this);
-		WorldGuard = new WorldGuard(this);
-		Towny = new Towny(this);
+		//Vault = new Vault(this);
+		//LogBlock = new LogBlock(this);
+		//WorldGuard = new WorldGuard(this);
+		//Towny = new Towny(this);
 		Wand = new Wand(this);
 		Log = getLogger();
 		SpellLoader = new SpellLoader(this);

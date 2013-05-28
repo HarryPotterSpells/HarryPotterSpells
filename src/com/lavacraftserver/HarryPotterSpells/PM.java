@@ -48,13 +48,10 @@ public class PM extends JavaPlugin {
 	}
 	
 	public boolean hasPermission(String permission, Player p) {
-		if(plugin.Vault.perm != null) { //necessary? why not use superperms?
-			return plugin.Vault.perm.has(p, permission);
-		} else {
-			return p.hasPermission(permission);
-		}
+        return p.hasPermission(permission);
 	}
 	
+	//TODO This should be a method called in each spell
 	public void clearStorage() {
 		plugin.MiscListeners.deprimo.clear();
 		plugin.MiscListeners.sonorus.clear();

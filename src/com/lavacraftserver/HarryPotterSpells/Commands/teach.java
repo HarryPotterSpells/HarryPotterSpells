@@ -8,8 +8,8 @@ import org.bukkit.entity.Player;
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
-public class Teach extends Executor {
-	public Teach(HarryPotterSpells instance){
+public class teach extends Executor {
+	public teach(HarryPotterSpells instance){
 		super(instance);
 	}
 	

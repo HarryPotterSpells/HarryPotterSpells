@@ -1,16 +1,7 @@
 package com.lavacraftserver.HarryPotterSpells.Hooks;
 
-import java.util.logging.Level;
-
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
-
-import de.diddiz.LogBlock.Consumer;
-
 public class LogBlock {
+	/* TODO move to addon
 	HarryPotterSpells plugin;
 	public LogBlock(HarryPotterSpells instance){
 		plugin=instance;
@@ -37,6 +28,8 @@ public class LogBlock {
 		}
 		
 	}
+
+	*/
 	
 
 }

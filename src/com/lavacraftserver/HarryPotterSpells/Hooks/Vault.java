@@ -1,16 +1,8 @@
 package com.lavacraftserver.HarryPotterSpells.Hooks;
 
-import java.util.logging.Level;
-
-import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.permission.Permission;
-
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.RegisteredServiceProvider;
-
-import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 
 public class Vault  {
+	/* TODO move to addon 
 	HarryPotterSpells plugin;
 	
 	public Vault(HarryPotterSpells instance){
@@ -58,5 +50,7 @@ public class Vault  {
         econ = rsp.getProvider();
         return econ != null;
     }
+    
+    */
 
 }

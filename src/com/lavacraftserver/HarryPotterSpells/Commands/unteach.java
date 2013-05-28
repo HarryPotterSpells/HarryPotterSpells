@@ -8,9 +8,9 @@ import org.bukkit.entity.Player;
 import com.lavacraftserver.HarryPotterSpells.HarryPotterSpells;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
-public class Unteach extends Executor {
+public class unteach extends Executor {
 	
-	public Unteach(HarryPotterSpells instance){
+	public unteach(HarryPotterSpells instance){
 		super(instance);
 	}
 	

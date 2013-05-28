@@ -3,7 +3,7 @@ package com.lavacraftserver.HarryPotterSpells;
 import java.util.HashMap;
 import java.util.List;
 
-import net.milkbowl.vault.economy.EconomyResponse;
+//TODO MOVE TO VAULT ADDON import net.milkbowl.vault.economy.EconomyResponse;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -84,7 +84,7 @@ public class Listeners implements Listener {
 				}
 				if(plugin.SpellManager.canCastSpell(p, spell, l, loc) == 0) {
 					spell.cast(p);
-					plugin.LogBlock.logSpell(p, spellList.get(spellNumber));
+					//plugin.LogBlock.logSpell(p, spellList.get(spellNumber)); //TODO Move to addon
 					//Cancel event if player is in creative to prevent block damage.
 					if (p.getGameMode().equals(GameMode.CREATIVE)){
 						e.setCancelled(true);
@@ -96,7 +96,9 @@ public class Listeners implements Listener {
 			
 		}
 		
+		//TODO MOVE TO VAULT ADDON
 		//Spell sign
+		/*
 		if (e.getClickedBlock() != null && plugin.PM.hasPermission("HarryPotterSpells.buyfromsign", e.getPlayer()) && e.getClickedBlock().getType() == Material.SIGN) {
 			String[] signText = ((Sign)e.getClickedBlock()).getLines();
 			String identifier = "[" + ChatColor.GREEN + plugin.getConfig().getString("SpellSigns.textForLine1") + ChatColor.RESET + "]";
@@ -116,6 +118,7 @@ public class Listeners implements Listener {
 				}
 			}
 		}
+		*/
 	}
 	
 	@EventHandler
