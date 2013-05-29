@@ -53,11 +53,10 @@ public class MiscListeners implements Listener { //TODO this class is just moral
 					e.setDamage(0);
 					spongify.remove(p.getName());
 				}
-			}else{
-				if(alarteascendare.contains(e.getEntity().getEntityId())){
-					e.setDamage(0);
-					alarteascendare.remove(e.getEntity().getEntityId());
-				}
+			}
+			if(alarteascendare.contains(e.getEntity().getEntityId())){
+				e.setDamage(0);
+				alarteascendare.remove(e.getEntity().getEntityId());
 			}
 		}
 	}
