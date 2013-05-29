@@ -1,6 +1,7 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
@@ -17,9 +18,14 @@ public class FiniteIncantatem extends Spell {
 	@Override
 	public void cast(Player p) {
 		if (Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {
-			HPS.MiscListeners.petrificustotalus.remove(((Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls())).getName());
+			Player target = (Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
+			HPS.MiscListeners.petrificustotalus.remove(target.getName());
+
+			for (PotionEffect effect : target.getActivePotionEffects()) {
+				target.removePotionEffect(effect.getType());
+			}
 		} else {
-			HPS.PM.warn(p, "This may only be used on a player or a mob.");
+			HPS.PM.warn(p, "This may only be used on a player.");
 		}
 	}
 }
