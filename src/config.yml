@@ -27,5 +27,7 @@ spells:
     duration: 100 # How long the fire should last in ticks (1/20 of a second)
   multicorfors:
     explosionEffect: true # Should an explosion happen on colour change?
+  spongify:
+    duration: 600 # How long should fall damage be cancelled in ticks (1/20 of a second)
   time:
     lightning: true # Should lightning strike on casting of the spell

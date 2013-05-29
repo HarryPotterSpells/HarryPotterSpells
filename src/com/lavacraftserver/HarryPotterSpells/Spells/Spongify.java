@@ -25,6 +25,9 @@ public class Spongify extends Spell implements Listener {
 
 	@Override
 	public void cast(final Player p) {
+		if(players.contains(p.getName())){
+			return;
+		}
 		Spongify.players.add(p.getName());
 		Location loc = new Location(p.getWorld(), p.getLocation().getBlockX(), p.getLocation().getBlockY() + 1, p.getLocation().getBlockZ());
 		p.getWorld().createExplosion(loc, 0F);
@@ -34,18 +37,15 @@ public class Spongify extends Spell implements Listener {
 					   Spongify.players.remove(p.getName());
 				   } 
 			   }
-			}, 200L);
+			}, HPS.Plugin.getConfig().getLong("spells.spongify.duration"));
 	}
 	
 	@EventHandler
 	public void onPlayerDamage(EntityDamageEvent e) {
-		if(e.getCause() == DamageCause.FALL){
-			if(e.getEntity() instanceof Player){
-				Player p = (Player)e.getEntity();
-				if(Spongify.players.contains(p.getName())) {
-					e.setDamage(0);
-					Spongify.players.remove(p.getName());
-				}
+		if(e.getCause() == DamageCause.FALL && e.getEntity() instanceof Player){
+			Player p = (Player)e.getEntity();
+			if(Spongify.players.contains(p.getName())) {
+				e.setDamage(0);
 			}
 			
 		}
