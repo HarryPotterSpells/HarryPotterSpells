@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
@@ -47,11 +46,8 @@ public class HPS extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
-		
-		// After (not anymore!) instance loading
+	    // Instance loading
 		Plugin = this;
-		
-		//Before instance loading
 		PlayerSpellConfig = new PlayerSpellConfig();
 		PM = new PM();
 		SpellManager = new SpellManager();
@@ -59,6 +55,9 @@ public class HPS extends JavaPlugin {
 		SpellLoader = new SpellLoader();
 		JobManager = new JobManager();
 		ExtensionManager = new ExtensionManager();
+		
+		// Configuration
+		loadConfig();
 		
 		// Hacky command map stuff
 		try {
@@ -196,10 +195,10 @@ public class HPS extends JavaPlugin {
 		String name = cmdInfo.name().equals("") ? clazz.getSimpleName().toLowerCase() : cmdInfo.name();
 		String permission = cmdInfo.permission().equals("") ? "HarryPotterSpells." + name : cmdInfo.permission();
 		List<String> aliases = cmdInfo.aliases().equals("") ? new ArrayList<String>() : Arrays.asList(cmdInfo.aliases().split(","));
-		Permission perm = new Permission(cmdInfo.aliases().equals("") ? "HarryPotterSpells." + clazz.getSimpleName() : cmdInfo.permission(), PermissionDefault.getByName(cmdInfo.permissionDefault()));
+		Permission perm = new Permission(permission, PermissionDefault.getByName(cmdInfo.permissionDefault()));
 		Bukkit.getServer().getPluginManager().addPermission(perm);
 		HackyCommand hacky = new HackyCommand(name, cmdInfo.description(), cmdInfo.usage(), aliases);
-		hacky.setPermission(perm.toString());
+		hacky.setPermission(permission);
 		try {
 			hacky.setExecutor(clazz.newInstance());
 		} catch (InstantiationException | IllegalAccessException e) {

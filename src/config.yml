@@ -4,32 +4,14 @@
 
 # Only enable if you want to enable debugging mode
 DebugMode: false
-
-## For more infomation see below section: Hook Configuration ##
-VaultEnabled: true # Vault is required for spell signs and sorting
-WorldGuardEnabled: true # WorldGuard is required for build checks on block editing spells
-LogBlockEnabled: true # LogBlock is required for spell logging
-TownyEnabled: true # Towny is required for town checks on spell casting
-  
-SortingHat:
-  enabled: true
-  addHousePermissionNodes: true # Whether the user will gain house.housename when sorted
-  addHouseGroups: false # Whether the user will be sorted into a permissions group
       
 WandGive: # The command that 'summons' a wand with a command
   explosionEffect: false
 
-SpellSigns:
-    textForLine1: SpellShop! # The text that should be on Line 1 of a SpellSign
-
 wand-id: 280 # Will default to 280 (stick)
-apply-wand-enchantment: false # This will apply a hidden enchantment to the wand which enables the wand to be used as a normal
-                              # item. This should go with the enabling of '/wand' for easy access to the special wand
-                              # It is recomended that this is left false unless you know for sure what it does.
 shout-on-spell-use: false # If the player should say 'Spellname!' on every spell cast
 notify-on-spell-use: true # If we should notify the player when they cast a spell
-spell-castable-with-command: true # If spell is castable with '/spellname'
-spell-particle-toggle: true # The purple particle effect that happens when the spell is cast
+spell-particle-toggle: false # The purple particle effect that happens when the spell is cast (Kezz thinks it's ugly)
 disable-wand-crafting: true # Fairly obvious... Should we disable wand crafting?
 disable-all-crafting: false # Should we disable all crafting?
 spell-castable-with-chat: true # If a spell is castable on the chatting of 'Spellname!'
@@ -47,17 +29,3 @@ spells:
     explosionEffect: true # Should an explosion happen on colour change?
   time:
     lightning: true # Should lightning strike on casting of the spell
-  
-########################
-## Hook Configuration ##
-########################
-
-Towny:
-  canCastSpellInTown: true # Should people be allowed to cast spells while in a town
-  canCastSpellOntoTown: true # Should people be allowed to cast spells into a town
-  canCastSpellInWilderness: true # Should people be allowed to cast spells while in the wilderness
-  canCastSpellOntoWilderness: true # Should people be allowed to cast spells into the wilderness
-
-WorldGuard:
-  canCastWhereNotAllowedToBuild: false # Should people be allowed to cast spells where they cannot build
-  canCastWhereNotAllowedToBuildTarget: false # Should people be allowed to cast spells if they cannot build at the target location of the spell

@@ -1,82 +1,30 @@
 package com.lavacraftserver.HarryPotterSpells;
 
-import java.util.HashMap;
-import java.util.List;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Effect;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import com.lavacraftserver.HarryPotterSpells.API.SpellCastEvent;
-import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
-
 public class Listeners implements Listener {
-	public HashMap<String, Integer> currentSpell = new HashMap<String, Integer>();
 	
 	@EventHandler
 	public void PIE(PlayerInteractEvent e) {
 		if(HPS.PM.hasPermission("HarryPotterSpells.use", e.getPlayer()) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
 			//Change spell
 			if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-				Player p = e.getPlayer();
-				List<String> spellList = HPS.PlayerSpellConfig.getPSC().getStringList(p.getName());
-				if(spellList == null || spellList.isEmpty()) {
-					HPS.PM.tell(p, "You don't know any spells.");
-					return;
-				}
-				int spellNumber = 0, max = spellList.size() - 1;
-				if(currentSpell.containsKey(p.getName())) {
-					if(p.isSneaking()) {
-						if(currentSpell.get(p.getName()) == 0) {
-							spellNumber = max;
-						} else {
-							spellNumber = currentSpell.get(p.getName()) - 1;
-						}
-					} else if(!(currentSpell.get(p.getName()) == max)) {
-						spellNumber = currentSpell.get(p.getName()) + 1;
-					}
-				}
-				HPS.PM.newSpell(p, spellList.get(spellNumber));
-				currentSpell.put(p.getName(), spellNumber);
+				HPS.SpellManager.changeCurrentSpell(e.getPlayer(), !e.getPlayer().isSneaking());
 				return;
 			}
 			
 			//Cast spell
 			if(e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) {
-				Player p = e.getPlayer();
-				List<String> spellList = HPS.PlayerSpellConfig.getPSC().getStringList(p.getName());
-				if(spellList == null || spellList.isEmpty()) {
-					HPS.PM.tell(p, "You don't know any spells.");
-					return;
-				}
-				
-				int spellNumber = 0;
-				if(currentSpell.containsKey(p.getName()))
-					spellNumber = currentSpell.get(p.getName());
-	
-				if(HPS.Plugin.getConfig().getBoolean("spell-particle-toggle")) {
-					Location l = p.getLocation();
-					l.setY(l.getY() + 1);
-					p.getWorld().playEffect(l, Effect.ENDER_SIGNAL, 0);
-				}
-				Spell spell = HPS.SpellManager.getSpell(spellList.get(spellNumber));
-				
-				SpellCastEvent sce = new SpellCastEvent(spell, p);
-				Bukkit.getServer().getPluginManager().callEvent(sce);
-				if(!sce.isCancelled())
-					spell.cast(p);
+				HPS.SpellManager.cleverCast(e.getPlayer(), HPS.SpellManager.getCurrentSpell(e.getPlayer()));
 
 				//Cancel event if player is in creative to prevent block damage.
-				if (p.getGameMode().equals(GameMode.CREATIVE))
+				if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE))
 					e.setCancelled(true);
 			}
 			
@@ -110,27 +58,7 @@ public class Listeners implements Listener {
 	@EventHandler
 	public void PIEE(PlayerInteractEntityEvent e) {
 		if(HPS.PM.hasPermission("HarryPotterSpells.use", e.getPlayer()) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
-			Player p = e.getPlayer();
-			List<String> spellList = HPS.PlayerSpellConfig.getPSC().getStringList(p.getName());
-			if(spellList == null || spellList.isEmpty()) {
-				HPS.PM.tell(p, "You don't know any spells.");
-				return;
-			}
-			int spellNumber = 0, max = spellList.size() - 1;
-			if(currentSpell.containsKey(p.getName())) {
-				if(p.isSneaking()) {
-					if(currentSpell.get(p.getName()) == 0) {
-						spellNumber = max;
-					} else {
-						spellNumber = currentSpell.get(p.getName()) - 1;
-					}
-				} else if(!(currentSpell.get(p.getName()) == max)) {
-					spellNumber = currentSpell.get(p.getName()) + 1;
-				}
-			}
-			HPS.PM.newSpell(p, spellList.get(spellNumber));
-			currentSpell.put(p.getName(), spellNumber);
-			return;
+			HPS.SpellManager.changeCurrentSpell(e.getPlayer(), !e.getPlayer().isSneaking());
 		}
 	}
 	
@@ -138,17 +66,9 @@ public class Listeners implements Listener {
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
 		if(HPS.Plugin.getConfig().getBoolean("spell-castable-with-chat")) {
 			if(HPS.SpellManager.isSpell(e.getMessage().substring(0, e.getMessage().length() - 1))) {
-				HPS.SpellManager.getSpell(e.getMessage().substring(0, e.getMessage().length() - 1)).cast(e.getPlayer());
+				HPS.SpellManager.cleverCast(e.getPlayer(), HPS.SpellManager.getSpell(e.getMessage().substring(0, e.getMessage().length() - 1)));
 				return;
 			}
-		}
-	}
-	
-	@EventHandler
-	public void onCommand(PlayerCommandPreprocessEvent e) {
-		String spell = e.getMessage().replace('/', ' ');
-		if(HPS.SpellManager.isSpell(spell)) {
-			HPS.SpellManager.getSpell(spell).cast(e.getPlayer());
 		}
 	}
 	

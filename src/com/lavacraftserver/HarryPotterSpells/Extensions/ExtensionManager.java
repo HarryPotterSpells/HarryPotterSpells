@@ -28,12 +28,17 @@ import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
 public class ExtensionManager implements EnableJob, DisableJob {
 	private Map<String, Extension> extensionList = new HashMap<>();
 	private File extensionFolder;
+	private static boolean instantated = false;
 	
 	/**
 	 * Constructs the Extension Manager, loading all extensions. </br>
 	 * It should be noted that extensions are not enabled until the EnableJob is called.
 	 */
 	public ExtensionManager() {
+	    if(ExtensionManager.instantated)
+	        return;
+	    
+	    ExtensionManager.instantated = true;
 		HPS.PM.log(Level.INFO, "Loading extensions...");
 		
 		extensionFolder = new File(HPS.Plugin.getDataFolder(), "Extensions");
