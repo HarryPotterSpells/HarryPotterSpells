@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.zip.ZipFile;
 
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.reflections.Reflections;
 
@@ -23,6 +24,8 @@ public class ExtensionManager {
 		extensionFolder = new File(HPS.Plugin.getDataFolder(), "extensions");
 		if(!extensionFolder.exists())
 			extensionFolder.mkdirs();
+		
+		int commands = 0, clearJobs = 0;
 		
 		for(File file : extensionFolder.listFiles(new ExtensionFileFilter())) {
 			try {
@@ -52,6 +55,12 @@ public class ExtensionManager {
 				
 				for(Class<? extends ClearJob> c : reflections.getSubTypesOf(ClearJob.class)) {
 					HPS.JobManager.addClearJob(c.newInstance());
+					clearJobs++;
+				}
+				
+				for(Class<? extends CommandExecutor> clazz : reflections.getSubTypesOf(CommandExecutor.class)) {
+					if(HPS.addHackyCommand(clazz))
+						commands++;
 				}
 				
 			} catch (Exception e) {
@@ -61,7 +70,8 @@ public class ExtensionManager {
 			}
 		}
 		
-		HPS.PM.log(Level.INFO, "Loaded " + extensionList.size() + " extensions.");
+		HPS.PM.log(Level.INFO, "Loaded " + extensionList.size() + " extensions with " + commands + "commands.");
+		HPS.PM.debug("There are also " + clearJobs + " clear jobs.");
 	}
 	
 	private class ExtensionFileFilter implements FileFilter {

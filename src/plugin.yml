@@ -2,30 +2,3 @@ name: HarryPotterSpells
 main: com.lavacraftserver.HarryPotterSpells.HPS
 version: ALPHA 0.3
 authors: [np98765, Kezz101]
-softdepend: [Vault, WorldGuard, LogBlock, Towny]
-commands:
-  teach:
-    description: Teach a player a spell.
-    permission: HarryPotterSpells.commands.teach
-  unteach:
-    description: Specified player loses ability to cast specified spell.
-    permission: HarryPotterSpells.commands.unteach
-  sort:
-    description: Specified player is assigned a house.
-    permission: HarryPotterSpells.commands.sort
-  wand:
-    description: Gives the sender a wand
-    permission: HarryPotterSpells.commands.wand
-permissions:
-  HarryPotterSpells.use:
-    description: Use the wand
-    default: op
-  HarryPotterSpells.commands.teach:
-    description: Access to /teach
-    default: op
-  HarryPotterSpells.sign.buy:
-    description: Allows users to buy from spell signs
-    default: op
-  HarryPotterSpells.sign.create:
-    description: Allows user to create a spell sign
-    default: op

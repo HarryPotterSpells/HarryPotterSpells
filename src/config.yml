@@ -17,7 +17,6 @@ SortingHat:
   addHouseGroups: false # Whether the user will be sorted into a permissions group
       
 WandGive: # The command that 'summons' a wand with a command
-  enabled: true
   explosionEffect: false
 
 SpellSigns:
