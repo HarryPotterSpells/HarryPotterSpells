@@ -1,7 +1,2 @@
 language: java
 script: 'mvn test'
-jdk:
-  - oraclejdk7
-  - openjdk6 # Travis-ci does not allow us to test against Sun JDK 6 as it is EOL.
-             # I think that everyone should ditch Java 6 in favour of Java 7 but 
-             # a large minority of servers still run Java 6. Sucks to be them!

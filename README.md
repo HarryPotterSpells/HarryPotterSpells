@@ -1,5 +1,7 @@
 # HarryPotterSpells
 
+[![Build Status](https://travis-ci.org/kezz101/HarryPotterSpells.png?branch=master)](https://travis-ci.org/kezz101/HarryPotterSpells)
+
 ## What is HarryPotterSpells?
 
 As the name suggests, this plugin adds spells and more to a Minecraft server! The spells are taken from Harry Potter but this doesn't mean you have to be a Harry Potter server to use it! Almost everything in this plugin is configurable, allowing you to make your own Spells plugin! You can view the Plugin Metrics stats page [here](http://mcstats.org/plugin/HarryPotterSpells)!
