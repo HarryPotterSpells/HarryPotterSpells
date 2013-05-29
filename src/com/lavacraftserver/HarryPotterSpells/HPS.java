@@ -3,12 +3,14 @@ package com.lavacraftserver.HarryPotterSpells;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
@@ -39,7 +41,7 @@ public class HPS extends JavaPlugin {
 	public static SpellLoader SpellLoader;
 	public static JavaPlugin Plugin;
 	public static JobManager JobManager;
-	public static ExtensionManager AddonManager;
+	public static ExtensionManager ExtensionManager;
 	
 	private static CommandMap commandMap;
 	
@@ -56,7 +58,7 @@ public class HPS extends JavaPlugin {
 		Wand = new Wand();
 		SpellLoader = new SpellLoader();
 		JobManager = new JobManager();
-		AddonManager = new ExtensionManager();
+		ExtensionManager = new ExtensionManager();
 		
 		// Hacky command map stuff
 		try {
@@ -193,10 +195,11 @@ public class HPS extends JavaPlugin {
 		HCommand cmdInfo = clazz.getAnnotation(HCommand.class);
 		String name = cmdInfo.name().equals("") ? clazz.getSimpleName().toLowerCase() : cmdInfo.name();
 		String permission = cmdInfo.permission().equals("") ? "HarryPotterSpells." + name : cmdInfo.permission();
-		List<String> aliases = cmdInfo.aliases().equals("") ? null : Arrays.asList(cmdInfo.aliases().split(","));
-		
-		Bukkit.getServer().getPluginManager().addPermission(new Permission(cmdInfo.aliases().equals("") ? "HarryPotterSpells." + clazz.getSimpleName() : cmdInfo.permission(), PermissionDefault.getByName(cmdInfo.permissionDefault())));
+		List<String> aliases = cmdInfo.aliases().equals("") ? new ArrayList<String>() : Arrays.asList(cmdInfo.aliases().split(","));
+		Permission perm = new Permission(cmdInfo.aliases().equals("") ? "HarryPotterSpells." + clazz.getSimpleName() : cmdInfo.permission(), PermissionDefault.getByName(cmdInfo.permissionDefault()));
+		Bukkit.getServer().getPluginManager().addPermission(perm);
 		HackyCommand hacky = new HackyCommand(name, cmdInfo.description(), cmdInfo.usage(), aliases);
+		hacky.setPermission(perm.toString());
 		try {
 			hacky.setExecutor(clazz.newInstance());
 		} catch (InstantiationException | IllegalAccessException e) {
@@ -206,7 +209,6 @@ public class HPS extends JavaPlugin {
 			return false;
 		}
 		commandMap.register("", hacky);
-		Plugin.getCommand(name).setPermission(permission);
 		return true;
 	}
 	
@@ -222,6 +224,8 @@ public class HPS extends JavaPlugin {
 
 		@Override
 		public boolean execute(CommandSender sender, String commandLabel, String[] args) {
+		    if(!sender.hasPermission(getPermission()))
+		        PM.dependantMessagingWarn(sender, getPermissionMessage());
 			return executor != null ? executor.onCommand(sender, this, commandLabel, args) : false;
 		}
 		

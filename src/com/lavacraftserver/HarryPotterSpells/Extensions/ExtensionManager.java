@@ -36,7 +36,7 @@ public class ExtensionManager implements EnableJob, DisableJob {
 	public ExtensionManager() {
 		HPS.PM.log(Level.INFO, "Loading extensions...");
 		
-		extensionFolder = new File(HPS.Plugin.getDataFolder(), "extensions");
+		extensionFolder = new File(HPS.Plugin.getDataFolder(), "Extensions");
 		if(!extensionFolder.exists())
 			extensionFolder.mkdirs();
 		
@@ -120,7 +120,7 @@ public class ExtensionManager implements EnableJob, DisableJob {
 			}
 		}
 		
-		HPS.PM.log(Level.INFO, "Loaded " + extensionList.size() + " extensions with " + commands + "commands and " + listeners + " listeners.");
+		HPS.PM.log(Level.INFO, "Loaded " + extensionList.size() + " extensions with " + commands + " commands and " + listeners + " listeners.");
 		HPS.PM.debug("There are also " + clearJobs + " clear jobs, " + enableJobs + " enable jobs and " + disableJobs + " disable jobs.");
 	}
 	
