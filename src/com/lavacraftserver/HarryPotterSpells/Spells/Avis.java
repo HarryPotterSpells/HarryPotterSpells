@@ -7,7 +7,12 @@ import org.bukkit.entity.Player;
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
-@spell(name = "Avis", description = "Shoots a flock of chickens from your wand", range = 0, goThroughWalls = false)
+@spell (
+		name = "Avis",
+		description = "Shoots a flock of chickens from your wand",
+		range = 0,
+		goThroughWalls = false
+)
 public class Avis extends Spell {
 
 	public void cast(Player p) {

@@ -1,39 +1,28 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
-import java.util.List;
-import java.util.Random;
-
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
+import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
 @spell (
 		name="AlarteAscendare",
-		description="Shoots a random mob from your wand",
-		range=0,
+		description="Propels the targeted mob upward",
+		range=30,
 		goThroughWalls=false
 )
 public class AlarteAscendare extends Spell {
-
-	public void cast(Player p) {
-		Entity mob = p.getWorld().spawnEntity(p.getEyeLocation(), randomEntity());
-		if (mob == null){
-			return;
-		}
-		mob.setVelocity(p.getEyeLocation().getDirection().multiply(2));
-	}
 	
-	public EntityType randomEntity() {
-		@SuppressWarnings("unchecked")
-		List<String> mobs = (List<String>) HPS.Plugin.getConfig().getList("spells.alarteascendare.mobs");
-		if (mobs == null){
-			return EntityType.PIG;
+	public void cast(Player p) {
+		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) {
+			LivingEntity le = (LivingEntity) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
+			le.setVelocity(new Vector(0,1,0));
+			if(!HPS.MiscListeners.alarteascendare.contains(le.getEntityId())){
+				HPS.MiscListeners.alarteascendare.add(le.getEntityId());
+			}
 		}
-		int randomNum = new Random().nextInt(mobs.size());
-		return EntityType.fromName(mobs.get(randomNum));
 	}
-
 }
