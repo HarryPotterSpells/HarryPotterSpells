@@ -1,5 +1,5 @@
 language: java
-script: 'mvn clean install'
+script: 'mvn test'
 jdk:
   - oraclejdk7
   - openjdk6 # Travis-ci does not allow us to test against Sun JDK 6 as it is EOL.
