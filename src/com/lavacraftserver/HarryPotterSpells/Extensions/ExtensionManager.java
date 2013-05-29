@@ -7,12 +7,13 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.zip.ZipFile;
 
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.reflections.Reflections;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Jobs.ClearJob;
+import com.lavacraftserver.HarryPotterSpells.Jobs.DisableJob;
+import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
 
 public class ExtensionManager {
 	private Map<String, Extension> extensionList = new HashMap<>();
@@ -25,7 +26,7 @@ public class ExtensionManager {
 		if(!extensionFolder.exists())
 			extensionFolder.mkdirs();
 		
-		int commands = 0, clearJobs = 0;
+		int commands = 0, clearJobs = 0, enableJobs = 0, disableJobs = 0;
 		
 		for(File file : extensionFolder.listFiles(new ExtensionFileFilter())) {
 			try {
@@ -54,24 +55,42 @@ public class ExtensionManager {
 				}
 				
 				for(Class<? extends ClearJob> c : reflections.getSubTypesOf(ClearJob.class)) {
-					HPS.JobManager.addClearJob(c.newInstance());
-					clearJobs++;
+					try {
+						HPS.JobManager.addClearJob(c.newInstance());
+						clearJobs++;
+					} catch (InstantiationException | IllegalAccessException e) {
+						HPS.PM.log(Level.WARNING, "An error occurred whilst a clear job in extension " + file.getName() + " to the Job Manager.");
+						HPS.PM.debug(e);
+					}
 				}
 				
-				for(Class<? extends CommandExecutor> clazz : reflections.getSubTypesOf(CommandExecutor.class)) {
-					if(HPS.addHackyCommand(clazz))
-						commands++;
+				for(Class<? extends EnableJob> c : reflections.getSubTypesOf(EnableJob.class)) {
+					try {
+						HPS.JobManager.addEnableJob(c.newInstance());
+						enableJobs++;
+					} catch(InstantiationException | IllegalAccessException e) {
+						HPS.PM.log(Level.WARNING, "An error occurred whilst adding an enable job in extension " + file.getName() + " to the Job Manager.");
+						HPS.PM.debug(e);
+					}
 				}
-				
+
+				for(Class<? extends DisableJob> c : reflections.getSubTypesOf(DisableJob.class)) {
+					try {
+						HPS.JobManager.addDisableJob(c.newInstance());
+						disableJobs++;
+					} catch (InstantiationException | IllegalAccessException e) {
+						HPS.PM.log(Level.WARNING, "An error occurred whilst adding a disable job in extension " + file.getName() + " to the Job Manager");
+						HPS.PM.debug(e);
+					}
+				}
 			} catch (Exception e) {
-				HPS.PM.log(Level.WARNING, "An error occurred whilst loading " + file.getName() + " to the extension list. Report this error if you want. This extension may work anyway...");
-				if(HPS.Plugin.getConfig().getBoolean("DebugMode", false))
-					e.printStackTrace();
+				HPS.PM.log(Level.WARNING, "An error occurred whilst loading " + file.getName() + " to the extension list. This extension may work anyway...");
+				HPS.PM.debug(e);
 			}
 		}
 		
 		HPS.PM.log(Level.INFO, "Loaded " + extensionList.size() + " extensions with " + commands + "commands.");
-		HPS.PM.debug("There are also " + clearJobs + " clear jobs.");
+		HPS.PM.debug("There are also " + clearJobs + " clear jobs, " + enableJobs + " enable jobs and " + disableJobs + " disable jobs.");
 	}
 	
 	private class ExtensionFileFilter implements FileFilter {

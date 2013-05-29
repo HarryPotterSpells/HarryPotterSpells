@@ -24,6 +24,8 @@ import org.reflections.Reflections;
 import com.lavacraftserver.HarryPotterSpells.Commands.HCommand;
 import com.lavacraftserver.HarryPotterSpells.Extensions.ExtensionManager;
 import com.lavacraftserver.HarryPotterSpells.Jobs.ClearJob;
+import com.lavacraftserver.HarryPotterSpells.Jobs.DisableJob;
+import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
 import com.lavacraftserver.HarryPotterSpells.Jobs.JobManager;
 import com.lavacraftserver.HarryPotterSpells.SpellLoading.SpellLoader;
 import com.lavacraftserver.HarryPotterSpells.Spells.SpellManager;
@@ -67,7 +69,8 @@ public class HPS extends JavaPlugin {
             f.setAccessible(true);
             commandMap = (CommandMap) f.get(getServer());
         } catch (Throwable e){
-            e.printStackTrace();
+            PM.log(Level.SEVERE, "Could not access the command map. Commands will not work. Are you sure the plugin is up to date?");
+            PM.debug(e);
         }
 		
 		Reflections reflections = new Reflections("com.lavacraftserver.HarryPotterSpells");
@@ -79,11 +82,34 @@ public class HPS extends JavaPlugin {
 				JobManager.addClearJob(c.newInstance());
 				clearJobs++;
 			} catch (InstantiationException | IllegalAccessException e) {
-				PM.log("An error occurred whilst adding a ClearJob to the JobManager. Please report this error.", Level.WARNING);
-				e.printStackTrace();
+				PM.log(Level.WARNING, "An error occurred whilst the clear job in class " + c.getSimpleName() + " to the Job Manager.");
+				PM.debug(e);
 			}
 		}
-		PM.debug("Registered " + clearJobs + " core clear jobs.");
+		
+		int enableJobs = 0;
+		for(Class<? extends EnableJob> c : reflections.getSubTypesOf(EnableJob.class)) {
+			try {
+				JobManager.addEnableJob(c.newInstance());
+				enableJobs++;
+			} catch(InstantiationException | IllegalAccessException e) {
+				PM.log(Level.WARNING, "An error occurred whilst adding the enable job in class " + c.getSimpleName() + " to the Job Manager.");
+				PM.debug(e);
+			}
+		}
+
+		int disableJobs = 0;
+		for(Class<? extends DisableJob> c : reflections.getSubTypesOf(DisableJob.class)) {
+			try {
+				JobManager.addDisableJob(c.newInstance());
+				disableJobs++;
+			} catch (InstantiationException | IllegalAccessException e) {
+				PM.log(Level.WARNING, "An error occurred whilst adding the disable job in class " + c.getSimpleName() + " to the Job Manager");
+				PM.debug(e);
+			}
+		}
+		
+		PM.log(Level.INFO, "Registered " + clearJobs + " core clear jobs, " + enableJobs + " core enable jobs and " + disableJobs + " core disable jobs.");
 		
 		// Reflections - Commands
 		int commands = 0;
@@ -102,40 +128,44 @@ public class HPS extends JavaPlugin {
 		    Metrics metrics = new Metrics(this);
 		    metrics.start();
 		} catch (IOException e) {
-		    PM.log("An error occurred whilst enabling Plugin Metrics. " + e.getMessage() + ".", Level.WARNING);
+		    PM.log(Level.WARNING, "An error occurred whilst enabling Plugin Metrics.");
+		    PM.debug(e);
 		}
 		
 		// Crafting Changes
-		PM.log("Implementing crafting changes...", Level.INFO);
+		PM.log(Level.INFO, "Implementing crafting changes...");
 		boolean disableAll = getConfig().getBoolean("disable-all-crafting", false), disableWand = getConfig().getBoolean("disable-wand-crafting", true);
 		int wand = getConfig().getInt("wand-id", 280);
 		
 		if(disableAll) {
 			getServer().clearRecipes();
 			PM.debug("Removed all crafting recipes.");
-			PM.log("Crafting changes implemented.", Level.INFO);
+			PM.log(Level.INFO, "Crafting changes implemented.");
 			return;
-		}
-		
-		Iterator<Recipe> it = getServer().recipeIterator();
-		while(it.hasNext()) {
-			Recipe current = it.next();
-			if(disableWand && current.getResult().getTypeId() == wand) {
-				PM.debug("Removed recipe for " + current.getResult().toString() + ".");
-				it.remove();
+		} else if(disableWand) {
+			Iterator<Recipe> it = getServer().recipeIterator();
+			while(it.hasNext()) {
+				Recipe current = it.next();
+				if(current.getResult().getTypeId() == wand) {
+					PM.debug("Removed recipe for " + current.getResult().toString() + ".");
+					it.remove();
+				}
 			}
 		}
-		PM.log("Crafting changes implemented.", Level.INFO);
+		PM.log(Level.INFO, "Crafting changes implemented.");
 		
-		PM.log("Plugin enabled", Level.INFO);
+		JobManager.executeEnableJobs(getServer().getPluginManager());
+		
+		PM.log(Level.INFO, "Plugin enabled");
 	}
 	
 	@Override
 	public void onDisable() {
 		JobManager.executeClearJobs();
+		JobManager.executeDisableJob(getServer().getPluginManager());
 		SpellManager.save();
 		
-		PM.log("Plugin disabled", Level.INFO);
+		PM.log(Level.INFO, "Plugin disabled");
 	}
 	
 	public void loadConfig() {
@@ -146,6 +176,11 @@ public class HPS extends JavaPlugin {
 		}
 	}
 	
+	/**
+	 * Registers a hacky command to the plugin
+	 * @param clazz a class that extends {@code CommandExecutor}
+	 * @return {@code true} if the command was added successfully
+	 */
 	public static boolean addHackyCommand(Class<? extends CommandExecutor> clazz) {
 		if(!clazz.isAnnotationPresent(HCommand.class)) {
 			PM.log(Level.INFO, "Could not add command " + clazz.getSimpleName().toLowerCase() + " to the command map. It is missing the HCommand annotation.");

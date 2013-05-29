@@ -3,11 +3,15 @@ package com.lavacraftserver.HarryPotterSpells.Jobs;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.plugin.PluginManager;
+
 /**
  * The manager for all Jobs available.
  */
 public class JobManager {
 	List<ClearJob> clear = new ArrayList<>();
+	List<EnableJob> enable = new ArrayList<>();
+	List<DisableJob> disable = new ArrayList<>();
 	
 	/**
 	 * Adds a clear job to the executor
@@ -23,6 +27,40 @@ public class JobManager {
 	public void executeClearJobs() {
 		for(ClearJob c : clear)
 			c.clear();
+	}
+	
+	/**
+	 * Adds an enable job to the executor
+	 * @param job the enable job
+	 */
+	public void addEnableJob(EnableJob job) {
+		enable.add(job);
+	}
+	
+	/**
+	 * Executes all enable jobs
+	 * @param pm a plugin manager instance
+	 */
+	public void executeEnableJobs(PluginManager pm) {
+		for(EnableJob job : enable)
+			job.onEnable(pm);
+	}
+	
+	/**
+	 * Adds a disable job to the executor
+	 * @param job the disable job
+	 */
+	public void addDisableJob(DisableJob job) {
+		disable.add(job);
+	}
+	
+	/**
+	 * Executed all disable jobs
+	 * @param pm a plugin manager instance
+	 */
+	public void executeDisableJob(PluginManager pm) {
+		for(DisableJob job : disable)
+			job.onDisable(pm);
 	}
 
 }

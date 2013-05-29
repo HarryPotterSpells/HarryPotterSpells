@@ -151,5 +151,14 @@ public class PM extends JavaPlugin {
 		else if(sender instanceof ConsoleCommandSender)
 			log(Level.WARNING, message);
 	}
+	
+	/**
+	 * Prints the stack trace of an error to the console if debug mode is enabled
+	 * @param e the throwable
+	 */
+	public void debug(Throwable e) {
+		if(HPS.PM.getConfig().getBoolean("DebugMode", false))
+			e.printStackTrace();
+	}
 
 }
