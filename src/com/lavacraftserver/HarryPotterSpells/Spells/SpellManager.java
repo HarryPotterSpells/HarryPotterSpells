@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.material.Directional;
@@ -93,7 +94,7 @@ public class SpellManager {
 	 * @param spell the spell that they are casting
 	 */
 	public void cleverCast(Player player, Spell spell) {
-	    if(!player.hasPermission("HarryPotterSpells.use") || !spell.playerKnows(player))
+	    if(!player.hasPermission("HarryPotterSpells.use") || !spell.playerKnows(player) || !player.getInventory().contains(Material.STICK))
 	        return;
 	    
         List<String> spellList = HPS.PlayerSpellConfig.getPSC().getStringList(player.getName());
