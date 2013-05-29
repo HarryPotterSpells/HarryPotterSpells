@@ -12,7 +12,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
 @spell (
 		name="Incendio",
-		description="Shoots a random mob from your wand",
+		description="Lights the targeted mob on fire",
 		range=50,
 		goThroughWalls=false
 )

@@ -18,6 +18,7 @@ import com.lavacraftserver.HarryPotterSpells.HPS;
 
 public class MiscListeners implements Listener { //TODO this class is just morally wrong
 	public Set<String> sonorus = new HashSet<String>(), spongify = new HashSet<String>(), deprimo = new HashSet<String>(), petrificustotalus = new HashSet<String>();
+	public Set<Integer> alarteascendare = new HashSet<Integer>();
 
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
@@ -45,11 +46,17 @@ public class MiscListeners implements Listener { //TODO this class is just moral
 
 	@EventHandler
 	public void onPlayerDamage(EntityDamageEvent e) {
-		if(e.getEntity() instanceof Player && e.getCause() == DamageCause.FALL) {
-			Player p = (Player)e.getEntity();
-			if(spongify.contains(p.getName())) {
+		if(e.getCause() == DamageCause.FALL){
+			if(e.getEntity() instanceof Player){
+				Player p = (Player)e.getEntity();
+				if(spongify.contains(p.getName())) {
+					e.setDamage(0);
+					spongify.remove(p.getName());
+				}
+			}
+			if(alarteascendare.contains(e.getEntity().getEntityId())){
 				e.setDamage(0);
-				spongify.remove(p.getName());
+				alarteascendare.remove(e.getEntity().getEntityId());
 			}
 		}
 	}

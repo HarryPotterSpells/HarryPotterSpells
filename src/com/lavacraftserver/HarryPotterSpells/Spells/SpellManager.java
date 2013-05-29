@@ -18,7 +18,8 @@ public class SpellManager {
 			if(clazz == Spell.class || clazz == InvalidSpell.class || !Spell.class.isAssignableFrom(clazz))
 				continue;
 			try {
-				spell = (Spell) clazz.getConstructor(HPS.class).newInstance();
+				//spell = (Spell) clazz.getConstructor(HPS.class).newInstance();
+				spell = (Spell) clazz.newInstance();
 			} catch (Exception e) {
 				HPS.PM.log("An error occurred whilst adding the " + clazz.getName() + " spell to the spell list. That spell will not be available." , Level.WARNING);
 				e.printStackTrace();

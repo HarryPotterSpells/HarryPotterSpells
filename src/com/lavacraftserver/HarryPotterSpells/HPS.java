@@ -5,12 +5,11 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.logging.Level;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 import org.reflections.Reflections;
@@ -20,7 +19,6 @@ import com.lavacraftserver.HarryPotterSpells.Jobs.ClearJob;
 import com.lavacraftserver.HarryPotterSpells.Jobs.JobManager;
 import com.lavacraftserver.HarryPotterSpells.SpellLoading.SpellLoader;
 import com.lavacraftserver.HarryPotterSpells.Spells.SpellManager;
-import com.lavacraftserver.HarryPotterSpells.Utils.CommandDispatcher;
 import com.lavacraftserver.HarryPotterSpells.Utils.MiscListeners;
 import com.lavacraftserver.HarryPotterSpells.Utils.Wand;
 
@@ -32,13 +30,16 @@ public class HPS extends JavaPlugin {
 	public static Listeners Listeners;
 	public static Wand Wand;
 	public static SpellLoader SpellLoader;
-	public static CommandDispatcher CommandDispatcher;
 	public static Plugin Plugin;
 	public static JobManager JobManager;
 	public static ExtensionManager AddonManager;
 	
 	@Override
 	public void onEnable() {
+		
+		// After (not anymore!) instance loading
+		Plugin = this;
+		
 		//Before instance loading
 		PlayerSpellConfig = new PlayerSpellConfig();
 		PM = new PM();
@@ -47,11 +48,10 @@ public class HPS extends JavaPlugin {
 		Listeners = new Listeners();
 		Wand = new Wand();
 		SpellLoader = new SpellLoader();
-		CommandDispatcher = new CommandDispatcher();
 		JobManager = new JobManager();
 		AddonManager = new ExtensionManager();
 		
-		// Reflections
+		// Reflections - Jobs
 		Reflections reflections = new Reflections("com.lavacraftserver.HarryPotterSpells");
 		
 		for(Class<? extends ClearJob> c : reflections.getSubTypesOf(ClearJob.class)) {
@@ -61,6 +61,13 @@ public class HPS extends JavaPlugin {
 				PM.log("An error occurred whilst adding a ClearJob to the JobManager. Please report this error.", Level.WARNING);
 				e.printStackTrace();
 			}
+		}
+		
+		// Reflections - Commands
+		for(Class<? extends CommandExecutor> clazz : reflections.getSubTypesOf(CommandExecutor.class)) {
+			if(!clazz.isAnnotationPresent(HCommand.class))
+			CommandExecutor e = clazz.newInstance();
+			getCommand(e.getName()).setExecutor(e);
 		}
 		
 		// Config
@@ -100,9 +107,6 @@ public class HPS extends JavaPlugin {
 			}
 		}
 		PM.log("Crafting changes implemented.", Level.INFO);
-		
-		// After instance loading
-		Plugin = this;
 		
 		PM.log("Plugin enabled", Level.INFO);
 	}

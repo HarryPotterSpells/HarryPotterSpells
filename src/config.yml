@@ -40,8 +40,10 @@ spell-castable-with-chat: true # If a spell is castable on the chatting of 'Spel
 #########################
 
 spells:
+  avis:
+    chickens: 5 # How many chickens the wand should shoot
   incendio:
-    duration: 10 # How long the fire should last in ticks (1/20 of a second)
+    duration: 100 # How long the fire should last in ticks (1/20 of a second)
   multicorfors:
     explosionEffect: true # Should an explosion happen on colour change?
   time:

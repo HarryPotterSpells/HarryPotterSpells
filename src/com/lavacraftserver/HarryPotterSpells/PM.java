@@ -1,7 +1,6 @@
 package com.lavacraftserver.HarryPotterSpells;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -10,6 +9,8 @@ import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -125,6 +126,30 @@ public class PM extends JavaPlugin {
             return false;
         }
         return true;
+	}
+	
+	/**
+	 * Sends a informational message to the Console or a Player depending on the sender
+	 * @param sender the sender
+	 * @param message the message(s)
+	 */
+	public void dependantMessagingTell(CommandSender sender, String... message) {
+		if(sender instanceof Player)
+			tell((Player) sender, message);
+		else if(sender instanceof ConsoleCommandSender)
+			log(Level.INFO, message);
+	}
+	
+	/**
+	 * Sends a warning message to the Console or a Player depending on the sender
+	 * @param sender the sender
+	 * @param message the message(s)
+	 */
+	public void dependantMessagingWarn(CommandSender sender, String... message) {
+		if(sender instanceof Player)
+			warn((Player) sender, message);
+		else if(sender instanceof ConsoleCommandSender)
+			log(Level.WARNING, message);
 	}
 
 }

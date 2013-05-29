@@ -17,6 +17,7 @@ public class Reparo extends Spell {
 	@Override
 	public void cast(Player p) {
 		repairItems(p.getInventory().getContents(), p);
+		repairItems(p.getEquipment().getArmorContents(), p);
 	}
 	
 	private void repairItem(final ItemStack item) {
