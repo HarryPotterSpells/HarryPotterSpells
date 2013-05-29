@@ -19,7 +19,6 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.mcstats.Metrics;
 import org.reflections.Reflections;
 
 import com.lavacraftserver.HarryPotterSpells.Commands.HCommand;
