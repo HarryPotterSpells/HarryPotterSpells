@@ -3,6 +3,7 @@ package com.lavacraftserver.HarryPotterSpells.Spells;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,6 +26,9 @@ public class PetrificusTotalus extends Spell implements Listener {
 	public void cast(Player p) {
 		if (Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {
 			PetrificusTotalus.players.add(((Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls())).getName());
+			Player target = (Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
+			Location loc = new Location(target.getWorld(), target.getLocation().getBlockX(), target.getLocation().getBlockY() + 1, target.getLocation().getBlockZ());
+			target.getWorld().createExplosion(loc, 0F);
 		} else {
 			HPS.PM.warn(p, "This may only be used on a player or a mob.");
 		}

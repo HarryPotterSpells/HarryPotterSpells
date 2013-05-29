@@ -1,5 +1,6 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -18,6 +19,8 @@ public class Reparo extends Spell {
 	public void cast(Player p) {
 		repairItems(p.getInventory().getContents(), p);
 		repairItems(p.getEquipment().getArmorContents(), p);
+		Location loc = new Location(p.getWorld(), p.getLocation().getBlockX(), p.getLocation().getBlockY() + 1, p.getLocation().getBlockZ());
+		p.getWorld().createExplosion(loc, 0F);
 	}
 	
 	private void repairItem(final ItemStack item) {
