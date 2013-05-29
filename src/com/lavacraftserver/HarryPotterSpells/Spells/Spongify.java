@@ -1,7 +1,14 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
@@ -12,17 +19,33 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		range=0,
 		goThroughWalls=false
 )
-public class Spongify extends Spell {
+public class Spongify extends Spell implements Listener {
+	private static List<String> players = new ArrayList<>();
 
-	public  void cast(final Player p) {
-		HPS.MiscListeners.spongify.add(p.getName());
+	@Override
+	public void cast(final Player p) {
+		Spongify.players.add(p.getName());
 		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
 			   public void run() {
-				   if(HPS.MiscListeners.spongify.contains(p.getName())) {
-					   HPS.MiscListeners.spongify.remove(p.getName());
+				   if(Spongify.players.contains(p.getName())) {
+					   Spongify.players.remove(p.getName());
 				   } 
 			   }
 			}, 200L);
+	}
+	
+	@EventHandler
+	public void onPlayerDamage(EntityDamageEvent e) {
+		if(e.getCause() == DamageCause.FALL){
+			if(e.getEntity() instanceof Player){
+				Player p = (Player)e.getEntity();
+				if(Spongify.players.contains(p.getName())) {
+					e.setDamage(0);
+					Spongify.players.remove(p.getName());
+				}
+			}
+			
+		}
 	}
 
 }

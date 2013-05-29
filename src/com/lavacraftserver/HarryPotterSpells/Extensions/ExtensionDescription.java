@@ -1,13 +1,13 @@
 package com.lavacraftserver.HarryPotterSpells.Extensions;
 
 /**
- * The description file for addons
+ * The description file for extensions
  */
 public class ExtensionDescription {
 	private String name, pack, version, description, author;
 
 	/**
-	 * Gets the name of the addon
+	 * Gets the name of the extension
 	 * @return the name
 	 */
 	public String getName() {
@@ -15,7 +15,7 @@ public class ExtensionDescription {
 	}
 
 	/**
-	 * Gets the main class of the addon
+	 * Gets the main class of the extension
 	 * @return the main class
 	 */
 	public String getPackage() {
@@ -23,7 +23,7 @@ public class ExtensionDescription {
 	}
 
 	/**
-	 * Gets the version string of the addon
+	 * Gets the version string of the extension
 	 * @return the version
 	 */
 	public String getVersion() {
@@ -31,7 +31,7 @@ public class ExtensionDescription {
 	}
 
 	/**
-	 * Gets the description of the addon
+	 * Gets the description of the extension
 	 * @return the description
 	 */
 	public String getDescription() {
@@ -39,7 +39,7 @@ public class ExtensionDescription {
 	}
 	
 	/**
-	 * Gets the author of the addon
+	 * Gets the author of the extension
 	 * @return the author
 	 */
 	public String getAuthor() {

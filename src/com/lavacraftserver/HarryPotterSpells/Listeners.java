@@ -11,6 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -129,6 +131,24 @@ public class Listeners implements Listener {
 			HPS.PM.newSpell(p, spellList.get(spellNumber));
 			currentSpell.put(p.getName(), spellNumber);
 			return;
+		}
+	}
+	
+	@EventHandler
+	public void onPlayerChat(AsyncPlayerChatEvent e) {
+		if(HPS.Plugin.getConfig().getBoolean("spell-castable-with-chat")) {
+			if(HPS.SpellManager.isSpell(e.getMessage().substring(0, e.getMessage().length() - 1))) {
+				HPS.SpellManager.getSpell(e.getMessage().substring(0, e.getMessage().length() - 1)).cast(e.getPlayer());
+				return;
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onCommand(PlayerCommandPreprocessEvent e) {
+		String spell = e.getMessage().replace('/', ' ');
+		if(HPS.SpellManager.isSpell(spell)) {
+			HPS.SpellManager.getSpell(spell).cast(e.getPlayer());
 		}
 	}
 	

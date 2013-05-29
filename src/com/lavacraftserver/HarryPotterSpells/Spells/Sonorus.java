@@ -1,10 +1,16 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
-import com.lavacraftserver.HarryPotterSpells.Jobs.ClearJob;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
@@ -13,22 +19,30 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		range=0,
 		goThroughWalls=false
 )
-public class Sonorus extends Spell implements ClearJob {
-
-	public  void cast(final Player p) {
-		HPS.MiscListeners.sonorus.add(p.getName());
+public class Sonorus extends Spell implements Listener {
+	private static List<String> players = new ArrayList<>();
+	
+	public void cast(final Player p) {
+		Sonorus.players.add(p.getName());
 		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
-			   public void run() {
-				   if(HPS.MiscListeners.sonorus.contains(p.getName())) {
-					   HPS.MiscListeners.sonorus.remove(p.getName());
-				   } 
-			   }
-			}, 400L);
+			
+			@Override
+		    public void run() {
+			    if(Sonorus.players.contains(p.getName())) {
+			 	   Sonorus.players.remove(p.getName());
+			    } 
+		    }
+			
+		}, 400L);
 	}
 
-	@Override
-	public void clear() {
-		HPS.MiscListeners.sonorus.clear();
+	@EventHandler
+	public void onPlayerChat(AsyncPlayerChatEvent e) {
+		if(Sonorus.players.contains(e.getPlayer().getName())) {
+			e.setCancelled(true);
+			Bukkit.getServer().broadcastMessage(e.getPlayer().getDisplayName() + ChatColor.WHITE + ": " + e.getMessage());
+			Sonorus.players.remove(e.getPlayer().getName());
+		}
 	}
 
 }

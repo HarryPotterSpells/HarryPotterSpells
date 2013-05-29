@@ -14,6 +14,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_5_R3.CraftServer;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
@@ -29,15 +30,12 @@ import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
 import com.lavacraftserver.HarryPotterSpells.Jobs.JobManager;
 import com.lavacraftserver.HarryPotterSpells.SpellLoading.SpellLoader;
 import com.lavacraftserver.HarryPotterSpells.Spells.SpellManager;
-import com.lavacraftserver.HarryPotterSpells.Utils.MiscListeners;
 import com.lavacraftserver.HarryPotterSpells.Utils.Wand;
 
 public class HPS extends JavaPlugin {
 	public static PlayerSpellConfig PlayerSpellConfig;
 	public static PM PM;
 	public static SpellManager SpellManager;
-	public static MiscListeners MiscListeners;
-	public static Listeners Listeners;
 	public static Wand Wand;
 	public static SpellLoader SpellLoader;
 	public static JavaPlugin Plugin;
@@ -56,8 +54,6 @@ public class HPS extends JavaPlugin {
 		PlayerSpellConfig = new PlayerSpellConfig();
 		PM = new PM();
 		SpellManager = new SpellManager();
-		MiscListeners = new MiscListeners();
-		Listeners = new Listeners();
 		Wand = new Wand();
 		SpellLoader = new SpellLoader();
 		JobManager = new JobManager();
@@ -119,9 +115,17 @@ public class HPS extends JavaPlugin {
 		}
 		PM.log(Level.INFO, "Registered " + commands + " core commands.");
 		
-		// Listeners
-		getServer().getPluginManager().registerEvents(Listeners, this);
-		getServer().getPluginManager().registerEvents(MiscListeners, this); //TODO automated addition
+		// Reflections - Listeners
+		int listeners = 0;
+		for(Class<? extends Listener> clazz : reflections.getSubTypesOf(Listener.class)) {
+			try {
+				getServer().getPluginManager().registerEvents(clazz.newInstance(), this);
+			} catch (InstantiationException | IllegalAccessException e) {
+				PM.log(Level.WARNING, "An error occurred whilst registering the listener in class " + clazz.getSimpleName() + ".");
+				PM.debug(e);
+			}
+		}
+		PM.log(Level.INFO, "Registered " + listeners + " core listeners.");
 		
 		// Plugin Metrics
 		try {
@@ -183,7 +187,7 @@ public class HPS extends JavaPlugin {
 	 */
 	public static boolean addHackyCommand(Class<? extends CommandExecutor> clazz) {
 		if(!clazz.isAnnotationPresent(HCommand.class)) {
-			PM.log(Level.INFO, "Could not add command " + clazz.getSimpleName().toLowerCase() + " to the command map. It is missing the HCommand annotation.");
+			PM.log(Level.INFO, "Could not add command " + clazz.getSimpleName().toLowerCase() + " to the command map. It is missing the @HCommand annotation.");
 			return false;
 		}
 		
