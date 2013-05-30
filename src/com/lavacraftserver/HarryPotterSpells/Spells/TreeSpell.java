@@ -30,7 +30,7 @@ public class TreeSpell extends Spell {
 				boom(block, block.getWorld());
 			}
 		} else {
-			HPS.PM.warn(p, "You can only place a tree on grass or dirt.");
+			HPS.PM.warn(p, "This can only be used on a grass or dirt block.");
 		}
 	}
 	

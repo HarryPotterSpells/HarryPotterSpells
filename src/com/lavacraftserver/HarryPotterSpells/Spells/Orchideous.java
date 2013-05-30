@@ -23,7 +23,7 @@ public class Orchideous extends Spell {
 		if (isValidBlock(b) && blockAboveIsValidBlock(b)) {
 			getBlockAbove(b).setType(Material.RED_ROSE);
 		} else {
-			HPS.PM.warn(p, "This spell cannot be cast on that block.");
+			HPS.PM.warn(p, "You cannot place a rose that block.");
 		}
 
 	}

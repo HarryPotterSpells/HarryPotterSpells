@@ -33,7 +33,7 @@ public class Expelliarmus extends Spell {
 				i.setVelocity(new Vector(vector.getX() * 2, vector.getY() * 2, vector.getZ() * 2));
 			}
 		} else {
-			HPS.PM.warn(p, "You can only cast this on players.");
+			HPS.PM.warn(p, "This can only be used on a player.");
 		}
 	}
 }

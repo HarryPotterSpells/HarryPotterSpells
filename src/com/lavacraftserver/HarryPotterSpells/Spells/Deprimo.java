@@ -38,7 +38,7 @@ public class Deprimo extends Spell implements Listener {
 				   
 			}, 400L);
 		} else {
-			HPS.PM.warn(p, "You can only cast this on a player!");
+			HPS.PM.warn(p, "This can only be used on a player.");
 		}
 	}
 	

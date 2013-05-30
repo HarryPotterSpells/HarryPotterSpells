@@ -21,7 +21,7 @@ public class Confundo extends Spell {
 			Player player = (Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 600, 1));
 		} else {
-			HPS.PM.warn(p, "You can only cast this on a player!");
+			HPS.PM.warn(p, "This can only be used on a player.");
 		}
 	}
 	

@@ -44,7 +44,7 @@ public class Multicorfors extends Spell{
 				   }
 				}, 4L);
 		} else {
-			HPS.PM.warn(p, "You can only cast this spell on sheep or wool.");
+			HPS.PM.warn(p, "This can only be used on a sheep or wool.");
 		}
 	}
 	

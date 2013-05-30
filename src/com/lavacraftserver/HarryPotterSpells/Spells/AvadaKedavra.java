@@ -20,7 +20,7 @@ public class AvadaKedavra extends Spell {
 			LivingEntity livingentity = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			livingentity.setHealth(0);
 		} else {
-			HPS.PM.warn(p, "You can only cast this on a player or mob!");
+			HPS.PM.warn(p, "This can only be used on a player or mob.");
 		}
 	}
 	
