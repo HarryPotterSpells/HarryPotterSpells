@@ -29,5 +29,8 @@ spells:
     explosionEffect: true # Should an explosion happen on colour change?
   spongify:
     duration: 600 # How long should fall damage be cancelled in ticks (1/20 of a second)
-  time:
+  timespell:
     lightning: true # Should lightning strike on casting of the spell
+  wingardiumleviosa:
+    cancelfalldamage: true # Should fall damage be cancelled when flying with the spell
+    duration: 200 # How long the spell should last
