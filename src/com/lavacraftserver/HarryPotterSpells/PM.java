@@ -14,7 +14,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class PM extends JavaPlugin {
+public class PM {
 	private Logger log = Bukkit.getLogger();
 	
 	/**
@@ -157,7 +157,7 @@ public class PM extends JavaPlugin {
 	 * @param e the throwable
 	 */
 	public void debug(Throwable e) {
-		if(HPS.PM.getConfig().getBoolean("DebugMode", false))
+		if(HPS.Plugin.getConfig().getBoolean("DebugMode", false))
 			e.printStackTrace();
 	}
 

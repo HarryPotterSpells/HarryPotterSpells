@@ -34,3 +34,5 @@ spells:
   wingardiumleviosa:
     cancelfalldamage: true # Should fall damage be cancelled when flying with the spell
     duration: 200 # How long the spell should last
+  accio:
+    radius: 3 # The maximum distance drops can be from the player to still be attracted
