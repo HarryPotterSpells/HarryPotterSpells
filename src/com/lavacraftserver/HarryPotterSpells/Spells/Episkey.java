@@ -20,7 +20,8 @@ public class Episkey extends Spell {
 	public void cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) {
 			LivingEntity livingentity = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
-			livingentity.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 600, 1));
+			int duration = HPS.Plugin.getConfig().getInt("spells.episkey.duration");
+			livingentity.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, duration, 1));
 		} else {
 			HPS.PM.warn(p, "This can only be used on a player or mob.");
 		}

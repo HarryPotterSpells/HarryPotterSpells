@@ -21,7 +21,8 @@ public class Obscuro extends Spell {
 	public void cast(Player p) {
 		if (Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) {
 			LivingEntity le = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
-			le.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 600, 1));
+			int duration = HPS.Plugin.getConfig().getInt("spells.obscuro.duration");
+			le.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, duration, 1));
 		} else {
 			HPS.PM.warn(p, "This can only be used on a player or a mob.");
 		}

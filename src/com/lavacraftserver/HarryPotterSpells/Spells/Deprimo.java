@@ -27,7 +27,8 @@ public class Deprimo extends Spell implements Listener {
 	public void cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {
 			final Player target = (Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
-			target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 500, 1));
+			int duration = HPS.Plugin.getConfig().getInt("spells.deprimo.duration");
+			target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, duration, 1));
 			Deprimo.players.add(target.getName());
 			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
 				   

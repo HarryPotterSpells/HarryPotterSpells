@@ -19,7 +19,8 @@ public class Confundo extends Spell {
 	public void cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {
 			Player player = (Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
-			player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 600, 1));
+			int duration = HPS.Plugin.getConfig().getInt("spells.confundo.duration");
+			player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, duration, 1));
 		} else {
 			HPS.PM.warn(p, "This can only be used on a player.");
 		}
