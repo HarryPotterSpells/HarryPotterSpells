@@ -120,6 +120,7 @@ public class HPS extends JavaPlugin {
 		for(Class<? extends Listener> clazz : reflections.getSubTypesOf(Listener.class)) {
 			try {
 				getServer().getPluginManager().registerEvents(clazz.newInstance(), this);
+				listeners++;
 			} catch (InstantiationException | IllegalAccessException e) {
 				PM.log(Level.WARNING, "An error occurred whilst registering the listener in class " + clazz.getSimpleName() + ".");
 				PM.debug(e);
