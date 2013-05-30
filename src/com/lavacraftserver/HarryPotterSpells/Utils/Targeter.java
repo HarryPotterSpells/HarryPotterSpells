@@ -30,10 +30,14 @@ import org.bukkit.entity.Squid;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.Wolf;
 import org.bukkit.entity.Zombie;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.BlockIterator;
 
-public class Targeter extends JavaPlugin {
+/**
+ * A targeter class that gets the target of a spell
+ * @deprecated Use {@link SpellTargeter}
+ */
+@Deprecated
+public class Targeter {
 	
 	public static HashSet<Byte> getTransparentBlocks() {
 		HashSet<Byte> b = new HashSet<Byte>();
