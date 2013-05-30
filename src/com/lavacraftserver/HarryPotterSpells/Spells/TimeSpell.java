@@ -35,7 +35,7 @@ public class TimeSpell extends Spell{
 			} else {
 				time = time - 12000L;
 			}
-			if(HPS.Plugin.getConfig().getBoolean("spells.time.lightning", true))
+			if(HPS.Plugin.getConfig().getBoolean("spells.timespell.lightning", true))
 				awesomeLightning(p.getLocation(), w);
 			w.setTime(time);
 		}

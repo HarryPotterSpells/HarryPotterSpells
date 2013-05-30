@@ -14,10 +14,10 @@ public class SpellInfo implements CommandExecutor {
 		if(args.length != 1)
 			return false;
 		else
-			if(!HPS.SpellManager.isSpell(args[1]))
+			if(!HPS.SpellManager.isSpell(args[0]))
 				HPS.PM.dependantMessagingWarn(sender, "That spell was not recognised");
 			else
-				HPS.PM.dependantMessagingTell(sender, args[1] + ": " + HPS.SpellManager.getSpell(args[1]).getDescription());
+				HPS.PM.dependantMessagingTell(sender, args[0] + ": " + HPS.SpellManager.getSpell(args[0]).getDescription());
 		return true;
 	}
 	

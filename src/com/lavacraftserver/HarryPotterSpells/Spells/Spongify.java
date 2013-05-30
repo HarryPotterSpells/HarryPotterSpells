@@ -16,36 +16,36 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
 		name="Spongify",
-		description="Prevents fall damage for 30 seconds",
+		description="Prevents fall damage",
 		range=0,
 		goThroughWalls=false
 )
 public class Spongify extends Spell implements Listener {
-	private static List<String> players = new ArrayList<>();
+	private List<String> players = new ArrayList<>();
 
 	@Override
 	public void cast(final Player p) {
-		Spongify.players.add(p.getName());
+		if(players.contains(p.getName())){
+			return;
+		}
+		players.add(p.getName());
 		Location loc = new Location(p.getWorld(), p.getLocation().getBlockX(), p.getLocation().getBlockY() + 1, p.getLocation().getBlockZ());
 		p.getWorld().createExplosion(loc, 0F);
 		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
 			   public void run() {
-				   if(Spongify.players.contains(p.getName())) {
-					   Spongify.players.remove(p.getName());
+				   if(players.contains(p.getName())) {
+					   players.remove(p.getName());
 				   } 
 			   }
-			}, 200L);
+			}, HPS.Plugin.getConfig().getLong("spells.spongify.duration", 600L));
 	}
 	
 	@EventHandler
 	public void onPlayerDamage(EntityDamageEvent e) {
-		if(e.getCause() == DamageCause.FALL){
-			if(e.getEntity() instanceof Player){
-				Player p = (Player)e.getEntity();
-				if(Spongify.players.contains(p.getName())) {
-					e.setDamage(0);
-					Spongify.players.remove(p.getName());
-				}
+		if(e.getCause() == DamageCause.FALL && e.getEntity() instanceof Player){
+			Player p = (Player)e.getEntity();
+			if(players.contains(p.getName())) {
+				e.setDamage(0);
 			}
 			
 		}
