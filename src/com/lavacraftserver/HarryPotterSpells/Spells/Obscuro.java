@@ -1,30 +1,51 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
+import org.bukkit.Location;
+import org.bukkit.entity.Creature;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
-@spell (
-		name="Obscuro",
-		description="Blinds the target mob or player",
-		range=50,
-		goThroughWalls=false
-)
+@spell(name = "Obscuro", description = "Blinds the target mob or player", range = 50, goThroughWalls = false)
 public class Obscuro extends Spell {
 
 	@Override
 	public void cast(Player p) {
-		if (Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) {
+
+		if (Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) { //if a LivingEntity is targeted by the spell
 			LivingEntity le = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
-			int duration = HPS.Plugin.getConfig().getInt("spells.obscuro.duration");
-			le.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, duration, 1));
+			if (le instanceof Player) {//if the targeted is a player
+
+				/*
+				 * TODO
+				 * Not get the value from the config every spell cast;
+				 * that's really resource intensive and inefficient
+				 */
+				int duration = HPS.Plugin.getConfig().getInt("spells.obscuro.duration");
+				le.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, duration, 1));//blind them
+
+			} else if(le instanceof Creature) {//else if it's a creature that's not a player
+				
+				((Creature) le).setTarget(null);//erase the creatures target
+				le.setVelocity(new Vector(0,0,0));//stop them in their tracks
+				// invert where they're looking (make them look in the opposite direction)
+				Location loc = le.getLocation();
+				loc.setPitch((loc.getPitch() + 90) % 180);
+				loc.setYaw((loc.getYaw()+180) % 360);
+				//put the changes in effect
+				le.teleport(loc);
+				
+			}
 		} else {
+			
 			HPS.PM.warn(p, "This can only be used on a player or a mob.");
+			
 		}
 	}
 
