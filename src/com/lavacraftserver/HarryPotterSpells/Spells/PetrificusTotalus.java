@@ -30,7 +30,7 @@ public class PetrificusTotalus extends Spell implements Listener {
 			Location loc = new Location(target.getWorld(), target.getLocation().getBlockX(), target.getLocation().getBlockY() + 1, target.getLocation().getBlockZ());
 			target.getWorld().createExplosion(loc, 0F);
 		} else {
-			HPS.PM.warn(p, "This may only be used on a player or a mob.");
+			HPS.PM.warn(p, "This can only be used on a player.");
 		}
 	}
 	

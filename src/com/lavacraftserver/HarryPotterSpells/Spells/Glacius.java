@@ -56,7 +56,7 @@ public class Glacius extends Spell {
 			player.getLocation().add(0,2,0).getBlock().setType(Material.ICE);
 
 		} else {
-			HPS.PM.warn(p, "This may only be used on a player.");
+			HPS.PM.warn(p, "This can only be used on a player.");
 		}
 	}
 }

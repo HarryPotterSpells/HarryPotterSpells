@@ -26,7 +26,7 @@ public class Sectumsempra extends Spell {
 			sectumsemprarunnable.le = le;
 			sectumsemprarunnable.taskID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(HPS.Plugin, sectumsemprarunnable, 0L, 20L);
 		} else {
-			HPS.PM.warn(p, "This may only be used on a player or a mob.");
+			HPS.PM.warn(p, "This can only be used on a player or a mob.");
 		}
 	}
 

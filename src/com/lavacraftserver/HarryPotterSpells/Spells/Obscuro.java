@@ -23,7 +23,7 @@ public class Obscuro extends Spell {
 			LivingEntity le = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			le.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 600, 1));
 		} else {
-			HPS.PM.warn(p, "This may only be used on a player or a mob.");
+			HPS.PM.warn(p, "This can only be used on a player or a mob.");
 		}
 	}
 
