@@ -39,6 +39,10 @@ spells:
     duration: 600  # How many ticks the target should be blinded for
   spongify:
     duration: 600 # How many ticks fall damage should be cancelled for
+  stupefy:
+    knockback: 5  # How much the target should be knocked backwards
+    confusion-duration: 200  # How many ticks the target should be confused for
+    weakness-duration: 100  # How many ticks the target should be weakened for
   timespell:
     lightning: true  # Should lightning strike on casting of the spell
   wingardiumleviosa:
