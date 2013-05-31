@@ -1,5 +1,7 @@
 package com.lavacraftserver.HarryPotterSpells.Commands;
 
+import java.util.ArrayList;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,8 +22,10 @@ public class Teach implements CommandExecutor {
 		}
 		
 		if (!HPS.SpellManager.isSpell(args[0])) {
-			HPS.PM.dependantMessagingWarn(sender, "That spell was not recognized.");
-			return true;
+			if (!(args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("*"))) {
+				HPS.PM.dependantMessagingWarn(sender, "That spell was not recognized!.");
+				return true;
+			}
 		}
 		
 		Spell spell = HPS.SpellManager.getSpell(args[0]);
@@ -38,11 +42,35 @@ public class Teach implements CommandExecutor {
 		}
 	
 		if (teachTo != null) {
-			if (spell.playerKnows(teachTo)) {
-				HPS.PM.dependantMessagingWarn(sender, teachTo.getName() + " already knows that spell.");
+			
+			if (args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("*")) {
+				ArrayList<Spell> spells = HPS.SpellManager.getSpells();
+				String learnedspells = null;
+				for (Spell newSpell : spells) {
+					if (!newSpell.playerKnows(teachTo)) {
+						if (learnedspells == null) {
+							newSpell.teach(teachTo);
+							learnedspells = "You have taught " + teachTo.getName() + " the spells: " + newSpell.getName();
+						} else {
+							newSpell.teach(teachTo);
+							learnedspells = learnedspells.concat(", " + newSpell.getName());
+						}
+					}
+				}
+				if (learnedspells == null) {
+					learnedspells = teachTo.getName() + " already knows all spells";
+				}
+				HPS.PM.dependantMessagingTell(sender, learnedspells);
+				
 			} else {
-				spell.teach(teachTo);
-				HPS.PM.dependantMessagingTell(sender, "You have taught " + teachTo.getName() + " the spell " + spell.toString() + ".");
+				
+				if (spell.playerKnows(teachTo)) {
+					HPS.PM.dependantMessagingWarn(sender, teachTo.getName() + " already knows that spell.");
+				} else {
+					spell.teach(teachTo);
+					HPS.PM.dependantMessagingTell(sender, "You have taught " + teachTo.getName() + " the spell " + spell.toString() + ".");
+				}
+				
 			}
 		} else {
 			HPS.PM.dependantMessagingWarn(sender, "The player was not found.");
