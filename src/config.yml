@@ -34,6 +34,8 @@ spells:
     duration: 600t  # How long the target should be slowed for
   episkey:
     duration: 600t  # How long the target should be healed for
+  evanesco:
+    duration: 300  # How many TICKS the caster will be invisible for
   incendio:
     duration: 100t # How long the fire should last
   multicorfors:

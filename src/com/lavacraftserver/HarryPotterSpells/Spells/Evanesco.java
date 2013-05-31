@@ -19,6 +19,7 @@ public class Evanesco extends Spell {
             players.hidePlayer(p);
             p.getWorld().createExplosion(p.getLocation(), 0, false);
         }
+		
 		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
 			   public void run() {
 				   for (Player players : Bukkit.getServer().getOnlinePlayers()) {
@@ -26,7 +27,7 @@ public class Evanesco extends Spell {
 			       }
 				   p.getWorld().createExplosion(p.getLocation(), 0, false);
 			   }
-			}, 300L);
+			}, HPS.Plugin.getConfig().getLong("spells.evanesco.duration"));
 	}
 
 }
