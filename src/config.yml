@@ -20,31 +20,34 @@ spell-castable-with-chat: true # If a spell is castable on the chatting of 'Spel
 ## Spell Configuration ##
 #########################
 
+## When configuring durations, ticks (1/20 of a second) are assumed. If you'd like to specify ticks, append a 't' to the value.
+## For example, 600t = 600 ticks = 30 seconds
+## while 600 (without the t) = 600 seconds
 spells:
   accio:
     radius: 3  # The maximum distance drops can be from the player to still be attracted
   avis:
     chickens: 5  # How many chickens the wand should shoot
   confundo:
-    duration: 600  # How many ticks the target should be confused for
+    duration: 600t  # How long the target should be confused for
   deprimo:
-    duration: 600  # How many ticks the target should be slowed for
+    duration: 600t  # How long the target should be slowed for
   episkey:
-    duration: 600  # How many ticks the target should be healed for
+    duration: 600t  # How long the target should be healed for
   incendio:
-    duration: 100 # How many ticks the fire should last
+    duration: 100t # How long the fire should last
   multicorfors:
     explosionEffect: true  # Should an explosion happen on color change
   obscuro:
-    duration: 600  # How many ticks the target should be blinded for
+    duration: 600t  # How long the target should be blinded for
   spongify:
-    duration: 600 # How many ticks fall damage should be cancelled for
+    duration: 600t # How long fall damage should be cancelled for
   stupefy:
     knockback: 5  # How much the target should be knocked backwards
-    confusion-duration: 200  # How many ticks the target should be confused for
-    weakness-duration: 100  # How many ticks the target should be weakened for
+    confusion-duration: 200t  # How long the target should be confused for
+    weakness-duration: 100t  # How long the target should be weakened for
   timespell:
     lightning: true  # Should lightning strike on casting of the spell
   wingardiumleviosa:
     cancelfalldamage: true  # Should fall damage be cancelled when flying with the spell
-    duration: 200  # How many ticks the caster should be able to fly for
+    duration: 200t  # How long the caster should be able to fly for

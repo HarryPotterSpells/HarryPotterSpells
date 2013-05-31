@@ -28,8 +28,19 @@ public class Deprimo extends Spell implements Listener {
 
 	public void cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {
+			
 			LivingEntity target = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
-			int duration = HPS.Plugin.getConfig().getInt("spells.deprimo.duration");
+			
+			String durationString = HPS.Plugin.getConfig().getString("spells.deprimo.duration");
+			int duration = 0;
+			
+			if (durationString.endsWith("t")) {
+				String ticks = durationString.substring(0, durationString.length() - 1);
+				duration = Integer.parseInt(ticks);
+			} else {
+				duration = Integer.parseInt(durationString) * 20;
+			}
+			
 			target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, duration, 1));
 			
 			if (target instanceof Player) {

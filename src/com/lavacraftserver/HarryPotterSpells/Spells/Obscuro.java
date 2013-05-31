@@ -27,7 +27,16 @@ public class Obscuro extends Spell {
 				 * Not get the value from the config every spell cast;
 				 * that's really resource intensive and inefficient
 				 */
-				int duration = HPS.Plugin.getConfig().getInt("spells.obscuro.duration");
+				String durationString = HPS.Plugin.getConfig().getString("spells.obscuro.duration");
+				int duration = 0;
+				
+				if (durationString.endsWith("t")) {
+					String ticks = durationString.substring(0, durationString.length() - 1);
+					duration = Integer.parseInt(ticks);
+				} else {
+					duration = Integer.parseInt(durationString) * 20;
+				}
+				
 				le.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, duration, 1));//blind them
 
 			} else if(le instanceof Creature) {//else if it's a creature that's not a player

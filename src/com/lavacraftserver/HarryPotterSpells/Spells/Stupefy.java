@@ -23,9 +23,25 @@ public class Stupefy extends Spell {
 		if (Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) {
 			LivingEntity le = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			
-			int confusionDuration = HPS.Plugin.getConfig().getInt("spells.stupefy.confusion-duration");
-			int weaknessDuration = HPS.Plugin.getConfig().getInt("spells.stupefy.weakness-duration");
+			String confusionDurationString = HPS.Plugin.getConfig().getString("spells.stupefy.confusion-duration");
+			int confusionDuration = 0;
+			String weaknessDurationString = HPS.Plugin.getConfig().getString("spells.stupefy.weakness-duration");
+			int weaknessDuration = 0;
 			int knockback = HPS.Plugin.getConfig().getInt("spells.stupefy.knockback");
+
+			if (confusionDurationString.endsWith("t")) {
+				String ticks = confusionDurationString.substring(0, confusionDurationString.length() - 1);
+				confusionDuration = Integer.parseInt(ticks);
+			} else {
+				confusionDuration = Integer.parseInt(confusionDurationString) * 20;
+			}
+			
+			if (weaknessDurationString.endsWith("t")) {
+				String ticks = weaknessDurationString.substring(0, weaknessDurationString.length() - 1);
+				weaknessDuration = Integer.parseInt(ticks);
+			} else {
+				weaknessDuration = Integer.parseInt(weaknessDurationString) * 20;
+			}
 
 			le.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, confusionDuration, 1));
 			le.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, weaknessDuration, 1));
