@@ -37,13 +37,13 @@ spells:
   evanesco:
     duration: 300  # How many TICKS the caster will be invisible for
   incendio:
-    duration: 100t # How long the fire should last
+    duration: 100t  # How long the fire should last
   multicorfors:
     explosionEffect: true  # Should an explosion happen on color change
   obscuro:
     duration: 600t  # How long the target should be blinded for
   spongify:
-    duration: 600t # How long fall damage should be cancelled for
+    duration: 600  # How many TICKS damage should be cancelled for
   stupefy:
     knockback: 5  # How much the target should be knocked backwards
     confusion-duration: 200t  # How long the target should be confused for
