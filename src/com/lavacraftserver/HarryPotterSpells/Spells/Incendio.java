@@ -1,18 +1,15 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
-import org.bukkit.FireworkEffect.Type;
-import org.bukkit.Location;
+import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Snowball;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 import com.lavacraftserver.HarryPotterSpells.Utils.SpellTargeter;
+import com.lavacraftserver.HarryPotterSpells.Utils.SpellTargeter.SpellHitEvent;
 
 @spell (
 		name="Incendio",
@@ -23,21 +20,19 @@ import com.lavacraftserver.HarryPotterSpells.Utils.SpellTargeter;
 public class Incendio extends Spell {
 
 	public void cast(Player p) {
-	    SpellTargeter.register(p, Snowball.class, FireworkEffect.builder().withColor(Color.RED, Color.ORANGE).with(Type.BALL).build(), new SpellTargeter.SpellHitEvent() {
-            
+	    SpellTargeter.register(p, new SpellHitEvent() {
+
+            @Override
+            public void hitBlock(Block block) {
+                block.setType(Material.FIRE);             
+            }
+
             @Override
             public void hitEntity(LivingEntity entity) {
-                int fireTicks = HPS.Plugin.getConfig().getInt("spells.incendio.duration");
-                entity.setFireTicks(fireTicks);
+                entity.setFireTicks(HPS.Plugin.getConfig().getInt("spells.incendio.duration", 100));
             }
-            
-            @Override
-            public void hitBlock(Block b) {
-                Block above = new Location(b.getWorld(), b.getX(), b.getY() + 1, b.getZ()).getBlock();
-                if(above.getType() == Material.AIR)
-                    above.setType(Material.FIRE);
-            }
-        });
+	        
+	    }, 2, Effect.MOBSPAWNER_FLAMES, null);
 	}
 	
 }
