@@ -1,19 +1,20 @@
 package com.lavacraftserver.HarryPotterSpells.Utils;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.logging.Level;
+import java.util.List;
 
-import org.bukkit.Bukkit;
-import org.bukkit.FireworkEffect;
+import javax.annotation.Nullable;
+
+import org.bukkit.Effect;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 
@@ -21,33 +22,36 @@ import com.lavacraftserver.HarryPotterSpells.HPS;
  * A targeter class that targets using a thrown projectile
  */
 public class SpellTargeter implements Listener {
-    private static Map<Integer, SpellHitEvent> eventHitMap = new HashMap<>();
-    private static Map<Integer, Integer> schedulerIdMap = new HashMap<>();
         
-    /**
-     * Registers a SpellHitEvent to be called when the spell has hit something
-     * @param caster the player who cast the spell
-     * @param projectile the projectile to be used as a spell throwable
-     * @param trail the {@link FireworkEffect} to be used during the movement of the spell
-     */
-    public static void register(final Player caster, Class<? extends Projectile> projectile, final FireworkEffect trail, SpellHitEvent onHit) {
-        final Projectile launched = caster.launchProjectile(projectile);
-        launched.setShooter(caster);
-        final int id = Bukkit.getScheduler().scheduleSyncRepeatingTask(HPS.Plugin, new Runnable() {
+    public static void register(final Player caster, final SpellHitEvent onHit, final int spellSpeed, final Effect effect, @Nullable final Integer effectArg) {
+        new BukkitRunnable() {
+            Location loc = caster.getLocation();
+            Vector direction = loc.getDirection().multiply(spellSpeed);
+            boolean running = false;
 
             @Override
             public void run() {
-                try {
-                    FireworkEffectPlayer.playFirework(launched.getWorld(), launched.getLocation(), trail);
-                } catch (Exception e) {
-                    HPS.PM.log(Level.INFO, "Could not display firework trail for a spell cast by " + caster.getName() + "!");
-                    HPS.PM.debug(e);
+                if(!running)
+                    runTaskTimer(HPS.Plugin, 0l, 1l);
+                
+                loc.add(direction);
+                loc.getWorld().playEffect(loc, effect, effectArg == null ? 0 : effectArg);
+                
+                if(!getTransparentBlocks().contains(loc.getBlock().getTypeId())) {
+                    onHit.hitBlock(loc.getBlock());
+                    cancel();
+                    return;
                 }
+                
+                List<LivingEntity> list = getNearbyEntities(loc, 0.75);
+                if(list.size() != 0) {
+                    onHit.hitEntity(list.get(0));
+                    cancel();
+                    return;
+                } 
             }
             
-        }, 0l, 1l);
-        eventHitMap.put(launched.getEntityId(), onHit);
-        schedulerIdMap.put(launched.getEntityId(), id);
+        }.run();
     }
     
     /**
@@ -64,19 +68,21 @@ public class SpellTargeter implements Listener {
         return b;
     }
     
-    @EventHandler
-    public void onProjectileHit(ProjectileHitEvent e) {
-        if(eventHitMap.containsKey(e.getEntity().getEntityId())) {
-            Bukkit.getScheduler().cancelTask(schedulerIdMap.get(e.getEntity().getEntityId()));
-            if(e.getEntity().getNearbyEntities(5, 5, 5) != null && e.getEntity().getNearbyEntities(1, 1, 1).get(0) instanceof LivingEntity)
-                    eventHitMap.get(e.getEntity().getEntityId()).hitEntity((LivingEntity) e.getEntity().getNearbyEntities(1, 1, 1).get(0));
-            else {
-                if(!e.getEntity().getLocation().getBlock().isEmpty())
-                    eventHitMap.get(e.getEntity().getEntityId()).hitBlock(e.getEntity().getLocation().getBlock());
-            }
-            eventHitMap.remove(e.getEntity().getEntityId());
-            schedulerIdMap.remove(e.getEntity().getEntityId());
+    /**
+     * Gets a list of LivingEntity's near a location
+     * @param location the location
+     * @param distance the max distance to check
+     * @return
+     */
+    public static List<LivingEntity> getNearbyEntities(Location location, double distance) {
+        List<LivingEntity> list = new ArrayList<>();
+        for(Entity en : location.getChunk().getEntities()) {
+            if(!(en instanceof LivingEntity))
+                continue;
+            if(en.getLocation().distance(location) <= distance)
+                list.add((LivingEntity) en);
         }
+        return list;
     }
     
     /**
