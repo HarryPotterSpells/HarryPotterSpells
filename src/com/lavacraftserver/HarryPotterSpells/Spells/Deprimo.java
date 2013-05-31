@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,20 +28,25 @@ public class Deprimo extends Spell implements Listener {
 
 	public void cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {
-			final Player target = (Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
+			LivingEntity target = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			int duration = HPS.Plugin.getConfig().getInt("spells.deprimo.duration");
 			target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, duration, 1));
-			Deprimo.players.add(target.getName());
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
-				   
-				@Override
-				public void run() {
-				   Deprimo.players.remove(target.getName());
-				}
-				   
-			}, 400L);
+			
+			if (target instanceof Player) {
+				final Player player = (Player) target;
+				Deprimo.players.add(player.getName());
+				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
+					   
+					@Override
+					public void run() {
+					   Deprimo.players.remove(player.getName());
+					}
+					   
+				}, 400L);
+			}
+			
 		} else {
-			HPS.PM.warn(p, "This can only be used on a player.");
+			HPS.PM.warn(p, "This can only be used on a player or mob.");
 		}
 	}
 	
