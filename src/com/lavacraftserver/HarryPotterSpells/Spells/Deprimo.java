@@ -22,7 +22,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		description="Slows your target to an almost halt",
 		range=20,
 		goThroughWalls=false,
-		cooldown=60
+		cooldown=180
 )
 public class Deprimo extends Spell implements Listener {
 	private static List<String> players = new ArrayList<>();

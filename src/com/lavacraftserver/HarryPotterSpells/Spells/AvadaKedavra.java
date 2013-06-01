@@ -12,7 +12,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		description="Kills whomever is targeted",
 		range=50,
 		goThroughWalls=false,
-		cooldown=60
+		cooldown=300
 )
 public class AvadaKedavra extends Spell {
 

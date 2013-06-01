@@ -13,7 +13,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		description="Confuses your target",
 		range=20,
 		goThroughWalls=false,
-		cooldown=60
+		cooldown=180
 )
 public class Confundo extends Spell {
 

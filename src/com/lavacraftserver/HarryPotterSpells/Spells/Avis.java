@@ -12,7 +12,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		description = "Shoots a flock of chickens from your wand",
 		range = 0,
 		goThroughWalls = false,
-		cooldown=60
+		cooldown=300
 )
 public class Avis extends Spell {
 

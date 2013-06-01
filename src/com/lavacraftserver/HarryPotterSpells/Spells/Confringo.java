@@ -10,7 +10,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		description="Launches a fireball from the tip of your wand",
 		range=0,
 		goThroughWalls=false,
-		cooldown=60
+		cooldown=45
 )
 public class Confringo extends Spell {
 

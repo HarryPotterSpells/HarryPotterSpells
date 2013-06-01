@@ -13,7 +13,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;;
 		name="Accio",
 		description="Pulls surrounding drops towards you",
 		goThroughWalls=false,
-		cooldown=60
+		cooldown=5
 		
 )
 

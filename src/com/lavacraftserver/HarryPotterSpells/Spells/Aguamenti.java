@@ -14,7 +14,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 	description="Places water at your target block",
 	range=50,
 	goThroughWalls=false,
-	cooldown=60
+	cooldown=90
 )
 public class Aguamenti extends Spell {
 	

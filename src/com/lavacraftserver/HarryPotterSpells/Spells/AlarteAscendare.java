@@ -18,7 +18,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		description="Propels the targeted mob upward",
 		range=30,
 		goThroughWalls=false,
-		cooldown=60
+		cooldown=45
 )
 public class AlarteAscendare extends Spell implements Listener {
 	private static List<Integer> entities = new ArrayList<>();
