@@ -3,6 +3,7 @@ package com.lavacraftserver.HarryPotterSpells.Spells;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -24,7 +25,9 @@ public class Incendio extends Spell {
 
             @Override
             public void hitBlock(Block block) {
-                block.setType(Material.FIRE);             
+                Block setOnFire = block.getRelative(BlockFace.UP);
+                if(setOnFire.getType().isTransparent())
+                    setOnFire.setType(Material.FIRE);
             }
 
             @Override
@@ -32,7 +35,7 @@ public class Incendio extends Spell {
                 entity.setFireTicks(HPS.Plugin.getConfig().getInt("spells.incendio.duration", 100));
             }
 	        
-	    }, 2, Effect.MOBSPAWNER_FLAMES, null);
+	    }, 1.05d, Effect.MOBSPAWNER_FLAMES);
 	    return true;
 	}
 	
