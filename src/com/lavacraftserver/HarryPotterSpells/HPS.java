@@ -10,11 +10,13 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_5_R3.CraftServer;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.permissions.Permission;
@@ -224,9 +226,16 @@ public class HPS extends JavaPlugin {
 
 		@Override
 		public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-		    if(!sender.hasPermission(getPermission()))
+		    if(executor == null)
+		        sender.sendMessage("Unknown command. Type \"" + (sender instanceof Player ? "/" : "") + "help\" for help.");
+		    else if(!sender.hasPermission(getPermission()))
 		        PM.dependantMessagingWarn(sender, getPermissionMessage());
-			return executor != null ? executor.onCommand(sender, this, commandLabel, args) : false;
+		    else {
+		        boolean success = executor.onCommand(sender, this, commandLabel, args);
+		        if(!success)
+		            PM.dependantMessagingTell(sender, ChatColor.RED + "Correct Usage: " + getUsage().replace("<command>", commandLabel));
+		    }
+		    return true;
 		}
 		
 		/**

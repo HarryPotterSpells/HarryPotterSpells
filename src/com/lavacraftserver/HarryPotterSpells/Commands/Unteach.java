@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
-@HCommand(name="unteach", description="Makes a player forget a spell", usage="/unteach <player> <spell>")
+@HCommand(name="unteach", description="Makes a player forget a spell", usage="/<command> <player> <spell>")
 public class Unteach implements CommandExecutor {
 
 	@Override

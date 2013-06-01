@@ -12,14 +12,14 @@ import org.bukkit.entity.Player;
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
-@HCommand(name = "teachall", description = "Teaches a player all spells", usage = "/teachall <player|me>")
+@HCommand(name = "teachall", description = "Teaches a player all spells", usage = "/<command> <player|me>")
 public class TeachAll implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if (args.length != 1) {
+		if (args.length != 1)
 			return false;
-		}
+		
 		Player teachTo;
 		if (!(sender instanceof ConsoleCommandSender) && args[0].equalsIgnoreCase("me"))
 			teachTo = (Player) sender;

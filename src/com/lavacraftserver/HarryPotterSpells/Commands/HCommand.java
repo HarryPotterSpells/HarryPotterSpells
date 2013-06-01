@@ -14,6 +14,6 @@ public @interface HCommand {
 	String aliases() default "";
 	String permission() default "";
 	String permissionDefault() default "OP";
-	String usage() default "";
+	String usage() default "/<command>";
 	
 }
