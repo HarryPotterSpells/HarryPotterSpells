@@ -43,7 +43,6 @@ public abstract class Spell {
 		list.add(toString());
 		HPS.PlayerSpellConfig.getPSC().set(p.getName(), list);
 		HPS.PlayerSpellConfig.savePSC();
-		HPS.PM.tell(p, "You have been taught " + toString());
 	}	
 
 	public boolean playerKnows(Player p){
@@ -60,8 +59,8 @@ public abstract class Spell {
 		list.remove(toString());
 		HPS.PlayerSpellConfig.getPSC().set(p.getName(), list);
 		HPS.PlayerSpellConfig.savePSC();
-		HPS.PM.tell(p, "You have forgotten " + toString());
 	}
+	
 	public String toString(){
 		return this.getClass().getSimpleName();
 	}
