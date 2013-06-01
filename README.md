@@ -17,6 +17,8 @@ For more information check out our [BukkitDev page](http://dev.bukkit.org/server
 + [evilmidget38](http://forums.bukkit.org/members/evilmidget38.97830/): Contributor
 + [KeybordPiano459](http://forums.bukkit.org/members/keybordpiano459.90643667/): Contributor
 + [ampayne2](http://forums.bukkit.org/members/ampayne2.90675729/): Contributor
++ [zachoooo](http://forums.bukkit.org/members/zachoooo.1858/): Contributor
++ [Hoolean/MrBluebear3](http://forums.bukkit.org/members/hoolean.90699782/): Contributor
 
 We are looking for more team members to help make this plugin awesomer! If you are interested just let us know [here](http://forums.bukkit.org/threads/developers-wanted-for-new-spells-plugin.90642/)!  
 
