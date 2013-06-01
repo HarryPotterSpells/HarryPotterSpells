@@ -16,7 +16,8 @@ import com.lavacraftserver.HarryPotterSpells.Utils.SpellTargeter.SpellHitEvent;
 		name="Incendio",
 		description="Lights the targeted mob or block on fire",
 		range=50,
-		goThroughWalls=false
+		goThroughWalls=false,
+		cooldown=45
 )
 public class Incendio extends Spell {
 

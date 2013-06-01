@@ -21,7 +21,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.SpellTargeter.SpellHitEvent;
 		description="Stuns the target",
 		range=50,
 		goThroughWalls=false,
-		cooldown=60
+		cooldown=120
 )
 public class Stupefy extends Spell {
 

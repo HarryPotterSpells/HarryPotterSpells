@@ -19,7 +19,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		description="Broadcasts what ever you next shout to the whole server",
 		range=0,
 		goThroughWalls=false,
-		cooldown=60
+		cooldown=15
 )
 public class Sonorus extends Spell implements Listener {
 	private static List<String> players = new ArrayList<>();

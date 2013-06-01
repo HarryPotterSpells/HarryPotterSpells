@@ -18,7 +18,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		description = "Makes the caster fly for a short while or until next cast", 
 		range = 0, 
 		goThroughWalls = false,
-		cooldown=60
+		cooldown=180
 )
 public class WingardiumLeviosa extends Spell implements Listener {
 	private List<String> players = new ArrayList<>();

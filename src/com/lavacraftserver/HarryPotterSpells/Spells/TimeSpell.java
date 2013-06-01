@@ -13,7 +13,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		description="Toggles the time depending on your target block",
 		range=0,
 		goThroughWalls=false,
-		cooldown=60
+		cooldown=600
 )
 public class TimeSpell extends Spell{
 	
