@@ -27,6 +27,7 @@ public class Stupefy extends Spell {
 			
 			int verticalKnockback = HPS.Plugin.getConfig().getInt("spells.stupefy.vertical-knockback", 2);
 			double horizontalKnockback = HPS.Plugin.getConfig().getDouble("spells.stupefy.horizontal-knockback", 0.5);
+			int damage = HPS.Plugin.getConfig().getInt("spells.stupefy.damage", 2);
 			
 			String confusionDurationString = HPS.Plugin.getConfig().getString("spells.stupefy.confusion-duration");
 			int confusionDuration = 0;
@@ -53,6 +54,8 @@ public class Stupefy extends Spell {
 			Vector unitVector = le.getLocation().toVector().subtract(p.getLocation().toVector()).normalize();
 			le.setVelocity(unitVector.multiply(verticalKnockback));
 			le.setVelocity(le.getVelocity().setY(horizontalKnockback));
+			
+			le.damage(damage);
 			
 			return true;
 			
