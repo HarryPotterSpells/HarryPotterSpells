@@ -9,15 +9,17 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		name="Confringo",
 		description="Launches a fireball from the tip of your wand",
 		range=0,
-		goThroughWalls=false
+		goThroughWalls=false,
+		cooldown=45
 )
 public class Confringo extends Spell {
 
-	public void cast(Player p) {
+	public boolean cast(Player p) {
 		Fireball fb = p.launchProjectile(Fireball.class);
 		fb.setShooter(p);
 		fb.setYield(2);
 		fb.setBounce(false);
+		return true;
 	}
 	
 }

@@ -14,12 +14,13 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		name="Stupefy",
 		description="Stuns the target",
 		range=50,
-		goThroughWalls=false
+		goThroughWalls=false,
+		cooldown=60
 )
 public class Stupefy extends Spell {
 
 	@Override
-	public void cast(Player p) {
+	public boolean cast(Player p) {
 		if (Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) {
 			LivingEntity le = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			
@@ -47,8 +48,10 @@ public class Stupefy extends Spell {
 			le.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, weaknessDuration, 1));
 			Vector unitVector = le.getLocation().toVector().subtract(p.getLocation().toVector()).normalize();
 			le.setVelocity(unitVector.multiply(knockback));
+			return true;
 		} else {
 			HPS.PM.warn(p, "This can only be used on a player or a mob.");
+			return false;
 		}
 	}
 }

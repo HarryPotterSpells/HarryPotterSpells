@@ -11,11 +11,12 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		name="Evanesco",
 		description="Makes the caster invisible",
 		range=0,
-		goThroughWalls=false
+		goThroughWalls=false,
+		cooldown=60
 )
 public class Evanesco extends Spell {
 
-	public void cast(final Player p) {
+	public boolean cast(final Player p) {
 		for (Player players : Bukkit.getServer().getOnlinePlayers()) {
             players.hidePlayer(p);
             Location loc = new Location(p.getWorld(), p.getLocation().getBlockX(), p.getLocation().getBlockY() + 1, p.getLocation().getBlockZ());
@@ -30,6 +31,7 @@ public class Evanesco extends Spell {
 				   p.getWorld().createExplosion(p.getLocation(), 0, false);
 			   }
 			}, HPS.Plugin.getConfig().getLong("spells.evanesco.duration"));
+		return true;
 	}
 
 }

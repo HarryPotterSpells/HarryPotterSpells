@@ -13,12 +13,18 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
-@spell(name = "WingardiumLeviosa", description = "Makes the caster fly for a short while or until next cast", range = 0, goThroughWalls = false)
+@spell(
+		name = "WingardiumLeviosa", 
+		description = "Makes the caster fly for a short while or until next cast", 
+		range = 0, 
+		goThroughWalls = false,
+		cooldown=60
+)
 public class WingardiumLeviosa extends Spell implements Listener {
 	private List<String> players = new ArrayList<>();
 	private int taskid;
 
-	public void cast(final Player p) {
+	public boolean cast(final Player p) {
 		if (players.contains(p.getName())) {
 			p.setFlying(false);
 			p.setAllowFlight(false);
@@ -38,8 +44,9 @@ public class WingardiumLeviosa extends Spell implements Listener {
 						players.remove(p.getName());
 					}
 				}
-			}, HPS.Plugin.getConfig().getLong("spells.spongify.duration", 200L));
+			}, HPS.Plugin.getConfig().getLong("spells.wingardiumleviosa.duration", 200L));
 		}
+		return true;
 	}
 
 	@EventHandler

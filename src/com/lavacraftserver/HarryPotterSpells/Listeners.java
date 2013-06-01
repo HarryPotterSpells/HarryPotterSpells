@@ -8,6 +8,8 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
+
 public class Listeners implements Listener {
 	
 	@EventHandler
@@ -21,7 +23,10 @@ public class Listeners implements Listener {
 			
 			//Cast spell
 			if(e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) {
-				HPS.SpellManager.cleverCast(e.getPlayer(), HPS.SpellManager.getCurrentSpell(e.getPlayer()));
+				Spell currentSpell = HPS.SpellManager.getCurrentSpell(e.getPlayer());
+				if(currentSpell != null){
+					HPS.SpellManager.cleverCast(e.getPlayer(), currentSpell);
+				}
 
 				//Cancel event if player is in creative to prevent block damage.
 				if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE))

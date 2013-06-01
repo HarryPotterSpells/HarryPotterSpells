@@ -13,11 +13,12 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		name="Episkey",
 		description="Slowly heals your target",
 		range=50,
-		goThroughWalls=false
+		goThroughWalls=false,
+		cooldown=60
 )
 public class Episkey extends Spell {
 
-	public void cast(Player p) {
+	public boolean cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) {
 			
 			LivingEntity livingentity = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
@@ -32,9 +33,11 @@ public class Episkey extends Spell {
 			}
 			
 			livingentity.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, duration, 1));
+			return true;
 			
 		} else {
 			HPS.PM.warn(p, "This can only be used on a player or mob.");
+			return false;
 		}
 	}
 }

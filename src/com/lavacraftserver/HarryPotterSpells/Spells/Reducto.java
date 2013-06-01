@@ -10,16 +10,18 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		name="Reducto",
 		description="Creates an explosion",
 		range=50,
-		goThroughWalls=false
+		goThroughWalls=false,
+		cooldown=60
 )
 public class Reducto extends Spell {
 
-	public void cast(Player p) {
+	public boolean cast(Player p) {
 		Block b = p.getTargetBlock(null, this.getRange());
 		Material m = b.getType();
 		if(m != Material.AIR) {
 			b.getWorld().createExplosion(b.getLocation(), 4, false);
 		}
+		return true;
 	}
 
 }

@@ -13,18 +13,21 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 	name="Aguamenti",
 	description="Places water at your target block",
 	range=50,
-	goThroughWalls=false
+	goThroughWalls=false,
+	cooldown=90
 )
 public class Aguamenti extends Spell {
 	
-	public void cast(Player p) {
+	public boolean cast(Player p) {
 		Block hit = p.getTargetBlock(Targeter.getTransparentBlocks(), 50);
 		float dir = (float)Math.toDegrees(Math.atan2(p.getLocation().getBlockX() - hit.getX(), hit.getZ() - p.getLocation().getBlockZ()));
 		Block b = hit.getRelative(getClosestFace(dir));
 		if(!(hit.getType() == Material.AIR)) {
 			b.setType(Material.WATER);
+			return true;
 		} else {
 			HPS.PM.warn(p, "You cannot place water here.");
+			return false;
 		}
 	}
 	

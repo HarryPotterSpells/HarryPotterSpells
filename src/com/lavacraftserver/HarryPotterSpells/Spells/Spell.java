@@ -21,8 +21,9 @@ public abstract class Spell {
 	@config private String description;
 	@config private int range;
 	@config private boolean goThroughWalls;
+	@config private int cooldown;
 
-	public abstract void cast(Player p);
+	public abstract boolean cast(Player p);
 
 	public void teach(Player sender, Player target){
 		if(target != null) {
@@ -99,6 +100,7 @@ public abstract class Spell {
 		String description() default "A mysterious spell";
 		int range() default 25;
 		boolean goThroughWalls() default false;
+		int cooldown() default 60;
 	}
 	
 	public boolean canBeCastThroughWalls() {
@@ -119,6 +121,16 @@ public abstract class Spell {
 			}
 		}
 		return 25;
+	}
+	
+	public int getCoolDown() {
+		for(Annotation a:this.getClass().getAnnotations()){
+			if(a instanceof spell){
+				spell s=(spell)a;
+				return s.cooldown();
+			}
+		}
+		return 60;
 	}
 	
 	

@@ -29,11 +29,11 @@ spells:
   avis:
     chickens: 5  # How many chickens the wand should shoot
   confundo:
-    duration: 600t  # How long the target should be confused for
+    duration: 200t  # How long the target should be confused for
   deprimo:
-    duration: 600t  # How long the target should be slowed for
+    duration: 100t  # How long the target should be slowed for
   episkey:
-    duration: 600t  # How long the target should be healed for
+    duration: 200t  # How long the target should be healed for
   evanesco:
     duration: 300  # How many TICKS the caster will be invisible for
   incendio:
