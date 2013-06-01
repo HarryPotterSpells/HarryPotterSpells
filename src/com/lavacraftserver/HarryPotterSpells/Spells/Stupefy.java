@@ -22,14 +22,17 @@ public class Stupefy extends Spell {
 	@Override
 	public boolean cast(Player p) {
 		if (Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) {
+			
 			LivingEntity le = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
+			
+			int verticalKnockback = HPS.Plugin.getConfig().getInt("spells.stupefy.vertical-knockback", 2);
+			double horizontalKnockback = HPS.Plugin.getConfig().getDouble("spells.stupefy.horizontal-knockback", 0.5);
 			
 			String confusionDurationString = HPS.Plugin.getConfig().getString("spells.stupefy.confusion-duration");
 			int confusionDuration = 0;
 			String weaknessDurationString = HPS.Plugin.getConfig().getString("spells.stupefy.weakness-duration");
 			int weaknessDuration = 0;
-			int knockback = HPS.Plugin.getConfig().getInt("spells.stupefy.knockback");
-
+			
 			if (confusionDurationString.endsWith("t")) {
 				String ticks = confusionDurationString.substring(0, confusionDurationString.length() - 1);
 				confusionDuration = Integer.parseInt(ticks);
@@ -46,9 +49,13 @@ public class Stupefy extends Spell {
 
 			le.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, confusionDuration, 1));
 			le.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, weaknessDuration, 1));
+			
 			Vector unitVector = le.getLocation().toVector().subtract(p.getLocation().toVector()).normalize();
-			le.setVelocity(unitVector.multiply(knockback));
+			le.setVelocity(unitVector.multiply(verticalKnockback));
+			le.setVelocity(le.getVelocity().setY(horizontalKnockback));
+			
 			return true;
+			
 		} else {
 			HPS.PM.warn(p, "This can only be used on a player or a mob.");
 			return false;

@@ -47,7 +47,8 @@ spells:
   spongify:
     duration: 600  # How many TICKS damage should be cancelled for
   stupefy:
-    knockback: 5  # How much the target should be knocked backwards
+    vertical-knockback: 2  # How much the target should be knocked backwards
+    horizontal-knockback: 0.5  # How much the target should be knocked upwards (into the air)
     confusion-duration: 200t  # How long the target should be confused for
     weakness-duration: 100t  # How long the target should be weakened for
   timespell:
