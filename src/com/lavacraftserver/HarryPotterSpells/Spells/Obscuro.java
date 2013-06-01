@@ -17,7 +17,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		description = "Blinds the target mob or player", 
 		range = 50, 
 		goThroughWalls = false,
-		cooldown=60
+		cooldown=90
 )
 public class Obscuro extends Spell {
 

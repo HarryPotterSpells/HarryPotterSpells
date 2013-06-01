@@ -36,6 +36,8 @@ spells:
     duration: 100t  # How long the target should be healed for
   evanesco:
     duration: 300  # How many TICKS the caster will be invisible for
+  expelliarmus:
+    disarm-weapons: false # Should Expelliarmus also disarm player's weapons?
   incendio:
     duration: 100t  # How long the fire should last
   multicorfors:
@@ -43,9 +45,9 @@ spells:
   obscuro:
     duration: 400t  # How long the target should be blinded for
   petrificus-totalus:
-    duration: 600  # How many TICKS the target should be petrified (frozen) for
+    duration: 100  # How many TICKS the target should be petrified (frozen) for
   spongify:
-    duration: 600  # How many TICKS damage should be cancelled for
+    duration: 600  # How many TICKS fall damage should be cancelled for
   stupefy:
     vertical-knockback: 2  # How much the target should be knocked backwards
     horizontal-knockback: 0.5  # How much the target should be knocked upwards (into the air)

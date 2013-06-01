@@ -12,7 +12,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		description="Makes the caster invisible",
 		range=0,
 		goThroughWalls=false,
-		cooldown=60
+		cooldown=45
 )
 public class Evanesco extends Spell {
 

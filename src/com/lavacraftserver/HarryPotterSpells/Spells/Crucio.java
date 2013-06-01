@@ -19,7 +19,8 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		name="Crucio",
 		description="Torture your victim.",
 		range=50,
-		goThroughWalls=false
+		goThroughWalls=false,
+		cooldown=300
 )
 
 public class Crucio extends Spell implements Listener {

@@ -13,7 +13,8 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		name="Orchideous",
 		description="Plants a red rose on the target block",
 		range=50,
-		goThroughWalls=false
+		goThroughWalls=false,
+		cooldown=45
 )
 public class Orchideous extends Spell {
 

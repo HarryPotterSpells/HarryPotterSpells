@@ -19,7 +19,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		description="Stuns the target player",
 		range=50,
 		goThroughWalls=false,
-		cooldown=60
+		cooldown=300
 )
 public class PetrificusTotalus extends Spell implements Listener {
 	public static List<String> players = new ArrayList<>();
