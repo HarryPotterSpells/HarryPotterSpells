@@ -12,11 +12,11 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.material.Directional;
 import org.reflections.Reflections;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
-import com.lavacraftserver.HarryPotterSpells.API.SpellCastEvent;
+import com.lavacraftserver.HarryPotterSpells.API.SpellPostCastEvent;
+import com.lavacraftserver.HarryPotterSpells.API.SpellPreCastEvent;
 import com.lavacraftserver.HarryPotterSpells.Utils.CoolDown;
 
 /**
@@ -112,16 +112,20 @@ public class SpellManager {
             player.getWorld().playEffect(l, Effect.ENDER_SIGNAL, 0);
         }
         
-        SpellCastEvent sce = new SpellCastEvent(spell, player);
+        SpellPreCastEvent sce = new SpellPreCastEvent(spell, player);
         Bukkit.getServer().getPluginManager().callEvent(sce);
         if(!sce.isCancelled()){
         	Boolean cast = true;
             String playerName = player.getName();
-            if(cooldowns.containsKey(playerName) && cooldowns.get(playerName).containsKey(spell)){
+            if(cooldowns.containsKey(playerName) && cooldowns.get(playerName).containsKey(spell)) { // TODO move to another class
             	HPS.PM.dependantMessagingTell((CommandSender) player, "You must wait " + cooldowns.get(playerName).get(spell).toString() + " seconds before performing this spell again.");
             	cast = false;
             }
-            if(cast && spell.cast(player) && spell.getCoolDown() > 0 && !player.hasPermission("HarryPotterSpells.nocooldown")){
+            
+            boolean successful = spell.cast(player);
+            Bukkit.getServer().getPluginManager().callEvent(new SpellPostCastEvent(spell, player, successful));
+            
+            if(cast && successful && spell.getCoolDown() > 0 && !player.hasPermission("HarryPotterSpells.nocooldown")){
             	setCoolDown(playerName, spell, spell.getCoolDown());
             	Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new CoolDown(playerName, spell), 20L);
             }
