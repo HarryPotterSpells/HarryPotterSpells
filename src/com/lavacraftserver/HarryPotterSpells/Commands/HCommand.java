@@ -15,5 +15,6 @@ public @interface HCommand {
 	String permission() default "";
 	String permissionDefault() default "OP";
 	String usage() default "/<command>";
+	String noPermissionMessage() default "You do not have permission to run that command.";
 	
 }

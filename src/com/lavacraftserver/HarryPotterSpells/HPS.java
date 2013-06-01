@@ -23,6 +23,7 @@ import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 
+import com.lavacraftserver.HarryPotterSpells.Metrics.Graph;
 import com.lavacraftserver.HarryPotterSpells.Commands.HCommand;
 import com.lavacraftserver.HarryPotterSpells.Extensions.ExtensionManager;
 import com.lavacraftserver.HarryPotterSpells.Jobs.ClearJob;
@@ -30,7 +31,9 @@ import com.lavacraftserver.HarryPotterSpells.Jobs.DisableJob;
 import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
 import com.lavacraftserver.HarryPotterSpells.Jobs.JobManager;
 import com.lavacraftserver.HarryPotterSpells.SpellLoading.SpellLoader;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 import com.lavacraftserver.HarryPotterSpells.Spells.SpellManager;
+import com.lavacraftserver.HarryPotterSpells.Utils.MetricStatistics;
 import com.lavacraftserver.HarryPotterSpells.Utils.SVPBypass;
 import com.lavacraftserver.HarryPotterSpells.Utils.Wand;
 
@@ -136,6 +139,51 @@ public class HPS extends JavaPlugin {
 		// Plugin Metrics
 		try {
 		    Metrics metrics = new Metrics(this);
+		    
+		    // Total amount of spells cast
+		    metrics.addCustomData(new Metrics.Plotter("Total Amount of Spells Cast") {
+                
+                @Override
+                public int getValue() {
+                    return MetricStatistics.getSpellsCast();
+                }
+                
+            });
+		    
+		    // Types of spell cast
+		    Graph typesOfSpellCast = metrics.createGraph("Types of Spell Cast");
+		    
+		    for(final Spell spell : SpellManager.getSpells()) {
+		        typesOfSpellCast.addPlotter(new Metrics.Plotter(spell.getName()) {
+                    
+                    @Override
+                    public int getValue() {
+                        return MetricStatistics.getAmountOfTimesCast(spell);
+                    }
+                    
+                });
+		    }
+		    
+		    // Spell success rate
+		    Graph spellSuccessRate = metrics.createGraph("Spell Success Rate");
+		    
+		    spellSuccessRate.addPlotter(new Metrics.Plotter("Successes") {
+
+                @Override
+                public int getValue() {
+                    return MetricStatistics.getSuccesses();
+                }
+		        
+		    });
+		    
+		    spellSuccessRate.addPlotter(new Metrics.Plotter("Failures") {
+                
+                @Override
+                public int getValue() {
+                    return MetricStatistics.getFailures();
+                }
+            });
+		    
 		    metrics.start();
 		} catch (IOException e) {
 		    PM.log(Level.WARNING, "An error occurred whilst enabling Plugin Metrics.");
@@ -205,6 +253,7 @@ public class HPS extends JavaPlugin {
 		Bukkit.getServer().getPluginManager().addPermission(perm);
 		HackyCommand hacky = new HackyCommand(name, cmdInfo.description(), cmdInfo.usage(), aliases);
 		hacky.setPermission(permission);
+		hacky.setPermissionMessage(cmdInfo.noPermissionMessage());
 		try {
 			hacky.setExecutor(clazz.newInstance());
 		} catch (InstantiationException | IllegalAccessException e) {
