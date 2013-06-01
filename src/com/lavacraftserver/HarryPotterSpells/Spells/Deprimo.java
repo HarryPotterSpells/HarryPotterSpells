@@ -21,12 +21,13 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		name="Deprimo",
 		description="Slows your target to an almost halt",
 		range=20,
-		goThroughWalls=false
+		goThroughWalls=false,
+		cooldown=180
 )
 public class Deprimo extends Spell implements Listener {
 	private static List<String> players = new ArrayList<>();
 
-	public void cast(Player p) {
+	public boolean cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {
 			
 			LivingEntity target = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
@@ -55,9 +56,11 @@ public class Deprimo extends Spell implements Listener {
 					   
 				}, 400L);
 			}
+			return true;
 			
 		} else {
 			HPS.PM.warn(p, "This can only be used on a player or mob.");
+			return false;
 		}
 	}
 	

@@ -14,19 +14,22 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		name="Sectumsempra",
 		description="Slowly damages the target player",
 		range=50,
-		goThroughWalls=false
+		goThroughWalls=false,
+		cooldown=60
 )
 public class Sectumsempra extends Spell {
 
 	@Override
-	public void cast(Player p) {
+	public boolean cast(Player p) {
 		if (Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) {
 			LivingEntity le = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			SectumsempraRunnable sectumsemprarunnable = new SectumsempraRunnable();
 			sectumsemprarunnable.le = le;
 			sectumsemprarunnable.taskID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(HPS.Plugin, sectumsemprarunnable, 0L, 20L);
+			return true;
 		} else {
 			HPS.PM.warn(p, "This can only be used on a player or a mob.");
+			return false;
 		}
 	}
 

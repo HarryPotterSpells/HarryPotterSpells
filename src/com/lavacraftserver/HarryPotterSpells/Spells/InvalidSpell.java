@@ -11,8 +11,9 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
 public class InvalidSpell extends Spell {
 
-	public void cast(Player p) {
+	public boolean cast(Player p) {
 		p.sendMessage(ChatColor.RED + "Invalid spell!");
+		return false;
 	}
 	@Override
 	public void teach(Player sender,Player target){

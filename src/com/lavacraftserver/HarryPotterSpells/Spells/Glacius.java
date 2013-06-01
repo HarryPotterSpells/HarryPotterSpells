@@ -14,7 +14,8 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		name="Glacius",
 		description="Encases the target in ice",
 		range=50,
-		goThroughWalls=false
+		goThroughWalls=false,
+		cooldown=60
 )
 public class Glacius extends Spell {
 	
@@ -29,7 +30,7 @@ public class Glacius extends Spell {
 												            BlockFace.NORTH_WEST
 												            };
 	@Override
-	public void cast(Player p) {
+	public boolean cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {
 			Player player = (Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			
@@ -54,9 +55,10 @@ public class Glacius extends Spell {
 				}
 			}
 			player.getLocation().add(0,2,0).getBlock().setType(Material.ICE);
-
+			return true;
 		} else {
 			HPS.PM.warn(p, "This can only be used on a player.");
+			return false;
 		}
 	}
 }

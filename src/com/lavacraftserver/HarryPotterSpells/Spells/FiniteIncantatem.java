@@ -12,12 +12,13 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		name="Finite Incantatum",
 		description="Removes potion effects and unpetrifies the target player",
 		range=50,
-		goThroughWalls=false
+		goThroughWalls=false,
+		cooldown=60
 )
 public class FiniteIncantatem extends Spell {
 	
 	@Override
-	public void cast(Player p) {
+	public boolean cast(Player p) {
 		if (Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {
 			Player target = (Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			PetrificusTotalus.players.remove(target.getName());
@@ -28,8 +29,11 @@ public class FiniteIncantatem extends Spell {
 			
 			Location loc = new Location(target.getWorld(), target.getLocation().getBlockX(), target.getLocation().getBlockY() + 1, target.getLocation().getBlockZ());
 			target.getWorld().createExplosion(loc, 0F);
+			
+			return true;
 		} else {
 			HPS.PM.warn(p, "This can only be used on a player.");
+			return false;
 		}
 	}
 }

@@ -11,15 +11,17 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		name = "Avis",
 		description = "Shoots a flock of chickens from your wand",
 		range = 0,
-		goThroughWalls = false
+		goThroughWalls = false,
+		cooldown=300
 )
 public class Avis extends Spell {
 
-	public void cast(Player p) {
+	public boolean cast(Player p) {
 		int chickenAmount = HPS.Plugin.getConfig().getInt("spells.avis.chickens");
 		for(int i=0; i <= chickenAmount; i++){
 			Entity mob = p.getWorld().spawnEntity(p.getEyeLocation(), EntityType.CHICKEN);
 			mob.setVelocity(p.getEyeLocation().getDirection().multiply(2));
 		}
+		return true;
 	}
 }

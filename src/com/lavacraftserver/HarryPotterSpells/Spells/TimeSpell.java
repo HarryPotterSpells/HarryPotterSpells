@@ -12,7 +12,8 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		name="Time",
 		description="Toggles the time depending on your target block",
 		range=0,
-		goThroughWalls=false
+		goThroughWalls=false,
+		cooldown=60
 )
 public class TimeSpell extends Spell{
 	
@@ -21,7 +22,7 @@ public class TimeSpell extends Spell{
 	//Noon == 6000L
 	//Evening == 11000L
 	//Night == 15000L
-	public void cast(Player p) {
+	public boolean cast(Player p) {
 		World w = p.getWorld();
 		Material m = p.getTargetBlock(null, 50).getType();
 		if(m == Material.GLOWSTONE) {
@@ -39,6 +40,7 @@ public class TimeSpell extends Spell{
 				awesomeLightning(p.getLocation(), w);
 			w.setTime(time);
 		}
+		return true;
 	}
 
 	public void awesomeLightning(Location l, World w) {

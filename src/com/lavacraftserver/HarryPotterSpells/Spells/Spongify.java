@@ -18,15 +18,16 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		name="Spongify",
 		description="Prevents fall damage",
 		range=0,
-		goThroughWalls=false
+		goThroughWalls=false,
+		cooldown=60
 )
 public class Spongify extends Spell implements Listener {
 	private List<String> players = new ArrayList<>();
 
 	@Override
-	public void cast(final Player p) {
+	public boolean cast(final Player p) {
 		if(players.contains(p.getName())){
-			return;
+			return false;
 		}
 		players.add(p.getName());
 		Location loc = new Location(p.getWorld(), p.getLocation().getBlockX(), p.getLocation().getBlockY() + 1, p.getLocation().getBlockZ());
@@ -38,6 +39,7 @@ public class Spongify extends Spell implements Listener {
 				   } 
 			   }
 			}, HPS.Plugin.getConfig().getLong("spells.spongify.duration", 600L));
+		return true;
 	}
 	
 	@EventHandler

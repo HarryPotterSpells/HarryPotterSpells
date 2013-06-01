@@ -11,16 +11,18 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		name="Reparo",
 		description="Repairs the item in your hand fully",
 		range=0,
-		goThroughWalls=false
+		goThroughWalls=false,
+		cooldown=60
 )
 public class Reparo extends Spell {
 
 	@Override
-	public void cast(Player p) {
+	public boolean cast(Player p) {
 		repairItems(p.getInventory().getContents(), p);
 		repairItems(p.getEquipment().getArmorContents(), p);
 		Location loc = new Location(p.getWorld(), p.getLocation().getBlockX(), p.getLocation().getBlockY() + 1, p.getLocation().getBlockZ());
 		p.getWorld().createExplosion(loc, 0F);
+		return true;
 	}
 	
 	private void repairItem(final ItemStack item) {
