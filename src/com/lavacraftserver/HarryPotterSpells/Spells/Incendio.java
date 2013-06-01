@@ -32,7 +32,19 @@ public class Incendio extends Spell {
 
             @Override
             public void hitEntity(LivingEntity entity) {
-                entity.setFireTicks(HPS.Plugin.getConfig().getInt("spells.incendio.duration", 100));
+            	
+    	    	String durationString = HPS.Plugin.getConfig().getString("spells.incendio.duration", "100t");
+    	    	int duration = 0;
+            	
+    			if (durationString.endsWith("t")) {
+    				String ticks = durationString.substring(0, durationString.length() - 1);
+    				duration = Integer.parseInt(ticks);
+    			} else {
+    				duration = Integer.parseInt(durationString) * 20;
+    			}
+            	
+                entity.setFireTicks(duration);
+           
             }
 	        
 	    }, 1.05d, Effect.MOBSPAWNER_FLAMES);
