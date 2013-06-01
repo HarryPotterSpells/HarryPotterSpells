@@ -32,7 +32,7 @@ public class Deprimo extends Spell implements Listener {
 			
 			LivingEntity target = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			
-			String durationString = HPS.Plugin.getConfig().getString("spells.deprimo.duration");
+			String durationString = HPS.Plugin.getConfig().getString("spells.deprimo.duration", "100t");
 			int duration = 0;
 			
 			if (durationString.endsWith("t")) {

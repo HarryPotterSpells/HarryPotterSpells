@@ -22,7 +22,7 @@ public class Episkey extends Spell {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) {
 			
 			LivingEntity livingentity = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
-			String durationString = HPS.Plugin.getConfig().getString("spells.episkey.duration");
+			String durationString = HPS.Plugin.getConfig().getString("spells.episkey.duration", "100t");
 			int duration = 0;
 			
 			if (durationString.endsWith("t")) {

@@ -33,7 +33,7 @@ spells:
   deprimo:
     duration: 100t  # How long the target should be slowed for
   episkey:
-    duration: 200t  # How long the target should be healed for
+    duration: 100t  # How long the target should be healed for
   evanesco:
     duration: 300  # How many TICKS the caster will be invisible for
   incendio:
@@ -41,7 +41,7 @@ spells:
   multicorfors:
     explosion-effect: true  # Should an explosion happen on color change
   obscuro:
-    duration: 600t  # How long the target should be blinded for
+    duration: 400t  # How long the target should be blinded for
   petrificus-totalus:
     duration: 600  # How many TICKS the target should be petrified (frozen) for
   spongify:

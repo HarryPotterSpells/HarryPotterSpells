@@ -17,7 +17,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 public class Avis extends Spell {
 
 	public boolean cast(Player p) {
-		int chickenAmount = HPS.Plugin.getConfig().getInt("spells.avis.chickens");
+		int chickenAmount = HPS.Plugin.getConfig().getInt("spells.avis.chickens", 5);
 		for(int i=0; i <= chickenAmount; i++){
 			Entity mob = p.getWorld().spawnEntity(p.getEyeLocation(), EntityType.CHICKEN);
 			mob.setVelocity(p.getEyeLocation().getDirection().multiply(2));

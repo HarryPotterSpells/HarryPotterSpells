@@ -30,7 +30,7 @@ public class Evanesco extends Spell {
 			       }
 				   p.getWorld().createExplosion(p.getLocation(), 0, false);
 			   }
-			}, HPS.Plugin.getConfig().getLong("spells.evanesco.duration"));
+			}, HPS.Plugin.getConfig().getLong("spells.evanesco.duration", 300L));
 		return true;
 	}
 

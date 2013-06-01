@@ -26,7 +26,7 @@ public class Accio extends Spell {
 		
 		if(radius == null) {
 			
-			radius = HPS.Plugin.getConfig().getInt("spells.accio.radius");
+			radius = HPS.Plugin.getConfig().getInt("spells.accio.radius", 3);
 			
 		}
 		
