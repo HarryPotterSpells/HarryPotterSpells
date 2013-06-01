@@ -19,7 +19,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		description="Changes the colour of any targeted wool or sheep",
 		range=25,
 		goThroughWalls=false,
-		cooldown=60
+		cooldown=30
 )
 public class Multicorfors extends Spell{
 

@@ -15,7 +15,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		description="Encases the target in ice",
 		range=50,
 		goThroughWalls=false,
-		cooldown=60
+		cooldown=120
 )
 public class Glacius extends Spell {
 	

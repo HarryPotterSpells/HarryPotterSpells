@@ -11,7 +11,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		description="Creates an explosion",
 		range=50,
 		goThroughWalls=false,
-		cooldown=60
+		cooldown=300
 )
 public class Reducto extends Spell {
 

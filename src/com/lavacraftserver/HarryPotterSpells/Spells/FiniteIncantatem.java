@@ -13,7 +13,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		description="Removes potion effects and unpetrifies the target player",
 		range=50,
 		goThroughWalls=false,
-		cooldown=60
+		cooldown=45
 )
 public class FiniteIncantatem extends Spell {
 	

@@ -15,7 +15,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		description="Slowly damages the target player",
 		range=50,
 		goThroughWalls=false,
-		cooldown=60
+		cooldown=300
 )
 public class Sectumsempra extends Spell {
 

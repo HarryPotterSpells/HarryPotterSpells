@@ -18,7 +18,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		description="Produces a tree from your target block",
 		range=50,
 		goThroughWalls=false,
-		cooldown=60
+		cooldown=105
 )
 public class TreeSpell extends Spell {
 

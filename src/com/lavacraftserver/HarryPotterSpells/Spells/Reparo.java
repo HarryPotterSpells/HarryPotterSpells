@@ -12,7 +12,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		description="Repairs the item in your hand fully",
 		range=0,
 		goThroughWalls=false,
-		cooldown=60
+		cooldown=14400
 )
 public class Reparo extends Spell {
 

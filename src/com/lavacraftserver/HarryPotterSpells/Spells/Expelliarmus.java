@@ -18,7 +18,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		description="Disarms your target",
 		range=25,
 		goThroughWalls=false,
-		cooldown=60
+		cooldown=120
 )
 public class Expelliarmus extends Spell {
 
@@ -26,7 +26,10 @@ public class Expelliarmus extends Spell {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {
 			Player target = (Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			Location targetloc = target.getLocation();			
-			List<Integer> disarmItems = Arrays.asList(HPS.Plugin.getConfig().getInt("wand-id"), Material.STICK.getId(), Material.WOOD_SWORD.getId(), Material.STONE_SWORD.getId(), Material.IRON_SWORD.getId(), Material.GOLD_SWORD.getId(), Material.DIAMOND_SWORD.getId(), Material.BOW.getId());
+			List<Integer> disarmItems = Arrays.asList(HPS.Plugin.getConfig().getInt("wand-id"));
+			if(HPS.Plugin.getConfig().getBoolean("spells.expelliarmus.disarm-weapons", true)){
+				disarmItems.addAll(Arrays.asList(Material.STICK.getId(), Material.WOOD_SWORD.getId(), Material.STONE_SWORD.getId(), Material.IRON_SWORD.getId(), Material.GOLD_SWORD.getId(), Material.DIAMOND_SWORD.getId(), Material.BOW.getId()));
+			}
 			if (disarmItems.contains(target.getItemInHand().getTypeId())) {
 				Item i = target.getWorld().dropItem(targetloc, target.getItemInHand());
 				target.setItemInHand(null);
