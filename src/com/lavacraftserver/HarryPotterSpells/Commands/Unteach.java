@@ -26,7 +26,7 @@ public class Unteach implements CommandExecutor {
 			}
 		}
 		
-		Spell spell = HPS.SpellManager.getSpell(args[0]);
+		Spell spell = HPS.SpellManager.getSpell(args[0].replace('_', ' '));
 		Player unteachTo = null;
 		
 		if ((args.length == 1) || (args[1].equalsIgnoreCase("me"))) {
