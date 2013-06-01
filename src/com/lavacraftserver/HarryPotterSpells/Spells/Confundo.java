@@ -12,11 +12,12 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		name="Confundo",
 		description="Confuses your target",
 		range=20,
-		goThroughWalls=false
+		goThroughWalls=false,
+		cooldown=60
 )
 public class Confundo extends Spell {
 
-	public void cast(Player p) {
+	public boolean cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {
 			
 			Player player = (Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
@@ -31,9 +32,11 @@ public class Confundo extends Spell {
 			}
 			
 			player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, duration, 1));
+			return true;
 	
 		} else {
 			HPS.PM.warn(p, "This can only be used on a player.");
+			return false;
 		}
 	}
 	

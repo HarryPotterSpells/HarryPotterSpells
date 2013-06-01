@@ -18,13 +18,14 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		name="Petrificus Totalus",
 		description="Stuns the target player",
 		range=50,
-		goThroughWalls=false
+		goThroughWalls=false,
+		cooldown=60
 )
 public class PetrificusTotalus extends Spell implements Listener {
 	public static List<String> players = new ArrayList<>();
 
 	@Override
-	public void cast(final Player p) {
+	public boolean cast(final Player p) {
 		if (Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {
 			
 			players.add(((Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls())).getName());
@@ -40,9 +41,11 @@ public class PetrificusTotalus extends Spell implements Listener {
 			
 			Location loc = new Location(target.getWorld(), target.getLocation().getBlockX(), target.getLocation().getBlockY() + 1, target.getLocation().getBlockZ());
 			target.getWorld().createExplosion(loc, 0F);
+			return true;
 			
 		} else {
 			HPS.PM.warn(p, "This can only be used on a player.");
+			return false;
 		}
 	}
 	

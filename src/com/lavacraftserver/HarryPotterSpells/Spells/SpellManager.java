@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.material.Directional;
@@ -16,6 +17,7 @@ import org.reflections.Reflections;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.API.SpellCastEvent;
+import com.lavacraftserver.HarryPotterSpells.Utils.CoolDown;
 
 /**
  * A class that manages spells and holds lots of spell related utilities
@@ -23,6 +25,7 @@ import com.lavacraftserver.HarryPotterSpells.API.SpellCastEvent;
 public class SpellManager {
 	private ArrayList<Spell> spellList = new ArrayList<Spell>();
 	public HashMap<String, Integer> currentSpell = new HashMap<String, Integer>();
+	private HashMap<String, HashMap<Spell, Integer>> cooldowns = new HashMap<String, HashMap<Spell, Integer>>();
 	
 	public SpellManager(){
 		Reflections ref = new Reflections("com.lavacraftserver.HarryPotterSpells.Spells");
@@ -102,7 +105,7 @@ public class SpellManager {
             HPS.PM.tell(player, "You don't know any spells.");
             return;
         }
-
+        
         if(HPS.Plugin.getConfig().getBoolean("spell-particle-toggle")) {
             Location l = player.getLocation();
             l.setY(l.getY() + 1);
@@ -111,8 +114,18 @@ public class SpellManager {
         
         SpellCastEvent sce = new SpellCastEvent(spell, player);
         Bukkit.getServer().getPluginManager().callEvent(sce);
-        if(!sce.isCancelled())
-            spell.cast(player);
+        if(!sce.isCancelled()){
+        	Boolean cast = true;
+            String playerName = player.getName();
+            if(cooldowns.containsKey(playerName) && cooldowns.get(playerName).containsKey(spell)){
+            	HPS.PM.dependantMessagingTell((CommandSender) player, "You must wait " + cooldowns.get(playerName).get(spell).toString() + " seconds before performing this spell again.");
+            	cast = false;
+            }
+            if(cast && spell.cast(player) && spell.getCoolDown() > 0 && !player.hasPermission("HarryPotterSpells.nocooldown")){
+            	setCoolDown(playerName, spell, spell.getCoolDown());
+            	Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new CoolDown(playerName, spell), 20L);
+            }
+        }
 	}
 	
 	/**
@@ -121,7 +134,49 @@ public class SpellManager {
 	 * @return the spell they are on
 	 */
 	public Spell getCurrentSpell(Player player) {
+		if(!currentSpell.containsKey(player.getName())){
+			return null;
+		}
 	    return getSpell(HPS.PlayerSpellConfig.getPSC().getStringList(player.getName()).get(currentSpell.get(player.getName())));
+	}
+	
+	/**
+	 * Gets the cooldown of a certain spell for a certain player
+	 * @param playerName
+	 * @param spell
+	 * @return
+	 */
+	public Integer getCoolDown(String playerName, Spell spell){
+		return cooldowns.get(playerName).get(spell);
+	}
+	
+	/**
+	 * Sets the cooldown of a certain spell for a certain player
+	 * @param playerName
+	 * @param spell
+	 * @param cooldown
+	 */
+	public void setCoolDown(String playerName, Spell spell, Integer cooldown){
+		if(cooldowns.containsKey(playerName) && cooldowns.get(playerName).containsKey(spell)){
+			if(cooldown == null){
+				cooldowns.get(playerName).remove(spell);
+			}else{
+				cooldowns.get(playerName).put(spell, cooldown);
+			}
+		}else if(cooldowns.containsKey(playerName) && !cooldowns.get(playerName).containsKey(spell)){
+			if(cooldown == null){
+				return;
+			}else{
+				cooldowns.get(playerName).put(spell, cooldown);
+			}
+		}else{
+			if(cooldown == null){
+				return;
+			}else{
+               	cooldowns.put(playerName, new HashMap<Spell, Integer>());
+            	cooldowns.get(playerName).put(spell, cooldown);
+			}
+		}
 	}
 	
 	/**

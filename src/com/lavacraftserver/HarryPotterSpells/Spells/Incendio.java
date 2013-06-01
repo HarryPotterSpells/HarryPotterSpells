@@ -19,7 +19,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.SpellTargeter.SpellHitEvent;
 )
 public class Incendio extends Spell {
 
-	public void cast(Player p) {
+	public boolean cast(Player p) {
 	    SpellTargeter.register(p, new SpellHitEvent() {
 
             @Override
@@ -33,6 +33,7 @@ public class Incendio extends Spell {
             }
 	        
 	    }, 2, Effect.MOBSPAWNER_FLAMES, null);
+	    return true;
 	}
 	
 }

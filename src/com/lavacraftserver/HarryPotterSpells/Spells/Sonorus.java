@@ -18,12 +18,13 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		name="Sonorus",
 		description="Broadcasts what ever you next shout to the whole server",
 		range=0,
-		goThroughWalls=false
+		goThroughWalls=false,
+		cooldown=60
 )
 public class Sonorus extends Spell implements Listener {
 	private static List<String> players = new ArrayList<>();
 	
-	public void cast(final Player p) {
+	public boolean cast(final Player p) {
 		Sonorus.players.add(p.getName());
 		Location loc = new Location(p.getWorld(), p.getLocation().getBlockX(), p.getLocation().getBlockY() + 1, p.getLocation().getBlockZ());
 		p.getWorld().createExplosion(loc, 0F);
@@ -37,6 +38,7 @@ public class Sonorus extends Spell implements Listener {
 		    }
 			
 		}, 400L);
+		return true;
 	}
 
 	@EventHandler

@@ -17,13 +17,14 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		name="AlarteAscendare",
 		description="Propels the targeted mob upward",
 		range=30,
-		goThroughWalls=false
+		goThroughWalls=false,
+		cooldown=60
 )
 public class AlarteAscendare extends Spell implements Listener {
 	private static List<Integer> entities = new ArrayList<>();
 	
 	@Override
-	public void cast(Player p) {
+	public boolean cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) {
 			LivingEntity le = (LivingEntity) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			le.setVelocity(new Vector(0,1,0));
@@ -31,6 +32,7 @@ public class AlarteAscendare extends Spell implements Listener {
 				AlarteAscendare.entities.add(le.getEntityId());
 			}
 		}
+		return true;
 	}
 	
 	@EventHandler

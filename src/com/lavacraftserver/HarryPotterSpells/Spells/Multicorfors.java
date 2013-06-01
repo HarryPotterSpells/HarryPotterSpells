@@ -18,11 +18,12 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		name="Multicorfors",
 		description="Changes the colour of any targeted wool or sheep",
 		range=25,
-		goThroughWalls=false
+		goThroughWalls=false,
+		cooldown=60
 )
 public class Multicorfors extends Spell{
 
-	public void cast(Player p) {
+	public boolean cast(Player p) {
 		final Block b = p.getTargetBlock(transparentBlocks(), 25);
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Sheep) {
 			final Sheep sheep = (Sheep) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
@@ -34,6 +35,7 @@ public class Multicorfors extends Spell{
 					   sheep.setColor(randomDyeColor());
 				   }
 				}, 4L);
+			return true;
 		} else if(b.getType() == Material.WOOL) {
 			if(HPS.Plugin.getConfig().getBoolean("spells.multicorfors.explosionEffect", true)) {
 				p.getWorld().createExplosion(b.getLocation(), 0F);
@@ -43,8 +45,10 @@ public class Multicorfors extends Spell{
 					   b.setData(randomDyeColorInt());
 				   }
 				}, 4L);
+			return true;
 		} else {
 			HPS.PM.warn(p, "This can only be used on a sheep or wool.");
+			return false;
 		}
 	}
 	

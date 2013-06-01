@@ -12,7 +12,8 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;;
 		
 		name="Accio",
 		description="Pulls surrounding drops towards you",
-		goThroughWalls=false
+		goThroughWalls=false,
+		cooldown=60
 		
 )
 
@@ -21,7 +22,7 @@ public class Accio extends Spell {
 	public Integer radius = null;
 	
 	@Override
-	public void cast(Player p) {
+	public boolean cast(Player p) {
 		
 		if(radius == null) {
 			
@@ -47,6 +48,8 @@ public class Accio extends Spell {
 			}
 			
 		}
+		
+		return true;
 		
 	}
 

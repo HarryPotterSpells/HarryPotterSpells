@@ -18,12 +18,14 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 public class Orchideous extends Spell {
 
 	@Override
-	public void cast(Player p) {
+	public boolean cast(Player p) {
 		Block b = p.getTargetBlock(Targeter.getTransparentBlocks(), this.getRange());
 		if (isValidBlock(b) && blockAboveIsValidBlock(b)) {
 			getBlockAbove(b).setType(Material.RED_ROSE);
+			return true;
 		} else {
 			HPS.PM.warn(p, "You cannot place a rose that block.");
+			return false;
 		}
 
 	}

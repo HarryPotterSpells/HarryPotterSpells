@@ -12,11 +12,17 @@ import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
-@spell(name = "Obscuro", description = "Blinds the target mob or player", range = 50, goThroughWalls = false)
+@spell(
+		name = "Obscuro", 
+		description = "Blinds the target mob or player", 
+		range = 50, 
+		goThroughWalls = false,
+		cooldown=60
+)
 public class Obscuro extends Spell {
 
 	@Override
-	public void cast(Player p) {
+	public boolean cast(Player p) {
 
 		if (Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) { //if a LivingEntity is targeted by the spell
 			LivingEntity le = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
@@ -51,9 +57,13 @@ public class Obscuro extends Spell {
 				le.teleport(loc);
 				
 			}
+			
+			return true;
+			
 		} else {
 			
 			HPS.PM.warn(p, "This can only be used on a player or a mob.");
+			return false;
 			
 		}
 	}

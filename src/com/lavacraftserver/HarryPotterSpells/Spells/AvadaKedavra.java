@@ -11,16 +11,19 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		name="AvadaKedavra",
 		description="Kills whomever is targeted",
 		range=50,
-		goThroughWalls=false
+		goThroughWalls=false,
+		cooldown=60
 )
 public class AvadaKedavra extends Spell {
 
-	public void cast(Player p) {
+	public boolean cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) {
 			LivingEntity livingentity = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			livingentity.setHealth(0);
+			return true;
 		} else {
 			HPS.PM.warn(p, "This can only be used on a player or mob.");
+			return false;
 		}
 	}
 	
