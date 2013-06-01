@@ -30,7 +30,7 @@ public class SpellManager {
 	/**
 	 * Constructs the {@link SpellManager}, adding all core spells to the Spell List
 	 */
-	public SpellManager(){
+	public SpellManager() {
 		Reflections ref = new Reflections("com.lavacraftserver.HarryPotterSpells.Spells");
 		for(Class<?> clazz : ref.getTypesAnnotatedWith(Spell.spell.class)) {
 			Spell spell;
@@ -55,11 +55,9 @@ public class SpellManager {
 	 * @return the spell or an {@link InvalidSpell} if not found
 	 */
 	public Spell getSpell(String name) {
-		for(Spell spell:spellList){
-			if(spell.getName().equalsIgnoreCase(name)||spell.toString().equalsIgnoreCase(name)){
+		for(Spell spell:spellList)
+			if(spell.getName().equalsIgnoreCase(name))
 				return spell;
-			}
-		}
 		return new InvalidSpell();
 	}
 	
@@ -85,12 +83,7 @@ public class SpellManager {
 	 * @return {@code true} if the spell exists
 	 */
 	public boolean isSpell(String name) {
-		for(Spell spell:spellList){
-			if(spell.getName().equalsIgnoreCase(name)||spell.toString().equalsIgnoreCase(name)){
-				return true;
-			}
-		}
-		return false;
+		return getSpell(name).getClass() != InvalidSpell.class;
 	}
 	
 	/**
@@ -140,10 +133,7 @@ public class SpellManager {
 	 * @return the spell they are on
 	 */
 	public Spell getCurrentSpell(Player player) {
-		if(!currentSpell.containsKey(player.getName())){
-			return null;
-		}
-	    return getSpell(HPS.PlayerSpellConfig.getPSC().getStringList(player.getName()).get(currentSpell.get(player.getName())));
+	    return currentSpell.containsKey(player.getName()) ? getSpell(HPS.PlayerSpellConfig.getPSC().getStringList(player.getName()).get(currentSpell.get(player.getName()))) : null;
 	}
 	
 	/**
@@ -162,23 +152,17 @@ public class SpellManager {
 	 * @param spell
 	 * @param cooldown
 	 */
-	public void setCoolDown(String playerName, Spell spell, Integer cooldown){
-		if (cooldowns.containsKey(playerName) && cooldowns.get(playerName).containsKey(spell)) {
-			if (cooldown == null)
-				cooldowns.get(playerName).remove(spell);
-			else
-				cooldowns.get(playerName).put(spell, cooldown);
-		} else if (cooldowns.containsKey(playerName) && !cooldowns.get(playerName).containsKey(spell)) {
-			if (cooldown == null)
-				return;
-			else
-				cooldowns.get(playerName).put(spell, cooldown);
-		} else {
-			if (cooldown == null)
-				return;
-			else
-               	cooldowns.put(playerName, new HashMap<Spell, Integer>());
-            	cooldowns.get(playerName).put(spell, cooldown);
+	public void setCoolDown(String playerName, Spell spell, Integer cooldown) {
+	    if(cooldown == null)
+	        return;
+	    
+		if (cooldowns.containsKey(playerName) && cooldowns.get(playerName).containsKey(spell))
+			cooldowns.get(playerName).put(spell, cooldown);
+		else if (cooldowns.containsKey(playerName) && !cooldowns.get(playerName).containsKey(spell))
+			cooldowns.get(playerName).put(spell, cooldown);
+		else {
+           	cooldowns.put(playerName, new HashMap<Spell, Integer>());
+        	cooldowns.get(playerName).put(spell, cooldown);
 		}
 	}
 	
@@ -212,8 +196,8 @@ public class SpellManager {
 		HPS.Plugin.getConfig().createSection("spells");
 		ConfigurationSection configSpells = HPS.Plugin.getConfig().getConfigurationSection("spells");
 		for(Spell s : spellList) {
-			configSpells.createSection(s.getInternalName());
-			configSpells.set(s.getInternalName(), s.save(configSpells.getConfigurationSection(s.getInternalName())));
+			configSpells.createSection(s.getName());
+			configSpells.set(s.getName(), s.save(configSpells.getConfigurationSection(s.getName())));
 		}
 		HPS.Plugin.getConfig().set("arenas", configSpells);
 	}

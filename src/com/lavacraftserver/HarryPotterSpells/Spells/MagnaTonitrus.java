@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell(
-		name = "MagnaTonitrus", 
+		name = "Magna Tonitrus", 
 		description = "Shoots a bolt of lightning", 
 		range = 50, 
 		goThroughWalls = false,

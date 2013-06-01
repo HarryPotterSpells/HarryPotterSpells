@@ -15,6 +15,9 @@ import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 
+/**
+ * An abstract class representing a Spell
+ */
 public abstract class Spell {
 	
 	@config private String name;
@@ -23,75 +26,95 @@ public abstract class Spell {
 	@config private boolean goThroughWalls;
 	@config private int cooldown;
 
+	/**
+	 * Called when a spell is cast
+	 * @param p the player who cast the spell
+	 * @return {@code true} if the spell was a success
+	 */
 	public abstract boolean cast(Player p);
 
-	public void teach(Player sender, Player target){
+	/**
+	 * Teaches the spell to a target
+	 * @param sender the person who wants to teach
+	 * @param target the person who will be taught
+	 */
+	public void teach(Player sender, Player target) {
 		if(target != null) {
-			if(playerKnows(target)) {
+			if(playerKnows(target))
 				HPS.PM.warn(sender, target.getName() + " already knows that spell!");
-			} else {
+			else {
 				teach(target);
-				HPS.PM.tell(sender, "You have taught " + target.getName() + " the spell " + toString() + ".");
+				HPS.PM.tell(sender, "You have taught " + target.getName() + " the spell " + getName() + ".");
 			}
-		} else {
+		} else
 			HPS.PM.warn(sender, "The player was not found.");
-		}
 	}
 
-	public void teach(Player p){
+	/**
+	 * Teaches the spell to a player
+	 * @param p the player
+	 */
+	public void teach(Player p) {
 		List<String> list = HPS.PlayerSpellConfig.getPSC().getStringList(p.getName());
-		list.add(toString());
+		list.add(getName());
 		HPS.PlayerSpellConfig.getPSC().set(p.getName(), list);
 		HPS.PlayerSpellConfig.savePSC();
 	}	
 
+	/**
+	 * Gets whether a player knows this spell
+	 * @param p the player
+	 * @return {@code true} if the player knows this spell
+	 */
 	public boolean playerKnows(Player p){
 		List<String> list = HPS.PlayerSpellConfig.getPSC().getStringList(p.getName());
-		if(list.contains(toString())) {
-			return true;
-		} else {
-			return false;
-		}
+		return list.contains(getName());
 	}
 
-	public void unTeach(Player p){
+	/**
+	 * Makes a player forget the spell
+	 * @param p the player
+	 */
+	public void unTeach(Player p) {
 		List<String> list = HPS.PlayerSpellConfig.getPSC().getStringList(p.getName());
-		list.remove(toString());
+		list.remove(getName());
 		HPS.PlayerSpellConfig.getPSC().set(p.getName(), list);
 		HPS.PlayerSpellConfig.savePSC();
 	}
-	
-	public String toString(){
-		return this.getClass().getSimpleName();
-	}
 
+	/**
+	 * Gets the name of this spell
+	 * @return the spell's name
+	 */
 	public String getName(){
-		for(Annotation a:this.getClass().getAnnotations()){
+		for(Annotation a:this.getClass().getAnnotations()) {
 			if(a instanceof spell){
-				spell s=(spell)a;
-				if(s.name()!=""){
+				spell s = (spell) a;
+				if(!s.name().equals(""))
 					return s.name();
-				}
 			}
 		}
-		return toString();
-	}
-	
-	public String getInternalName(){
-		return toString();
+		return getClass().getSimpleName();
 	}
 
+	/**
+	 * Gets the description of this spell
+	 * @return the description
+	 */
 	public String getDescription(){
-		for(Annotation a:this.getClass().getAnnotations()){
-			if(a instanceof spell){
-				spell s=(spell)a;
+		for(Annotation a : this.getClass().getAnnotations()) {
+			if(a instanceof spell) {
+				spell s = (spell) a;
 				return s.description();
 			}
 		}
 		return null;
 	}
 
-
+	/**
+	 * The annotation required for a spell to be used. <br>
+	 * This annotation contains all the infomation needed for using a spell
+	 */
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.TYPE)
 	@interface spell {
@@ -102,30 +125,42 @@ public abstract class Spell {
 		int cooldown() default 60;
 	}
 	
+	/**
+	 * Gets whether the spell can be cast through walls
+	 * @return {@code true} if the spel can be cast through walls.
+	 */
 	public boolean canBeCastThroughWalls() {
-		for(Annotation a:this.getClass().getAnnotations()){
-			if(a instanceof spell){
-				spell s=(spell)a;
+		for(Annotation a : this.getClass().getAnnotations()) {
+			if(a instanceof spell) {
+				spell s = (spell) a;
 				return s.goThroughWalls();
 			}
 		}
 		return false;
 	}
 	
+	/**
+	 * Gets the range of the spell
+	 * @return the range
+	 */
 	public int getRange() {
-		for(Annotation a:this.getClass().getAnnotations()){
+		for(Annotation a : this.getClass().getAnnotations()) {
 			if(a instanceof spell){
-				spell s=(spell)a;
+				spell s = (spell) a;
 				return s.range();
 			}
 		}
 		return 25;
 	}
 	
+	/**
+	 * Gets the cool down of the spell
+	 * @return the cool down
+	 */
 	public int getCoolDown() {
-		for(Annotation a:this.getClass().getAnnotations()){
+		for(Annotation a : this.getClass().getAnnotations()) {
 			if(a instanceof spell){
-				spell s=(spell)a;
+				spell s = (spell) a;
 				return s.cooldown();
 			}
 		}

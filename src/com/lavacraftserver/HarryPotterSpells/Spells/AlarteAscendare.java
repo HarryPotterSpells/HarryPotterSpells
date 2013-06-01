@@ -14,7 +14,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
 @spell (
-		name="AlarteAscendare",
+		name="Alarte Ascendare",
 		description="Propels the targeted mob upward",
 		range=30,
 		goThroughWalls=false,

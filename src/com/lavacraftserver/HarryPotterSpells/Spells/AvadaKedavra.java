@@ -8,7 +8,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
 @spell (
-		name="AvadaKedavra",
+		name="Avada Kedavra",
 		description="Kills whomever is targeted",
 		range=50,
 		goThroughWalls=false,
