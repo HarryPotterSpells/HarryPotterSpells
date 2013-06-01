@@ -61,7 +61,7 @@ public abstract class Extension {
 				config.createNewFile();
 		} catch(IOException e) {
 			HPS.PM.log(Level.WARNING, "An error occurred whilst creating files for the " + description.getName() + " extenstion.");
-			if(HPS.Plugin.getConfig().getBoolean("DebugMode", false))
+			if(HPS.Plugin.getConfig().getBoolean("debug-mode", false))
 				e.printStackTrace();
 		}
 	}

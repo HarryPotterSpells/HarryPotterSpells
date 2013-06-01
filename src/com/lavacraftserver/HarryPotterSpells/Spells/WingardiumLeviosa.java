@@ -33,7 +33,7 @@ public class WingardiumLeviosa extends Spell implements Listener {
 		} else {
 			p.setAllowFlight(true);
 			p.setFlying(true);
-			if(HPS.Plugin.getConfig().getBoolean("spells.wingardiumleviosa.cancelfalldamage", true) && !players.contains(p.getName())){
+			if(HPS.Plugin.getConfig().getBoolean("spells.wingardium-leviosa.cancel-fall-damage", true) && !players.contains(p.getName())){
 				players.add(p.getName());
 			}
 			taskid = Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {

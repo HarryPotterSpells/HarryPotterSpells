@@ -33,7 +33,7 @@ public class Obscuro extends Spell {
 				 * Not get the value from the config every spell cast;
 				 * that's really resource intensive and inefficient
 				 */
-				String durationString = HPS.Plugin.getConfig().getString("spells.obscuro.duration");
+				String durationString = HPS.Plugin.getConfig().getString("spells.obscuro.duration", "400t");
 				int duration = 0;
 				
 				if (durationString.endsWith("t")) {

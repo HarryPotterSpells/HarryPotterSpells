@@ -21,7 +21,7 @@ public class Confundo extends Spell {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {
 			
 			Player player = (Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
-			String durationString = HPS.Plugin.getConfig().getString("spells.confundo.duration");
+			String durationString = HPS.Plugin.getConfig().getString("spells.confundo.duration", "200t");
 			int duration = 0;
 	
 			if (durationString.endsWith("t")) {

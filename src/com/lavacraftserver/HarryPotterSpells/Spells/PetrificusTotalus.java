@@ -37,7 +37,7 @@ public class PetrificusTotalus extends Spell implements Listener {
 						   players.remove(target.getName());
 					   } 
 				   }
-				}, HPS.Plugin.getConfig().getLong("spells.petrificustotalus.duration", 600L));
+				}, HPS.Plugin.getConfig().getLong("spells.petrificus-totalus.duration", 600L));
 			
 			Location loc = new Location(target.getWorld(), target.getLocation().getBlockX(), target.getLocation().getBlockY() + 1, target.getLocation().getBlockZ());
 			target.getWorld().createExplosion(loc, 0F);

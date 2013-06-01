@@ -1,12 +1,12 @@
-##################
-# General Config #
-##################
+###########################
+## General Configuration ##
+###########################
 
 # Only enable if you want to enable debugging mode
-DebugMode: false
+debug-mode: false
       
-WandGive:  # The command that 'summons' a wand with a command
-  explosionEffect: false
+wand-give:  # The command that 'summons' a wand with a command
+  explosion-effect: false
 
 wand-id: 280  # Will default to 280 (stick)
 shout-on-spell-use: false  # If the player should say 'Spellname!' on every spell cast
@@ -33,25 +33,27 @@ spells:
   deprimo:
     duration: 100t  # How long the target should be slowed for
   episkey:
-    duration: 200t  # How long the target should be healed for
+    duration: 100t  # How long the target should be healed for
   evanesco:
     duration: 300  # How many TICKS the caster will be invisible for
   incendio:
     duration: 100t  # How long the fire should last
   multicorfors:
-    explosionEffect: true  # Should an explosion happen on color change
+    explosion-effect: true  # Should an explosion happen on color change
   obscuro:
-    duration: 600t  # How long the target should be blinded for
-  petrificustotalus:
+    duration: 400t  # How long the target should be blinded for
+  petrificus-totalus:
     duration: 600  # How many TICKS the target should be petrified (frozen) for
   spongify:
     duration: 600  # How many TICKS damage should be cancelled for
   stupefy:
-    knockback: 5  # How much the target should be knocked backwards
+    vertical-knockback: 2  # How much the target should be knocked backwards
+    horizontal-knockback: 0.5  # How much the target should be knocked upwards (into the air)
     confusion-duration: 200t  # How long the target should be confused for
     weakness-duration: 100t  # How long the target should be weakened for
+    damage: 2  # How many half-hearts the user should be damaged (set to 0 for no damage)
   timespell:
     lightning: true  # Should lightning strike on casting of the spell
-  wingardiumleviosa:
-    cancelfalldamage: true  # Should fall damage be cancelled when flying with the spell
-    duration: 200t  # How long the caster should be able to fly for
+  wingardium-leviosa:
+    cancel-fall-damage: true  # Should fall damage be cancelled when flying with the spell
+    duration: 200  # How long the caster should be able to fly for

@@ -37,7 +37,7 @@ public class Multicorfors extends Spell{
 				}, 4L);
 			return true;
 		} else if(b.getType() == Material.WOOL) {
-			if(HPS.Plugin.getConfig().getBoolean("spells.multicorfors.explosionEffect", true)) {
+			if(HPS.Plugin.getConfig().getBoolean("spells.multicorfors.explosion-effect", true)) {
 				p.getWorld().createExplosion(b.getLocation(), 0F);
 			}
 			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
