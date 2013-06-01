@@ -12,8 +12,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * PM stands for PluginMessenger. <br>
+ * This class manages logs and other ways of sending messages to players/console.
+ */
 public class PM {
 	private Logger log = Bukkit.getLogger();
 	

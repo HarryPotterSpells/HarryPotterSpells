@@ -27,6 +27,9 @@ public class SpellManager {
 	public HashMap<String, Integer> currentSpell = new HashMap<String, Integer>();
 	private HashMap<String, HashMap<Spell, Integer>> cooldowns = new HashMap<String, HashMap<Spell, Integer>>();
 	
+	/**
+	 * Constructs the {@link SpellManager}, adding all core spells to the Spell List
+	 */
 	public SpellManager(){
 		Reflections ref = new Reflections("com.lavacraftserver.HarryPotterSpells.Spells");
 		for(Class<?> clazz : ref.getTypesAnnotatedWith(Spell.spell.class)) {
@@ -34,11 +37,10 @@ public class SpellManager {
 			if(clazz == Spell.class || clazz == InvalidSpell.class || !Spell.class.isAssignableFrom(clazz))
 				continue;
 			try {
-				//spell = (Spell) clazz.getConstructor(HPS.class).newInstance();
 				spell = (Spell) clazz.newInstance();
 			} catch (Exception e) {
-				HPS.PM.log("An error occurred whilst adding the " + clazz.getName() + " spell to the spell list. That spell will not be available." , Level.WARNING);
-				e.printStackTrace();
+				HPS.PM.log(Level.WARNING, "An error occurred whilst adding the " + clazz.getName() + " spell to the spell list. That spell will not be available." );
+				HPS.PM.debug(e);
 				continue;
 			}
 			spellList.add(spell);
@@ -161,25 +163,22 @@ public class SpellManager {
 	 * @param cooldown
 	 */
 	public void setCoolDown(String playerName, Spell spell, Integer cooldown){
-		if(cooldowns.containsKey(playerName) && cooldowns.get(playerName).containsKey(spell)){
-			if(cooldown == null){
+		if (cooldowns.containsKey(playerName) && cooldowns.get(playerName).containsKey(spell)) {
+			if (cooldown == null)
 				cooldowns.get(playerName).remove(spell);
-			}else{
+			else
 				cooldowns.get(playerName).put(spell, cooldown);
-			}
-		}else if(cooldowns.containsKey(playerName) && !cooldowns.get(playerName).containsKey(spell)){
-			if(cooldown == null){
+		} else if (cooldowns.containsKey(playerName) && !cooldowns.get(playerName).containsKey(spell)) {
+			if (cooldown == null)
 				return;
-			}else{
+			else
 				cooldowns.get(playerName).put(spell, cooldown);
-			}
-		}else{
-			if(cooldown == null){
+		} else {
+			if (cooldown == null)
 				return;
-			}else{
+			else
                	cooldowns.put(playerName, new HashMap<Spell, Integer>());
             	cooldowns.get(playerName).put(spell, cooldown);
-			}
 		}
 	}
 	
