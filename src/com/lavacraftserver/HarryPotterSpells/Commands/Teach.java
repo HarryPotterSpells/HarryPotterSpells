@@ -23,7 +23,7 @@ public class Teach implements CommandExecutor {
 		
 		if (!HPS.SpellManager.isSpell(args[0])) {
 			if (!(args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("*"))) {
-				HPS.PM.dependantMessagingWarn(sender, "That spell was not recognized!.");
+				HPS.PM.dependantMessagingWarn(sender, "That spell was not recognized.");
 				return true;
 			}
 		}
@@ -60,7 +60,7 @@ public class Teach implements CommandExecutor {
 				if (learnedspells == null) {
 					learnedspells = teachTo.getName() + " already knows all spells";
 				}
-				HPS.PM.dependantMessagingTell(sender, learnedspells);
+				HPS.PM.dependantMessagingTell(sender, learnedspells + ".");
 				
 			} else {
 				
@@ -78,12 +78,3 @@ public class Teach implements CommandExecutor {
 		return true;
 	}	
 }
-
-
-
-
-
-
-
-
-
