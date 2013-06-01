@@ -32,6 +32,7 @@ import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
 import com.lavacraftserver.HarryPotterSpells.Jobs.JobManager;
 import com.lavacraftserver.HarryPotterSpells.SpellLoading.SpellLoader;
 import com.lavacraftserver.HarryPotterSpells.Spells.SpellManager;
+import com.lavacraftserver.HarryPotterSpells.Utils.SVPBypass;
 import com.lavacraftserver.HarryPotterSpells.Utils.Wand;
 
 public class HPS extends JavaPlugin {
@@ -63,7 +64,10 @@ public class HPS extends JavaPlugin {
 		
 		// Hacky command map stuff
 		try {
-            Field f = CraftServer.class.getDeclaredField("commandMap");
+		    Class<?> craftServer = SVPBypass.getCurrentClass("CraftServer");
+		    if(craftServer == null)
+		        throw new Throwable("Computer says no");
+            Field f = craftServer.getDeclaredField("commandMap");
             f.setAccessible(true);
             commandMap = (CommandMap) f.get(getServer());
         } catch (Throwable e){
