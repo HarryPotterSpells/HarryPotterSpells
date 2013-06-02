@@ -34,7 +34,7 @@ public class SpellManager {
 		Reflections ref = new Reflections("com.lavacraftserver.HarryPotterSpells.Spells");
 		for(Class<?> clazz : ref.getTypesAnnotatedWith(Spell.spell.class)) {
 			Spell spell;
-			if(clazz == Spell.class || clazz == InvalidSpell.class || !Spell.class.isAssignableFrom(clazz))
+			if(clazz == Spell.class || !Spell.class.isAssignableFrom(clazz))
 				continue;
 			try {
 				spell = (Spell) clazz.newInstance();
@@ -52,13 +52,13 @@ public class SpellManager {
 	/**
 	 * Gets a spell by name
 	 * @param name the spell to get
-	 * @return the spell or an {@link InvalidSpell} if not found
+	 * @return the spell or {@code null} if not found
 	 */
 	public Spell getSpell(String name) {
 		for(Spell spell:spellList)
 			if(spell.getName().equalsIgnoreCase(name))
 				return spell;
-		return new InvalidSpell();
+		return null;
 	}
 	
 	/**
@@ -83,7 +83,7 @@ public class SpellManager {
 	 * @return {@code true} if the spell exists
 	 */
 	public boolean isSpell(String name) {
-		return getSpell(name).getClass() != InvalidSpell.class;
+		return getSpell(name) != null;
 	}
 	
 	/**

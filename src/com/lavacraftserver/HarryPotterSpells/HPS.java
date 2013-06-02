@@ -30,7 +30,6 @@ import com.lavacraftserver.HarryPotterSpells.Jobs.ClearJob;
 import com.lavacraftserver.HarryPotterSpells.Jobs.DisableJob;
 import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
 import com.lavacraftserver.HarryPotterSpells.Jobs.JobManager;
-import com.lavacraftserver.HarryPotterSpells.SpellLoading.SpellLoader;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 import com.lavacraftserver.HarryPotterSpells.Spells.SpellManager;
 import com.lavacraftserver.HarryPotterSpells.Utils.MetricStatistics;
@@ -42,7 +41,6 @@ public class HPS extends JavaPlugin {
 	public static PM PM;
 	public static SpellManager SpellManager;
 	public static Wand Wand;
-	public static SpellLoader SpellLoader;
 	public static JavaPlugin Plugin;
 	public static JobManager JobManager;
 	public static ExtensionManager ExtensionManager;
@@ -57,7 +55,6 @@ public class HPS extends JavaPlugin {
 		PM = new PM();
 		SpellManager = new SpellManager();
 		Wand = new Wand();
-		SpellLoader = new SpellLoader();
 		JobManager = new JobManager();
 		ExtensionManager = new ExtensionManager();
 		
