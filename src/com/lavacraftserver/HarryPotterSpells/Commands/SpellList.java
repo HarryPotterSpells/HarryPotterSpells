@@ -1,6 +1,6 @@
 package com.lavacraftserver.HarryPotterSpells.Commands;
 
-import java.util.ArrayList;
+import java.util.SortedSet;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,7 +17,7 @@ public class SpellList implements CommandExecutor {
 		if (args.length != 0)
 			return false;
 		
-		ArrayList<Spell> spells = HPS.SpellManager.getSpells();
+		SortedSet<Spell> spells = HPS.SpellManager.getSpells();
 		String spelllist = null;
 		for (Spell spell : spells) {
 			if (spelllist == null)

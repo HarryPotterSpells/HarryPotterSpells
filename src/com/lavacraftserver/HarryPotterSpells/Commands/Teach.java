@@ -1,6 +1,6 @@
 package com.lavacraftserver.HarryPotterSpells.Commands;
 
-import java.util.ArrayList;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -42,7 +42,7 @@ public class Teach implements CommandExecutor {
 		if (teachTo != null) {
 			
 			if (args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("*")) {
-				ArrayList<Spell> spells = HPS.SpellManager.getSpells();
+				Set<Spell> spells = HPS.SpellManager.getSpells();
 				String learnedspells = null;
 				for (Spell newSpell : spells) {
 					if (!newSpell.playerKnows(teachTo)) {

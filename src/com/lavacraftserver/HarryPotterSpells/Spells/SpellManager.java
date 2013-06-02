@@ -1,8 +1,12 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -14,6 +18,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.reflections.Reflections;
 
+import com.google.common.collect.Iterables;
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.API.SpellPostCastEvent;
 import com.lavacraftserver.HarryPotterSpells.API.SpellPreCastEvent;
@@ -23,9 +28,17 @@ import com.lavacraftserver.HarryPotterSpells.Utils.CoolDown;
  * A class that manages spells and holds lots of spell related utilities
  */
 public class SpellManager {
-	private ArrayList<Spell> spellList = new ArrayList<Spell>();
-	public HashMap<String, Integer> currentSpell = new HashMap<String, Integer>();
 	private HashMap<String, HashMap<Spell, Integer>> cooldowns = new HashMap<String, HashMap<Spell, Integer>>();
+    private Comparator<Spell> spellComparator = new Comparator<Spell>() {
+        
+        @Override
+        public int compare(Spell o1, Spell o2) {
+            return o1.getName().compareTo(o2.getName());
+        }
+        
+    };
+	private SortedSet<Spell> spellList = new TreeSet<Spell>(spellComparator);
+	private Map<String, Integer> currentSpell = new HashMap<String, Integer>();
 	
 	/**
 	 * Constructs the {@link SpellManager}, adding all core spells to the Spell List
@@ -50,12 +63,68 @@ public class SpellManager {
 	}
 	
 	/**
+	 * Gets the current spell position a player is on
+	 * @param player the player
+	 * @return the current spell position they are on
+	 */
+	public Integer getCurrentSpellPosition(Player player) {
+	    List<String> spellsTheyKnow = HPS.PlayerSpellConfig.getPSC().getStringList(player.getName());
+	    if(spellsTheyKnow == null || spellsTheyKnow.isEmpty())
+	        return null;
+	    
+	    if(!currentSpell.containsKey(player.getName()))
+	        return 0;
+	    
+	    return currentSpell.get(player.getName());
+	}
+	
+	/**
+	 * Gets the current spell a player is on
+	 * @param player the player
+	 * @return the current spell they are on
+	 */
+	public Spell getCurrentSpell(Player player) {
+	    Integer cur = getCurrentSpellPosition(player);
+	    return cur == null ? null : getSpell(Iterables.get(new TreeSet<String>(HPS.PlayerSpellConfig.getPSC().getStringList(player.getName())), cur.intValue()));
+	}
+	
+	/**
+	 * Sets the current spell position a player is on
+	 * @param player the player
+	 * @param id the new current spell position the player is on
+	 * @return the spell they have changed to
+	 * @throws IllegalArgumentException if the id parameter is invalid 
+	 */
+	public Spell setCurrentSpell(Player player, int id) throws IllegalArgumentException {
+	    List<String> spellsTheyKnow = HPS.PlayerSpellConfig.getPSC().getStringList(player.getName());
+	    if(spellsTheyKnow == null || id >= spellsTheyKnow.size() || id < 0)
+	        throw new IllegalArgumentException("id was invalid");
+	    currentSpell.put(player.getName(), id);
+	    return getCurrentSpell(player);
+	}
+	
+	/**
+	 * Sets the current spell a player is on
+	 * @param player the player
+	 * @param spell the new spell the player is on
+	 * @return the spell they have changed to for chaining
+	 * @throws IllegalArgumentException if the spell parameter is invalid
+	 */
+	public Spell setCurrentSpell(Player player, Spell spell) throws IllegalArgumentException {
+	    Integer spellIndex = getIndex(new TreeSet<String>(HPS.PlayerSpellConfig.getPSC().getStringList(player.getName())), spell.getName());
+	    if(spellIndex == null)
+	        throw new IllegalArgumentException("player does not know that spell");
+	    setCurrentSpell(player, spellIndex);
+	    return getCurrentSpell(player);
+	}
+	
+	/**
 	 * Gets a spell by name
 	 * @param name the spell to get
 	 * @return the spell or {@code null} if not found
 	 */
 	public Spell getSpell(String name) {
-		for(Spell spell:spellList)
+		for(Spell spell : spellList)
 			if(spell.getName().equalsIgnoreCase(name))
 				return spell;
 		return null;
@@ -70,10 +139,11 @@ public class SpellManager {
 	}
 	
 	/**
-	 * Gets a list of all spells
+	 * Gets a list of all spells <br>
+	 * <b>Note:</b> this returns a {@link SortedSet}. If you do not need to use a sorted set then cast it as a {@link Set}!
 	 * @return the list
 	 */
-	public ArrayList<Spell> getSpells() {
+	public SortedSet<Spell> getSpells() {
 		return spellList;
 	}
 	
@@ -128,15 +198,6 @@ public class SpellManager {
 	}
 	
 	/**
-	 * Gets the spell a player has currently selected
-	 * @param player the player
-	 * @return the spell they are on
-	 */
-	public Spell getCurrentSpell(Player player) {
-	    return currentSpell.containsKey(player.getName()) ? getSpell(HPS.PlayerSpellConfig.getPSC().getStringList(player.getName()).get(currentSpell.get(player.getName()))) : null;
-	}
-	
-	/**
 	 * Gets the cooldown of a certain spell for a certain player
 	 * @param playerName
 	 * @param spell
@@ -166,32 +227,6 @@ public class SpellManager {
 		}
 	}
 	
-	/**
-	 * Changes the current spell of a player
-	 * @param player the player
-	 * @param forward {@code true} if they are moving forward. {@code false} if backwards.
-	 */
-	public void changeCurrentSpell(Player player, boolean forward) {
-        List<String> spellList = HPS.PlayerSpellConfig.getPSC().getStringList(player.getName());
-        if(spellList == null || spellList.isEmpty()) {
-            HPS.PM.tell(player, "You don't know any spells.");
-            return;
-        }
-        int spellNumber = 0, max = spellList.size() - 1;
-        if(currentSpell.containsKey(player.getName())) {
-            if(!forward) {
-                if(currentSpell.get(player.getName()) == 0)
-                    spellNumber = max;
-                else
-                    spellNumber = currentSpell.get(player.getName()) - 1;
-            } else if(!(currentSpell.get(player.getName()) == max))
-                spellNumber = currentSpell.get(player.getName()) + 1;
-        }
-        HPS.PM.newSpell(player, spellList.get(spellNumber));
-        currentSpell.put(player.getName(), spellNumber);
-        return;
-	}
-	
 	public void save() {
 		HPS.Plugin.getConfig().createSection("spells");
 		ConfigurationSection configSpells = HPS.Plugin.getConfig().getConfigurationSection("spells");
@@ -213,5 +248,19 @@ public class SpellManager {
 			//TODO catch this exception
 		}
 	}
+	
+	/*
+	 * START PRIVATE UTILITIES 
+	 */
+	
+	 private Integer getIndex(Set<? extends Object> set, Object value) {
+	     int result = 0;
+	     for (Object entry : set) {
+	         if (entry.equals(value))
+	             return result;
+	         result++;
+	     }
+	     return null;
+	  }
 	
 }

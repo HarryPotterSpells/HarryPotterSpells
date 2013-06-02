@@ -14,11 +14,28 @@ public class Listeners implements Listener {
 	
 	@EventHandler
 	public void PIE(PlayerInteractEvent e) {
-		if(HPS.PM.hasPermission("HarryPotterSpells.use", e.getPlayer()) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
+		if(e.getPlayer().hasPermission("HarryPotterSpells.use") && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
 			//Change spell
 			if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-				HPS.SpellManager.changeCurrentSpell(e.getPlayer(), !e.getPlayer().isSneaking());
-				return;
+			    int knows = HPS.PlayerSpellConfig.getPSC().getStringList(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
+			    if(e.getPlayer().isSneaking()) {
+			        if(cur == 0)
+			            neww = knows;
+			        else
+			            neww = cur - 1;
+			    } else {
+			        if(cur == knows)
+			            neww = 0;
+			        else
+			            neww = cur + 1;
+			    }
+			    
+			    HPS.PM.newSpell(e.getPlayer(), HPS.SpellManager.setCurrentSpell(e.getPlayer(), neww).getName());
+			    
+			    if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE))
+                    e.setCancelled(true);
+			    
+			    return;
 			}
 			
 			//Cast spell
@@ -62,8 +79,26 @@ public class Listeners implements Listener {
 	
 	@EventHandler
 	public void PIEE(PlayerInteractEntityEvent e) {
-		if(HPS.PM.hasPermission("HarryPotterSpells.use", e.getPlayer()) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
-			HPS.SpellManager.changeCurrentSpell(e.getPlayer(), !e.getPlayer().isSneaking());
+		if(e.getPlayer().hasPermission("HarryPotterSpells.use") && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
+		    int knows = HPS.PlayerSpellConfig.getPSC().getStringList(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
+            if(e.getPlayer().isSneaking()) {
+                if(cur == 0)
+                    neww = knows;
+                else
+                    neww = cur - 1;
+            } else {
+                if(cur == knows)
+                    neww = 0;
+                else
+                    neww = cur + 1;
+            }
+            
+            HPS.PM.newSpell(e.getPlayer(), HPS.SpellManager.setCurrentSpell(e.getPlayer(), neww).getName());
+            
+            if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE))
+                e.setCancelled(true);
+            
+            return;
 		}
 	}
 	

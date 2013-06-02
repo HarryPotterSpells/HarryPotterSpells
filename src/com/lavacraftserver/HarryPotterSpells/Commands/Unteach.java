@@ -1,6 +1,6 @@
 package com.lavacraftserver.HarryPotterSpells.Commands;
 
-import java.util.ArrayList;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -39,7 +39,7 @@ public class Unteach implements CommandExecutor {
 
 		if (unteachTo != null) {
 			if (args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("*")) {
-				ArrayList<Spell> spells = HPS.SpellManager.getSpells();
+				Set<Spell> spells = HPS.SpellManager.getSpells();
 				String forgottenspells = null;
 				for (Spell newSpell : spells) {
 					if (newSpell.playerKnows(unteachTo)) {
