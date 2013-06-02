@@ -22,7 +22,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		cooldown=15
 )
 public class Sonorus extends Spell implements Listener {
-	private static List<String> players = new ArrayList<>();
+	private static List<String> players = new ArrayList<String>();
 	
 	public boolean cast(final Player p) {
 		Sonorus.players.add(p.getName());

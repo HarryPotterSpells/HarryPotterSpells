@@ -22,7 +22,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		cooldown=300
 )
 public class PetrificusTotalus extends Spell implements Listener {
-	public static List<String> players = new ArrayList<>();
+	public static List<String> players = new ArrayList<String>();
 
 	@Override
 	public boolean cast(final Player p) {

@@ -23,9 +23,23 @@ public class SVPBypass {
      *              E.G {@code entity.CraftArrow} will return the current class that contains the CraftArrow.
      * @return the class
      */
-    public static Class<?> getCurrentClass(String clazz) {
+    public static Class<?> getCurrentCBClass(String clazz) {
         try {
             return Class.forName("org.bukkit.craftbukkit." + getCurrentPackageVersion() + "." + clazz);
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
+    }
+    
+    /**
+     * Gets the current version of the NMS (net.minecraft.server) class, bypassing the Bukkit SVP.
+     * @param clazz the class relative to the root of the version. <br>
+     *              E.G {@code EnchantmentManager} will return the current class that contains the EntityManager.
+     * @return the class
+     */
+    public static Class<?> getCurrentNMSClass(String clazz) {
+        try {
+            return Class.forName("net.minecraft.server." + getCurrentPackageVersion() + "." + clazz);
         } catch (ClassNotFoundException e) {
             return null;
         }

@@ -127,7 +127,7 @@ public class SpellTargeter implements Listener {
      * @return
      */
     public static List<LivingEntity> getNearbyEntities(Location location, double distance, Integer... ignoreEntityId) {
-        List<LivingEntity> list = new ArrayList<>();
+        List<LivingEntity> list = new ArrayList<LivingEntity>();
         List<Integer> ig = Arrays.asList(ignoreEntityId);
         for(Entity en : location.getChunk().getEntities()) {
             if(!(en instanceof LivingEntity) || ig.contains(en))

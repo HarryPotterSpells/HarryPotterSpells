@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,7 +24,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		cooldown=180
 )
 public class Deprimo extends Spell implements Listener {
-	private static List<String> players = new ArrayList<>();
+	private static List<String> players = new ArrayList<String>();
 
 	public boolean cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {

@@ -66,7 +66,7 @@ public class HPS extends JavaPlugin {
 		
 		// Hacky command map stuff
 		try {
-		    Class<?> craftServer = SVPBypass.getCurrentClass("CraftServer");
+		    Class<?> craftServer = SVPBypass.getCurrentCBClass("CraftServer");
 		    if(craftServer == null)
 		        throw new Throwable("Computer says no");
             Field f = craftServer.getDeclaredField("commandMap");
@@ -85,7 +85,7 @@ public class HPS extends JavaPlugin {
 			try {
 				JobManager.addClearJob(c.newInstance());
 				clearJobs++;
-			} catch (InstantiationException | IllegalAccessException e) {
+			} catch (Exception e) {
 				PM.log(Level.WARNING, "An error occurred whilst the clear job in class " + c.getSimpleName() + " to the Job Manager.");
 				PM.debug(e);
 			}
@@ -96,7 +96,7 @@ public class HPS extends JavaPlugin {
 			try {
 				JobManager.addEnableJob(c.newInstance());
 				enableJobs++;
-			} catch(InstantiationException | IllegalAccessException e) {
+			} catch(Exception e) {
 				PM.log(Level.WARNING, "An error occurred whilst adding the enable job in class " + c.getSimpleName() + " to the Job Manager.");
 				PM.debug(e);
 			}
@@ -107,7 +107,7 @@ public class HPS extends JavaPlugin {
 			try {
 				JobManager.addDisableJob(c.newInstance());
 				disableJobs++;
-			} catch (InstantiationException | IllegalAccessException e) {
+			} catch (Exception e) {
 				PM.log(Level.WARNING, "An error occurred whilst adding the disable job in class " + c.getSimpleName() + " to the Job Manager");
 				PM.debug(e);
 			}
@@ -129,7 +129,7 @@ public class HPS extends JavaPlugin {
 			try {
 				getServer().getPluginManager().registerEvents(clazz.newInstance(), this);
 				listeners++;
-			} catch (InstantiationException | IllegalAccessException e) {
+			} catch (Exception e) {
 				PM.log(Level.WARNING, "An error occurred whilst registering the listener in class " + clazz.getSimpleName() + ".");
 				PM.debug(e);
 			}
@@ -256,7 +256,7 @@ public class HPS extends JavaPlugin {
 		hacky.setPermissionMessage(cmdInfo.noPermissionMessage());
 		try {
 			hacky.setExecutor(clazz.newInstance());
-		} catch (InstantiationException | IllegalAccessException e) {
+		} catch (Exception e) {
 			PM.log(Level.WARNING, "Could not add command " + name + " to the command map.");
 			if(Plugin.getConfig().getBoolean("DebugMode", false))
 				e.printStackTrace();

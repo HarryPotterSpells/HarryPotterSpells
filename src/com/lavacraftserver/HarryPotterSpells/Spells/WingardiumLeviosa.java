@@ -21,7 +21,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		cooldown=180
 )
 public class WingardiumLeviosa extends Spell implements Listener {
-	private List<String> players = new ArrayList<>();
+	private List<String> players = new ArrayList<String>();
 	private int taskid;
 
 	public boolean cast(final Player p) {

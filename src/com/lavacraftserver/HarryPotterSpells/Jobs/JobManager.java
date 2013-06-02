@@ -9,9 +9,9 @@ import org.bukkit.plugin.PluginManager;
  * The manager for all Jobs available.
  */
 public class JobManager {
-	List<ClearJob> clear = new ArrayList<>();
-	List<EnableJob> enable = new ArrayList<>();
-	List<DisableJob> disable = new ArrayList<>();
+	List<ClearJob> clear = new ArrayList<ClearJob>();
+	List<EnableJob> enable = new ArrayList<EnableJob>();
+	List<DisableJob> disable = new ArrayList<DisableJob>();
 	
 	/**
 	 * Adds a clear job to the executor

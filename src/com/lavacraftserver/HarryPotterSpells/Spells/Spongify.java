@@ -22,7 +22,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		cooldown=60
 )
 public class Spongify extends Spell implements Listener {
-	private List<String> players = new ArrayList<>();
+	private List<String> players = new ArrayList<String>();
 
 	@Override
 	public boolean cast(final Player p) {

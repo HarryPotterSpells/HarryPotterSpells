@@ -11,7 +11,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
 public class MetricStatistics implements Listener {
     private static int spellsCast = 0, successes = 0, failures = 0;
-    private static Map<String, Integer> typesOfSpellCast = new HashMap<>();
+    private static Map<String, Integer> typesOfSpellCast = new HashMap<String, Integer>();
     
     public static int getSpellsCast() {
         return spellsCast;

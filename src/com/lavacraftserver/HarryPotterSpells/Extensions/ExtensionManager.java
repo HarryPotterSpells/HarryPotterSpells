@@ -26,7 +26,7 @@ import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
  * <b>NOTE:</b> There should never be access to the extension map because disabling individual extensions does not disable listeners/commands/jobs.
  */
 public class ExtensionManager implements EnableJob, DisableJob {
-	private Map<String, Extension> extensionList = new HashMap<>();
+	private Map<String, Extension> extensionList = new HashMap<String, Extension>();
 	private File extensionFolder;
 	private static boolean instantated = false;
 	
@@ -78,7 +78,7 @@ public class ExtensionManager implements EnableJob, DisableJob {
 					try {
 						HPS.JobManager.addClearJob(c.newInstance());
 						clearJobs++;
-					} catch (InstantiationException | IllegalAccessException e) {
+					} catch (Exception e) {
 						HPS.PM.log(Level.WARNING, "An error occurred whilst a clear job in extension " + ext + " to the Job Manager.");
 						HPS.PM.debug(e);
 					}
@@ -88,7 +88,7 @@ public class ExtensionManager implements EnableJob, DisableJob {
 					try {
 						HPS.JobManager.addEnableJob(c.newInstance());
 						enableJobs++;
-					} catch(InstantiationException | IllegalAccessException e) {
+					} catch(Exception e) {
 						HPS.PM.log(Level.WARNING, "An error occurred whilst adding an enable job in extension " + ext + " to the Job Manager.");
 						HPS.PM.debug(e);
 					}
@@ -98,7 +98,7 @@ public class ExtensionManager implements EnableJob, DisableJob {
 					try {
 						HPS.JobManager.addDisableJob(c.newInstance());
 						disableJobs++;
-					} catch (InstantiationException | IllegalAccessException e) {
+					} catch (Exception e) {
 						HPS.PM.log(Level.WARNING, "An error occurred whilst adding a disable job in extension " + ext + " to the Job Manager");
 						HPS.PM.debug(e);
 					}
@@ -113,7 +113,7 @@ public class ExtensionManager implements EnableJob, DisableJob {
 					try {
 						Bukkit.getPluginManager().registerEvents(c.newInstance(), HPS.Plugin);
 						listeners++;
-					} catch(InstantiationException | IllegalAccessException e) {
+					} catch(Exception e) {
 						HPS.PM.log(Level.WARNING, "An error occurred whilst adding a listener in extension " + ext + ".");
 						HPS.PM.debug(e);
 					}
