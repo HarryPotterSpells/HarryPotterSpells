@@ -20,7 +20,7 @@ spell-castable-with-chat: true  # If a spell is castable on the chatting of 'Spe
 ## Spell Configuration ##
 #########################
 
-## When configuring durations, ticks (1/20 of a second) are assumed. If you'd like to specify ticks, append a 't' to the value.
+## When configuring durations, seconds are assumed. If you'd like to specify ticks (1/20 of a second), append a 't' to the value.
 ## For example, 600t = 600 ticks = 30 seconds
 ## while 600 (without the t) = 600 seconds
 spells:
@@ -38,6 +38,12 @@ spells:
     duration: 300  # How many TICKS the caster will be invisible for
   expelliarmus:
     disarm-weapons: false # Should Expelliarmus also disarm player's weapons?
+  homenum-revelio:
+    box: # The size of the box used in the search for nearby players
+      x: 10 # 1/2 the size of the box along x axis
+      y: 10 # 1/2 the size of the box along y axis
+      z: 10 # 1/2 the size of the box along z axis
+    effect-colour: yellow # The colour the effect around the hidden player should be
   incendio:
     duration: 100t  # How long the fire should last
   multicorfors:
