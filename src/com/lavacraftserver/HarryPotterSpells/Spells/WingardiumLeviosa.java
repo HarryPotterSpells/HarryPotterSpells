@@ -14,7 +14,7 @@ import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell(
-		name = "WingardiumLeviosa", 
+		name = "Wingardium Leviosa", 
 		description = "Makes the caster fly for a short while or until next cast", 
 		range = 0, 
 		goThroughWalls = false,

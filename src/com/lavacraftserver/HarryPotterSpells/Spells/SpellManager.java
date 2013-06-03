@@ -70,7 +70,10 @@ public class SpellManager {
 	public Integer getCurrentSpellPosition(Player player) {
 	    List<String> spellsTheyKnow = HPS.PlayerSpellConfig.getStringListOrEmpty(player.getName());
 	    
-	    if(spellsTheyKnow.isEmpty() ||!currentSpell.containsKey(player.getName()))
+       if(spellsTheyKnow.isEmpty())
+            return null;
+	    
+	    if(!currentSpell.containsKey(player.getName()))
 	        return 0;
 	    
 	    return currentSpell.get(player.getName());

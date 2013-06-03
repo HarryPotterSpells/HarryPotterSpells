@@ -15,9 +15,19 @@ public class Listeners implements Listener {
 	@EventHandler
 	public void PIE(PlayerInteractEvent e) {
 		if(e.getPlayer().hasPermission("HarryPotterSpells.use") && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
+		    
+            if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE))
+                e.setCancelled(true);
+		    
 			//Change spell
 			if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			    int knows = HPS.PlayerSpellConfig.getStringListOrEmpty(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
+			    Integer knows = HPS.PlayerSpellConfig.getStringListOrEmpty(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
+			    			    
+			    if(cur == null) {
+			        HPS.PM.tell(e.getPlayer(), "You do not know any spells.");
+			        return;
+			    }
+			    
 			    if(e.getPlayer().isSneaking()) {
 			        if(cur == 0)
 			            neww = knows;
@@ -33,12 +43,9 @@ public class Listeners implements Listener {
 			    try {
 			        HPS.PM.newSpell(e.getPlayer(), HPS.SpellManager.setCurrentSpell(e.getPlayer(), neww).getName());
 			    } catch(IllegalArgumentException er) {
-			        // The user does not know any spells
-			        // This error does not need catching
+			        HPS.PM.tell(e.getPlayer(), "You do not know any spells.");
+                    return;
 			    }
-			    
-			    if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE))
-                    e.setCancelled(true);
 			    
 			    return;
 			}
@@ -46,13 +53,8 @@ public class Listeners implements Listener {
 			//Cast spell
 			if(e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) {
 				Spell currentSpell = HPS.SpellManager.getCurrentSpell(e.getPlayer());
-				if(currentSpell != null){
+				if(currentSpell != null)
 					HPS.SpellManager.cleverCast(e.getPlayer(), currentSpell);
-				}
-
-				//Cancel event if player is in creative to prevent block damage.
-				if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE))
-					e.setCancelled(true);
 			}
 			
 		}
@@ -85,7 +87,13 @@ public class Listeners implements Listener {
 	@EventHandler
 	public void PIEE(PlayerInteractEntityEvent e) {
 		if(e.getPlayer().hasPermission("HarryPotterSpells.use") && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
-		    int knows = HPS.PlayerSpellConfig.getStringListOrEmpty(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
+		    Integer knows = HPS.PlayerSpellConfig.getStringListOrEmpty(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
+            
+            if(cur == null) {
+                HPS.PM.tell(e.getPlayer(), "You do not know any spells.");
+                return;
+            }
+            
             if(e.getPlayer().isSneaking()) {
                 if(cur == 0)
                     neww = knows;
@@ -98,10 +106,12 @@ public class Listeners implements Listener {
                     neww = cur + 1;
             }
             
-            HPS.PM.newSpell(e.getPlayer(), HPS.SpellManager.setCurrentSpell(e.getPlayer(), neww).getName());
-            
-            if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE))
-                e.setCancelled(true);
+            try {
+                HPS.PM.newSpell(e.getPlayer(), HPS.SpellManager.setCurrentSpell(e.getPlayer(), neww).getName());
+            } catch(IllegalArgumentException er) {
+                HPS.PM.tell(e.getPlayer(), "You do not know any spells.");
+                return;
+            }
             
             return;
 		}
