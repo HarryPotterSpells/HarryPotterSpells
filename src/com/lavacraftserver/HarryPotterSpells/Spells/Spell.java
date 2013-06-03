@@ -1,5 +1,6 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
+import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -177,6 +178,10 @@ public abstract class Spell {
 		for(Annotation a : this.getClass().getAnnotations()) {
 			if(a instanceof spell){
 				spell s = (spell) a;
+				int cooldown = HPS.Plugin.getConfig().getInt("cooldowns." + s.name().toLowerCase());
+				if (cooldown != 0) {
+					return cooldown;
+				}
 				return s.cooldown();
 			}
 		}
