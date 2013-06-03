@@ -19,7 +19,7 @@ public class Teach implements CommandExecutor {
 		if (args.length > 2 || args.length == 0)
 			return false;
 		
-		if (!HPS.SpellManager.isSpell(args[0])) {
+		if (!HPS.SpellManager.isSpell(args[0].replace('_', ' '))) {
 			if (!(args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("*"))) {
 				HPS.PM.dependantMessagingWarn(sender, "That spell was not recognized.");
 				return true;
