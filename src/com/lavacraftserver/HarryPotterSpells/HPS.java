@@ -227,7 +227,7 @@ public class HPS extends JavaPlugin {
 		File file = new File(this.getDataFolder(), "config.yml");
 		if(!file.exists()) {
 			getConfig().options().copyDefaults(true);
-			saveConfig();
+			saveDefaultConfig();
 		}
 	}
 	
