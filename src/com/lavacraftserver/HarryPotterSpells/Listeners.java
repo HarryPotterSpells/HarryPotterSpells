@@ -23,7 +23,7 @@ public class Listeners implements Listener {
 			if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			    Integer knows = HPS.PlayerSpellConfig.getStringListOrEmpty(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
 			    			    
-			    if(cur == null) {
+			    if(HPS.PlayerSpellConfig.getStringListOrEmpty(e.getPlayer().getName()).isEmpty() || cur == null) {
 			        HPS.PM.tell(e.getPlayer(), "You do not know any spells.");
 			        return;
 			    }
