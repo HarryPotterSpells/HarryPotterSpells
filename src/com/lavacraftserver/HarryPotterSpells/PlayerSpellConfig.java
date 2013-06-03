@@ -3,6 +3,8 @@ package com.lavacraftserver.HarryPotterSpells;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.configuration.file.FileConfiguration;
@@ -54,6 +56,16 @@ public class PlayerSpellConfig {
 	    	HPS.PM.log(Level.SEVERE, "Could not save config to " + PSCFile + ".");
 	    	HPS.PM.debug(ex);
 	    }
+	}
+	
+	/**
+	 * A utility function that is meant to be used instead of {@link FileConfiguration#getStringList(String)}. <br>
+	 * This is because the Bukkit version returns {@code null} when no String list is found.
+	 * @param string the path to the String list
+	 * @return the string list at that location or an empty {@link ArrayList}
+	 */
+	public List<String> getStringListOrEmpty(String string) {
+	    return getPSC().getStringList(string) == null ? new ArrayList<String>() : getPSC().getStringList(string);
 	}
 
 }

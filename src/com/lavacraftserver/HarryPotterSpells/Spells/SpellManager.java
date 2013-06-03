@@ -68,11 +68,9 @@ public class SpellManager {
 	 * @return the current spell position they are on
 	 */
 	public Integer getCurrentSpellPosition(Player player) {
-	    List<String> spellsTheyKnow = HPS.PlayerSpellConfig.getPSC().getStringList(player.getName());
-	    if(spellsTheyKnow == null || spellsTheyKnow.isEmpty())
-	        return null;
+	    List<String> spellsTheyKnow = HPS.PlayerSpellConfig.getStringListOrEmpty(player.getName());
 	    
-	    if(!currentSpell.containsKey(player.getName()))
+	    if(spellsTheyKnow.isEmpty() ||!currentSpell.containsKey(player.getName()))
 	        return 0;
 	    
 	    return currentSpell.get(player.getName());
@@ -85,7 +83,10 @@ public class SpellManager {
 	 */
 	public Spell getCurrentSpell(Player player) {
 	    Integer cur = getCurrentSpellPosition(player);
-	    return cur == null ? null : getSpell(Iterables.get(new TreeSet<String>(HPS.PlayerSpellConfig.getPSC().getStringList(player.getName())), cur.intValue()));
+	    List<String> spells = HPS.PlayerSpellConfig.getStringListOrEmpty(player.getName());
+	    if(spells.isEmpty())
+	        return null;
+	    return cur == null ? null : getSpell(Iterables.get(new TreeSet<String>(spells), cur.intValue()));
 	}
 	
 	/**
@@ -96,7 +97,7 @@ public class SpellManager {
 	 * @throws IllegalArgumentException if the id parameter is invalid 
 	 */
 	public Spell setCurrentSpell(Player player, int id) throws IllegalArgumentException {
-	    List<String> spellsTheyKnow = HPS.PlayerSpellConfig.getPSC().getStringList(player.getName());
+	    List<String> spellsTheyKnow = HPS.PlayerSpellConfig.getStringListOrEmpty(player.getName());
 	    if(spellsTheyKnow == null || id >= spellsTheyKnow.size() || id < 0)
 	        throw new IllegalArgumentException("id was invalid");
 	    currentSpell.put(player.getName(), id);
@@ -111,7 +112,7 @@ public class SpellManager {
 	 * @throws IllegalArgumentException if the spell parameter is invalid
 	 */
 	public Spell setCurrentSpell(Player player, Spell spell) throws IllegalArgumentException {
-	    Integer spellIndex = getIndex(new TreeSet<String>(HPS.PlayerSpellConfig.getPSC().getStringList(player.getName())), spell.getName());
+	    Integer spellIndex = getIndex(new TreeSet<String>(HPS.PlayerSpellConfig.getStringListOrEmpty(player.getName())), spell.getName());
 	    if(spellIndex == null)
 	        throw new IllegalArgumentException("player does not know that spell");
 	    setCurrentSpell(player, spellIndex);
@@ -165,7 +166,7 @@ public class SpellManager {
 	    if(!player.hasPermission("HarryPotterSpells.use") || !spell.playerKnows(player) || !player.getInventory().contains(Material.STICK))
 	        return;
 	    
-        List<String> spellList = HPS.PlayerSpellConfig.getPSC().getStringList(player.getName());
+        List<String> spellList = HPS.PlayerSpellConfig.getStringListOrEmpty(player.getName());
         if(spellList == null || spellList.isEmpty()) {
             HPS.PM.tell(player, "You don't know any spells.");
             return;

@@ -11,13 +11,13 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
 public class Listeners implements Listener {
-	
+    	
 	@EventHandler
 	public void PIE(PlayerInteractEvent e) {
 		if(e.getPlayer().hasPermission("HarryPotterSpells.use") && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
 			//Change spell
 			if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			    int knows = HPS.PlayerSpellConfig.getPSC().getStringList(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
+			    int knows = HPS.PlayerSpellConfig.getStringListOrEmpty(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
 			    if(e.getPlayer().isSneaking()) {
 			        if(cur == 0)
 			            neww = knows;
@@ -30,7 +30,12 @@ public class Listeners implements Listener {
 			            neww = cur + 1;
 			    }
 			    
-			    HPS.PM.newSpell(e.getPlayer(), HPS.SpellManager.setCurrentSpell(e.getPlayer(), neww).getName());
+			    try {
+			        HPS.PM.newSpell(e.getPlayer(), HPS.SpellManager.setCurrentSpell(e.getPlayer(), neww).getName());
+			    } catch(IllegalArgumentException er) {
+			        // The user does not know any spells
+			        // This error does not need catching
+			    }
 			    
 			    if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE))
                     e.setCancelled(true);
@@ -80,7 +85,7 @@ public class Listeners implements Listener {
 	@EventHandler
 	public void PIEE(PlayerInteractEntityEvent e) {
 		if(e.getPlayer().hasPermission("HarryPotterSpells.use") && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
-		    int knows = HPS.PlayerSpellConfig.getPSC().getStringList(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
+		    int knows = HPS.PlayerSpellConfig.getStringListOrEmpty(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
             if(e.getPlayer().isSneaking()) {
                 if(cur == 0)
                     neww = knows;

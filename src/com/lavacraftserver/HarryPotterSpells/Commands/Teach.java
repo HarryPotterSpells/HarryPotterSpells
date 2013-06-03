@@ -66,7 +66,7 @@ public class Teach implements CommandExecutor {
 					HPS.PM.dependantMessagingWarn(sender, teachTo.getName() + " already knows that spell.");
 				} else {
 					spell.teach(teachTo);
-					HPS.PM.dependantMessagingTell(sender, "You have taught " + teachTo.getName() + " the spell " + spell.toString() + ".");
+					HPS.PM.dependantMessagingTell(sender, "You have taught " + teachTo.getName() + " the spell " + spell.getName() + ".");
 				}
 				
 			}

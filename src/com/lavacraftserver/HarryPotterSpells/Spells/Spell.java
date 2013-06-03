@@ -55,7 +55,7 @@ public abstract class Spell {
 	 * @param p the player
 	 */
 	public void teach(Player p) {
-		List<String> list = HPS.PlayerSpellConfig.getPSC().getStringList(p.getName());
+		List<String> list = HPS.PlayerSpellConfig.getStringListOrEmpty(p.getName());
 		list.add(getName());
 		HPS.PlayerSpellConfig.getPSC().set(p.getName(), list);
 		HPS.PlayerSpellConfig.savePSC();
@@ -67,7 +67,7 @@ public abstract class Spell {
 	 * @return {@code true} if the player knows this spell
 	 */
 	public boolean playerKnows(Player p){
-		List<String> list = HPS.PlayerSpellConfig.getPSC().getStringList(p.getName());
+		List<String> list = HPS.PlayerSpellConfig.getStringListOrEmpty(p.getName());
 		return list.contains(getName());
 	}
 
@@ -76,7 +76,7 @@ public abstract class Spell {
 	 * @param p the player
 	 */
 	public void unTeach(Player p) {
-		List<String> list = HPS.PlayerSpellConfig.getPSC().getStringList(p.getName());
+		List<String> list = HPS.PlayerSpellConfig.getStringListOrEmpty(p.getName());
 		list.remove(getName());
 		HPS.PlayerSpellConfig.getPSC().set(p.getName(), list);
 		HPS.PlayerSpellConfig.savePSC();
@@ -87,7 +87,7 @@ public abstract class Spell {
 	 * @return the spell's name
 	 */
 	public String getName(){
-		for(Annotation a:this.getClass().getAnnotations()) {
+		for(Annotation a : this.getClass().getAnnotations()) {
 			if(a instanceof spell){
 				spell s = (spell) a;
 				if(!s.name().equals(""))
@@ -165,6 +165,17 @@ public abstract class Spell {
 			}
 		}
 		return 60;
+	}
+	
+	/**
+	 * @deprecated This no longer returns the name of a spell. <br>
+	 * Use: {@link Spell#getName()}
+	 * @return {@code null} always
+	 */
+	@Override
+	@Deprecated
+	public String toString() {
+	    return null;
 	}
 	
 	
