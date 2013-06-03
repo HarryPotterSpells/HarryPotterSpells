@@ -6,15 +6,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
-import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell(
-		
 		name="Accio",
 		description="Pulls surrounding drops towards you",
 		goThroughWalls=false,
 		cooldown=5
-		
 )
 
 public class Accio extends Spell {

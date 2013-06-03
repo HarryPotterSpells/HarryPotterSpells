@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
@@ -123,6 +124,21 @@ public abstract class Spell {
 		int range() default 25;
 		boolean goThroughWalls() default false;
 		int cooldown() default 60;
+		Material icon() default Material.STICK;
+	}
+	
+	/**
+	 * Gets the icon for this spell
+	 * @return the icon as a {@link Material}
+	 */
+	public Material getIcon() {
+	    for(Annotation a : this.getClass().getAnnotations()) {
+            if(a instanceof spell) {
+                spell s = (spell) a;
+                return s.icon();
+            }
+        }
+        return Material.STICK;
 	}
 	
 	/**

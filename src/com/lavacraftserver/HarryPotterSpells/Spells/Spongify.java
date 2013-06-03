@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,7 +20,8 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		description="Prevents fall damage",
 		range=0,
 		goThroughWalls=false,
-		cooldown=60
+		cooldown=60,
+		icon=Material.SPONGE
 )
 public class Spongify extends Spell implements Listener {
 	private List<String> players = new ArrayList<String>();

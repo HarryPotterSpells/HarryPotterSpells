@@ -6,8 +6,8 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
-import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
+import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
 @spell (
 	name="Aguamenti",
@@ -15,7 +15,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 	range=50,
 	goThroughWalls=false,
 	cooldown=90
-)
+	)
 public class Aguamenti extends Spell {
 	
 	public boolean cast(Player p) {
