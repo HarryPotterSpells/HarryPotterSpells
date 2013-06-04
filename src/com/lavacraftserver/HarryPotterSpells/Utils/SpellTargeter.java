@@ -121,6 +121,64 @@ public class SpellTargeter implements Listener {
     }
     
     /**
+     * Registers a new {@link SpellHitEvent} to be called when a spell hits something.
+     * @param caster the player who cast the spell
+     * @param onHit the SpellHitEvent to call when the spell hits something
+     * @param spellSpeed the vector multiplier for the movement of the spell
+     * @param effect the {@link ParticleEffect} to play during the movement of the spell
+     * @param offset how far the particles should randomly offset from the center trail
+     * @param count how many particles should be displayed per tick
+     */
+    public static void register(final Player caster, final SpellHitEvent onHit, final double spellSpeed, final ParticleEffect effect, final float offset, final int count) {
+        new BukkitRunnable() {
+            Location loc = caster.getEyeLocation();
+            Vector direction = loc.getDirection().multiply(spellSpeed);
+            boolean running = false;
+
+            @Override
+            public void run() {
+                if(!running) {
+                    runTaskTimer(HPS.Plugin, 0l, 1l);
+                    running = true;
+                }
+                
+                loc.add(direction);
+                try {
+					ParticleEffect.sendToLocation(effect, loc, offset, offset, offset, 1f, count);
+				} catch (Exception e) {
+					HPS.PM.log(Level.WARNING, "An error occurred whilst generating a Particle Effect!");
+                    HPS.PM.debug(e);
+				}
+                
+                if(!loc.getBlock().getType().isTransparent()) {
+                    onHit.hitBlock(loc.getBlock());
+                    cancel();
+                    return;
+                }
+                
+                List<LivingEntity> list = getNearbyEntities(loc, 0.75, caster.getEntityId());
+                if(list.size() != 0) {
+                    onHit.hitEntity(list.get(0));
+                    cancel();
+                    return;
+                } 
+            }
+            
+        }.run();
+    }
+    
+    /**
+     * Registers a new {@link SpellHitEvent} to be called when a spell hits something using the default offset and count.
+     * @param caster the player who cast the spell
+     * @param onHit the SpellHitEvent to call when the spell hits something
+     * @param spellSpeed the vector multiplier for the movement of the spell
+     * @param effect the {@link ParticleEffect} to play during the movement of the spell
+     */
+    public static void register(final Player caster, final SpellHitEvent onHit, final double spellSpeed, final ParticleEffect effect) {
+        register(caster, onHit, spellSpeed, effect, 0.5f, 1);
+    }
+    
+    /**
      * Gets a list of LivingEntity's near a location
      * @param location the location
      * @param distance the max distance to check
