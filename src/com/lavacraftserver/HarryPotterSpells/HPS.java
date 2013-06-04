@@ -70,7 +70,7 @@ public class HPS extends JavaPlugin {
             f.setAccessible(true);
             commandMap = (CommandMap) f.get(getServer());
         } catch (Throwable e){
-            PM.log(Level.SEVERE, "Could not access the command map. Commands will not work. Are you sure the plugin is up to date?");
+            PM.log(Level.SEVERE, "Could not access the command map. Commands will not work.");
             PM.debug(e);
         }
 		
@@ -110,7 +110,7 @@ public class HPS extends JavaPlugin {
 			}
 		}
 		
-		PM.log(Level.INFO, "Registered " + clearJobs + " core clear jobs, " + enableJobs + " core enable jobs and " + disableJobs + " core disable jobs.");
+		PM.debug("Registered " + clearJobs + " core clear jobs, " + enableJobs + " core enable jobs and " + disableJobs + " core disable jobs.");
 		
 		// Reflections - Commands
 		int commands = 0;
@@ -118,7 +118,7 @@ public class HPS extends JavaPlugin {
 			if(addHackyCommand(clazz))
 				commands++;
 		}
-		PM.log(Level.INFO, "Registered " + commands + " core commands.");
+		PM.debug("Registered " + commands + " core commands.");
 		
 		// Reflections - Listeners
 		int listeners = 0;
@@ -131,7 +131,7 @@ public class HPS extends JavaPlugin {
 				PM.debug(e);
 			}
 		}
-		PM.log(Level.INFO, "Registered " + listeners + " core listeners.");
+		PM.debug("Registered " + listeners + " core listeners.");
 		
 		// Plugin Metrics
 		try {
@@ -188,14 +188,14 @@ public class HPS extends JavaPlugin {
 		}
 		
 		// Crafting Changes
-		PM.log(Level.INFO, "Implementing crafting changes...");
+		PM.debug("Implementing crafting changes...");
 		boolean disableAll = getConfig().getBoolean("disable-all-crafting", false), disableWand = getConfig().getBoolean("disable-wand-crafting", true);
 		int wand = getConfig().getInt("wand-id", 280);
 		
 		if(disableAll) {
 			getServer().clearRecipes();
 			PM.debug("Removed all crafting recipes.");
-			PM.log(Level.INFO, "Crafting changes implemented.");
+			PM.debug("Crafting changes implemented.");
 			return;
 		} else if(disableWand) {
 			Iterator<Recipe> it = getServer().recipeIterator();
@@ -207,7 +207,7 @@ public class HPS extends JavaPlugin {
 				}
 			}
 		}
-		PM.log(Level.INFO, "Crafting changes implemented.");
+		PM.debug("Crafting changes implemented.");
 		
 		JobManager.executeEnableJobs(getServer().getPluginManager());
 		

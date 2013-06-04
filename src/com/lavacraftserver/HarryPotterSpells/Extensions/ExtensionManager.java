@@ -39,7 +39,7 @@ public class ExtensionManager implements EnableJob, DisableJob {
 	        return;
 	    
 	    ExtensionManager.instantated = true;
-		HPS.PM.log(Level.INFO, "Loading extensions...");
+		HPS.PM.debug("Loading extensions...");
 		
 		extensionFolder = new File(HPS.Plugin.getDataFolder(), "Extensions");
 		if(!extensionFolder.exists())
@@ -125,7 +125,7 @@ public class ExtensionManager implements EnableJob, DisableJob {
 			}
 		}
 		
-		HPS.PM.log(Level.INFO, "Loaded " + extensionList.size() + " extensions with " + commands + " commands and " + listeners + " listeners.");
+		HPS.PM.debug("Loaded " + extensionList.size() + " extensions with " + commands + " commands and " + listeners + " listeners.");
 		HPS.PM.debug("There are also " + clearJobs + " clear jobs, " + enableJobs + " enable jobs and " + disableJobs + " disable jobs.");
 	}
 	
@@ -140,20 +140,22 @@ public class ExtensionManager implements EnableJob, DisableJob {
 
 	@Override
 	public void onDisable(PluginManager pm) {
-		HPS.PM.log(Level.INFO, "Disabling extensions...");
+		HPS.PM.debug("Disabling extensions...");
 		Iterator<Entry<String, Extension>> it = extensionList.entrySet().iterator();
 		while(it.hasNext())
 			it.next().getValue().disable(pm);
-		HPS.PM.log(Level.INFO, "Disabled " + extensionList.size() + " extensions.");
+		if(extensionList.size() != 0)
+			HPS.PM.log(Level.INFO, "Disabled " + extensionList.size() + " extensions.");
 	}
 
 	@Override
 	public void onEnable(PluginManager pm) {
-		HPS.PM.log(Level.INFO, "Enabling extensions...");
+		HPS.PM.debug("Enabling extensions...");
 		Iterator<Entry<String, Extension>> it = extensionList.entrySet().iterator();
 		while(it.hasNext())
 			it.next().getValue().disable(pm);
-		HPS.PM.log(Level.INFO, "Enabled " + extensionList.size() + " extensions.");
+		if(extensionList.size() != 0)
+			HPS.PM.log(Level.INFO, "Enabled " + extensionList.size() + " extensions.");
 	}
 	
 }
