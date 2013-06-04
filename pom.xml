@@ -18,12 +18,6 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.bukkit</groupId>
-      <artifactId>bukkit</artifactId>
-      <version>1.5.2-R0.1</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
       <groupId>org.reflections</groupId>
       <artifactId>reflections</artifactId>
       <version>0.9.9-RC1</version>
