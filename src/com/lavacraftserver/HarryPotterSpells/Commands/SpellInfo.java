@@ -11,14 +11,15 @@ public class SpellInfo implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if(args.length != 1)
+		if(args.length != 1) {
 			return false;
-		else
-			if(!HPS.SpellManager.isSpell(args[0]))
+		} else {
+			String spell = args[0].replace('_', ' ');
+			if(!HPS.SpellManager.isSpell(spell))
 				HPS.PM.dependantMessagingWarn(sender, "That spell was not recognised");
 			else
-				HPS.PM.dependantMessagingTell(sender, args[0] + ": " + HPS.SpellManager.getSpell(args[0]).getDescription());
+				HPS.PM.dependantMessagingTell(sender, spell + ": " + HPS.SpellManager.getSpell(spell).getDescription());
 		return true;
 	}
-	
+	}
 }
