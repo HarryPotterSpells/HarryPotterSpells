@@ -10,6 +10,7 @@ import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -64,7 +65,7 @@ public class SpellTargeter implements Listener {
                     return;
                 }
                 
-                List<LivingEntity> list = getNearbyEntities(loc, 0.75, caster.getEntityId());
+                List<LivingEntity> list = getNearbyEntities(loc, 2, EntityType.PLAYER);
                 if(list.size() != 0) {
                     onHit.hitEntity(list.get(0));
                     cancel();
@@ -109,7 +110,7 @@ public class SpellTargeter implements Listener {
                     return;
                 }
                 
-                List<LivingEntity> list = getNearbyEntities(loc, 0.75, caster.getEntityId());
+                List<LivingEntity> list = getNearbyEntities(loc, 2, EntityType.PLAYER);
                 if(list.size() != 0) {
                     onHit.hitEntity(list.get(0));
                     cancel();
@@ -156,7 +157,7 @@ public class SpellTargeter implements Listener {
                     return;
                 }
                 
-                List<LivingEntity> list = getNearbyEntities(loc, 0.75, caster.getEntityId());
+                List<LivingEntity> list = getNearbyEntities(loc, 2, EntityType.PLAYER);
                 if(list.size() != 0) {
                     onHit.hitEntity(list.get(0));
                     cancel();
@@ -184,11 +185,11 @@ public class SpellTargeter implements Listener {
      * @param distance the max distance to check
      * @return
      */
-    public static List<LivingEntity> getNearbyEntities(Location location, double distance, Integer... ignoreEntityId) {
+    public static List<LivingEntity> getNearbyEntities(Location location, double distance, EntityType... ignoreEntityType) {
         List<LivingEntity> list = new ArrayList<LivingEntity>();
-        List<Integer> ig = Arrays.asList(ignoreEntityId);
+        List<EntityType> ig = Arrays.asList(ignoreEntityType);
         for(Entity en : location.getChunk().getEntities()) {
-            if(!(en instanceof LivingEntity) || ig.contains(en))
+            if(!(en instanceof LivingEntity) || ig.contains(en.getType()))
                 continue;
             if(en.getLocation().distance(location) <= distance)
                 list.add((LivingEntity) en);
