@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -17,6 +18,9 @@ import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.help.GenericCommandHelpTopic;
+import org.bukkit.help.HelpTopic;
+import org.bukkit.help.IndexHelpTopic;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
@@ -46,6 +50,7 @@ public class HPS extends JavaPlugin {
 	public static ExtensionManager ExtensionManager;
 	
 	private static CommandMap commandMap;
+	private static Collection<HelpTopic> helpTopics = new ArrayList<HelpTopic>();
 	
 	@Override
 	public void onEnable() {
@@ -118,7 +123,11 @@ public class HPS extends JavaPlugin {
 			if(addHackyCommand(clazz))
 				commands++;
 		}
-		PM.debug("Registered " + commands + " core commands.");
+		PM.debug("Registered " + commands + " core commands.");		
+		
+		Bukkit.getHelpMap().addTopic(new IndexHelpTopic("HarryPotterSpells", "The ultimate Harry Potter plugin", "", helpTopics));
+		
+		PM.debug("Added commands to help.");
 		
 		// Reflections - Listeners
 		int listeners = 0;
@@ -232,7 +241,7 @@ public class HPS extends JavaPlugin {
 	}
 	
 	/**
-	 * Registers a hacky command to the plugin
+	 * Registers a {@link HackyCommand} to the plugin
 	 * @param clazz a class that extends {@code CommandExecutor}
 	 * @return {@code true} if the command was added successfully
 	 */
@@ -260,6 +269,7 @@ public class HPS extends JavaPlugin {
 			return false;
 		}
 		commandMap.register("", hacky);
+		helpTopics.add(new GenericCommandHelpTopic(hacky));
 		return true;
 	}
 	

@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 
-@HCommand (name="spellinfo", description="shows the description of a spell", usage="<command> <spell>", permissionDefault="true")
+@HCommand (name="spellinfo", description="Shows the description of a spell", usage="<command> <spell>", permissionDefault="true")
 public class SpellInfo implements CommandExecutor {
 
 	@Override

@@ -17,7 +17,7 @@ import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
-@HCommand(name = "spelllist", description = "lists all spells", usage = "<command> [player]", permissionDefault = "true")
+@HCommand(name = "spelllist", description = "Lists all spells", usage = "<command> [player]", permissionDefault = "true")
 public class SpellList implements CommandExecutor, EnableJob {
 	private final Permission LIST_OTHERS = new Permission("HarryPotterSpells.list.others", PermissionDefault.OP);
 	
