@@ -1,12 +1,10 @@
-# HarryPotterSpells
-
-[![Build Status](https://travis-ci.org/kezz101/HarryPotterSpells.png?branch=master)](https://travis-ci.org/kezz101/HarryPotterSpells)
+# HarryPotterSpells [![Build Status](https://travis-ci.org/kezz101/HarryPotterSpells.png?branch=master)](https://travis-ci.org/kezz101/HarryPotterSpells)
 
 ## What is HarryPotterSpells? ##
 
-As the name suggests, this plugin adds spells and more to a Minecraft server! The spells are taken from Harry Potter but this doesn't mean you have to be a Harry Potter server to use it! Almost everything in this plugin is configurable, allowing you to make your own Spells plugin! You can view the Plugin Metrics stats page [here](http://mcstats.org/plugin/HarryPotterSpells)!
+As the name suggests, this plugin adds spells and more to a Minecraft server. The spells are taken from Harry Potter but this doesn't mean you have to be a Harry Potter server to use it. Almost everything in this plugin is configurable, allowing you to make your own Spells plugin. You can view the Plugin Metrics stats page [here](http://mcstats.org/plugin/HarryPotterSpells).
 
-For more information check out our [BukkitDev page](http://dev.bukkit.org/server-mods/harrypotterspells)!
+For more information check out our [BukkitDev page](http://dev.bukkit.org/server-mods/harrypotterspells).
 
 ## The HarryPotterSpells Team ##
 
@@ -20,7 +18,7 @@ For more information check out our [BukkitDev page](http://dev.bukkit.org/server
 + [zachoooo](http://forums.bukkit.org/members/zachoooo.1858/): Contributor
 + [Hoolean/MrBluebear3](http://forums.bukkit.org/members/hoolean.90699782/): Contributor
 
-We are looking for more team members to help make this plugin awesomer! If you are interested just let us know [here](http://forums.bukkit.org/threads/developers-wanted-for-new-spells-plugin.90642/)!  
+We are looking for more team members to help make this plugin even more awesome. If you are interested just let us know [here](http://forums.bukkit.org/threads/harrypotterspells.149902/) or join our IRC [#harrypotterspells](http://webchat.esper.net/?channels=#harrypotterspells).
 
 If you are looking for our guide on how to contribute to HarryPotterSpells then see [here](https://github.com/kezz101/HarryPotterSpells/wiki/Contributing).
 
@@ -28,8 +26,9 @@ If you are looking for our guide on how to contribute to HarryPotterSpells then 
 
 ### Maven ###
 
-We use Maven to handle our dependencies and building. You can export HarryPotterSpells using:  
-    mvn clean install
+We use [Maven](http://maven.apache.org/) to handle our dependencies and building. The best way to export HarryPotterSpells with Maven is by using the following command:  
+
+    mvn clean install    
 Make sure you use the file named `HarryPotterSpells-VERSION-SNAPSHOT-jar-with-dependencies`.
 
 ### .classpath and .project ###
@@ -37,6 +36,7 @@ Make sure you use the file named `HarryPotterSpells-VERSION-SNAPSHOT-jar-with-de
 If you are having issues importing the project into your Eclipse IDE you may find the following files useful:
 + [.classpath](http://www.mediafire.com/view/3cf26n282tyf044/.classpath)
 + [.project](http://www.mediafire.com/view/b3c36r69nabnw3v/.project)
+
 If these files need updating notify Kezz101 and he will re-upload them for you.
 
 ### Stats ###
