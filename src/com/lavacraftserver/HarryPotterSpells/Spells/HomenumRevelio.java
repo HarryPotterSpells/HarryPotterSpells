@@ -22,7 +22,7 @@ public class HomenumRevelio extends Spell {
 
     @Override
     public boolean cast(Player p) {
-        ConfigurationSection section = HPS.Plugin.getConfig().getConfigurationSection("homenum-revelio");
+        ConfigurationSection section = HPS.Plugin.getConfig().getConfigurationSection("spells.homenum-revelio");
         for(Entity entity : p.getNearbyEntities(section.getDouble("box.x", 10d), section.getDouble("box.y", 10d), section.getDouble("box.z", 10d))) {
             if(entity instanceof Player) {
                 try {
