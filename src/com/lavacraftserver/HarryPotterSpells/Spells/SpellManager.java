@@ -16,18 +16,22 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
+import org.bukkit.plugin.PluginManager;
 import org.reflections.Reflections;
 
 import com.google.common.collect.Iterables;
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.API.SpellPostCastEvent;
 import com.lavacraftserver.HarryPotterSpells.API.SpellPreCastEvent;
+import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
 import com.lavacraftserver.HarryPotterSpells.Utils.CoolDown;
 
 /**
  * A class that manages spells and holds lots of spell related utilities
  */
-public class SpellManager {
+public class SpellManager implements EnableJob {
 	private HashMap<String, HashMap<Spell, Integer>> cooldowns = new HashMap<String, HashMap<Spell, Integer>>();
     private Comparator<Spell> spellComparator = new Comparator<Spell>() {
         
@@ -39,6 +43,14 @@ public class SpellManager {
     };
 	private SortedSet<Spell> spellList = new TreeSet<Spell>(spellComparator);
 	private Map<String, Integer> currentSpell = new HashMap<String, Integer>();
+	
+	public final Permission NO_COOLDOWN_ALL_1 = new Permission("HarryPotterSpells.nocooldown", PermissionDefault.OP), NO_COOLDOWN_ALL_2 = new Permission("HarryPotterSpells.nocooldown.*");
+	
+	@Override
+	public void onEnable(PluginManager pm) {
+		pm.addPermission(NO_COOLDOWN_ALL_1);
+		pm.addPermission(NO_COOLDOWN_ALL_2);
+	}
 	
 	/**
 	 * Constructs the {@link SpellManager}, adding all core spells to the Spell List
@@ -194,8 +206,8 @@ public class SpellManager {
             boolean successful = spell.cast(player);
             Bukkit.getServer().getPluginManager().callEvent(new SpellPostCastEvent(spell, player, successful));
             
-            if(cast && successful && spell.getCoolDown() > 0 && !player.hasPermission("HarryPotterSpells.nocooldown")){
-            	setCoolDown(playerName, spell, spell.getCoolDown());
+            if(cast && successful && spell.getCoolDown(player) > 0 && !player.hasPermission("HarryPotterSpells.nocooldown")){
+            	setCoolDown(playerName, spell, spell.getCoolDown(player));
             	Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new CoolDown(playerName, spell), 20L);
             }
         }

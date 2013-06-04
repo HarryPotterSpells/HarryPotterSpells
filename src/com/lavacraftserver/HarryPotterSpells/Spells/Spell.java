@@ -1,6 +1,5 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
-import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -171,12 +170,15 @@ public abstract class Spell {
 	}
 	
 	/**
-	 * Gets the cool down of the spell
+	 * Gets the cool down of the spell for a player
 	 * @return the cool down
 	 */
-	public int getCoolDown() {
+	public int getCoolDown(Player p) {
 		for(Annotation a : this.getClass().getAnnotations()) {
-			if(a instanceof spell){
+			if(a instanceof spell) {
+				if(p.hasPermission(HPS.SpellManager.NO_COOLDOWN_ALL_1) || p.hasPermission(HPS.SpellManager.NO_COOLDOWN_ALL_2) || p.hasPermission("HarryPotterSpells.nocooldown." + getName()))
+					return 0;
+				
 				spell s = (spell) a;
 				int cooldown = HPS.Plugin.getConfig().getInt("cooldowns." + s.name().toLowerCase());
 				if (cooldown != 0) {
