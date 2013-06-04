@@ -21,17 +21,6 @@ public class PM {
 	private Logger log = Bukkit.getLogger();
 	
 	/**
-	 * Logs a message to the console
-	 * @param message the message to be logged
-	 * @param level the level the log should be
-	 * @deprecated Use {@link PM.log(Level level, String... message)}
-	 */
-	@Deprecated
-	public void log(String message, Level level) {
-		log.log(level, "[HarryPotterSpells] " + message);
-	}
-	
-	/**
 	 * Logs any amount of messages to the console
 	 * @param level the level to log the message at
 	 * @param message the message(s) to log
