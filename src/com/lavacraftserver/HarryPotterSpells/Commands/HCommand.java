@@ -9,12 +9,12 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface HCommand {
 	
-	String name() default "";
+	String name() default ""; // Defaults to class simple name
 	String description() default "";
 	String aliases() default "";
-	String permission() default "";
+	String permission() default ""; // Defaults to HarryPotterSpells.[name()]
 	String permissionDefault() default "OP";
-	String usage() default "/<command>";
+	String usage() default "<command>";
 	String noPermissionMessage() default "You do not have permission to run that command.";
 	
 }

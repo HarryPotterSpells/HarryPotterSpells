@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
-@HCommand(name="teach", description="Teaches a player a spell", usage="/<command> <spell> [player|me]")
+@HCommand(name="teach", description="Teaches a player a spell", usage="<command> <spell> [player|me]")
 public class Teach implements CommandExecutor {
 
 	@Override

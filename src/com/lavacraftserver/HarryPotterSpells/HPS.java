@@ -282,7 +282,7 @@ public class HPS extends JavaPlugin {
 		    else {
 		        boolean success = executor.onCommand(sender, this, commandLabel, args);
 		        if(!success)
-		            PM.dependantMessagingTell(sender, ChatColor.RED + "Correct Usage: " + getUsage().replace("<command>", commandLabel));
+		            PM.dependantMessagingTell(sender, ChatColor.RED + "Correct Usage: " + (sender instanceof Player ? "/" : "") + getUsage().replace("<command>", commandLabel));
 		    }
 		    return true;
 		}
