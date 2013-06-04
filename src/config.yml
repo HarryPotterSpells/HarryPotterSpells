@@ -26,7 +26,7 @@ spell-castable-with-chat: true  # If a spell is castable on the chatting of 'Spe
 ## while 600 (without the t) = 600 seconds
 spells:
   accio:
-    radius: 3  # The maximum distance drops can be from the player to still be attracted
+    radius: 5  # The maximum distance drops can be from the player to still be attracted
   avis:
     chickens: 5  # How many chickens the wand should shoot
   confundo:
