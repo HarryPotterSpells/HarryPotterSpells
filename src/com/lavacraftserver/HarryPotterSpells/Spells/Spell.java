@@ -176,22 +176,16 @@ public abstract class Spell {
 	public int getCoolDown(Player p) {
 		for(Annotation a : this.getClass().getAnnotations()) {
 			if(a instanceof spell) {
-				/*
 				if(p.hasPermission(HPS.SpellManager.NO_COOLDOWN_ALL_1) || p.hasPermission(HPS.SpellManager.NO_COOLDOWN_ALL_2) || p.hasPermission("HarryPotterSpells.nocooldown." + getName()))
 					return 0;
-				*/
 				spell s = (spell) a;
 				int cooldown;
-				if(HPS.Plugin.getConfig().contains("cooldowns." + s.name().toLowerCase())){
+				if(HPS.Plugin.getConfig().contains("cooldowns." + s.name().toLowerCase()))
 					cooldown = HPS.Plugin.getConfig().getInt("cooldowns." + s.name().toLowerCase());
-				}else{
+				else
 					cooldown = s.cooldown();
-				}
-				if(cooldown == -1) {
-					return 0;
-				}else{
-					return cooldown;
-				}
+				
+				return cooldown == -1 ? s.cooldown() : cooldown;
 			}
 		}
 		return 60;
