@@ -7,10 +7,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -73,6 +75,15 @@ public class Crucio extends Spell implements Listener {
 			changeTo.setPitch(e.getTo().getPitch());
 			changeTo.setYaw(e.getTo().getYaw());
 			e.setTo(changeTo);
+		}
+	}
+	
+	@EventHandler
+	public void onPlayerDamage(EntityDamageEvent e) {
+		if(e.getEntityType() == EntityType.PLAYER && crucioList.contains(((Player) e.getEntity()).getName())) {
+			Player p = (Player) e.getEntity();
+			if((p.getHealth() - e.getDamage()) < 1)
+				e.setDamage(0);
 		}
 	}
 	
