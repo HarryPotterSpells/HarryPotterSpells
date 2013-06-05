@@ -31,6 +31,8 @@ spells:
     chickens: 5  # How many chickens the wand should shoot
   confundo:
     duration: 200t  # How long the target should be confused for
+  crucio:
+    duration: 10 # How long the target should be victimised for
   deprimo:
     duration: 100t  # How long the target should be slowed for
   episkey:

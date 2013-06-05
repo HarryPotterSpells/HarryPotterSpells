@@ -1,9 +1,13 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,7 +17,9 @@ import org.bukkit.potion.PotionEffectType;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
-import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
+import com.lavacraftserver.HarryPotterSpells.Utils.ParticleEffect;
+import com.lavacraftserver.HarryPotterSpells.Utils.SpellTargeter;
+import com.lavacraftserver.HarryPotterSpells.Utils.SpellTargeter.SpellHitEvent;
 
 @spell(
 		name="Crucio",
@@ -24,47 +30,74 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 )
 
 public class Crucio extends Spell implements Listener {
+	private Set<String> crucioList = new HashSet<String>();
+	
+	public boolean cast(final Player p){
+		SpellTargeter.register(p, new SpellHitEvent() {
+			
+			@Override
+			public void hitEntity(LivingEntity entity) {
+				if(entity instanceof Player) {
+					final Player target = (Player) entity;
+					int duration = getDuration();
+					target.addPotionEffect(new PotionEffect(PotionEffectType.HARM, duration, 0));
+					setFlightClever(target, true);
+					target.teleport(new Location(entity.getWorld(), entity.getLocation().getX(), entity.getLocation().getBlockY()+2, entity.getLocation().getZ()));
+					crucioList.add(target.getName());
+					Bukkit.getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
 
-	private HashMap<String, Integer> crucioTimer = new HashMap<String, Integer>();
-	
-	int tid = Bukkit.getScheduler().scheduleSyncRepeatingTask(HPS.Plugin, new Runnable() {
-		@Override
-		public void run() {
-			for(String s : crucioTimer.keySet()){
-				if(crucioTimer.containsKey(s)){
-					while(crucioTimer.get(s)>=0){
-						int r = crucioTimer.get(s);
-						crucioTimer.put(s, r--);
-					}
-					crucioTimer.remove(s);
-					denyFlight(s);
-				}
+						@Override
+						public void run() {
+							crucioList.remove(target.getName());
+							setFlightClever(target, false);
+						}
+						
+					}, (long) duration);
+				} else 
+					HPS.PM.warn(p, "This can only be used on a player.");
 			}
-		}
-	}, 0, 20);
-	
-	public boolean cast(Player p){
-		if (Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {
-			Player entity = (Player)Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
-			crucioTimer.put(entity.getDisplayName(), 10);
-			entity.addPotionEffect(new PotionEffect(PotionEffectType.HARM, crucioTimer.get(entity.getDisplayName())*20, 0));
-			entity.setFlying(true);
-			entity.teleport(new Location(entity.getWorld(), entity.getLocation().getX(), entity.getLocation().getBlockY()+2, entity.getLocation().getZ()));
-			return true;
-		} else {
-			HPS.PM.warn(p, "This can only be used on a player.");
-			return false;
-		}
+			
+			@Override
+			public void hitBlock(Block block) {
+				HPS.PM.warn(p, "This can only be used on a player.");				
+			}
+			
+		}, 1.2d, ParticleEffect.DEPTH_SUSPEND);
+		return true;
 	}
+	
 	@EventHandler
-	public void onPlayerMove(PlayerMoveEvent e){
-		if(crucioTimer.containsKey(e.getPlayer().getDisplayName())){
-			e.setTo(e.getFrom());
+	public void onPlayerMove(PlayerMoveEvent e) {
+		if(crucioList.contains(e.getPlayer().getName())) {
+			Location changeTo = e.getFrom();
+			changeTo.setPitch(e.getTo().getPitch());
+			changeTo.setYaw(e.getTo().getYaw());
+			e.setTo(changeTo);
 		}
 	}
 	
-	public void denyFlight(String s) {
-		Bukkit.getServer().getPlayer(s).setFlying(false);
+	private void setFlightClever(Player player, boolean allow) {
+		if(!allow && player.getGameMode() == GameMode.CREATIVE) { // If they should fly anyway
+			player.setFlying(false);
+			player.setAllowFlight(true);
+			return;
+		}
+		player.setAllowFlight(allow);
+		player.setFlying(allow);
+	}
+	
+	private int getDuration() {
+		String durationString = HPS.Plugin.getConfig().getString("spells.crucio.duration", "10");
+		int duration = 0;
+
+		if (durationString.endsWith("t")) {
+			String ticks = durationString.substring(0, durationString.length() - 1);
+			duration = Integer.parseInt(ticks);
+		} else {
+			duration = Integer.parseInt(durationString) * 20;
+		}
+		
+		return duration;
 	}
 	
 }
