@@ -29,7 +29,7 @@ public class PlayerSpellConfig implements EnableJob {
 	/**
 	 * The current version specifying the format of the {@code PlayerSpellConfig.yml}
 	 */
-	public static final double CURRENT_VERSION = 0.4d;
+	public static final double CURRENT_VERSION = 0.5d;
 	
 	/**
 	 * Reloads the PlayerSpellConfig
