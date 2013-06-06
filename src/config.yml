@@ -69,7 +69,7 @@ spells:
     lightning: true  # Should lightning strike on casting of the spell
   wingardium-leviosa:
     cancel-fall-damage: true  # Should fall damage be cancelled when flying
-    duration: 200  # How long the caster should be able to fly for
+    duration: 200t  # How long the caster should be able to fly for
     
 cooldowns:
 ## Do not use 0 for no cooldown. Use -1 instead.
