@@ -36,6 +36,16 @@ public class WingardiumLeviosa extends Spell implements Listener {
 			if(HPS.Plugin.getConfig().getBoolean("spells.wingardium-leviosa.cancel-fall-damage", true) && !players.contains(p.getName())){
 				players.add(p.getName());
 			}
+			
+			long duration = 0;
+			String durationString = HPS.Plugin.getConfig().getString("spells.wingardium-leviosa.duration", "200t");
+			if (durationString.endsWith("t")) {
+				String ticks = durationString.substring(0, durationString.length() - 1);
+				duration = Integer.parseInt(ticks);
+			} else {
+				duration = Integer.parseInt(durationString) * 20;
+			}
+			
 			taskid = Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
 				public void run() {
 					if (players.contains(p.getName())) {
@@ -44,7 +54,7 @@ public class WingardiumLeviosa extends Spell implements Listener {
 						players.remove(p.getName());
 					}
 				}
-			}, HPS.Plugin.getConfig().getLong("spells.wingardiumleviosa.duration", 200L));
+			}, duration);
 		}
 		return true;
 	}
