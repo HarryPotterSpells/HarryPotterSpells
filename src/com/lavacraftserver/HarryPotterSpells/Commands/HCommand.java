@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 public @interface HCommand {
 	
 	String name() default ""; // Defaults to class simple name
-	String description() default "";
+	String description() adfasdfasdfasdfdefault "";
 	String aliases() default "";
 	String permission() default ""; // Defaults to HarryPotterSpells.[name()]
 	String permissionDefault() default "OP";
