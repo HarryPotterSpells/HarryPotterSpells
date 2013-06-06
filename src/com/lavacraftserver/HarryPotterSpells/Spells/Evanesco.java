@@ -23,6 +23,15 @@ public class Evanesco extends Spell {
             p.getWorld().createExplosion(loc, 0, false);
         }
 		
+		long duration = 0;
+		String durationString = HPS.Plugin.getConfig().getString("spells.evanesco.duration", "300t");
+		if (durationString.endsWith("t")) {
+			String ticks = durationString.substring(0, durationString.length() - 1);
+			duration = Integer.parseInt(ticks);
+		} else {
+			duration = Integer.parseInt(durationString) * 20;
+		}
+		
 		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
 			   public void run() {
 				   for (Player players : Bukkit.getServer().getOnlinePlayers()) {
@@ -30,7 +39,7 @@ public class Evanesco extends Spell {
 			       }
 				   p.getWorld().createExplosion(p.getLocation(), 0, false);
 			   }
-			}, HPS.Plugin.getConfig().getLong("spells.evanesco.duration", 300L));
+			}, duration);
 		return true;
 	}
 
