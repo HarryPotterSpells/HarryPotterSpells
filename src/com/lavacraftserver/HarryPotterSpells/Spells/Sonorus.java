@@ -44,7 +44,7 @@ public class Sonorus extends Spell implements Listener {
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
 		if(Sonorus.players.contains(e.getPlayer().getName())) {
-			e.setCancelled(true);
+			e.setCancelled(true);			
 			Bukkit.getServer().broadcastMessage(e.getPlayer().getDisplayName() + ChatColor.WHITE + ": " + e.getMessage());
 			Sonorus.players.remove(e.getPlayer().getName());
 		}

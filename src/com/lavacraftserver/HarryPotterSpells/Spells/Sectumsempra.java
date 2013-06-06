@@ -39,21 +39,18 @@ public class Sectumsempra extends Spell {
 		Random random = new Random();
 		int iterator = 0;
 		final int length = random.nextInt(4) + 2;
+		
 		@Override
 		public void run() {
-			if (le.isValid()) {
+			if (le.isValid())
 				le.damage(1);
-			} else {
-				cancelTask();
-			}
+			else
+			    Bukkit.getServer().getScheduler().cancelTask(taskID);
+
 			if (iterator < length)
 				iterator++;
 			else
-				cancelTask();
-		}
-		
-		public void cancelTask() {
-			Bukkit.getServer().getScheduler().cancelTask(taskID);
+			    Bukkit.getServer().getScheduler().cancelTask(taskID);
 		}
 
 	}

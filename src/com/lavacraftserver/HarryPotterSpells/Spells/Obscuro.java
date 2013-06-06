@@ -24,47 +24,42 @@ public class Obscuro extends Spell {
 	@Override
 	public boolean cast(Player p) {
 
-		if (Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) { //if a LivingEntity is targeted by the spell
+		if (Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) {
 			LivingEntity le = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
-			if (le instanceof Player) {//if the targeted is a player
+			if (le instanceof Player) {
 
 				/*
 				 * TODO
 				 * Not get the value from the config every spell cast;
 				 * that's really resource intensive and inefficient
+				 * 
+				 * from Kezz101: well it's not really. Plus this method takes into account plugin/configuration reloading.
+				 * Unless you want to create a ReloadJob and have every spell listen to it :/
+				 * I guess that might be more resource intensive and innefficient
 				 */
-				String durationString = HPS.Plugin.getConfig().getString("spells.obscuro.duration", "400t");
-				int duration = 0;
-				
-				if (durationString.endsWith("t")) {
-					String ticks = durationString.substring(0, durationString.length() - 1);
-					duration = Integer.parseInt(ticks);
-				} else {
-					duration = Integer.parseInt(durationString) * 20;
-				}
-				
+				int duration = (int) getTime("duration", 400);
 				le.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, duration, 1));//blind them
-
-			} else if(le instanceof Creature) {//else if it's a creature that's not a player
+				
+				return true;
+			} else if(le instanceof Creature) {
 				
 				((Creature) le).setTarget(null);//erase the creatures target
 				le.setVelocity(new Vector(0,0,0));//stop them in their tracks
+				
 				// invert where they're looking (make them look in the opposite direction)
 				Location loc = le.getLocation();
 				loc.setPitch((loc.getPitch() + 90) % 180);
 				loc.setYaw((loc.getYaw()+180) % 360);
-				//put the changes in effect
+				
 				le.teleport(loc);
 				
+				return true;
 			}
 			
-			return true;
-			
+			return false;
 		} else {
-			
 			HPS.PM.warn(p, "This can only be used on a player or a mob.");
 			return false;
-			
 		}
 	}
 

@@ -26,16 +26,17 @@ public class Expelliarmus extends Spell {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {
 			Player target = (Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			Location targetloc = target.getLocation();			
-			List<Integer> disarmItems = Arrays.asList(HPS.Plugin.getConfig().getInt("wand-id"));
-			if(HPS.Plugin.getConfig().getBoolean("spells.expelliarmus.disarm-weapons", true)){
+			List<Integer> disarmItems = Arrays.asList(HPS.Wand.getWand().getTypeId());
+			if((Boolean) getConfig("disarm-weapons", true))
 				disarmItems.addAll(Arrays.asList(Material.STICK.getId(), Material.WOOD_SWORD.getId(), Material.STONE_SWORD.getId(), Material.IRON_SWORD.getId(), Material.GOLD_SWORD.getId(), Material.DIAMOND_SWORD.getId(), Material.BOW.getId()));
-			}
+
 			if (disarmItems.contains(target.getItemInHand().getTypeId())) {
 				Item i = target.getWorld().dropItem(targetloc, target.getItemInHand());
 				target.setItemInHand(null);
 				Vector vector = targetloc.getDirection();
 				i.setVelocity(new Vector(vector.getX() * 2, vector.getY() * 2, vector.getZ() * 2));
 			}
+			
 			return true;
 		} else {
 			HPS.PM.warn(p, "This can only be used on a player.");

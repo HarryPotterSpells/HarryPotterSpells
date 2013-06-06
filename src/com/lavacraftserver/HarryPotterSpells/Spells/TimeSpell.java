@@ -5,7 +5,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
@@ -25,21 +24,21 @@ public class TimeSpell extends Spell{
 	public boolean cast(Player p) {
 		World w = p.getWorld();
 		Material m = p.getTargetBlock(null, 50).getType();
-		if(m == Material.GLOWSTONE) {
+		if(m == Material.GLOWSTONE)
 			w.setTime(0L);
-		} else if(m == Material.OBSIDIAN) {
+		else if(m == Material.OBSIDIAN)
 			w.setTime(15000L);
-		} else {
+		else {
 			long time = w.getTime();
-			if(time < 12000) {
+			if(time < 12000)
 				time = time + 12000L;
-			} else {
+			else
 				time = time - 12000L;
-			}
-			if(HPS.Plugin.getConfig().getBoolean("spells.timespell.lightning", true))
-				awesomeLightning(p.getLocation(), w);
 			w.setTime(time);
 		}
+		
+        if((Boolean) getConfig("lightning", true))
+            awesomeLightning(p.getLocation(), w);
 		return true;
 	}
 

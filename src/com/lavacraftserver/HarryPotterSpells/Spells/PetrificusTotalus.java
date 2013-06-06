@@ -30,28 +30,22 @@ public class PetrificusTotalus extends Spell implements Listener {
 			
 			players.add(((Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls())).getName());
 			final Player target = (Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
-			
-			long duration = 0;
-			String durationString = HPS.Plugin.getConfig().getString("spells.petrificus-totalus.duration", "600t");
-			if (durationString.endsWith("t")) {
-				String ticks = durationString.substring(0, durationString.length() - 1);
-				duration = Integer.parseInt(ticks);
-			} else {
-				duration = Integer.parseInt(durationString) * 20;
-			}
+			long duration = getTime("duration", 600l);
 			
 			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
-				   public void run() {
-					   if(players.contains(target.getName())) {
-						   players.remove(target.getName());
-					   } 
-				   }
-				}, duration);
+			    
+			    @Override
+				public void run() {
+				    if(players.contains(target.getName())) {
+				        players.remove(target.getName());
+					} 
+				}
+				
+			}, duration);
 			
 			Location loc = new Location(target.getWorld(), target.getLocation().getBlockX(), target.getLocation().getBlockY() + 1, target.getLocation().getBlockZ());
 			target.getWorld().createExplosion(loc, 0F);
 			return true;
-			
 		} else {
 			HPS.PM.warn(p, "This can only be used on a player.");
 			return false;

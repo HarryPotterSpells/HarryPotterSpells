@@ -7,7 +7,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 import com.lavacraftserver.HarryPotterSpells.Utils.SpellTargeter;
 import com.lavacraftserver.HarryPotterSpells.Utils.SpellTargeter.SpellHitEvent;
@@ -34,19 +33,8 @@ public class Incendio extends Spell {
 
             @Override
             public void hitEntity(LivingEntity entity) {
-            	
-    	    	String durationString = HPS.Plugin.getConfig().getString("spells.incendio.duration", "100t");
-    	    	int duration = 0;
-            	
-    			if (durationString.endsWith("t")) {
-    				String ticks = durationString.substring(0, durationString.length() - 1);
-    				duration = Integer.parseInt(ticks);
-    			} else {
-    				duration = Integer.parseInt(durationString) * 20;
-    			}
-            	
+    	    	int duration = (int) getTime("duration", 100l);
                 entity.setFireTicks(duration);
-           
             }
 	        
 	    }, 1.05d, Effect.MOBSPAWNER_FLAMES);

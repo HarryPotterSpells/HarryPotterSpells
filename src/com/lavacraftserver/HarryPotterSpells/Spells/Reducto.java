@@ -17,10 +17,8 @@ public class Reducto extends Spell {
 
 	public boolean cast(Player p) {
 		Block b = p.getTargetBlock(null, this.getRange());
-		Material m = b.getType();
-		if(m != Material.AIR) {
+		if(b.getType() != Material.AIR)
 			b.getWorld().createExplosion(b.getLocation(), 4, false);
-		}
 		return true;
 	}
 

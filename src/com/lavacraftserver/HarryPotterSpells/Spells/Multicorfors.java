@@ -1,6 +1,5 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
-import java.util.HashSet;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
@@ -24,27 +23,33 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 public class Multicorfors extends Spell{
 
 	public boolean cast(Player p) {
-		final Block b = p.getTargetBlock(transparentBlocks(), 25);
+		final Block b = p.getTargetBlock(Targeter.getTransparentBlocks(), 25);
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Sheep) {
 			final Sheep sheep = (Sheep) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
-			if(HPS.Plugin.getConfig().getBoolean("spells.multicorfors.explosionEffect", true)) {
+			if((Boolean) getConfig("explosionEffect", true))
 				sheep.getWorld().createExplosion(sheep.getLocation(), 0F);
-			}
+			
 			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
-				   public void run() {
-					   sheep.setColor(randomDyeColor());
-				   }
-				}, 4L);
+			    
+			    @Override
+				public void run() {
+				    sheep.setColor(randomDyeColor());
+				}
+				
+			}, 4L);
 			return true;
 		} else if(b.getType() == Material.WOOL) {
-			if(HPS.Plugin.getConfig().getBoolean("spells.multicorfors.explosion-effect", true)) {
+			if((Boolean) getConfig("explosion-effect", true))
 				p.getWorld().createExplosion(b.getLocation(), 0F);
-			}
+			
 			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
-				   public void run() {
-					   b.setData(randomDyeColorInt());
-				   }
-				}, 4L);
+			    
+			    @Override
+				public void run() {
+				    b.setData(randomDyeColorInt());
+				}
+				
+			}, 4L);
 			return true;
 		} else {
 			HPS.PM.warn(p, "This can only be used on a sheep or wool.");
@@ -100,16 +105,6 @@ public class Multicorfors extends Spell{
 		int maxMobs = 16, minMobs = 1;
 		int randomNum = new Random().nextInt(maxMobs - minMobs + 1) + minMobs;
 		return (byte)randomNum;
-	}
-	
-	public HashSet<Byte> transparentBlocks() {
-		HashSet<Byte> b = new HashSet<Byte>();
-		b.add((byte) 0);
-		b.add((byte) 8);
-		b.add((byte) 9);
-		b.add((byte) 10);
-		b.add((byte) 11);
-		return b;
 	}
 
 }

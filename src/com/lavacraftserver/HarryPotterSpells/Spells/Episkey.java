@@ -31,39 +31,15 @@ public class Episkey extends Spell {
 				Block pLocation = p.getLocation().subtract(0,1,0).getBlock();
 
 				if (pLocation.equals(standingOn)) {
-					
-					String durationString = HPS.Plugin.getConfig().getString("spells.episkey.duration", "100t");
-					int duration = 0;
-					
-					if (durationString.endsWith("t")) {
-						String ticks = durationString.substring(0, durationString.length() - 1);
-						duration = Integer.parseInt(ticks);
-					} else {
-						duration = Integer.parseInt(durationString) * 20;
-					}
-					
+					int duration = (int) getTime("duration", 100);
 					p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, duration, 1));
-					
-				} else {
-					
+				} else
 					HPS.PM.warn(p, "This can only be used on yourself, another player, or a mob.");
-				}
-
 			}
 			
 			@Override
 			public void hitEntity(LivingEntity entity) {
-				
-				String durationString = HPS.Plugin.getConfig().getString("spells.episkey.duration", "100t");
-				int duration = 0;
-				
-				if (durationString.endsWith("t")) {
-					String ticks = durationString.substring(0, durationString.length() - 1);
-					duration = Integer.parseInt(ticks);
-				} else {
-					duration = Integer.parseInt(durationString) * 20;
-				}
-				
+				int duration = (int) getTime("duration", 100);
 				entity.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, duration, 1));
 			}
 			

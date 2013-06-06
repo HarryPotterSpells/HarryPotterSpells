@@ -41,7 +41,7 @@ public class Crucio extends Spell implements Listener {
 			public void hitEntity(LivingEntity entity) {
 				if(entity instanceof Player) {
 					final Player target = (Player) entity;
-					int duration = getDuration();
+					int duration = (int) getTime("duration", 200l);
 					target.addPotionEffect(new PotionEffect(PotionEffectType.HARM, duration, 0));
 					setFlightClever(target, true);
 					target.teleport(new Location(entity.getWorld(), entity.getLocation().getX(), entity.getLocation().getBlockY()+2, entity.getLocation().getZ()));
@@ -95,20 +95,6 @@ public class Crucio extends Spell implements Listener {
 		}
 		player.setAllowFlight(allow);
 		player.setFlying(allow);
-	}
-	
-	private int getDuration() {
-		String durationString = HPS.Plugin.getConfig().getString("spells.crucio.duration", "10");
-		int duration = 0;
-
-		if (durationString.endsWith("t")) {
-			String ticks = durationString.substring(0, durationString.length() - 1);
-			duration = Integer.parseInt(ticks);
-		} else {
-			duration = Integer.parseInt(durationString) * 20;
-		}
-		
-		return duration;
 	}
 	
 }

@@ -28,41 +28,33 @@ public class Spongify extends Spell implements Listener {
 
 	@Override
 	public boolean cast(final Player p) {
-		if(players.contains(p.getName())){
+		if(players.contains(p.getName()))
 			return false;
-		}
+
 		players.add(p.getName());
 		Location loc = new Location(p.getWorld(), p.getLocation().getBlockX(), p.getLocation().getBlockY() + 1, p.getLocation().getBlockZ());
 		p.getWorld().createExplosion(loc, 0F);
 		
-		long duration = 0;
-		String durationString = HPS.Plugin.getConfig().getString("spells.spongify.duration", "600t");
-		if (durationString.endsWith("t")) {
-			String ticks = durationString.substring(0, durationString.length() - 1);
-			duration = Integer.parseInt(ticks);
-		} else {
-			duration = Integer.parseInt(durationString) * 20;
-		}
-		
 		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
-			   public void run() {
-				   if(players.contains(p.getName())) {
-					   players.remove(p.getName());
-				   } 
-			   }
-			}, duration);
+		    
+		    @Override
+		    public void run() {
+			    if(players.contains(p.getName())) {
+			 	   players.remove(p.getName());
+			    } 
+		    }
+			   
+		}, getTime("duration", 600l));
 		
 		return true;
 	}
 	
 	@EventHandler
 	public void onPlayerDamage(EntityDamageEvent e) {
-		if(e.getCause() == DamageCause.FALL && e.getEntity() instanceof Player){
+		if(e.getCause() == DamageCause.FALL && e.getEntity() instanceof Player) {
 			Player p = (Player)e.getEntity();
-			if(players.contains(p.getName())) {
-				e.setDamage(0);
-			}
-			
+			if(players.contains(p.getName()))
+				e.setDamage(0);			
 		}
 	}
 

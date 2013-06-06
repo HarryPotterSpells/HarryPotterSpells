@@ -8,6 +8,8 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -189,6 +191,41 @@ public abstract class Spell {
 			}
 		}
 		return 60;
+	}
+	
+	/**
+	 * A utility method used to shorten the retrival of something from the spells confuration section
+	 * @param key the key to the value relative to {@code spells.[spell name].}
+	 * @param defaultt the nullable value to return if nothing was found
+	 * @return the object found at that location
+	 */
+	public Object getConfig(String key, @Nullable Object defaultt) {
+	    return defaultt == null ? HPS.Plugin.getConfig().get("spells." + getName() + "." + key) : HPS.Plugin.getConfig().get("spells." + getName() + "." + key, defaultt);
+	}
+	
+	/**
+	 * Gets a time from the spells configuration as formatted by the following table: <br>
+	 * Default: seconds <br>
+	 * {@code endsWith("t")}: ticks
+	 * @param key the key to the value relative to {@code spells.[spell name ].}
+	 * @param defaultt the nullable value to return if nothing was found
+	 * @return a {code long} with the amount of ticks the time specified
+	 */
+	public long getTime(String key, @Nullable long defaultt) {
+	    String durationString = (String) getConfig(key, "");
+	    
+	    if(durationString.equals(""))
+	        return defaultt;
+	    
+        int duration = 0;
+
+        if (durationString.endsWith("t")) {
+            String ticks = durationString.substring(0, durationString.length() - 1);
+            duration = Integer.parseInt(ticks);
+        } else
+            duration = Integer.parseInt(durationString) * 20;
+        
+        return duration;
 	}
 	
 	/**

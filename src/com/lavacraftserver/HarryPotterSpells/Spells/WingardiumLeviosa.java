@@ -33,20 +33,13 @@ public class WingardiumLeviosa extends Spell implements Listener {
 		} else {
 			p.setAllowFlight(true);
 			p.setFlying(true);
-			if(HPS.Plugin.getConfig().getBoolean("spells.wingardium-leviosa.cancel-fall-damage", true) && !players.contains(p.getName())){
+			if(((Boolean) getConfig("cancel-fall-damage", true)) && !players.contains(p.getName())){
 				players.add(p.getName());
 			}
-			
-			long duration = 0;
-			String durationString = HPS.Plugin.getConfig().getString("spells.wingardium-leviosa.duration", "200t");
-			if (durationString.endsWith("t")) {
-				String ticks = durationString.substring(0, durationString.length() - 1);
-				duration = Integer.parseInt(ticks);
-			} else {
-				duration = Integer.parseInt(durationString) * 20;
-			}
-			
+						
 			taskid = Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
+			    
+			    @Override
 				public void run() {
 					if (players.contains(p.getName())) {
 						p.setFlying(false);
@@ -54,7 +47,8 @@ public class WingardiumLeviosa extends Spell implements Listener {
 						players.remove(p.getName());
 					}
 				}
-			}, duration);
+			    
+			}, getTime("duration", 200l));
 		}
 		return true;
 	}
@@ -63,10 +57,9 @@ public class WingardiumLeviosa extends Spell implements Listener {
 	public void onPlayerDamage(EntityDamageEvent e) {
 		if (e.getCause() == DamageCause.FALL && e.getEntity() instanceof Player) {
 			Player p = (Player) e.getEntity();
-			if (players.contains(p.getName())) {
+			if (players.contains(p.getName()))
 				e.setDamage(0);
-			}
-
 		}
 	}
+	
 }

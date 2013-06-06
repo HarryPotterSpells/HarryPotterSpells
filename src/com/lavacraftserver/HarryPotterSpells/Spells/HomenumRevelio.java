@@ -5,7 +5,6 @@ import java.util.logging.Level;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -22,8 +21,7 @@ public class HomenumRevelio extends Spell {
 
     @Override
     public boolean cast(Player p) {
-        ConfigurationSection section = HPS.Plugin.getConfig().getConfigurationSection("spells.homenum-revelio");
-        for(Entity entity : p.getNearbyEntities(section.getDouble("box.x", 10d), section.getDouble("box.y", 10d), section.getDouble("box.z", 10d))) {
+        for(Entity entity : p.getNearbyEntities((Double) getConfig("box.x", 10d), (Double) getConfig("box.y", 10d), (Double) getConfig("box.z", 10d))) {
             if(entity instanceof Player) {
                 try {
                     FireworkEffectPlayer.playFirework(entity.getWorld(), entity.getLocation(), FireworkEffect.builder().flicker(false).with(Type.BURST).withColor(Color.YELLOW).build());

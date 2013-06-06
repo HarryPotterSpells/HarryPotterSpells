@@ -2,7 +2,6 @@ package com.lavacraftserver.HarryPotterSpells.Spells;
 
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
-import org.bukkit.FireworkEffect.Builder;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
@@ -27,63 +26,27 @@ public class Stupefy extends Spell {
 
 	@Override
 	public boolean cast(final Player p) {
-		
-		Builder builder = FireworkEffect.builder();
-		
-		builder.trail(false);
-		builder.flicker(true);
-		builder.withColor(Color.RED);
-		builder.with(Type.BURST);
-		
 		SpellTargeter.register(p, new SpellHitEvent() {
 
 			@Override
 			public void hitBlock(Block block) {
-
 				HPS.PM.warn(p, "This can only be used on a player or a mob.");
-				
 			}
 
 			@Override
 			public void hitEntity(LivingEntity le) {
-
-				int verticalKnockback = HPS.Plugin.getConfig().getInt("spells.stupefy.vertical-knockback", 2);
-				double horizontalKnockback = HPS.Plugin.getConfig().getDouble("spells.stupefy.horizontal-knockback", 0.5);
-				int damage = HPS.Plugin.getConfig().getInt("spells.stupefy.damage", 2);
-				
-				String confusionDurationString = HPS.Plugin.getConfig().getString("spells.stupefy.confusion-duration");
-				int confusionDuration = 0;
-				String weaknessDurationString = HPS.Plugin.getConfig().getString("spells.stupefy.weakness-duration");
-				int weaknessDuration = 0;
-				
-				if (confusionDurationString.endsWith("t")) {
-					String ticks = confusionDurationString.substring(0, confusionDurationString.length() - 1);
-					confusionDuration = Integer.parseInt(ticks);
-				} else {
-					confusionDuration = Integer.parseInt(confusionDurationString) * 20;
-				}
-				
-				if (weaknessDurationString.endsWith("t")) {
-					String ticks = weaknessDurationString.substring(0, weaknessDurationString.length() - 1);
-					weaknessDuration = Integer.parseInt(ticks);
-				} else {
-					weaknessDuration = Integer.parseInt(weaknessDurationString) * 20;
-				}
-
-				le.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, confusionDuration, 1));
-				le.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, weaknessDuration, 1));
+				le.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, (int) getTime("confusion-duration", 200l), 1));
+				le.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, (int) getTime("weakness-duration", 100l), 1));
 				
 				Vector unitVector = le.getLocation().toVector().subtract(p.getLocation().toVector()).normalize();
-				le.setVelocity(unitVector.multiply(verticalKnockback));
-				le.setVelocity(le.getVelocity().setY(horizontalKnockback));
-				
-				le.damage(damage);
-				
+				le.setVelocity(unitVector.multiply((Integer) getConfig("vertical-knockback", 2)));
+				le.setVelocity(le.getVelocity().setY((Double) getConfig("horizontal-knockback", 0.5d)));
+				le.damage((Integer) getConfig("damage", 2));
 			}
 			
-		}, 1.05, builder.build());
+		}, 1.05, FireworkEffect.builder().trail(false).flicker(true).withColor(Color.RED).with(Type.BURST).build());
 		
 		return true;
-		
 	}
+	
 }
