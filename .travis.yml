@@ -1,10 +1,2 @@
 language: java
 script: 'mvn test'
-notifications:
-  irc:
-    channels:
-      - "irc.esper.net#harrypotterspells"
-    skip_join: true
-    on_success: change
-    on_failure: always
-    nick: "Kreacher"
