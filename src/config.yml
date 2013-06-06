@@ -27,6 +27,8 @@ spell-castable-with-chat: true  # If a spell is castable on the chatting of 'Spe
 spells:
   accio:
     radius: 5  # The maximum distance drops can be from the player to still be attracted
+  aparecium:
+    radius: 5  # The maximum distance players can be from the caster to still be turned visible
   avis:
     chickens: 5  # How many chickens the wand should shoot
   confundo:
@@ -77,6 +79,7 @@ cooldowns:
   accio: 5
   aguamenti: 90
   'alarte ascendare': 45
+  aparecium: 300
   'avada kedavra': 300
   avis: 300
   confringo: 45 
