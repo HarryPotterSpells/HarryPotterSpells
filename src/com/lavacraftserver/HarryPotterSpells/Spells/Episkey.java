@@ -27,7 +27,28 @@ public class Episkey extends Spell {
 			@Override
 			public void hitBlock(Block block) {
 				
-				HPS.PM.warn(p, "This can only be used on a player or a mob.");
+				Block standingOn = block.getLocation().getBlock();
+				Block pLocation = p.getLocation().subtract(0,1,0).getBlock();
+
+				if (pLocation.equals(standingOn)) {
+					
+					String durationString = HPS.Plugin.getConfig().getString("spells.episkey.duration", "100t");
+					int duration = 0;
+					
+					if (durationString.endsWith("t")) {
+						String ticks = durationString.substring(0, durationString.length() - 1);
+						duration = Integer.parseInt(ticks);
+					} else {
+						duration = Integer.parseInt(durationString) * 20;
+					}
+					
+					p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, duration, 1));
+					
+				} else {
+					
+					HPS.PM.warn(p, "This can only be used on yourself, another player, or a mob.");
+				}
+
 			}
 			
 			@Override
