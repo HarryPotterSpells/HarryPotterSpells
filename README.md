@@ -29,7 +29,7 @@ If you are looking for our guide on how to contribute to HarryPotterSpells then 
 We use [Maven](http://maven.apache.org/) to handle our dependencies and building. The best way to export HarryPotterSpells with Maven is by using the following command:  
 
     mvn clean package    
-Make sure you use the file named `HarryPotterSpells-VERSION-SNAPSHOT-jar-with-dependencies`.
+Make sure you only use the file named `HarryPotterSpells`. Out of the others one won't work and the other is far too big!
 
 ### .classpath and .project ###
 
