@@ -34,13 +34,24 @@ public class Spongify extends Spell implements Listener {
 		players.add(p.getName());
 		Location loc = new Location(p.getWorld(), p.getLocation().getBlockX(), p.getLocation().getBlockY() + 1, p.getLocation().getBlockZ());
 		p.getWorld().createExplosion(loc, 0F);
+		
+		long duration = 0;
+		String durationString = HPS.Plugin.getConfig().getString("spells.spongify.duration", "600t");
+		if (durationString.endsWith("t")) {
+			String ticks = durationString.substring(0, durationString.length() - 1);
+			duration = Integer.parseInt(ticks);
+		} else {
+			duration = Integer.parseInt(durationString) * 20;
+		}
+		
 		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
 			   public void run() {
 				   if(players.contains(p.getName())) {
 					   players.remove(p.getName());
 				   } 
 			   }
-			}, HPS.Plugin.getConfig().getLong("spells.spongify.duration", 600L));
+			}, duration);
+		
 		return true;
 	}
 	

@@ -58,7 +58,7 @@ spells:
   petrificus-totalus:
     duration: 100  # How many TICKS the target should be petrified (frozen) for
   spongify:
-    duration: 600  # How many TICKS fall damage should be cancelled for
+    duration: 600  # How long damage should be cancelled for
   stupefy:
     vertical-knockback: 2  # How much the target should be knocked backwards
     horizontal-knockback: 0.5  # How much the target should be knocked upwards (into the air)
