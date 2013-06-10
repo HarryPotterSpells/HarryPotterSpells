@@ -11,9 +11,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
+import com.lavacraftserver.HarryPotterSpells.SpellTargeter.SpellHitEvent;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
-import com.lavacraftserver.HarryPotterSpells.Utils.SpellTargeter;
-import com.lavacraftserver.HarryPotterSpells.Utils.SpellTargeter.SpellHitEvent;
 
 @spell (
 		name="Stupefy",
@@ -24,9 +23,13 @@ import com.lavacraftserver.HarryPotterSpells.Utils.SpellTargeter.SpellHitEvent;
 )
 public class Stupefy extends Spell {
 
-	@Override
+	public Stupefy(HPS plugin) {
+        super(plugin);
+    }
+
+    @Override
 	public boolean cast(final Player p) {
-		SpellTargeter.register(p, new SpellHitEvent() {
+		HPS.SpellTargeter.register(p, new SpellHitEvent() {
 
 			@Override
 			public void hitBlock(Block block) {

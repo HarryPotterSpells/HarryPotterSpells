@@ -6,10 +6,10 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
+import com.lavacraftserver.HarryPotterSpells.HPS;
+import com.lavacraftserver.HarryPotterSpells.SpellTargeter.SpellHitEvent;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 import com.lavacraftserver.HarryPotterSpells.Utils.ParticleEffect;
-import com.lavacraftserver.HarryPotterSpells.Utils.SpellTargeter;
-import com.lavacraftserver.HarryPotterSpells.Utils.SpellTargeter.SpellHitEvent;
 
 @spell (
 	name="Aguamenti",
@@ -21,8 +21,12 @@ import com.lavacraftserver.HarryPotterSpells.Utils.SpellTargeter.SpellHitEvent;
 	)
 public class Aguamenti extends Spell {
 	
-	public boolean cast(Player p) {
-		SpellTargeter.register(p, new SpellHitEvent() {
+	public Aguamenti(HPS plugin) {
+        super(plugin);
+    }
+
+    public boolean cast(Player p) {
+		HPS.SpellTargeter.register(p, new SpellHitEvent() {
 			
 			@Override
 			public void hitEntity(LivingEntity entity) {

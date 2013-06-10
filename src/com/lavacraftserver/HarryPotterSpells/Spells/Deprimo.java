@@ -25,6 +25,10 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 )
 public class Deprimo extends Spell implements Listener {
 	private static List<String> players = new ArrayList<String>();
+	
+	public Deprimo(HPS plugin) {
+	    super(plugin);
+	}
 
 	public boolean cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {

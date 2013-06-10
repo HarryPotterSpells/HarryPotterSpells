@@ -19,7 +19,11 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 )
 public class Orchideous extends Spell {
 
-	@Override
+	public Orchideous(HPS plugin) {
+        super(plugin);
+    }
+
+    @Override
 	public boolean cast(Player p) {
 		Block b = p.getTargetBlock(Targeter.getTransparentBlocks(), this.getRange());
 		if (isValidBlock(b) && blockAboveIsValidBlock(b)) {

@@ -22,11 +22,11 @@ import org.bukkit.plugin.PluginManager;
 import org.reflections.Reflections;
 
 import com.google.common.collect.Iterables;
+import com.lavacraftserver.HarryPotterSpells.CoolDown;
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.API.SpellPostCastEvent;
 import com.lavacraftserver.HarryPotterSpells.API.SpellPreCastEvent;
 import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
-import com.lavacraftserver.HarryPotterSpells.Utils.CoolDown;
 
 /**
  * A class that manages spells and holds lots of spell related utilities
@@ -43,7 +43,8 @@ public class SpellManager implements EnableJob {
 	};
 	private SortedSet<Spell> spellList = new TreeSet<Spell>(spellComparator);
 	private Map<String, Integer> currentSpell = new HashMap<String, Integer>();
-
+	private HPS HPS;
+	
 	public final Permission NO_COOLDOWN_ALL_1 = new Permission("HarryPotterSpells.nocooldown", PermissionDefault.OP), NO_COOLDOWN_ALL_2 = new Permission("HarryPotterSpells.nocooldown.*");
 
 	@Override
@@ -53,17 +54,19 @@ public class SpellManager implements EnableJob {
 	}
 
 	/**
-	 * Constructs the {@link SpellManager}, adding all core spells to the Spell
-	 * List
+	 * Constructs the {@link SpellManager}, adding all core spells to the Spell List
+	 * @param plugin an instance of {@link HPS}
 	 */
-	public SpellManager() {
+	public SpellManager(HPS plugin) {
+	    HPS = plugin;
+	    
 		Reflections ref = new Reflections("com.lavacraftserver.HarryPotterSpells.Spells");
 		for (Class<?> clazz : ref.getTypesAnnotatedWith(Spell.spell.class)) {
 			Spell spell;
 			if (clazz == Spell.class || !Spell.class.isAssignableFrom(clazz))
 				continue;
 			try {
-				spell = (Spell) clazz.newInstance();
+				spell = (Spell) clazz.getConstructor(HPS.class).newInstance(HPS);
 			} catch (Exception e) {
 				HPS.PM.log(Level.WARNING, "An error occurred whilst adding the " + clazz.getName() + " spell to the spell list. That spell will not be available.");
 				HPS.PM.debug(e);
@@ -225,7 +228,7 @@ public class SpellManager implements EnableJob {
 
 			if (cast && successful && spell.getCoolDown(player) > 0) {
 				setCoolDown(playerName, spell, spell.getCoolDown(player));
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new CoolDown(playerName, spell), 20L);
+				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new CoolDown(HPS, playerName, spell), 20L);
 			}
 		}
 	}

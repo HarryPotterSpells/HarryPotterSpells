@@ -25,6 +25,10 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 )
 public class Spongify extends Spell implements Listener {
 	private List<String> players = new ArrayList<String>();
+	
+	public Spongify(HPS plugin) {
+	    super(plugin);
+	}
 
 	@Override
 	public boolean cast(final Player p) {

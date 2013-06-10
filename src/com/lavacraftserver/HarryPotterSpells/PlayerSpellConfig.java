@@ -25,6 +25,11 @@ import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
 public class PlayerSpellConfig implements EnableJob {
 	private FileConfiguration PSC = null;
 	private File PSCFile = null;
+	private HPS HPS;
+	
+	public PlayerSpellConfig(HPS plugin) {
+	    HPS = plugin;
+	}
 	
 	/**
 	 * The current version specifying the format of the {@code PlayerSpellConfig.yml}

@@ -19,6 +19,10 @@ import com.lavacraftserver.HarryPotterSpells.Utils.FireworkEffectPlayer;
         )
 public class HomenumRevelio extends Spell {
 
+    public HomenumRevelio(HPS plugin) {
+        super(plugin);
+    }
+
     @Override
     public boolean cast(Player p) {
         for(Entity entity : p.getNearbyEntities((Double) getConfig("box.x", 10d), (Double) getConfig("box.y", 10d), (Double) getConfig("box.z", 10d))) {

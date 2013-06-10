@@ -28,6 +28,16 @@ public abstract class Spell {
 	@config private int range;
 	@config private boolean goThroughWalls;
 	@config private int cooldown;
+	
+	HPS HPS;
+	
+	/**
+	 * Constructs a {@link Spell}
+	 * @param plugin an instance of {@link HPS}s
+	 */
+	public Spell(HPS plugin) {
+	    HPS = plugin;
+	}
 
 	/**
 	 * Called when a spell is cast

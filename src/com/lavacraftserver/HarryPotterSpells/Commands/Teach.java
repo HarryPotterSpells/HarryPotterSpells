@@ -4,7 +4,6 @@ import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -12,8 +11,12 @@ import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
 @HCommand(name="teach", description="Teaches a player a spell", usage="<command> <spell> [player|me]")
-public class Teach implements CommandExecutor {
+public class Teach extends HCommandExecutor {
 
+    public Teach(HPS plugin) {
+        super(plugin);
+    }
+    
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (args.length > 2 || args.length == 0)

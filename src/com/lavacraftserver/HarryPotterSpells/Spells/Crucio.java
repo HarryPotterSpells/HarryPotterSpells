@@ -18,10 +18,9 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
+import com.lavacraftserver.HarryPotterSpells.SpellTargeter.SpellHitEvent;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 import com.lavacraftserver.HarryPotterSpells.Utils.ParticleEffect;
-import com.lavacraftserver.HarryPotterSpells.Utils.SpellTargeter;
-import com.lavacraftserver.HarryPotterSpells.Utils.SpellTargeter.SpellHitEvent;
 
 @spell(
 		name="Crucio",
@@ -32,10 +31,14 @@ import com.lavacraftserver.HarryPotterSpells.Utils.SpellTargeter.SpellHitEvent;
 )
 
 public class Crucio extends Spell implements Listener {
-	private Set<String> crucioList = new HashSet<String>();
+    private Set<String> crucioList = new HashSet<String>();
+    
+    public Crucio(HPS plugin) {
+        super(plugin);
+    }
 	
 	public boolean cast(final Player p){
-		SpellTargeter.register(p, new SpellHitEvent() {
+		HPS.SpellTargeter.register(p, new SpellHitEvent() {
 			
 			@Override
 			public void hitEntity(LivingEntity entity) {

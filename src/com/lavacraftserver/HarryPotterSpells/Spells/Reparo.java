@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
@@ -16,7 +17,11 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 )
 public class Reparo extends Spell {
 
-	@Override
+	public Reparo(HPS plugin) {
+        super(plugin);
+    }
+
+    @Override
 	public boolean cast(Player p) {
 		repairItems(p.getInventory().getContents(), p);
 		repairItems(p.getEquipment().getArmorContents(), p);

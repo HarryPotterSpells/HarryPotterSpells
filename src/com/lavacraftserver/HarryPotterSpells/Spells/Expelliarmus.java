@@ -22,7 +22,11 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 )
 public class Expelliarmus extends Spell {
 
-	public boolean cast(Player p) {
+	public Expelliarmus(HPS plugin) {
+        super(plugin);
+    }
+
+    public boolean cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {
 			Player target = (Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			Location targetloc = target.getLocation();			

@@ -11,6 +11,11 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
 public class Listeners implements Listener {
+    private HPS HPS;
+    
+    public Listeners(HPS plugin) {
+        HPS = plugin;
+    }
     	
 	@EventHandler
 	public void PIE(PlayerInteractEvent e) {

@@ -1,4 +1,4 @@
-package com.lavacraftserver.HarryPotterSpells.Utils;
+package com.lavacraftserver.HarryPotterSpells;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,17 +12,25 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import com.lavacraftserver.HarryPotterSpells.HPS;
-
+import com.lavacraftserver.HarryPotterSpells.Utils.FireworkEffectPlayer;
+import com.lavacraftserver.HarryPotterSpells.Utils.ParticleEffect;
 
 /**
- * A targeter class that targets using a thrown projectile
+ * A targeter class that targets using a a fake projectile
  */
-public class SpellTargeter implements Listener {
+public class SpellTargeter {
+    private HPS HPS;
+    
+    /**
+     * Constructs the {@link SpellTargeter}
+     * @param plugin an instance of {@link HPS}
+     */
+    public SpellTargeter(HPS plugin) {
+        HPS = plugin;
+    }
     
     /**
      * Registers a new {@link SpellHitEvent} to be called when a spell hits something.
@@ -31,7 +39,7 @@ public class SpellTargeter implements Listener {
      * @param spellSpeed the vector multiplier for the movement of the spell
      * @param effect the {@link Effect} to play during the movement of the spell
      */
-    public static void register(final Player caster, final SpellHitEvent onHit, final double spellSpeed, final Effect effect) {
+    public void register(final Player caster, final SpellHitEvent onHit, final double spellSpeed, final Effect effect) {
         register(caster, onHit, spellSpeed, effect, null);
     }
         
@@ -43,7 +51,7 @@ public class SpellTargeter implements Listener {
      * @param effect the {@link Effect} to play during the movement of the spell
      * @param effectArg the optional argument for the effect 
      */
-    public static void register(final Player caster, final SpellHitEvent onHit, final double spellSpeed, final Effect effect, final Integer effectArg) {
+    public void register(final Player caster, final SpellHitEvent onHit, final double spellSpeed, final Effect effect, final Integer effectArg) {
         new BukkitRunnable() {
             Location loc = caster.getEyeLocation();
             Vector direction = loc.getDirection().multiply(spellSpeed);
@@ -83,7 +91,7 @@ public class SpellTargeter implements Listener {
      * @param spellSpeed the vector multiplier for the movement of the spell
      * @param effect the {@link FireworkEffect} to play during the movement of the spell
      */
-    public static void register(final Player caster, final SpellHitEvent onHit, final double spellSpeed, final FireworkEffect effect) {
+    public void register(final Player caster, final SpellHitEvent onHit, final double spellSpeed, final FireworkEffect effect) {
         new BukkitRunnable() {
             Location loc = caster.getEyeLocation();
             Vector direction = loc.getDirection().multiply(spellSpeed);
@@ -130,7 +138,7 @@ public class SpellTargeter implements Listener {
      * @param offset how far the particles should randomly offset from the center trail
      * @param count how many particles should be displayed per tick
      */
-    public static void register(final Player caster, final SpellHitEvent onHit, final double spellSpeed, final ParticleEffect effect, final float offset, final int count) {
+    public void register(final Player caster, final SpellHitEvent onHit, final double spellSpeed, final ParticleEffect effect, final float offset, final int count) {
         new BukkitRunnable() {
             Location loc = caster.getEyeLocation();
             Vector direction = loc.getDirection().multiply(spellSpeed);
@@ -175,7 +183,7 @@ public class SpellTargeter implements Listener {
      * @param spellSpeed the vector multiplier for the movement of the spell
      * @param effect the {@link ParticleEffect} to play during the movement of the spell
      */
-    public static void register(final Player caster, final SpellHitEvent onHit, final double spellSpeed, final ParticleEffect effect) {
+    public void register(final Player caster, final SpellHitEvent onHit, final double spellSpeed, final ParticleEffect effect) {
         register(caster, onHit, spellSpeed, effect, 0.5f, 1);
     }
     
@@ -185,7 +193,7 @@ public class SpellTargeter implements Listener {
      * @param distance the max distance to check
      * @return
      */
-    public static List<LivingEntity> getNearbyEntities(Location location, double distance, Entity... ignoreEntity) {
+    public List<LivingEntity> getNearbyEntities(Location location, double distance, Entity... ignoreEntity) {
         List<LivingEntity> list = new ArrayList<LivingEntity>();
         List<Entity> ig = Arrays.asList(ignoreEntity);
         for(Entity en : location.getChunk().getEntities()) {

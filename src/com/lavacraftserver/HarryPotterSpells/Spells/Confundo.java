@@ -17,7 +17,11 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 )
 public class Confundo extends Spell {
 
-	public boolean cast(Player p) {
+	public Confundo(HPS plugin) {
+        super(plugin);
+    }
+
+    public boolean cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {
 			Player player = (Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			long duration = getTime("duration", 200l);

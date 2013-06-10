@@ -1,13 +1,16 @@
 package com.lavacraftserver.HarryPotterSpells.Commands;
 
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 
 @HCommand(name="harrypotterspells", description="Command for controlling some aspects of the plugin in-game", aliases="hps", usage="<command> [reload]")
-public class GeneralCommand implements CommandExecutor {
+public class GeneralCommand extends HCommandExecutor {
+
+    public GeneralCommand(HPS plugin) {
+        super(plugin);
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

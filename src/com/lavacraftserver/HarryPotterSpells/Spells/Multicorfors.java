@@ -22,7 +22,11 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 )
 public class Multicorfors extends Spell{
 
-	public boolean cast(Player p) {
+	public Multicorfors(HPS plugin) {
+        super(plugin);
+    }
+
+    public boolean cast(Player p) {
 		final Block b = p.getTargetBlock(Targeter.getTransparentBlocks(), 25);
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Sheep) {
 			final Sheep sheep = (Sheep) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());

@@ -7,10 +7,9 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
+import com.lavacraftserver.HarryPotterSpells.SpellTargeter.SpellHitEvent;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 import com.lavacraftserver.HarryPotterSpells.Utils.ParticleEffect;
-import com.lavacraftserver.HarryPotterSpells.Utils.SpellTargeter;
-import com.lavacraftserver.HarryPotterSpells.Utils.SpellTargeter.SpellHitEvent;
 
 @spell (
 		name="Episkey",
@@ -20,9 +19,13 @@ import com.lavacraftserver.HarryPotterSpells.Utils.SpellTargeter.SpellHitEvent;
 		cooldown=60
 )
 public class Episkey extends Spell {
+    
+    public Episkey(HPS plugin) {
+        super(plugin);
+    }
 
 	public boolean cast(final Player p) {
-		SpellTargeter.register(p, new SpellHitEvent() {
+		HPS.SpellTargeter.register(p, new SpellHitEvent() {
 			
 			@Override
 			public void hitBlock(Block block) {

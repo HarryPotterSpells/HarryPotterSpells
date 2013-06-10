@@ -2,13 +2,10 @@ package com.lavacraftserver.HarryPotterSpells.Extensions;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
-
-import com.lavacraftserver.HarryPotterSpells.HPS;
 
 public abstract class Extension {
 	private ExtensionDescription description;
@@ -42,6 +39,14 @@ public abstract class Extension {
 		return YamlConfiguration.loadConfiguration(config);
 	}
 	
+	/**
+	 * Gets the {@link ExtensionDescription} for this extension
+	 * @return the extension description
+	 */
+	public ExtensionDescription getDescription() {
+	    return description;
+	}
+	
 	/*
 	 * START PROTECTED FUNCTIONS
 	 */
@@ -50,20 +55,14 @@ public abstract class Extension {
 		this.description = description;
 	}
 	
-	protected void initiate(File dataFolder) {
+	protected void initiate(File dataFolder) throws IOException {
 		this.dataFolder = dataFolder;
 		this.config = new File(dataFolder, "config.yml");
 		
-		try {
-			if(!dataFolder.exists())
-				dataFolder.mkdir();
-			if(!config.exists())
-				config.createNewFile();
-		} catch(IOException e) {
-			HPS.PM.log(Level.WARNING, "An error occurred whilst creating files for the " + description.getName() + " extenstion.");
-			if(HPS.Plugin.getConfig().getBoolean("debug-mode", false))
-				e.printStackTrace();
-		}
+		if(!dataFolder.exists())
+			dataFolder.mkdir();
+		if(!config.exists())
+			config.createNewFile();
 	}
 
 }

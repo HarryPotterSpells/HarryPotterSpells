@@ -4,7 +4,6 @@ import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -12,7 +11,11 @@ import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
 @HCommand(name="unteach", description="Makes a player forget a spell", usage="<command> <spell> [player]")
-public class Unteach implements CommandExecutor {
+public class Unteach extends HCommandExecutor {
+    
+    public Unteach(HPS plugin) {
+        super(plugin);
+    }
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

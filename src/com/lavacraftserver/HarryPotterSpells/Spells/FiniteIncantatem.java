@@ -17,7 +17,11 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 )
 public class FiniteIncantatem extends Spell {
 	
-	@Override
+	public FiniteIncantatem(HPS plugin) {
+        super(plugin);
+    }
+
+    @Override
 	public boolean cast(Player p) {
 		if (Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {
 			Player target = (Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());

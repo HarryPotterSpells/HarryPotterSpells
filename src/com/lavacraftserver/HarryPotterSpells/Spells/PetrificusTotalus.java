@@ -23,6 +23,10 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 )
 public class PetrificusTotalus extends Spell implements Listener {
 	public static List<String> players = new ArrayList<String>();
+	
+	public PetrificusTotalus(HPS plugin) {
+	    super(plugin);
+	}
 
 	@Override
 	public boolean cast(final Player p) {

@@ -16,7 +16,11 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 )
 public class Evanesco extends Spell {
 
-	public boolean cast(final Player p) {
+	public Evanesco(HPS plugin) {
+        super(plugin);
+    }
+
+    public boolean cast(final Player p) {
 		for (Player players : Bukkit.getServer().getOnlinePlayers()) {
             players.hidePlayer(p);
             Location loc = new Location(p.getWorld(), p.getLocation().getBlockX(), p.getLocation().getBlockY() + 1, p.getLocation().getBlockZ());

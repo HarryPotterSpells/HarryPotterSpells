@@ -2,7 +2,7 @@ package com.lavacraftserver.HarryPotterSpells.Utils;
 
 import java.lang.reflect.Field;
 
-import com.lavacraftserver.HarryPotterSpells.HPS;
+import org.bukkit.Bukkit;
 
 /**
  * A class containing utilities used to bypass the SVP introduced by Bukkit. <br>
@@ -16,7 +16,7 @@ public class SVPBypass {
      * @return the current package version
      */
     public static String getCurrentPackageVersion() {
-        return HPS.Plugin.getServer().getClass().getPackage().getName().split("\\.")[3];
+        return Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
     }
     
     /**

@@ -22,14 +22,16 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 )
 public class WingardiumLeviosa extends Spell implements Listener {
 	private List<String> players = new ArrayList<String>();
-	private int taskid;
+	
+	public WingardiumLeviosa(HPS plugin) {
+	    super(plugin);
+	}
 
 	public boolean cast(final Player p) {
 		if (players.contains(p.getName())) {
 			p.setFlying(false);
 			p.setAllowFlight(false);
 			players.remove(p.getName());
-			Bukkit.getServer().getScheduler().cancelTask(taskid);
 		} else {
 			p.setAllowFlight(true);
 			p.setFlying(true);
@@ -37,7 +39,7 @@ public class WingardiumLeviosa extends Spell implements Listener {
 				players.add(p.getName());
 			}
 						
-			taskid = Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
 			    
 			    @Override
 				public void run() {

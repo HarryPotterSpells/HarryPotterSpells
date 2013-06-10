@@ -24,7 +24,6 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		cooldown=120
 )
 public class Glacius extends Spell {
-	
 	HashMap<Location, Material> blocks = new HashMap<Location, Material>();
 	private final BlockFace[] surroundings = new BlockFace[]{
 															BlockFace.NORTH, 
@@ -36,6 +35,10 @@ public class Glacius extends Spell {
 												            BlockFace.WEST,
 												            BlockFace.NORTH_WEST
 												            };
+	public Glacius(HPS plugin) {
+	    super(plugin);
+	}
+	
 	@Override
 	public boolean cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {

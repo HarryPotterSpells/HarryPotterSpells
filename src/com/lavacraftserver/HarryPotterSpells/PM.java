@@ -19,7 +19,12 @@ import org.bukkit.entity.Player;
  */
 public class PM {
 	private Logger log = Bukkit.getLogger();
-	
+	private HPS HPS;
+
+	public PM(HPS plugin) {
+	    HPS = plugin;
+	}
+
 	/**
 	 * Logs any amount of messages to the console
 	 * @param level the level to log the message at

@@ -1,4 +1,4 @@
-package com.lavacraftserver.HarryPotterSpells.Utils;
+package com.lavacraftserver.HarryPotterSpells;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,12 +6,15 @@ import java.util.Map;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
-import com.lavacraftserver.HarryPotterSpells.HPS;
-
 /**
  * This class manages the wand
  */
 public class Wand {
+    private HPS HPS;
+    
+    public Wand(HPS plugin) {
+        HPS = plugin;
+    }
 
     /**
      * Checks if a given {@link ItemStack} is useable as a wand

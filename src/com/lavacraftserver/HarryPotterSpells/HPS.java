@@ -29,6 +29,7 @@ import org.reflections.Reflections;
 
 import com.lavacraftserver.HarryPotterSpells.Metrics.Graph;
 import com.lavacraftserver.HarryPotterSpells.Commands.HCommand;
+import com.lavacraftserver.HarryPotterSpells.Commands.HCommandExecutor;
 import com.lavacraftserver.HarryPotterSpells.Extensions.ExtensionManager;
 import com.lavacraftserver.HarryPotterSpells.Jobs.ClearJob;
 import com.lavacraftserver.HarryPotterSpells.Jobs.DisableJob;
@@ -38,30 +39,30 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 import com.lavacraftserver.HarryPotterSpells.Spells.SpellManager;
 import com.lavacraftserver.HarryPotterSpells.Utils.MetricStatistics;
 import com.lavacraftserver.HarryPotterSpells.Utils.SVPBypass;
-import com.lavacraftserver.HarryPotterSpells.Utils.Wand;
 
 public class HPS extends JavaPlugin {
-	public static PlayerSpellConfig PlayerSpellConfig;
-	public static PM PM;
-	public static SpellManager SpellManager;
-	public static Wand Wand;
-	public static JavaPlugin Plugin;
-	public static JobManager JobManager;
-	public static ExtensionManager ExtensionManager;
+	public PlayerSpellConfig PlayerSpellConfig;
+	public PM PM;
+	public SpellManager SpellManager;
+	public Wand Wand;
+	public JavaPlugin Plugin;
+	public JobManager JobManager;
+	public ExtensionManager ExtensionManager;
+	public SpellTargeter SpellTargeter;
 	
-	private static CommandMap commandMap;
-	private static Collection<HelpTopic> helpTopics = new ArrayList<HelpTopic>();
+	private CommandMap commandMap;
+	private Collection<HelpTopic> helpTopics = new ArrayList<HelpTopic>();
 	
 	@Override
 	public void onEnable() {
 	    // Instance loading
 		Plugin = this;
-		PlayerSpellConfig = new PlayerSpellConfig();
-		PM = new PM();
-		SpellManager = new SpellManager();
-		Wand = new Wand();
+		PlayerSpellConfig = new PlayerSpellConfig(this);
+		PM = new PM(this);
+		SpellManager = new SpellManager(this);
+		Wand = new Wand(this);
 		JobManager = new JobManager();
-		ExtensionManager = new ExtensionManager();
+		ExtensionManager = new ExtensionManager(this);
 		
 		// Configuration
 		loadConfig();
@@ -119,11 +120,13 @@ public class HPS extends JavaPlugin {
 		
 		// Reflections - Commands
 		int commands = 0;
-		for(Class<? extends CommandExecutor> clazz : reflections.getSubTypesOf(CommandExecutor.class)) {
-			if(addHackyCommand(clazz))
+		for(Class<? extends CommandExecutor> clazz : reflections.getSubTypesOf(HCommandExecutor.class)) {
+		    if(clazz.getName().equals(HCommandExecutor.class.getName()))
+		        continue;
+		    else if(addHackyCommand(clazz))
 				commands++;
 		}
-		PM.debug("Registered " + commands + " core commands.");		
+		PM.debug("Registered " + commands + " core commands.");
 		
 		Bukkit.getHelpMap().addTopic(new IndexHelpTopic("HarryPotterSpells", "The ultimate Harry Potter plugin", "", helpTopics));
 		
@@ -245,7 +248,7 @@ public class HPS extends JavaPlugin {
 	 * @param clazz a class that extends {@code CommandExecutor}
 	 * @return {@code true} if the command was added successfully
 	 */
-	public static boolean addHackyCommand(Class<? extends CommandExecutor> clazz) {
+	public boolean addHackyCommand(Class<? extends CommandExecutor> clazz) {
 		if(!clazz.isAnnotationPresent(HCommand.class)) {
 			PM.log(Level.INFO, "Could not add command " + clazz.getSimpleName().toLowerCase() + " to the command map. It is missing the @HCommand annotation.");
 			return false;
@@ -261,7 +264,7 @@ public class HPS extends JavaPlugin {
 		hacky.setPermission(permission);
 		hacky.setPermissionMessage(cmdInfo.noPermissionMessage());
 		try {
-			hacky.setExecutor(clazz.newInstance());
+			hacky.setExecutor(clazz.getConstructor(HPS.class).newInstance(this));
 		} catch (Exception e) {
 			PM.log(Level.WARNING, "Could not add command " + name + " to the command map.");
 			if(Plugin.getConfig().getBoolean("DebugMode", false))
@@ -276,7 +279,7 @@ public class HPS extends JavaPlugin {
 	/**
 	 * A very hacky class used to register commands at plugin runtime
 	 */
-	private static class HackyCommand extends Command {
+	private class HackyCommand extends Command {
 		private CommandExecutor executor;
 
 		public HackyCommand(String name, String description, String usageMessage, List<String> aliases) {

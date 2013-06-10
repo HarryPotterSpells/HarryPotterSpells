@@ -29,14 +29,19 @@ public class ExtensionManager implements EnableJob, DisableJob {
 	private Map<String, Extension> extensionList = new HashMap<String, Extension>();
 	private File extensionFolder;
 	private static boolean instantated = false;
+	private HPS HPS;
 	
 	/**
 	 * Constructs the Extension Manager, loading all extensions. </br>
 	 * It should be noted that extensions are not enabled until the EnableJob is called.
+	 *
+	 * @param plugin an instance of {@link HPS}
 	 */
-	public ExtensionManager() {
+	public ExtensionManager(HPS plugin) {
 	    if(ExtensionManager.instantated)
 	        return;
+	    
+	    HPS = plugin;
 	    
 	    ExtensionManager.instantated = true;
 		HPS.PM.debug("Loading extensions...");

@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
@@ -17,7 +18,11 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 public class Aparecium extends Spell {
 
-	public boolean cast(final Player p) {
+	public Aparecium(HPS plugin) {
+        super(plugin);
+    }
+
+    public boolean cast(final Player p) {
 		int radius = (Integer) getConfig("radius", 5);
 		boolean successful = false;
 		

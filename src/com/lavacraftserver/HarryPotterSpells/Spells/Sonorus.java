@@ -24,6 +24,10 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 public class Sonorus extends Spell implements Listener {
 	private static List<String> players = new ArrayList<String>();
 	
+	public Sonorus(HPS plugin) {
+	    super(plugin);
+	}
+	
 	public boolean cast(final Player p) {
 		Sonorus.players.add(p.getName());
 		Location loc = new Location(p.getWorld(), p.getLocation().getBlockX(), p.getLocation().getBlockY() + 1, p.getLocation().getBlockZ());

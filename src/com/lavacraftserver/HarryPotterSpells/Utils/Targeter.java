@@ -32,6 +32,8 @@ import org.bukkit.entity.Wolf;
 import org.bukkit.entity.Zombie;
 import org.bukkit.util.BlockIterator;
 
+import com.lavacraftserver.HarryPotterSpells.SpellTargeter;
+
 /**
  * A targeter class that gets the target of a spell
  * @deprecated Use {@link SpellTargeter}

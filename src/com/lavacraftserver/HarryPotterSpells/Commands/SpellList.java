@@ -6,7 +6,6 @@ import java.util.TreeSet;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
@@ -18,8 +17,12 @@ import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
 @HCommand(name = "spelllist", description = "Lists all spells", usage = "<command> [player]", permissionDefault = "true")
-public class SpellList implements CommandExecutor, EnableJob {
+public class SpellList extends HCommandExecutor implements EnableJob {
 	private final Permission LIST_OTHERS = new Permission("HarryPotterSpells.list.others", PermissionDefault.OP);
+	
+	public SpellList(HPS plugin) {
+	    super(plugin);
+	}
 	
 	@Override
 	public void onEnable(PluginManager pm) {
