@@ -230,8 +230,7 @@ public class HPS extends JavaPlugin {
 	public void onDisable() {
 		JobManager.executeClearJobs();
 		JobManager.executeDisableJob(getServer().getPluginManager());
-		SpellManager.save();
-		
+
 		PM.log(Level.INFO, "Plugin disabled");
 	}
 	

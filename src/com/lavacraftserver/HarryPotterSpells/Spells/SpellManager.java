@@ -14,7 +14,6 @@ import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
@@ -74,8 +73,6 @@ public class SpellManager implements EnableJob {
 			}
 			spellList.add(spell);
 		}
-
-		load();
 	}
 
 	/**
@@ -271,28 +268,6 @@ public class SpellManager implements EnableJob {
 				cooldowns.put(playerName, new HashMap<Spell, Integer>());
 				cooldowns.get(playerName).put(spell, cooldown);
 			}
-		}
-	}
-
-	public void save() {
-		HPS.Plugin.getConfig().createSection("spells");
-		ConfigurationSection configSpells = HPS.Plugin.getConfig().getConfigurationSection("spells");
-		for (Spell s : spellList) {
-			configSpells.createSection(s.getName());
-			configSpells.set(s.getName(), s.save(configSpells.getConfigurationSection(s.getName())));
-		}
-		HPS.Plugin.getConfig().set("arenas", configSpells);
-	}
-
-	public void load() {
-		try {
-			if (!HPS.Plugin.getConfig().isSet("spells"))
-				HPS.Plugin.getConfig().getConfigurationSection("spells");
-			ConfigurationSection configSpells = HPS.Plugin.getConfig().getConfigurationSection("spells");
-			for (String k : configSpells.getKeys(false))
-				getSpell(k).load(configSpells.getConfigurationSection(k));
-		} catch (Exception e) {
-			// TODO catch this exception
 		}
 	}
 
