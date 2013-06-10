@@ -19,7 +19,7 @@ public class Wand extends HCommandExecutor {
 			Player player = (Player)sender;
 			player.getInventory().setItem(player.getInventory().firstEmpty(), HPS.Wand.getWand());
 			HPS.PM.tell(player, "You have been given a wand!");
-			if(HPS.Plugin.getConfig().getBoolean("wand-give.explosion-effect")) {
+			if(HPS.getConfig().getBoolean("wand-give.explosion-effect")) {
 				player.getWorld().createExplosion(player.getLocation(), 0, false);
 			}
 		} else

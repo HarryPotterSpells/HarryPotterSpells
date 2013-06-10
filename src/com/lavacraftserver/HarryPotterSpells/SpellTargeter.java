@@ -60,7 +60,7 @@ public class SpellTargeter {
             @Override
             public void run() {
                 if(!running) {
-                    runTaskTimer(HPS.Plugin, 0l, 1l);
+                    runTaskTimer(HPS, 0l, 1l);
                     running = true;
                 }
                 
@@ -100,7 +100,7 @@ public class SpellTargeter {
             @Override
             public void run() {
                 if(!running) {
-                    runTaskTimer(HPS.Plugin, 0l, 1l);
+                    runTaskTimer(HPS, 0l, 1l);
                     running = true;
                 }
                 
@@ -147,7 +147,7 @@ public class SpellTargeter {
             @Override
             public void run() {
                 if(!running) {
-                    runTaskTimer(HPS.Plugin, 0l, 1l);
+                    runTaskTimer(HPS, 0l, 1l);
                     running = true;
                 }
                 

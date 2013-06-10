@@ -32,7 +32,7 @@ public class Sonorus extends Spell implements Listener {
 		Sonorus.players.add(p.getName());
 		Location loc = new Location(p.getWorld(), p.getLocation().getBlockX(), p.getLocation().getBlockY() + 1, p.getLocation().getBlockZ());
 		p.getWorld().createExplosion(loc, 0F);
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
+		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
 			
 			@Override
 		    public void run() {

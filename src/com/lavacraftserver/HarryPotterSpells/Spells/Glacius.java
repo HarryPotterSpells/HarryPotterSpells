@@ -76,7 +76,7 @@ public class Glacius extends Spell {
 				
 			}
 			
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
 				public void run() {
 					
 					for (Location locs : locations) {
@@ -95,7 +95,7 @@ public class Glacius extends Spell {
 
 				}
 				
-			}, HPS.Plugin.getConfig().getLong("spells.glacius.ice-duration", 40L));
+			}, HPS.getConfig().getLong("spells.glacius.ice-duration", 40L));
 			
 			return true;
 			

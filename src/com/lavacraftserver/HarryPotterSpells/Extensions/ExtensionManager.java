@@ -46,7 +46,7 @@ public class ExtensionManager implements EnableJob, DisableJob {
 	    ExtensionManager.instantated = true;
 		HPS.PM.debug("Loading extensions...");
 		
-		extensionFolder = new File(HPS.Plugin.getDataFolder(), "Extensions");
+		extensionFolder = new File(HPS.getDataFolder(), "Extensions");
 		if(!extensionFolder.exists())
 			extensionFolder.mkdirs();
 		
@@ -116,7 +116,7 @@ public class ExtensionManager implements EnableJob, DisableJob {
 				
 				for(Class<? extends Listener> c : reflections.getSubTypesOf(Listener.class)) {
 					try {
-						Bukkit.getPluginManager().registerEvents(c.newInstance(), HPS.Plugin);
+						Bukkit.getPluginManager().registerEvents(c.newInstance(), HPS);
 						listeners++;
 					} catch(Exception e) {
 						HPS.PM.log(Level.WARNING, "An error occurred whilst adding a listener in extension " + ext + ".");

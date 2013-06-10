@@ -41,9 +41,9 @@ public class PlayerSpellConfig implements EnableJob {
 	 */
 	public void reloadPSC() {
 	    if (PSCFile == null)
-	    	PSCFile = new File(HPS.Plugin.getDataFolder(), "PlayerSpellConfig.yml");
+	    	PSCFile = new File(HPS.getDataFolder(), "PlayerSpellConfig.yml");
 	    PSC = YamlConfiguration.loadConfiguration(PSCFile);
-	    InputStream defConfigStream = HPS.Plugin.getResource("PlayerSpellConfig.yml");
+	    InputStream defConfigStream = HPS.getResource("PlayerSpellConfig.yml");
 	    if (defConfigStream != null) {
 	        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
 	        PSC.setDefaults(defConfig);

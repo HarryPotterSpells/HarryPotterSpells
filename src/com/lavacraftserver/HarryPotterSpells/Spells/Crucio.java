@@ -49,7 +49,7 @@ public class Crucio extends Spell implements Listener {
 					setFlightClever(target, true);
 					target.teleport(new Location(entity.getWorld(), entity.getLocation().getX(), entity.getLocation().getBlockY()+2, entity.getLocation().getZ()));
 					crucioList.add(target.getName());
-					Bukkit.getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
+					Bukkit.getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
 
 						@Override
 						public void run() {

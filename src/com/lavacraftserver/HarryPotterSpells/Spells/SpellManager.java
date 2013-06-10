@@ -198,7 +198,7 @@ public class SpellManager implements EnableJob {
 			return;
 		}
 
-		if (HPS.Plugin.getConfig().getBoolean("spell-particle-toggle")) {
+		if (HPS.getConfig().getBoolean("spell-particle-toggle")) {
 			Location l = player.getLocation();
 			l.setY(l.getY() + 1);
 			player.getWorld().playEffect(l, Effect.ENDER_SIGNAL, 0);
@@ -225,7 +225,7 @@ public class SpellManager implements EnableJob {
 
 			if (cast && successful && spell.getCoolDown(player) > 0) {
 				setCoolDown(playerName, spell, spell.getCoolDown(player));
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new CoolDown(HPS, playerName, spell), 20L);
+				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new CoolDown(HPS, playerName, spell), 20L);
 			}
 		}
 	}

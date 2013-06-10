@@ -29,7 +29,7 @@ public class Evanesco extends Spell {
 		
 		long duration = getTime("duration", 300l);
 		
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
+		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
 		    
 		    @Override    
 		    public void run() {

@@ -29,7 +29,7 @@ public class Sectumsempra extends Spell {
 			LivingEntity le = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			SectumsempraRunnable sectumsemprarunnable = new SectumsempraRunnable();
 			sectumsemprarunnable.le = le;
-			sectumsemprarunnable.taskID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(HPS.Plugin, sectumsemprarunnable, 0L, 20L);
+			sectumsemprarunnable.taskID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(HPS, sectumsemprarunnable, 0L, 20L);
 			return true;
 		} else {
 			HPS.PM.warn(p, "This can only be used on a player or a mob.");

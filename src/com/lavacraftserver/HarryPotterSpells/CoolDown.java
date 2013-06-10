@@ -28,7 +28,7 @@ public class CoolDown extends BukkitRunnable {
 		}
 		HPS.SpellManager.setCoolDown(player, spell, newCoolDown);
 		if(newCoolDown != null && newCoolDown >0){
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new CoolDown(HPS, player, spell), 20L);
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new CoolDown(HPS, player, spell), 20L);
 		}
 	}
 

@@ -33,7 +33,7 @@ public class Multicorfors extends Spell{
 			if((Boolean) getConfig("explosionEffect", true))
 				sheep.getWorld().createExplosion(sheep.getLocation(), 0F);
 			
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
 			    
 			    @Override
 				public void run() {
@@ -46,7 +46,7 @@ public class Multicorfors extends Spell{
 			if((Boolean) getConfig("explosion-effect", true))
 				p.getWorld().createExplosion(b.getLocation(), 0F);
 			
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
 			    
 			    @Override
 				public void run() {

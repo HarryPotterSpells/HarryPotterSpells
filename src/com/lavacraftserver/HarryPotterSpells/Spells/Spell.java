@@ -181,8 +181,8 @@ public abstract class Spell {
 					return 0;
 				spell s = (spell) a;
 				int cooldown;
-				if(HPS.Plugin.getConfig().contains("cooldowns." + s.name().toLowerCase()))
-					cooldown = HPS.Plugin.getConfig().getInt("cooldowns." + s.name().toLowerCase());
+				if(HPS.getConfig().contains("cooldowns." + s.name().toLowerCase()))
+					cooldown = HPS.getConfig().getInt("cooldowns." + s.name().toLowerCase());
 				else
 					cooldown = s.cooldown();
 				
@@ -199,7 +199,7 @@ public abstract class Spell {
 	 * @return the object found at that location
 	 */
 	public Object getConfig(String key, @Nullable Object defaultt) {
-	    return defaultt == null ? HPS.Plugin.getConfig().get("spells." + getName() + "." + key) : HPS.Plugin.getConfig().get("spells." + getName() + "." + key, defaultt);
+	    return defaultt == null ? HPS.getConfig().get("spells." + getName() + "." + key) : HPS.getConfig().get("spells." + getName() + "." + key, defaultt);
 	}
 	
 	/**

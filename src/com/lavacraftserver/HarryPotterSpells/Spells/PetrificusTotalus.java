@@ -36,7 +36,7 @@ public class PetrificusTotalus extends Spell implements Listener {
 			final Player target = (Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			long duration = getTime("duration", 600l);
 			
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
 			    
 			    @Override
 				public void run() {

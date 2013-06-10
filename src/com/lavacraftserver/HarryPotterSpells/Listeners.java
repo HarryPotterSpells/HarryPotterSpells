@@ -124,7 +124,7 @@ public class Listeners implements Listener {
 	
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
-		if(HPS.Plugin.getConfig().getBoolean("spell-castable-with-chat")) {
+		if(HPS.getConfig().getBoolean("spell-castable-with-chat")) {
 			if(HPS.SpellManager.isSpell(e.getMessage().substring(0, e.getMessage().length() - 1))) {
 				HPS.SpellManager.cleverCast(e.getPlayer(), HPS.SpellManager.getSpell(e.getMessage().substring(0, e.getMessage().length() - 1)));
 				return;

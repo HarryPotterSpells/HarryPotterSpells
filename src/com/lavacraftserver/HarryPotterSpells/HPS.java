@@ -45,7 +45,6 @@ public class HPS extends JavaPlugin {
 	public PM PM;
 	public SpellManager SpellManager;
 	public Wand Wand;
-	public JavaPlugin Plugin;
 	public JobManager JobManager;
 	public ExtensionManager ExtensionManager;
 	public SpellTargeter SpellTargeter;
@@ -56,7 +55,6 @@ public class HPS extends JavaPlugin {
 	@Override
 	public void onEnable() {
 	    // Instance loading
-		Plugin = this;
 		PlayerSpellConfig = new PlayerSpellConfig(this);
 		PM = new PM(this);
 		SpellManager = new SpellManager(this);
@@ -266,7 +264,7 @@ public class HPS extends JavaPlugin {
 			hacky.setExecutor(clazz.getConstructor(HPS.class).newInstance(this));
 		} catch (Exception e) {
 			PM.log(Level.WARNING, "Could not add command " + name + " to the command map.");
-			if(Plugin.getConfig().getBoolean("DebugMode", false))
+			if(getConfig().getBoolean("DebugMode", false))
 				e.printStackTrace();
 			return false;
 		}

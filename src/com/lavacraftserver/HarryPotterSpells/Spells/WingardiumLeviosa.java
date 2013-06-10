@@ -39,7 +39,7 @@ public class WingardiumLeviosa extends Spell implements Listener {
 				players.add(p.getName());
 			}
 						
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
 			    
 			    @Override
 				public void run() {
