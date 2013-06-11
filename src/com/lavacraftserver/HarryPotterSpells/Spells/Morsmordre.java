@@ -13,7 +13,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell(
         name = "Morsmordre",
-        description = "Conjures the symbol of the death eaters in the sky",
+        description = "descMorsmordre",
         cooldown = 60
         )
 public class Morsmordre extends Spell {

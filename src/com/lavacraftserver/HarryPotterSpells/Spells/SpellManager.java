@@ -67,7 +67,7 @@ public class SpellManager implements EnableJob {
 			try {
 				spell = (Spell) clazz.getConstructor(HPS.class).newInstance(HPS);
 			} catch (Exception e) {
-				HPS.PM.log(Level.WARNING, "An error occurred whilst adding the " + clazz.getName() + " spell to the spell list. That spell will not be available.");
+				HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errSpells", clazz.getSimpleName()));
 				HPS.PM.debug(e);
 				continue;
 			}
@@ -214,7 +214,7 @@ public class SpellManager implements EnableJob {
 																										// to
 																										// another
 																										// class
-				HPS.PM.dependantMessagingTell((CommandSender) player, "You must wait " + cooldowns.get(playerName).get(spell).toString() + " seconds before performing this spell again.");
+				HPS.PM.dependantMessagingTell((CommandSender) player, HPS.Localisation.getTranslation("cldWait", cooldowns.get(playerName).get(spell).toString()));
 				cast = false;
 			}
 			boolean successful = false;

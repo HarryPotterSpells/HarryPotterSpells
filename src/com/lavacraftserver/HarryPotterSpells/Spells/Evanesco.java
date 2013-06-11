@@ -9,7 +9,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
 		name="Evanesco",
-		description="Makes the caster invisible",
+		description="descEvanesco",
 		range=0,
 		goThroughWalls=false,
 		cooldown=45

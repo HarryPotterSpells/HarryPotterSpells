@@ -71,7 +71,7 @@ public class PlayerSpellConfig implements EnableJob {
 	    try {
 	        getPSC().save(PSCFile);
 	    } catch (IOException ex) {
-	    	HPS.PM.log(Level.SEVERE, "Could not save config to " + PSCFile + ".");
+	    	HPS.PM.log(Level.SEVERE, HPS.Localisation.getTranslation("pscCouldNotSave", PSCFile.getName()));
 	    	HPS.PM.debug(ex);
 	    }
 	}
@@ -90,7 +90,7 @@ public class PlayerSpellConfig implements EnableJob {
 	public void onEnable(PluginManager pm) {
 	    Double version = getPSC().getDouble("VERSION_DO_NOT_EDIT", -1d) == -1d ? null : getPSC().getDouble("VERSION_DO_NOT_EDIT", -1d);
 	    if(version == null || version < CURRENT_VERSION) {
-	        HPS.PM.log(Level.INFO, "The PlayerSpellConfig.yml is out of date! Updating file...");
+	        HPS.PM.log(Level.INFO, HPS.Localisation.getTranslation("pscOutOfDate"));
 	        
 	        // STORE UPDATES HERE
 	        
@@ -139,7 +139,7 @@ public class PlayerSpellConfig implements EnableJob {
 	            
 	            savePSC();
 	            
-	            HPS.PM.log(Level.INFO, "The PlayerSpellConfig.yml has been updated to version 0.4");
+	            HPS.PM.log(Level.INFO, HPS.Localisation.getTranslation("pscUpdated", "0.4"));
 	        }
 	        
 	    }

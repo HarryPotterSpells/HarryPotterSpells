@@ -10,7 +10,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
 		name="Reparo",
-		description="Repairs the item in your hand fully",
+		description="descReparo",
 		range=0,
 		goThroughWalls=false,
 		cooldown=14400

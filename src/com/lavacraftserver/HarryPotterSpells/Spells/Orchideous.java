@@ -11,7 +11,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
 @spell (
 		name="Orchideous",
-		description="Plants a red rose on the target block",
+		description="descOrchideous",
 		range=50,
 		goThroughWalls=false,
 		cooldown=45,
@@ -30,7 +30,7 @@ public class Orchideous extends Spell {
 			getBlockAbove(b).setType(Material.RED_ROSE);
 			return true;
 		} else {
-			HPS.PM.warn(p, "You cannot place a rose that block.");
+			HPS.PM.warn(p, HPS.Localisation.getTranslation("spellNoRose"));
 			return false;
 		}
 

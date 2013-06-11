@@ -9,7 +9,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
 		name="Enderchest",
-		description="Open your personal enderchest.",
+		description="descEnderChest",
 		range=10,
 		goThroughWalls=false,
 		cooldown=0,

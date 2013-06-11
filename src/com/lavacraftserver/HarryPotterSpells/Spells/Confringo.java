@@ -8,7 +8,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
 		name="Confringo",
-		description="Launches a fireball from the tip of your wand",
+		description="descConfringo",
 		range=0,
 		goThroughWalls=false,
 		cooldown=45

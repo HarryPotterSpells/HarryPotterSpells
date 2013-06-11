@@ -29,7 +29,7 @@ public class Listeners implements Listener {
 			    Integer knows = HPS.PlayerSpellConfig.getStringListOrEmpty(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
 			    			    
 			    if(HPS.PlayerSpellConfig.getStringListOrEmpty(e.getPlayer().getName()).isEmpty() || cur == null) {
-			        HPS.PM.tell(e.getPlayer(), "You do not know any spells.");
+			        HPS.PM.tell(e.getPlayer(), HPS.Localisation.getTranslation("genKnowNoSpells"));
 			        return;
 			    }
 			    
@@ -48,7 +48,7 @@ public class Listeners implements Listener {
 			    try {
 			        HPS.PM.newSpell(e.getPlayer(), HPS.SpellManager.setCurrentSpell(e.getPlayer(), neww).getName());
 			    } catch(IllegalArgumentException er) {
-			        HPS.PM.tell(e.getPlayer(), "You do not know any spells.");
+                    HPS.PM.tell(e.getPlayer(), HPS.Localisation.getTranslation("genKnowNoSpells"));
                     return;
 			    }
 			    
@@ -95,7 +95,7 @@ public class Listeners implements Listener {
 		    Integer knows = HPS.PlayerSpellConfig.getStringListOrEmpty(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
             
             if(cur == null) {
-                HPS.PM.tell(e.getPlayer(), "You do not know any spells.");
+                HPS.PM.tell(e.getPlayer(), HPS.Localisation.getTranslation("genKnowNoSpells"));
                 return;
             }
             
@@ -114,7 +114,7 @@ public class Listeners implements Listener {
             try {
                 HPS.PM.newSpell(e.getPlayer(), HPS.SpellManager.setCurrentSpell(e.getPlayer(), neww).getName());
             } catch(IllegalArgumentException er) {
-                HPS.PM.tell(e.getPlayer(), "You do not know any spells.");
+                HPS.PM.tell(e.getPlayer(), HPS.Localisation.getTranslation("genKnowNoSpells"));
                 return;
             }
             

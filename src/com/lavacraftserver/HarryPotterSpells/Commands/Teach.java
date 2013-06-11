@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
-@HCommand(name="teach", description="Teaches a player a spell", usage="<command> <spell> [player|me]")
+@HCommand(name="teach", description="cmdTeaDescription", usage="<command> <spell> [player|me]")
 public class Teach extends HCommandExecutor {
 
     public Teach(HPS plugin) {
@@ -24,7 +24,7 @@ public class Teach extends HCommandExecutor {
 		
 		if (!HPS.SpellManager.isSpell(args[0].replace('_', ' '))) {
 			if (!(args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("*"))) {
-				HPS.PM.dependantMessagingWarn(sender, "That spell was not recognized.");
+				HPS.PM.dependantMessagingWarn(sender, HPS.Localisation.getTranslation("genSpellNotRecognized"));
 				return true;
 			}
 		}
@@ -36,7 +36,7 @@ public class Teach extends HCommandExecutor {
 			if (sender instanceof Player) {
 				teachTo = (Player) sender;
 			} else {
-				HPS.PM.dependantMessagingWarn(sender, "Please specify a player.");
+				HPS.PM.dependantMessagingWarn(sender, HPS.Localisation.getTranslation("cmdPlayerNotSpecified"));
 			}
 		} else {
 			teachTo = Bukkit.getPlayer(args[1]);
@@ -51,7 +51,7 @@ public class Teach extends HCommandExecutor {
 					if (!newSpell.playerKnows(teachTo)) {
 						if (learnedspells == null) {
 							newSpell.teach(teachTo);
-							learnedspells = "You have taught " + teachTo.getName() + " the spells: " + newSpell.getName();
+							learnedspells = HPS.Localisation.getTranslation("cmdTeaTaught", teachTo.getName()) + newSpell.getName();
 						} else {
 							newSpell.teach(teachTo);
 							learnedspells = learnedspells.concat(", " + newSpell.getName());
@@ -59,22 +59,22 @@ public class Teach extends HCommandExecutor {
 					}
 				}
 				if (learnedspells == null) {
-					learnedspells = teachTo.getName() + " already knows all spells";
+					learnedspells = HPS.Localisation.getTranslation("cmdTeaKnowsAll", teachTo.getName());
 				}
 				HPS.PM.dependantMessagingTell(sender, learnedspells + ".");
 				
 			} else {
 				
 				if (spell.playerKnows(teachTo)) {
-					HPS.PM.dependantMessagingWarn(sender, teachTo.getName() + " already knows that spell.");
+					HPS.PM.dependantMessagingWarn(sender, HPS.Localisation.getTranslation("cmdTeaKnowsThat", teachTo.getName()));
 				} else {
 					spell.teach(teachTo);
-					HPS.PM.dependantMessagingTell(sender, "You have taught " + teachTo.getName() + " the spell " + spell.getName() + ".");
+					HPS.PM.dependantMessagingTell(sender, HPS.Localisation.getTranslation("cmdTeaTaughtOne", teachTo.getName(), spell.getName()));
 				}
 				
 			}
 		} else {
-			HPS.PM.dependantMessagingWarn(sender, "The player was not found.");
+			HPS.PM.dependantMessagingWarn(sender, HPS.Localisation.getTranslation("cmdPlayerNotFound"));
 		}
 		return true;
 	}	

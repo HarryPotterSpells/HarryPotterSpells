@@ -15,7 +15,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
 @spell (
 		name="Expelliarmus",
-		description="Disarms your target",
+		description="descExpelliarmus",
 		range=25,
 		goThroughWalls=false,
 		cooldown=120
@@ -43,7 +43,7 @@ public class Expelliarmus extends Spell {
 			
 			return true;
 		} else {
-			HPS.PM.warn(p, "This can only be used on a player.");
+			HPS.PM.warn(p, HPS.Localisation.getTranslation("spellPlayerOnly"));
 			return false;
 		}
 	}

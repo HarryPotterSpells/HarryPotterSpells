@@ -14,7 +14,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
 @spell(
 		name = "Obscuro", 
-		description = "Blinds the target mob or player", 
+		description = "descObscuro", 
 		range = 50, 
 		goThroughWalls = false,
 		cooldown=90
@@ -62,7 +62,7 @@ public class Obscuro extends Spell {
 			
 			return false;
 		} else {
-			HPS.PM.warn(p, "This can only be used on a player or a mob.");
+			HPS.PM.warn(p, HPS.Localisation.getTranslation("spellLivingEntityOnly"));
 			return false;
 		}
 	}

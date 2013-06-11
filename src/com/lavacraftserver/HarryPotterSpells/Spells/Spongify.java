@@ -17,7 +17,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
 		name="Spongify",
-		description="Prevents fall damage",
+		description="descSpongify",
 		range=0,
 		goThroughWalls=false,
 		cooldown=60,

@@ -15,7 +15,16 @@
         </excludes>
       </resource>
     </resources>
+    <finalName>HarryPotterSpells</finalName>
     <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
         <version>2.1</version>
@@ -37,8 +46,6 @@
           </execution>
         </executions>
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
           <minimizeJar>true</minimizeJar>
         </configuration>
       </plugin>

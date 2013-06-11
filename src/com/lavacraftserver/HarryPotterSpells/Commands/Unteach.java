@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
-@HCommand(name="unteach", description="Makes a player forget a spell", usage="<command> <spell> [player]")
+@HCommand(name="unteach", description="cmdUntDescription", usage="<command> <spell> [player]")
 public class Unteach extends HCommandExecutor {
     
     public Unteach(HPS plugin) {
@@ -24,7 +24,7 @@ public class Unteach extends HCommandExecutor {
 			
 		if(!HPS.SpellManager.isSpell(args[0].replace('_', ' '))) {
 			if (!(args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("*"))) {
-				HPS.PM.dependantMessagingWarn(sender, "That spell was not recognized.");
+				HPS.PM.dependantMessagingWarn(sender, HPS.Localisation.getTranslation("genSpellNotRecognized"));
 				return true;
 			}
 		}
@@ -36,7 +36,7 @@ public class Unteach extends HCommandExecutor {
 			if (sender instanceof Player)
 				unteachTo = (Player) sender;
 			else 
-				HPS.PM.dependantMessagingWarn(sender, "Please specify a player.");
+				HPS.PM.dependantMessagingWarn(sender, HPS.Localisation.getTranslation("cmdPlayerNotSpecified"));
 		} else
 			unteachTo = Bukkit.getPlayer(args[1]);
 
@@ -48,7 +48,7 @@ public class Unteach extends HCommandExecutor {
 					if (newSpell.playerKnows(unteachTo)) {
 						if (forgottenspells == null) {
 							newSpell.unTeach(unteachTo);
-							forgottenspells = unteachTo.getName() + " has forgotten the spells: " + newSpell.getName();
+							forgottenspells = HPS.Localisation.getTranslation("cmdUntForgot", unteachTo.getName()) + newSpell.getName();
 						} else {
 							newSpell.unTeach(unteachTo);
 							forgottenspells = forgottenspells.concat(", " + newSpell.getName());
@@ -56,19 +56,19 @@ public class Unteach extends HCommandExecutor {
 					}
 				}
 				if (forgottenspells == null)
-					forgottenspells = unteachTo.getName() + " doesn't know any spells.";
+					forgottenspells = HPS.Localisation.getTranslation("cmdUntDoesntKnowAll", unteachTo.getName());
 				
 				HPS.PM.dependantMessagingTell(sender, forgottenspells + ".");
 				
 			} else {
 				if(spell.playerKnows(unteachTo)) {
 					spell.unTeach(unteachTo);
-					HPS.PM.dependantMessagingTell(sender, unteachTo.getName() + " has forgotten " + spell.getName() + ".");
+					HPS.PM.dependantMessagingTell(sender, HPS.Localisation.getTranslation("cmdUntForgotOne", unteachTo.getName(), spell.getName()));
 				} else
-					HPS.PM.dependantMessagingWarn(sender, unteachTo.getName() + " doesn't know " + spell.getName() + ".");				
+					HPS.PM.dependantMessagingWarn(sender, HPS.Localisation.getTranslation("cmdUntDoesntKnowOne", unteachTo.getName(), spell.getName()));				
 			}	
 		} else
-			HPS.PM.dependantMessagingTell(sender, "The player was not found.");
+			HPS.PM.dependantMessagingTell(sender, HPS.Localisation.getTranslation("cmdPlayerNotFound"));
 		return true;
 	}
 

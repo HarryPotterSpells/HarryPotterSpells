@@ -43,13 +43,13 @@ public abstract class Spell {
 	public void teach(Player sender, Player target) {
 		if(target != null) {
 			if(playerKnows(target))
-				HPS.PM.warn(sender, target.getName() + " already knows that spell!");
+				HPS.PM.warn(sender, HPS.Localisation.getTranslation("cmdTeaKnowsThat", target.getName()));
 			else {
 				teach(target);
-				HPS.PM.tell(sender, "You have taught " + target.getName() + " the spell " + getName() + ".");
+				HPS.PM.tell(sender, HPS.Localisation.getTranslation("cmdTeaTaughtOne", target.getName(), getName()));
 			}
 		} else
-			HPS.PM.warn(sender, "The player was not found.");
+			HPS.PM.warn(sender, HPS.Localisation.getTranslation("cmdPlayerNotFound"));
 	}
 
 	/**
@@ -107,7 +107,7 @@ public abstract class Spell {
 		for(Annotation a : this.getClass().getAnnotations()) {
 			if(a instanceof spell) {
 				spell s = (spell) a;
-				return s.description();
+				return HPS.Localisation.getTranslation(s.description());
 			}
 		}
 		return null;
@@ -121,7 +121,7 @@ public abstract class Spell {
 	@Target(ElementType.TYPE)
 	@interface spell {
 		String name() default ""; //"" defaults to class name
-		String description() default "A mysterious spell";
+		String description() default "";
 		int range() default 25;
 		boolean goThroughWalls() default false;
 		int cooldown() default 60;

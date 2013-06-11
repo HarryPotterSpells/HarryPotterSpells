@@ -9,7 +9,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
 		name = "Avis",
-		description = "Shoots a flock of chickens from your wand",
+		description = "descAvis",
 		range = 0,
 		goThroughWalls = false,
 		cooldown=300

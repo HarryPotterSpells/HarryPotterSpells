@@ -15,7 +15,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
 		name="Tree",
-		description="Produces a tree from your target block",
+		description="descTree",
 		range=50,
 		goThroughWalls=false,
 		cooldown=105
@@ -30,14 +30,14 @@ public class TreeSpell extends Spell {
 		Block block = p.getTargetBlock(null, this.getRange());
 		if (block.getType() == Material.GRASS || block.getType() == Material.DIRT) {
 			if(!p.getWorld().generateTree(block.getLocation(), TreeType.TREE)) {
-				HPS.PM.warn(p, "You cannot place a tree here.");
+				HPS.PM.warn(p, HPS.Localisation.getTranslation("spellNoTree"));
 				return false;
 			} else {
 				boom(block, block.getWorld());
 				return true;
 			}
 		} else {
-			HPS.PM.warn(p, "This can only be used on a grass or dirt block.");
+			HPS.PM.warn(p, HPS.Localisation.getTranslation("spellEarthOnly"));
 			return false;
 		}
 	}

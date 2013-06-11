@@ -10,7 +10,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell(
 		name = "Magna Tonitrus", 
-		description = "Shoots a bolt of lightning", 
+		description = "descMagnaTonitrus", 
 		range = 50, 
 		goThroughWalls = false,
 		cooldown=60

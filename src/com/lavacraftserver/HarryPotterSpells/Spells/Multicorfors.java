@@ -15,7 +15,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
 @spell (
 		name="Multicorfors",
-		description="Changes the colour of any targeted wool or sheep",
+		description="descMulticorfors",
 		range=25,
 		goThroughWalls=false,
 		cooldown=30
@@ -56,7 +56,7 @@ public class Multicorfors extends Spell{
 			}, 4L);
 			return true;
 		} else {
-			HPS.PM.warn(p, "This can only be used on a sheep or wool.");
+			HPS.PM.warn(p, HPS.Localisation.getTranslation("spellWoolenOnly"));
 			return false;
 		}
 	}

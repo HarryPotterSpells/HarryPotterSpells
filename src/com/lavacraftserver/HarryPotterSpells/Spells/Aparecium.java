@@ -10,7 +10,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
 		name="Aparecium",
-		description="Makes nearby players visible",
+		description="descAparecium",
 		range=0,
 		goThroughWalls=false,
 		cooldown=300

@@ -10,7 +10,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell(
 		name="Accio",
-		description="Pulls surrounding drops towards you",
+		description="descAccio",
 		goThroughWalls=false,
 		cooldown=5
 )

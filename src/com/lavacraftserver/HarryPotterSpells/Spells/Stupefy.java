@@ -16,7 +16,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
 		name="Stupefy",
-		description="Stuns the target",
+		description="descStupefy",
 		range=50,
 		goThroughWalls=false,
 		cooldown=120
@@ -33,7 +33,7 @@ public class Stupefy extends Spell {
 
 			@Override
 			public void hitBlock(Block block) {
-				HPS.PM.warn(p, "This can only be used on a player or a mob.");
+				HPS.PM.warn(p, HPS.Localisation.getTranslation("spellLivingEntityOnly"));
 			}
 
 			@Override

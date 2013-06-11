@@ -10,7 +10,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
 @spell (
 		name="Confundo",
-		description="Confuses your target",
+		description="descConfundo",
 		range=20,
 		goThroughWalls=false,
 		cooldown=180
@@ -29,7 +29,7 @@ public class Confundo extends Spell {
 			player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, (int) duration, 1));
 			return true;
 		} else {
-			HPS.PM.warn(p, "This can only be used on a player.");
+			HPS.PM.warn(p, HPS.Localisation.getTranslation("spellPlayerOnly"));
 			return false;
 		}
 	}

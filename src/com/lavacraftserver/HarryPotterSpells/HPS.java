@@ -48,6 +48,7 @@ public class HPS extends JavaPlugin {
 	public JobManager JobManager;
 	public ExtensionManager ExtensionManager;
 	public SpellTargeter SpellTargeter;
+	public Localisation Localisation;
 	
 	private CommandMap commandMap;
 	private Collection<HelpTopic> helpTopics = new ArrayList<HelpTopic>();
@@ -55,6 +56,7 @@ public class HPS extends JavaPlugin {
 	@Override
 	public void onEnable() {
 	    // Instance loading
+	    Localisation = new Localisation(this);
 		PlayerSpellConfig = new PlayerSpellConfig(this);
 		PM = new PM(this);
 		SpellManager = new SpellManager(this);
@@ -74,7 +76,7 @@ public class HPS extends JavaPlugin {
             f.setAccessible(true);
             commandMap = (CommandMap) f.get(getServer());
         } catch (Throwable e){
-            PM.log(Level.SEVERE, "Could not access the command map. Commands will not work.");
+            PM.log(Level.SEVERE, Localisation.getTranslation("errCommandMap"));
             PM.debug(e);
         }
 		
@@ -87,7 +89,7 @@ public class HPS extends JavaPlugin {
 				JobManager.addClearJob(c.newInstance());
 				clearJobs++;
 			} catch (Exception e) {
-				PM.log(Level.WARNING, "An error occurred whilst the clear job in class " + c.getSimpleName() + " to the Job Manager.");
+				PM.log(Level.WARNING, Localisation.getTranslation("errClearJob", c.getSimpleName()));
 				PM.debug(e);
 			}
 		}
@@ -98,7 +100,7 @@ public class HPS extends JavaPlugin {
 				JobManager.addEnableJob(c.newInstance());
 				enableJobs++;
 			} catch(Exception e) {
-				PM.log(Level.WARNING, "An error occurred whilst adding the enable job in class " + c.getSimpleName() + " to the Job Manager.");
+                PM.log(Level.WARNING, Localisation.getTranslation("errEnableJob", c.getSimpleName()));
 				PM.debug(e);
 			}
 		}
@@ -109,26 +111,26 @@ public class HPS extends JavaPlugin {
 				JobManager.addDisableJob(c.newInstance());
 				disableJobs++;
 			} catch (Exception e) {
-				PM.log(Level.WARNING, "An error occurred whilst adding the disable job in class " + c.getSimpleName() + " to the Job Manager");
+                PM.log(Level.WARNING, Localisation.getTranslation("errDisableJob", c.getSimpleName()));
 				PM.debug(e);
 			}
 		}
 		
-		PM.debug("Registered " + clearJobs + " core clear jobs, " + enableJobs + " core enable jobs and " + disableJobs + " core disable jobs.");
+		PM.debug(Localisation.getTranslation("dbgRegisteredCoreJobs", clearJobs, enableJobs, disableJobs));
 		
 		// Reflections - Commands
 		int commands = 0;
-		for(Class<? extends CommandExecutor> clazz : reflections.getSubTypesOf(HCommandExecutor.class)) {
+		for(Class<? extends HCommandExecutor> clazz : reflections.getSubTypesOf(HCommandExecutor.class)) {
 		    if(clazz.getName().equals(HCommandExecutor.class.getName()))
 		        continue;
 		    else if(addHackyCommand(clazz))
 				commands++;
 		}
-		PM.debug("Registered " + commands + " core commands.");
+		PM.debug(Localisation.getTranslation("dbgRegisteredCoreCommands", commands));
 		
-		Bukkit.getHelpMap().addTopic(new IndexHelpTopic("HarryPotterSpells", "The ultimate Harry Potter plugin", "", helpTopics));
+		Bukkit.getHelpMap().addTopic(new IndexHelpTopic("HarryPotterSpells", Localisation.getTranslation("hlpDescription"), "", helpTopics));
 		
-		PM.debug("Added commands to help.");
+		PM.debug(Localisation.getTranslation("dbgHelpCommandsAdded"));
 		
 		// Reflections - Listeners
 		int listeners = 0;
@@ -137,11 +139,11 @@ public class HPS extends JavaPlugin {
 				getServer().getPluginManager().registerEvents(clazz.newInstance(), this);
 				listeners++;
 			} catch (Exception e) {
-				PM.log(Level.WARNING, "An error occurred whilst registering the listener in class " + clazz.getSimpleName() + ".");
+				PM.log(Level.WARNING, Localisation.getTranslation("errListeners", clazz.getSimpleName()));
 				PM.debug(e);
 			}
 		}
-		PM.debug("Registered " + listeners + " core listeners.");
+		PM.debug(Localisation.getTranslation("dbgRegisteredCoreListeners", listeners));
 		
 		// Plugin Metrics
 		try {
@@ -193,35 +195,33 @@ public class HPS extends JavaPlugin {
 		    
 		    metrics.start();
 		} catch (IOException e) {
-		    PM.log(Level.WARNING, "An error occurred whilst enabling Plugin Metrics.");
+		    PM.log(Level.WARNING, Localisation.getTranslation("errPluginMetrics"));
 		    PM.debug(e);
 		}
 		
 		// Crafting Changes
-		PM.debug("Implementing crafting changes...");
+		PM.debug(Localisation.getTranslation("dbgCraftingChanges"));
 		boolean disableAll = getConfig().getBoolean("disable-all-crafting", false), disableWand = getConfig().getBoolean("disable-wand-crafting", true);
 		int wand = getConfig().getInt("wand-id", 280);
 		
 		if(disableAll) {
 			getServer().clearRecipes();
-			PM.debug("Removed all crafting recipes.");
-			PM.debug("Crafting changes implemented.");
-			return;
+			PM.debug(Localisation.getTranslation("dbgCraftingRemoved"));
 		} else if(disableWand) {
 			Iterator<Recipe> it = getServer().recipeIterator();
 			while(it.hasNext()) {
 				Recipe current = it.next();
 				if(current.getResult().getTypeId() == wand) {
-					PM.debug("Removed recipe for " + current.getResult().toString() + ".");
+					PM.debug(Localisation.getTranslation("dbgRemovedRecipe", current.getResult().toString()));
 					it.remove();
 				}
 			}
 		}
-		PM.debug("Crafting changes implemented.");
+		PM.debug(Localisation.getTranslation("dbgCraftingChangesDone"));
 		
 		JobManager.executeEnableJobs(getServer().getPluginManager());
 		
-		PM.log(Level.INFO, "Plugin enabled");
+		PM.log(Level.INFO, Localisation.getTranslation("genPluginEnabled"));
 	}
 	
 	@Override
@@ -229,7 +229,7 @@ public class HPS extends JavaPlugin {
 		JobManager.executeClearJobs();
 		JobManager.executeDisableJob(getServer().getPluginManager());
 
-		PM.log(Level.INFO, "Plugin disabled");
+		PM.log(Level.INFO, Localisation.getTranslation("genPluginDisabled"));
 	}
 	
 	public void loadConfig() {
@@ -245,9 +245,9 @@ public class HPS extends JavaPlugin {
 	 * @param clazz a class that extends {@code CommandExecutor}
 	 * @return {@code true} if the command was added successfully
 	 */
-	public boolean addHackyCommand(Class<? extends CommandExecutor> clazz) {
+	public boolean addHackyCommand(Class<? extends HCommandExecutor> clazz) {
 		if(!clazz.isAnnotationPresent(HCommand.class)) {
-			PM.log(Level.INFO, "Could not add command " + clazz.getSimpleName().toLowerCase() + " to the command map. It is missing the @HCommand annotation.");
+			PM.log(Level.INFO, Localisation.getTranslation("errAddCommandMapAnnotation", clazz.getSimpleName()));
 			return false;
 		}
 		
@@ -257,15 +257,14 @@ public class HPS extends JavaPlugin {
 		List<String> aliases = cmdInfo.aliases().equals("") ? new ArrayList<String>() : Arrays.asList(cmdInfo.aliases().split(","));
 		Permission perm = new Permission(permission, PermissionDefault.getByName(cmdInfo.permissionDefault()));
 		Bukkit.getServer().getPluginManager().addPermission(perm);
-		HackyCommand hacky = new HackyCommand(name, cmdInfo.description(), cmdInfo.usage(), aliases);
+		HackyCommand hacky = new HackyCommand(name, Localisation.getTranslation(cmdInfo.description()), cmdInfo.usage(), aliases);
 		hacky.setPermission(permission);
-		hacky.setPermissionMessage(cmdInfo.noPermissionMessage());
+		hacky.setPermissionMessage(Localisation.getTranslation(cmdInfo.noPermissionMessage()));
 		try {
 			hacky.setExecutor(clazz.getConstructor(HPS.class).newInstance(this));
 		} catch (Exception e) {
-			PM.log(Level.WARNING, "Could not add command " + name + " to the command map.");
-			if(getConfig().getBoolean("DebugMode", false))
-				e.printStackTrace();
+			PM.log(Level.WARNING, Localisation.getTranslation("errAddCommandMap", clazz.getSimpleName()));
+			PM.debug(e);
 			return false;
 		}
 		commandMap.register("", hacky);
@@ -285,14 +284,15 @@ public class HPS extends JavaPlugin {
 
 		@Override
 		public boolean execute(CommandSender sender, String commandLabel, String[] args) {
+		    String s = sender instanceof Player ? "/" : "";
 		    if(executor == null)
-		        sender.sendMessage("Unknown command. Type \"" + (sender instanceof Player ? "/" : "") + "help\" for help.");
+		        sender.sendMessage(Localisation.getTranslation("cmdUnknown", s));
 		    else if(!sender.hasPermission(getPermission()))
 		        PM.dependantMessagingWarn(sender, getPermissionMessage());
 		    else {
 		        boolean success = executor.onCommand(sender, this, commandLabel, args);
 		        if(!success)
-		            PM.dependantMessagingTell(sender, ChatColor.RED + "Correct Usage: " + (sender instanceof Player ? "/" : "") + getUsage().replace("<command>", commandLabel));
+		            PM.dependantMessagingTell(sender, ChatColor.RED + Localisation.getTranslation("cmdUsage", s, getUsage().replace("<command>", commandLabel)));
 		    }
 		    return true;
 		}
