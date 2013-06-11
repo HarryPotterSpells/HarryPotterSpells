@@ -38,11 +38,11 @@ public class ExtensionManager implements EnableJob, DisableJob {
 	 * @param plugin an instance of {@link HPS}
 	 */
 	public ExtensionManager(HPS plugin) {
-	    if(ExtensionManager.instantated)
-	        return;
-	    
 	    HPS = plugin;
 	    
+	    if(ExtensionManager.instantated)
+	        return;
+	    	    
 	    ExtensionManager.instantated = true;
 		HPS.PM.debug(HPS.Localisation.getTranslation("dbgExtensionLoading"));
 		
@@ -72,7 +72,7 @@ public class ExtensionManager implements EnableJob, DisableJob {
 				String ext = description.getName();
 				Reflections reflections = new Reflections(description.getPackage());
 				for(Class<? extends Extension> e : reflections.getSubTypesOf(Extension.class)) {
-					Extension ex = e.newInstance();
+					Extension ex = e.getConstructor(HPS.class).newInstance(HPS);
 					ex.setDescription(description);
 					ex.initiate(new File(extensionFolder, description.getName()));
 					extensionList.put(description.getName().toUpperCase(), ex);
@@ -81,7 +81,7 @@ public class ExtensionManager implements EnableJob, DisableJob {
 				
 				for(Class<? extends ClearJob> c : reflections.getSubTypesOf(ClearJob.class)) {
 					try {
-						HPS.JobManager.addClearJob(c.newInstance());
+						HPS.JobManager.addClearJob(c.getConstructor(HPS.class).newInstance(HPS));
 						clearJobs++;
 					} catch (Exception e) {
 						HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errExtensionClearJob", ext));
@@ -91,7 +91,7 @@ public class ExtensionManager implements EnableJob, DisableJob {
 				
 				for(Class<? extends EnableJob> c : reflections.getSubTypesOf(EnableJob.class)) {
 					try {
-						HPS.JobManager.addEnableJob(c.newInstance());
+						HPS.JobManager.addEnableJob(c.getConstructor(HPS.class).newInstance(HPS));
 						enableJobs++;
 					} catch(Exception e) {
 						HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errExtensionEnableJob", ext));
@@ -101,7 +101,7 @@ public class ExtensionManager implements EnableJob, DisableJob {
 
 				for(Class<? extends DisableJob> c : reflections.getSubTypesOf(DisableJob.class)) {
 					try {
-						HPS.JobManager.addDisableJob(c.newInstance());
+						HPS.JobManager.addDisableJob(c.getConstructor(HPS.class).newInstance(HPS));
 						disableJobs++;
 					} catch (Exception e) {
 						HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errExtensionDisableJob", ext));
@@ -116,7 +116,7 @@ public class ExtensionManager implements EnableJob, DisableJob {
 				
 				for(Class<? extends Listener> c : reflections.getSubTypesOf(Listener.class)) {
 					try {
-						Bukkit.getPluginManager().registerEvents(c.newInstance(), HPS);
+						Bukkit.getPluginManager().registerEvents(c.getConstructor(HPS.class).newInstance(HPS), HPS);
 						listeners++;
 					} catch(Exception e) {
 						HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errExtensionListeners", ext));

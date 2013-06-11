@@ -87,7 +87,7 @@ public class HPS extends JavaPlugin {
 		int clearJobs = 0;
 		for(Class<? extends ClearJob> c : reflections.getSubTypesOf(ClearJob.class)) {
 			try {
-				JobManager.addClearJob(c.newInstance());
+				JobManager.addClearJob(c.getConstructor(HPS.class).newInstance(this));
 				clearJobs++;
 			} catch (Exception e) {
 				PM.log(Level.WARNING, Localisation.getTranslation("errClearJob", c.getSimpleName()));
@@ -98,7 +98,7 @@ public class HPS extends JavaPlugin {
 		int enableJobs = 0;
 		for(Class<? extends EnableJob> c : reflections.getSubTypesOf(EnableJob.class)) {
 			try {
-				JobManager.addEnableJob(c.newInstance());
+				JobManager.addEnableJob(c.getConstructor(HPS.class).newInstance(this));
 				enableJobs++;
 			} catch(Exception e) {
                 PM.log(Level.WARNING, Localisation.getTranslation("errEnableJob", c.getSimpleName()));
@@ -109,7 +109,7 @@ public class HPS extends JavaPlugin {
 		int disableJobs = 0;
 		for(Class<? extends DisableJob> c : reflections.getSubTypesOf(DisableJob.class)) {
 			try {
-				JobManager.addDisableJob(c.newInstance());
+				JobManager.addDisableJob(c.getConstructor(HPS.class).newInstance(this));
 				disableJobs++;
 			} catch (Exception e) {
                 PM.log(Level.WARNING, Localisation.getTranslation("errDisableJob", c.getSimpleName()));
@@ -137,7 +137,7 @@ public class HPS extends JavaPlugin {
 		int listeners = 0;
 		for(Class<? extends Listener> clazz : reflections.getSubTypesOf(Listener.class)) {
 			try {
-				getServer().getPluginManager().registerEvents(clazz.newInstance(), this);
+				getServer().getPluginManager().registerEvents(clazz.getConstructor(HPS.class).newInstance(this), this);
 				listeners++;
 			} catch (Exception e) {
 				PM.log(Level.WARNING, Localisation.getTranslation("errListeners", clazz.getSimpleName()));

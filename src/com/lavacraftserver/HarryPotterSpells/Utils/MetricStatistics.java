@@ -6,12 +6,17 @@ import java.util.Map;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.API.SpellPostCastEvent;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
 public class MetricStatistics implements Listener {
     private static int spellsCast = 0, successes = 0, failures = 0;
     private static Map<String, Integer> typesOfSpellCast = new HashMap<String, Integer>();
+    
+    public MetricStatistics (HPS plugin) {
+        // Do nothing because this is a utility class
+    }
     
     public static int getSpellsCast() {
         return spellsCast;
