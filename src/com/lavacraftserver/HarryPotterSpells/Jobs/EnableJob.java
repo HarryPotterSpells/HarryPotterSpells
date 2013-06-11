@@ -6,7 +6,7 @@ import org.bukkit.plugin.PluginManager;
  * A job that is called when the plugin is enabled
  */
 public interface EnableJob {
-	
-	void onEnable(PluginManager pm);
+
+    void onEnable(PluginManager pm);
 
 }
