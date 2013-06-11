@@ -14,7 +14,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.FireworkEffectPlayer;
 
 @spell (
         name = "Homenum Revelio",
-        description = "Reveals players nearby the caster",
+        description = "descHomenumRevelio",
         cooldown = 600
         )
 public class HomenumRevelio extends Spell {
@@ -30,7 +30,7 @@ public class HomenumRevelio extends Spell {
                 try {
                     FireworkEffectPlayer.playFirework(entity.getWorld(), entity.getLocation(), FireworkEffect.builder().flicker(false).with(Type.BURST).withColor(Color.YELLOW).build());
                 } catch (Exception e) {
-                    HPS.PM.log(Level.WARNING, "An error occurred whilst playing a firework effect.");
+                    HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errFireworkEffect"));
                     HPS.PM.debug(e);
                 }
             }

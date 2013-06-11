@@ -13,7 +13,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.ParticleEffect;
 
 @spell (
 		name="Episkey",
-		description="Slowly heals your target",
+		description="descEpiskey",
 		range=50,
 		goThroughWalls=false,
 		cooldown=60
@@ -37,7 +37,7 @@ public class Episkey extends Spell {
 					int duration = (int) getTime("duration", 100);
 					p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, duration, 1));
 				} else
-					HPS.PM.warn(p, "This can only be used on yourself, another player, or a mob.");
+					HPS.PM.warn(p, HPS.Localisation.getTranslation("spellLivingEntityOrSelf"));
 			}
 			
 			@Override

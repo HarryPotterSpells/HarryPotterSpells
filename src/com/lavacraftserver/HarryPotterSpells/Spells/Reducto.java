@@ -9,7 +9,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
 		name="Reducto",
-		description="Creates an explosion",
+		description="descReducto",
 		range=50,
 		goThroughWalls=false,
 		cooldown=300

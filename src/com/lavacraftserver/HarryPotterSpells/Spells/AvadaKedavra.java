@@ -9,7 +9,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
 @spell (
 		name="Avada Kedavra",
-		description="Kills whomever is targeted",
+		description="descAvadaKedavra",
 		range=50,
 		goThroughWalls=false,
 		cooldown=300
@@ -26,7 +26,7 @@ public class AvadaKedavra extends Spell {
 			livingentity.setHealth(0);
 			return true;
 		} else {
-			HPS.PM.warn(p, "This can only be used on a player or mob.");
+			HPS.PM.warn(p, HPS.Localisation.getTranslation("spellLivingEntityOnly"));
 			return false;
 		}
 	}

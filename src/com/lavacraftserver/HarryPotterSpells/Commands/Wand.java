@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 
-@HCommand(name="wand", description="Summons the sender a wand")
+@HCommand(name="wand", description="cmdWanDescription")
 public class Wand extends HCommandExecutor {
 
     public Wand(HPS plugin) {
@@ -18,12 +18,12 @@ public class Wand extends HCommandExecutor {
 		if(sender instanceof Player) {
 			Player player = (Player)sender;
 			player.getInventory().setItem(player.getInventory().firstEmpty(), HPS.Wand.getWand());
-			HPS.PM.tell(player, "You have been given a wand!");
+			HPS.PM.tell(player, HPS.Localisation.getTranslation("cmdWanGiven"));
 			if(HPS.getConfig().getBoolean("wand-give.explosion-effect")) {
 				player.getWorld().createExplosion(player.getLocation(), 0, false);
 			}
 		} else
-			HPS.PM.dependantMessagingTell(sender, "You must be a player to execute this command.");
+			HPS.PM.dependantMessagingTell(sender, HPS.Localisation.getTranslation("cmdPlayerOnly"));
 		
 		return true;
 	}

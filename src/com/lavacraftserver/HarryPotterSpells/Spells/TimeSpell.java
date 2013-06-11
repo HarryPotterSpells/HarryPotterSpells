@@ -10,7 +10,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
 		name="Time",
-		description="Toggles the time depending on your target block",
+		description="descTime",
 		range=0,
 		goThroughWalls=false,
 		cooldown=600

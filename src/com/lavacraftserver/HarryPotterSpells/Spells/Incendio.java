@@ -13,7 +13,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
 		name="Incendio",
-		description="Lights the targeted mob or block on fire",
+		description="descIncendio",
 		range=50,
 		goThroughWalls=false,
 		cooldown=45,

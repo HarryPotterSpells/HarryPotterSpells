@@ -18,7 +18,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
 @spell (
 		name="Deprimo",
-		description="Slows your target to an almost halt",
+		description="descDeprimo",
 		range=20,
 		goThroughWalls=false,
 		cooldown=180
@@ -54,7 +54,7 @@ public class Deprimo extends Spell implements Listener {
 			return true;
 			
 		} else {
-			HPS.PM.warn(p, "This can only be used on a player or mob.");
+			HPS.PM.warn(p, HPS.Localisation.getTranslation("spellLivingEntityOnly"));
 			return false;
 		}
 	}

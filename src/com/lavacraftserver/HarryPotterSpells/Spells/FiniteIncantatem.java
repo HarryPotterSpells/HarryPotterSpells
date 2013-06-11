@@ -10,7 +10,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
 @spell (
 		name="Finite Incantatum",
-		description="Removes potion effects and unpetrifies the target player",
+		description="descFiniteIncantatem",
 		range=50,
 		goThroughWalls=false,
 		cooldown=45
@@ -36,7 +36,7 @@ public class FiniteIncantatem extends Spell {
 			
 			return true;
 		} else {
-			HPS.PM.warn(p, "This can only be used on a player.");
+			HPS.PM.warn(p, HPS.Localisation.getTranslation("spellPlayerOnly"));
 			return false;
 		}
 	}

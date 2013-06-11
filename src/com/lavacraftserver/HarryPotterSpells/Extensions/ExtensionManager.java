@@ -10,13 +10,13 @@ import java.util.logging.Level;
 import java.util.zip.ZipFile;
 
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.reflections.Reflections;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
+import com.lavacraftserver.HarryPotterSpells.Commands.HCommandExecutor;
 import com.lavacraftserver.HarryPotterSpells.Jobs.ClearJob;
 import com.lavacraftserver.HarryPotterSpells.Jobs.DisableJob;
 import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
@@ -44,7 +44,7 @@ public class ExtensionManager implements EnableJob, DisableJob {
 	    HPS = plugin;
 	    
 	    ExtensionManager.instantated = true;
-		HPS.PM.debug("Loading extensions...");
+		HPS.PM.debug(HPS.Localisation.getTranslation("dbgExtensionLoading"));
 		
 		extensionFolder = new File(HPS.getDataFolder(), "Extensions");
 		if(!extensionFolder.exists())
@@ -65,7 +65,7 @@ public class ExtensionManager implements EnableJob, DisableJob {
 				zip.close();
 				
 				if(!HPS.PM.hackFile(file)) {
-					HPS.PM.log(Level.WARNING, "Could not add file " + file.getName() + " to the extension list. This is probably an I/O error.");
+					HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errCouldNotAddExtensionFile", file.getName()));
 					continue;
 				}
 				
@@ -84,7 +84,7 @@ public class ExtensionManager implements EnableJob, DisableJob {
 						HPS.JobManager.addClearJob(c.newInstance());
 						clearJobs++;
 					} catch (Exception e) {
-						HPS.PM.log(Level.WARNING, "An error occurred whilst a clear job in extension " + ext + " to the Job Manager.");
+						HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errExtensionClearJob", ext));
 						HPS.PM.debug(e);
 					}
 				}
@@ -94,7 +94,7 @@ public class ExtensionManager implements EnableJob, DisableJob {
 						HPS.JobManager.addEnableJob(c.newInstance());
 						enableJobs++;
 					} catch(Exception e) {
-						HPS.PM.log(Level.WARNING, "An error occurred whilst adding an enable job in extension " + ext + " to the Job Manager.");
+						HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errExtensionEnableJob", ext));
 						HPS.PM.debug(e);
 					}
 				}
@@ -104,12 +104,12 @@ public class ExtensionManager implements EnableJob, DisableJob {
 						HPS.JobManager.addDisableJob(c.newInstance());
 						disableJobs++;
 					} catch (Exception e) {
-						HPS.PM.log(Level.WARNING, "An error occurred whilst adding a disable job in extension " + ext + " to the Job Manager");
+						HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errExtensionDisableJob", ext));
 						HPS.PM.debug(e);
 					}
 				}
 				
-				for(Class<? extends CommandExecutor> c : reflections.getSubTypesOf(CommandExecutor.class)) {
+				for(Class<? extends HCommandExecutor> c : reflections.getSubTypesOf(HCommandExecutor.class)) {
 					if(HPS.addHackyCommand(c))
 						commands++;
 				}
@@ -119,19 +119,19 @@ public class ExtensionManager implements EnableJob, DisableJob {
 						Bukkit.getPluginManager().registerEvents(c.newInstance(), HPS);
 						listeners++;
 					} catch(Exception e) {
-						HPS.PM.log(Level.WARNING, "An error occurred whilst adding a listener in extension " + ext + ".");
+						HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errExtensionListeners", ext));
 						HPS.PM.debug(e);
 					}
 				}
 				
 			} catch (Exception e) {
-				HPS.PM.log(Level.WARNING, "An error occurred whilst loading " + file.getName() + " to the extension list. This extension may work anyway...");
+				HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errExtensionLoading", file.getName()));
 				HPS.PM.debug(e);
 			}
 		}
 		
-		HPS.PM.debug("Loaded " + extensionList.size() + " extensions with " + commands + " commands and " + listeners + " listeners.");
-		HPS.PM.debug("There are also " + clearJobs + " clear jobs, " + enableJobs + " enable jobs and " + disableJobs + " disable jobs.");
+		HPS.PM.debug(HPS.Localisation.getTranslation("dbgExtensionLoadedOne", extensionList.size(), commands, listeners));
+		HPS.PM.debug(HPS.Localisation.getTranslation("dbgExtensionLoadedTwo", clearJobs, enableJobs, disableJobs));
 	}
 	
 	private class ExtensionFileFilter implements FileFilter {
@@ -145,22 +145,22 @@ public class ExtensionManager implements EnableJob, DisableJob {
 
 	@Override
 	public void onDisable(PluginManager pm) {
-		HPS.PM.debug("Disabling extensions...");
+		HPS.PM.debug(HPS.Localisation.getTranslation("dbgDisablingExtensions"));
 		Iterator<Entry<String, Extension>> it = extensionList.entrySet().iterator();
 		while(it.hasNext())
 			it.next().getValue().disable(pm);
 		if(extensionList.size() != 0)
-			HPS.PM.log(Level.INFO, "Disabled " + extensionList.size() + " extensions.");
+			HPS.PM.log(Level.INFO, HPS.Localisation.getTranslation("dbgExtensionsDisabled", extensionList.size()));
 	}
 
 	@Override
 	public void onEnable(PluginManager pm) {
-		HPS.PM.debug("Enabling extensions...");
+        HPS.PM.debug(HPS.Localisation.getTranslation("dbgEnablingExtensions"));
 		Iterator<Entry<String, Extension>> it = extensionList.entrySet().iterator();
 		while(it.hasNext())
 			it.next().getValue().disable(pm);
 		if(extensionList.size() != 0)
-			HPS.PM.log(Level.INFO, "Enabled " + extensionList.size() + " extensions.");
+            HPS.PM.log(Level.INFO, HPS.Localisation.getTranslation("dbgExtensionsEnabled", extensionList.size()));
 	}
 	
 }

@@ -16,7 +16,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
 		name="Sonorus",
-		description="Broadcasts what ever you next shout to the whole server",
+		description="descSonorus",
 		range=0,
 		goThroughWalls=false,
 		cooldown=15

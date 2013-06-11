@@ -13,7 +13,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.ParticleEffect;
 
 @spell (
 	name="Aguamenti",
-	description="Places water at your target block",
+	description="descAguamenti",
 	range=50,
 	goThroughWalls=false,
 	cooldown=90,

@@ -16,7 +16,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
 @spell (
 		name="Petrificus Totalus",
-		description="Stuns the target player",
+		description="descPetrificusTotalus",
 		range=50,
 		goThroughWalls=false,
 		cooldown=300
@@ -51,7 +51,7 @@ public class PetrificusTotalus extends Spell implements Listener {
 			target.getWorld().createExplosion(loc, 0F);
 			return true;
 		} else {
-			HPS.PM.warn(p, "This can only be used on a player.");
+			HPS.PM.warn(p, HPS.Localisation.getTranslation("spellPlayerOnly"));
 			return false;
 		}
 	}

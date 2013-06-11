@@ -16,7 +16,7 @@ import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
-@HCommand(name = "spelllist", description = "Lists all spells", usage = "<command> [player]", permissionDefault = "true")
+@HCommand(name = "spelllist", description = "cmdSplDescription", usage = "<command> [player]", permissionDefault = "true")
 public class SpellList extends HCommandExecutor implements EnableJob {
 	private final Permission LIST_OTHERS = new Permission("HarryPotterSpells.list.others", PermissionDefault.OP);
 	
@@ -51,19 +51,19 @@ public class SpellList extends HCommandExecutor implements EnableJob {
 			if(sender instanceof Player) {
 				SortedSet<String> spells = new TreeSet<String>(HPS.PlayerSpellConfig.getStringListOrEmpty(sender.getName()));
 				if(spells.size() == 0)
-					HPS.PM.tell((Player) sender, "You do not know any spells.");
+					HPS.PM.tell((Player) sender, HPS.Localisation.getTranslation("genKnowNoSpells"));
 				else {
 					String spellList = null;
 					for (String spell : spells) {
 						if (spellList == null)
-							spellList = "Spells you know: ".concat(spell);
+							spellList = (HPS.Localisation.getTranslation("cmdSplKnown") + " ").concat(spell);
 						else
 							spellList = spellList.concat(", " + spell);
 					}
 					HPS.PM.dependantMessagingTell(sender, spellList + ".");
 				}
 			} else
-				HPS.PM.dependantMessagingTell(sender, ChatColor.RED + "You must be a player to use this command.");
+				HPS.PM.dependantMessagingTell(sender, ChatColor.RED + HPS.Localisation.getTranslation("cmdPlayerOnly"));
 			return true;
 		}
 		
@@ -71,18 +71,18 @@ public class SpellList extends HCommandExecutor implements EnableJob {
 		if(sender instanceof Player) {
 			if(sender.hasPermission(LIST_OTHERS)) {
 				if(Bukkit.getPlayer(args[0]) == null) {
-					HPS.PM.tell((Player) sender, "That player could not be found.");
+					HPS.PM.tell((Player) sender, HPS.Localisation.getTranslation("cmdPlayerNotFound"));
 					return true;
 				}
 				
 				SortedSet<String> spells = new TreeSet<String>(HPS.PlayerSpellConfig.getStringListOrEmpty(args[0]));
 				if(spells.size() == 0)
-					HPS.PM.tell((Player) sender, args[0] + " does not know any spells.");
+					HPS.PM.tell((Player) sender, HPS.Localisation.getTranslation("cmdSplNoneKnown", args[0]));
 				else {
 					String spellList = null;
 					for (String spell : spells) {
 						if (spellList == null)
-							spellList = "Spells " + args[0] + " knows: ".concat(spell);
+							spellList = HPS.Localisation.getTranslation("cmdSplPlayerKnows", args[0]).concat(spell);
 						else
 							spellList = spellList.concat(", " + spell);
 					}
@@ -91,7 +91,7 @@ public class SpellList extends HCommandExecutor implements EnableJob {
 			} else
 				HPS.PM.warn((Player) sender, command.getPermissionMessage());
 		} else
-			HPS.PM.dependantMessagingTell(sender, ChatColor.RED + "You must be a player to use this command.");
+			HPS.PM.dependantMessagingTell(sender, ChatColor.RED + HPS.Localisation.getTranslation("cmdPlayerOnly"));
 		
 		return true;
 	}

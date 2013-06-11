@@ -108,7 +108,7 @@ public class SpellTargeter {
                 try {
                     FireworkEffectPlayer.playFirework(loc.getWorld(), loc, effect);
                 } catch (Exception e) {
-                    HPS.PM.log(Level.WARNING, "An error occurred whilst generating a Firework Effect!");
+                    HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errFireworkEffect"));
                     HPS.PM.debug(e);
                 }
                 
@@ -155,7 +155,7 @@ public class SpellTargeter {
                 try {
 					ParticleEffect.sendToLocation(effect, loc, offset, offset, offset, 1f, count);
 				} catch (Exception e) {
-					HPS.PM.log(Level.WARNING, "An error occurred whilst generating a Particle Effect!");
+					HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errParticleEffect"));
                     HPS.PM.debug(e);
 				}
                 

@@ -24,7 +24,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.ParticleEffect;
 
 @spell(
 		name="Crucio",
-		description="Torture your victim.",
+		description="descCrucio",
 		range=50,
 		goThroughWalls=false,
 		cooldown=300
@@ -59,12 +59,12 @@ public class Crucio extends Spell implements Listener {
 						
 					}, (long) duration);
 				} else 
-					HPS.PM.warn(p, "This can only be used on a player.");
+					HPS.PM.warn(p, HPS.Localisation.getTranslation("spellPlayerOnly"));
 			}
 			
 			@Override
 			public void hitBlock(Block block) {
-				HPS.PM.warn(p, "This can only be used on a player.");				
+                HPS.PM.warn(p, HPS.Localisation.getTranslation("spellPlayerOnly"));
 			}
 			
 		}, 1.2d, ParticleEffect.DEPTH_SUSPEND);

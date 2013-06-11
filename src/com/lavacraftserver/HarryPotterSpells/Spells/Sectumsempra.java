@@ -12,7 +12,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
 @spell (
 		name="Sectumsempra",
-		description="Slowly damages the target player",
+		description="descSectumsempra",
 		range=50,
 		goThroughWalls=false,
 		cooldown=300
@@ -32,7 +32,7 @@ public class Sectumsempra extends Spell {
 			sectumsemprarunnable.taskID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(HPS, sectumsemprarunnable, 0L, 20L);
 			return true;
 		} else {
-			HPS.PM.warn(p, "This can only be used on a player or a mob.");
+			HPS.PM.warn(p, HPS.Localisation.getTranslation("spellLivingEntityOnly"));
 			return false;
 		}
 	}
