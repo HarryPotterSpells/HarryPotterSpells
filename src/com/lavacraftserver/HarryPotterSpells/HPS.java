@@ -55,10 +55,11 @@ public class HPS extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
-	    // Instance loading
+	    // Instance loading 
+	    // ORDER IS IMPORTANT.
+	    PM = new PM(this);
 	    Localisation = new Localisation(this);
 		PlayerSpellConfig = new PlayerSpellConfig(this);
-		PM = new PM(this);
 		SpellManager = new SpellManager(this);
 		Wand = new Wand(this);
 		JobManager = new JobManager();

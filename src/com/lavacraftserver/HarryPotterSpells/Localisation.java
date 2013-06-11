@@ -40,8 +40,11 @@ public class Localisation {
         properties = new File(base, HPS.getConfig().getString("Language", "us-english") + ".properties");
         defaultt = new File(base, "us-english.properties");
                 
-        if(!defaultt.exists())
+        if(!defaultt.exists()) {            
             try {
+                defaultt.getParentFile().mkdirs();
+                defaultt.createNewFile();
+                
                 Files.copy(new InputSupplier<InputStream>() {
 
                     @Override
@@ -52,9 +55,9 @@ public class Localisation {
                 }, defaultt);
             } catch (IOException e) {
                 HPS.PM.log(Level.WARNING, "Could not copy the default language file.");
-                e.printStackTrace();
                 HPS.PM.debug(e);
             }
+        }
             
         try {
             lang.load(new FileInputStream(properties));

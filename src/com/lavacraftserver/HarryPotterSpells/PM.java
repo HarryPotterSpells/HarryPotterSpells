@@ -89,7 +89,7 @@ public class PM {
 	 * @param message the message(s) to log
 	 */
 	public void debug(String... message) {
-		if(HPS.getConfig().getBoolean("DebugMode", false))
+		if(HPS.getConfig().getBoolean("debug-mode", false))
 			for(String str : message)
 				log(Level.INFO, "[HPS - Debug] " + str);
 	}
@@ -154,7 +154,7 @@ public class PM {
 	 * @param e the throwable
 	 */
 	public void debug(Throwable e) {
-		if(HPS.getConfig().getBoolean("DebugMode", false))
+		if(HPS.getConfig().getBoolean("debug-mode", false))
 			e.printStackTrace();
 	}
 
