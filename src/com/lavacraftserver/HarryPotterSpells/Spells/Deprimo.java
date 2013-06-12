@@ -28,6 +28,7 @@ public class Deprimo extends Spell implements Listener {
 	
 	public Deprimo(HPS plugin) {
 	    super(plugin);
+	    plugin.getServer().getPluginManager().registerEvents(this, HPS);
 	}
 
 	public boolean cast(Player p) {

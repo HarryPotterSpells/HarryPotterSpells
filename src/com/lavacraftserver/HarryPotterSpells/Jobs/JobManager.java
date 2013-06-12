@@ -9,22 +9,22 @@ import org.bukkit.plugin.PluginManager;
  * The manager for all Jobs available.
  */
 public class JobManager {
-	List<ClearJob> clear = new ArrayList<ClearJob>();
-	List<EnableJob> enable = new ArrayList<EnableJob>();
-	List<DisableJob> disable = new ArrayList<DisableJob>();
+    private static List<ClearJob> clear = new ArrayList<ClearJob>();
+    private static List<EnableJob> enable = new ArrayList<EnableJob>();
+    private static List<DisableJob> disable = new ArrayList<DisableJob>();
 	
 	/**
 	 * Adds a clear job to the executor
 	 * @param job the clear job
 	 */
-	public void addClearJob(ClearJob job) {
+	public static void addClearJob(ClearJob job) {
 		clear.add(job);
 	}
 	
 	/**
 	 * Executes all clear jobs
 	 */
-	public void executeClearJobs() {
+	public static void executeClearJobs() {
 		for(ClearJob c : clear)
 			c.clear();
 	}
@@ -33,7 +33,7 @@ public class JobManager {
 	 * Adds an enable job to the executor
 	 * @param job the enable job
 	 */
-	public void addEnableJob(EnableJob job) {
+	public static void addEnableJob(EnableJob job) {
 		enable.add(job);
 	}
 	
@@ -41,7 +41,7 @@ public class JobManager {
 	 * Executes all enable jobs
 	 * @param pm a plugin manager instance
 	 */
-	public void executeEnableJobs(PluginManager pm) {
+	public static void executeEnableJobs(PluginManager pm) {
 		for(EnableJob job : enable)
 			job.onEnable(pm);
 	}
@@ -50,7 +50,7 @@ public class JobManager {
 	 * Adds a disable job to the executor
 	 * @param job the disable job
 	 */
-	public void addDisableJob(DisableJob job) {
+	public static void addDisableJob(DisableJob job) {
 		disable.add(job);
 	}
 	
@@ -58,7 +58,7 @@ public class JobManager {
 	 * Executed all disable jobs
 	 * @param pm a plugin manager instance
 	 */
-	public void executeDisableJob(PluginManager pm) {
+	public static void executeDisableJob(PluginManager pm) {
 		for(DisableJob job : disable)
 			job.onDisable(pm);
 	}

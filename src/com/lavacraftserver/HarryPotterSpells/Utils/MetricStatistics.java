@@ -5,17 +5,25 @@ import java.util.Map;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.PluginManager;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.API.SpellPostCastEvent;
+import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
+import com.lavacraftserver.HarryPotterSpells.Jobs.JobManager;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
-public class MetricStatistics implements Listener {
+public class MetricStatistics implements EnableJob, Listener {
     private static int spellsCast = 0, successes = 0, failures = 0;
     private static Map<String, Integer> typesOfSpellCast = new HashMap<String, Integer>();
     
-    public MetricStatistics (HPS plugin) {
-        // Do nothing because this is a utility class
+    { // Register enable job in non-static initialiser
+        JobManager.addEnableJob(this);
+    }
+    
+    @Override
+    public void onEnable(PluginManager pm) {
+        pm.registerEvents(this, HPS.getPlugin());
     }
     
     public static int getSpellsCast() {

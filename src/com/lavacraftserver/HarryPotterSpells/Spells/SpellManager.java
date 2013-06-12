@@ -26,6 +26,7 @@ import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.API.SpellPostCastEvent;
 import com.lavacraftserver.HarryPotterSpells.API.SpellPreCastEvent;
 import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
+import com.lavacraftserver.HarryPotterSpells.Jobs.JobManager;
 
 /**
  * A class that manages spells and holds lots of spell related utilities
@@ -46,6 +47,10 @@ public class SpellManager implements EnableJob {
 	
 	public final Permission NO_COOLDOWN_ALL_1 = new Permission("HarryPotterSpells.nocooldown", PermissionDefault.OP), NO_COOLDOWN_ALL_2 = new Permission("HarryPotterSpells.nocooldown.*");
 
+	{ // Register the enable job in a non-static initialiser
+	    JobManager.addEnableJob(this);
+	}
+	
 	@Override
 	public void onEnable(PluginManager pm) {
 		pm.addPermission(NO_COOLDOWN_ALL_1);

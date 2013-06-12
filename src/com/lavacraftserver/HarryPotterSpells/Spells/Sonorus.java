@@ -26,6 +26,7 @@ public class Sonorus extends Spell implements Listener {
 	
 	public Sonorus(HPS plugin) {
 	    super(plugin);
+	    HPS.getServer().getPluginManager().registerEvents(this, HPS);
 	}
 	
 	public boolean cast(final Player p) {

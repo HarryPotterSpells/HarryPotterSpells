@@ -28,6 +28,7 @@ public class Spongify extends Spell implements Listener {
 	
 	public Spongify(HPS plugin) {
 	    super(plugin);
+	    plugin.getServer().getPluginManager().registerEvents(this, HPS);
 	}
 
 	@Override

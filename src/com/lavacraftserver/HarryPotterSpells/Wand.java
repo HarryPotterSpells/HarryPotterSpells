@@ -12,6 +12,10 @@ import org.bukkit.inventory.ItemStack;
 public class Wand {
     private HPS HPS;
     
+    /**
+     * Constructs the {@link Wand}
+     * @param plugin an instance of {@link HPS}
+     */
     public Wand(HPS plugin) {
         HPS = plugin;
     }

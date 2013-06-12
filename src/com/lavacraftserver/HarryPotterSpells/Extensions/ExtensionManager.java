@@ -9,17 +9,15 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.zip.ZipFile;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.reflections.Reflections;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Commands.HCommandExecutor;
-import com.lavacraftserver.HarryPotterSpells.Jobs.ClearJob;
 import com.lavacraftserver.HarryPotterSpells.Jobs.DisableJob;
 import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
+import com.lavacraftserver.HarryPotterSpells.Jobs.JobManager;
 
 /**
  * A utility class that manages extensions. </br>
@@ -30,6 +28,11 @@ public class ExtensionManager implements EnableJob, DisableJob {
 	private File extensionFolder;
 	private static boolean instantated = false;
 	private HPS HPS;
+	
+	{ // Register the enable and disable jobs in a non-static initialiser
+	    JobManager.addEnableJob(this);
+	    JobManager.addDisableJob(this);
+	}
 	
 	/**
 	 * Constructs the Extension Manager, loading all extensions. </br>
@@ -50,7 +53,7 @@ public class ExtensionManager implements EnableJob, DisableJob {
 		if(!extensionFolder.exists())
 			extensionFolder.mkdirs();
 		
-		int commands = 0, clearJobs = 0, enableJobs = 0, disableJobs = 0, listeners = 0;
+		int commands = 0;
 		
 		for(File file : extensionFolder.listFiles(new ExtensionFileFilter())) {
 			try {
@@ -69,7 +72,6 @@ public class ExtensionManager implements EnableJob, DisableJob {
 					continue;
 				}
 				
-				String ext = description.getName();
 				Reflections reflections = new Reflections(description.getPackage());
 				for(Class<? extends Extension> e : reflections.getSubTypesOf(Extension.class)) {
 					Extension ex = e.getConstructor(HPS.class).newInstance(HPS);
@@ -79,49 +81,9 @@ public class ExtensionManager implements EnableJob, DisableJob {
 					break;
 				}
 				
-				for(Class<? extends ClearJob> c : reflections.getSubTypesOf(ClearJob.class)) {
-					try {
-						HPS.JobManager.addClearJob(c.getConstructor(HPS.class).newInstance(HPS));
-						clearJobs++;
-					} catch (Exception e) {
-						HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errExtensionClearJob", ext));
-						HPS.PM.debug(e);
-					}
-				}
-				
-				for(Class<? extends EnableJob> c : reflections.getSubTypesOf(EnableJob.class)) {
-					try {
-						HPS.JobManager.addEnableJob(c.getConstructor(HPS.class).newInstance(HPS));
-						enableJobs++;
-					} catch(Exception e) {
-						HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errExtensionEnableJob", ext));
-						HPS.PM.debug(e);
-					}
-				}
-
-				for(Class<? extends DisableJob> c : reflections.getSubTypesOf(DisableJob.class)) {
-					try {
-						HPS.JobManager.addDisableJob(c.getConstructor(HPS.class).newInstance(HPS));
-						disableJobs++;
-					} catch (Exception e) {
-						HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errExtensionDisableJob", ext));
-						HPS.PM.debug(e);
-					}
-				}
-				
 				for(Class<? extends HCommandExecutor> c : reflections.getSubTypesOf(HCommandExecutor.class)) {
 					if(HPS.addHackyCommand(c))
 						commands++;
-				}
-				
-				for(Class<? extends Listener> c : reflections.getSubTypesOf(Listener.class)) {
-					try {
-						Bukkit.getPluginManager().registerEvents(c.getConstructor(HPS.class).newInstance(HPS), HPS);
-						listeners++;
-					} catch(Exception e) {
-						HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errExtensionListeners", ext));
-						HPS.PM.debug(e);
-					}
 				}
 				
 			} catch (Exception e) {
@@ -130,8 +92,7 @@ public class ExtensionManager implements EnableJob, DisableJob {
 			}
 		}
 		
-		HPS.PM.debug(HPS.Localisation.getTranslation("dbgExtensionLoadedOne", extensionList.size(), commands, listeners));
-		HPS.PM.debug(HPS.Localisation.getTranslation("dbgExtensionLoadedTwo", clearJobs, enableJobs, disableJobs));
+		HPS.PM.debug(HPS.Localisation.getTranslation("dbgExtensionLoaded", extensionList.size(), commands));
 	}
 	
 	private class ExtensionFileFilter implements FileFilter {

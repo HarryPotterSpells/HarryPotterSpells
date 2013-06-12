@@ -35,6 +35,7 @@ public class Crucio extends Spell implements Listener {
     
     public Crucio(HPS plugin) {
         super(plugin);
+        HPS.getServer().getPluginManager().registerEvents(this, HPS);
     }
 	
 	public boolean cast(final Player p){

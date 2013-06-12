@@ -26,6 +26,7 @@ public class PetrificusTotalus extends Spell implements Listener {
 	
 	public PetrificusTotalus(HPS plugin) {
 	    super(plugin);
+	    plugin.getServer().getPluginManager().registerEvents(this, HPS);
 	}
 
 	@Override

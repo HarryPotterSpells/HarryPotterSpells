@@ -17,9 +17,10 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		cooldown=45
 )
 public class AlarteAscendare extends Spell implements Listener {
-	
+    
 	public AlarteAscendare(HPS plugin) {
         super(plugin);
+        HPS.getServer().getPluginManager().registerEvents(this, HPS);
     }
 
     @Override

@@ -21,6 +21,10 @@ public class PM {
 	private Logger log = Bukkit.getLogger();
 	private HPS HPS;
 
+	/**
+	 * Constructs the {@link PM}
+	 * @param plugin an instance of {@link HPS}
+	 */
 	public PM(HPS plugin) {
 	    HPS = plugin;
 	}

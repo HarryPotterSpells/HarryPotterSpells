@@ -17,13 +17,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.help.GenericCommandHelpTopic;
 import org.bukkit.help.HelpTopic;
 import org.bukkit.help.IndexHelpTopic;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 
@@ -31,9 +31,6 @@ import com.lavacraftserver.HarryPotterSpells.Metrics.Graph;
 import com.lavacraftserver.HarryPotterSpells.Commands.HCommand;
 import com.lavacraftserver.HarryPotterSpells.Commands.HCommandExecutor;
 import com.lavacraftserver.HarryPotterSpells.Extensions.ExtensionManager;
-import com.lavacraftserver.HarryPotterSpells.Jobs.ClearJob;
-import com.lavacraftserver.HarryPotterSpells.Jobs.DisableJob;
-import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
 import com.lavacraftserver.HarryPotterSpells.Jobs.JobManager;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 import com.lavacraftserver.HarryPotterSpells.Spells.SpellManager;
@@ -45,13 +42,10 @@ public class HPS extends JavaPlugin {
 	public PM PM;
 	public SpellManager SpellManager;
 	public Wand Wand;
-	public JobManager JobManager;
 	public ExtensionManager ExtensionManager;
 	public SpellTargeter SpellTargeter;
 	public Localisation Localisation;
-	
-	public static final Permission CAST_SPELLS = new Permission("HarryPotterSpells.use", PermissionDefault.OP);
-	
+		
 	private CommandMap commandMap;
 	private Collection<HelpTopic> helpTopics = new ArrayList<HelpTopic>();
 	
@@ -64,15 +58,11 @@ public class HPS extends JavaPlugin {
 		PlayerSpellConfig = new PlayerSpellConfig(this);
 		SpellManager = new SpellManager(this);
 		Wand = new Wand(this);
-		JobManager = new JobManager();
 		ExtensionManager = new ExtensionManager(this);
 		
 		// Configuration
 		loadConfig();
-		
-		// Global permissions
-		getServer().getPluginManager().addPermission(CAST_SPELLS);
-		
+				
 		// Hacky command map stuff
 		try {
 		    Class<?> craftServer = SVPBypass.getCurrentCBClass("CraftServer");
@@ -87,43 +77,7 @@ public class HPS extends JavaPlugin {
         }
 		
 		Reflections reflections = new Reflections("com.lavacraftserver.HarryPotterSpells");
-		
-		// Reflections - Jobs
-		int clearJobs = 0;
-		for(Class<? extends ClearJob> c : reflections.getSubTypesOf(ClearJob.class)) {
-			try {
-				JobManager.addClearJob(c.getConstructor(HPS.class).newInstance(this));
-				clearJobs++;
-			} catch (Exception e) {
-				PM.log(Level.WARNING, Localisation.getTranslation("errClearJob", c.getSimpleName()));
-				PM.debug(e);
-			}
-		}
-		
-		int enableJobs = 0;
-		for(Class<? extends EnableJob> c : reflections.getSubTypesOf(EnableJob.class)) {
-			try {
-				JobManager.addEnableJob(c.getConstructor(HPS.class).newInstance(this));
-				enableJobs++;
-			} catch(Exception e) {
-                PM.log(Level.WARNING, Localisation.getTranslation("errEnableJob", c.getSimpleName()));
-				PM.debug(e);
-			}
-		}
-
-		int disableJobs = 0;
-		for(Class<? extends DisableJob> c : reflections.getSubTypesOf(DisableJob.class)) {
-			try {
-				JobManager.addDisableJob(c.getConstructor(HPS.class).newInstance(this));
-				disableJobs++;
-			} catch (Exception e) {
-                PM.log(Level.WARNING, Localisation.getTranslation("errDisableJob", c.getSimpleName()));
-				PM.debug(e);
-			}
-		}
-		
-		PM.debug(Localisation.getTranslation("dbgRegisteredCoreJobs", clearJobs, enableJobs, disableJobs));
-		
+				
 		// Reflections - Commands
 		int commands = 0;
 		for(Class<? extends HCommandExecutor> clazz : reflections.getSubTypesOf(HCommandExecutor.class)) {
@@ -137,19 +91,6 @@ public class HPS extends JavaPlugin {
 		Bukkit.getHelpMap().addTopic(new IndexHelpTopic("HarryPotterSpells", Localisation.getTranslation("hlpDescription"), "", helpTopics));
 		
 		PM.debug(Localisation.getTranslation("dbgHelpCommandsAdded"));
-		
-		// Reflections - Listeners
-		int listeners = 0;
-		for(Class<? extends Listener> clazz : reflections.getSubTypesOf(Listener.class)) {
-			try {
-				getServer().getPluginManager().registerEvents(clazz.getConstructor(HPS.class).newInstance(this), this);
-				listeners++;
-			} catch (Exception e) {
-				PM.log(Level.WARNING, Localisation.getTranslation("errListeners", clazz.getSimpleName()));
-				PM.debug(e);
-			}
-		}
-		PM.debug(Localisation.getTranslation("dbgRegisteredCoreListeners", listeners));
 		
 		// Plugin Metrics
 		try {
@@ -244,6 +185,16 @@ public class HPS extends JavaPlugin {
 			getConfig().options().copyDefaults(true);
 			saveDefaultConfig();
 		}
+	}
+	
+	/**
+	 * A static method that gets the {@link Plugin} linked to this class. <br>
+	 * It does <b>NOT</b> get an instance of {@link HPS}. 
+	 * If you need an instance of HPS your class is probably in the wrong package.
+	 * @return the plugin linked to this card
+	 */
+	public static Plugin getPlugin() {
+	    return Bukkit.getPluginManager().getPlugin("HarryPotterSpells");
 	}
 	
 	/**

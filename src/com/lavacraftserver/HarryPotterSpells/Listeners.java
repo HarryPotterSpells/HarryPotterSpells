@@ -7,19 +7,32 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
+import org.bukkit.plugin.PluginManager;
 
+import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
+import com.lavacraftserver.HarryPotterSpells.Jobs.JobManager;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
-public class Listeners implements Listener {
+public class Listeners implements Listener, EnableJob {
     private HPS HPS;
     
-    public Listeners(HPS plugin) {
-        HPS = plugin;
+    public static final Permission CAST_SPELLS = new Permission("HarryPotterSpells.use", PermissionDefault.OP);
+    
+    { // Register enable job in a non-static initialiser
+        JobManager.addEnableJob(this);
+    }
+    
+    @Override
+    public void onEnable(PluginManager pm) {
+        pm.addPermission(CAST_SPELLS);
+        pm.registerEvents(this, HPS);
     }
     	
 	@EventHandler
 	public void PIE(PlayerInteractEvent e) {
-		if(e.getPlayer().hasPermission(com.lavacraftserver.HarryPotterSpells.HPS.CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
+		if(e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
 		    
             if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE))
                 e.setCancelled(true);
@@ -91,7 +104,7 @@ public class Listeners implements Listener {
 	
 	@EventHandler
 	public void PIEE(PlayerInteractEntityEvent e) {
-		if(e.getPlayer().hasPermission(com.lavacraftserver.HarryPotterSpells.HPS.CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
+		if(e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
 		    Integer knows = HPS.PlayerSpellConfig.getStringListOrEmpty(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
             
             if(cur == null) {

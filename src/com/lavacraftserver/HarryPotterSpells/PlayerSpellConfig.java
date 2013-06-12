@@ -17,6 +17,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 
 import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
+import com.lavacraftserver.HarryPotterSpells.Jobs.JobManager;
 
 /**
  * A class that manages the {@code PlayerSpellConfig.yml} file. <br>
@@ -27,6 +28,14 @@ public class PlayerSpellConfig implements EnableJob {
 	private File PSCFile = null;
 	private HPS HPS;
 	
+	{ // Register enable job in non-static initialiser
+	    JobManager.addEnableJob(this);
+	}
+	
+	/**
+	 * Constructs the {@link PlayerSpellConfig}
+	 * @param plugin an instance of {@link HPS}
+	 */
 	public PlayerSpellConfig(HPS plugin) {
 	    HPS = plugin;
 	}
