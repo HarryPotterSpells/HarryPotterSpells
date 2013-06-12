@@ -50,6 +50,8 @@ public class HPS extends JavaPlugin {
 	public SpellTargeter SpellTargeter;
 	public Localisation Localisation;
 	
+	public static final Permission CAST_SPELLS = new Permission("HarryPotterSpells.use", PermissionDefault.OP);
+	
 	private CommandMap commandMap;
 	private Collection<HelpTopic> helpTopics = new ArrayList<HelpTopic>();
 	
@@ -67,6 +69,9 @@ public class HPS extends JavaPlugin {
 		
 		// Configuration
 		loadConfig();
+		
+		// Global permissions
+		getServer().getPluginManager().addPermission(CAST_SPELLS);
 		
 		// Hacky command map stuff
 		try {

@@ -19,7 +19,7 @@ public class Listeners implements Listener {
     	
 	@EventHandler
 	public void PIE(PlayerInteractEvent e) {
-		if(e.getPlayer().hasPermission("HarryPotterSpells.use") && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
+		if(e.getPlayer().hasPermission(com.lavacraftserver.HarryPotterSpells.HPS.CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
 		    
             if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE))
                 e.setCancelled(true);
@@ -91,7 +91,7 @@ public class Listeners implements Listener {
 	
 	@EventHandler
 	public void PIEE(PlayerInteractEntityEvent e) {
-		if(e.getPlayer().hasPermission("HarryPotterSpells.use") && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
+		if(e.getPlayer().hasPermission(com.lavacraftserver.HarryPotterSpells.HPS.CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
 		    Integer knows = HPS.PlayerSpellConfig.getStringListOrEmpty(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
             
             if(cur == null) {
