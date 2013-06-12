@@ -50,7 +50,7 @@ public class HPS extends JavaPlugin {
 	private Collection<HelpTopic> helpTopics = new ArrayList<HelpTopic>();
 	
 	@Override
-	public void onEnable() {
+	public void onEnable() {	    
 	    // Instance loading 
 	    // ORDER IS IMPORTANT.
 	    PM = new PM(this);
@@ -76,7 +76,7 @@ public class HPS extends JavaPlugin {
             PM.debug(e);
         }
 		
-		Reflections reflections = new Reflections("com.lavacraftserver.HarryPotterSpells");
+		Reflections reflections = Reflections.collect();
 				
 		// Reflections - Commands
 		int commands = 0;

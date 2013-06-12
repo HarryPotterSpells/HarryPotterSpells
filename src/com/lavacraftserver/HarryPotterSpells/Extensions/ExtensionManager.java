@@ -45,7 +45,7 @@ public class ExtensionManager implements EnableJob, DisableJob {
 	    
 	    if(ExtensionManager.instantated)
 	        return;
-	    	    
+	    
 	    ExtensionManager.instantated = true;
 		HPS.PM.debug(HPS.Localisation.getTranslation("dbgExtensionLoading"));
 		
