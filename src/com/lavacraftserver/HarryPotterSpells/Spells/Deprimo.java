@@ -9,10 +9,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
+import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
@@ -23,12 +25,12 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		goThroughWalls=false,
 		cooldown=180
 )
-public class Deprimo extends Spell implements Listener {
+public class Deprimo extends Spell implements Listener, EnableJob {
 	private static List<String> players = new ArrayList<String>();
 	
-	public Deprimo(HPS plugin) {
-	    super(plugin);
-	    plugin.getServer().getPluginManager().registerEvents(this, HPS);
+	@Override
+	public void onEnable(PluginManager pm) {
+	    pm.registerEvents(this, HPS.Plugin);
 	}
 
 	public boolean cast(Player p) {
@@ -43,7 +45,7 @@ public class Deprimo extends Spell implements Listener {
 			if (target instanceof Player) {
 				final Player player = (Player) target;
 				Deprimo.players.add(player.getName());
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
+				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
 					   
 					@Override
 					public void run() {

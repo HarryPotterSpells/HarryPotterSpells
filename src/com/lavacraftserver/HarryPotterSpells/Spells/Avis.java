@@ -4,7 +4,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
@@ -15,10 +14,6 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		cooldown=300
 )
 public class Avis extends Spell {
-
-	public Avis(HPS plugin) {
-        super(plugin);
-    }
 
     public boolean cast(Player p) {
 		int chickenAmount = (Integer) getConfig("chickens.amount", 5), batAmount = (Integer) getConfig("bats.amount", 0), chickenVelocity = (Integer) getConfig("chickens.velocity", 2), batVelocity = (Integer) getConfig("bats.velocity", 2);

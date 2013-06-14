@@ -14,20 +14,11 @@ import org.bukkit.plugin.PluginManager;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
-import com.lavacraftserver.HarryPotterSpells.Jobs.JobManager;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
 @HCommand(name = "spelllist", description = "cmdSplDescription", usage = "<command> [player]", permissionDefault = "true")
-public class SpellList extends HCommandExecutor implements EnableJob {
+public class SpellList implements HCommandExecutor, EnableJob {
 	public static final Permission LIST_OTHERS = new Permission("HarryPotterSpells.list.others", PermissionDefault.OP);
-	
-	{ // Register the enable job in a non-static initializer
-	    JobManager.addEnableJob(this);
-	}
-	
-	public SpellList(HPS plugin) {
-	    super(plugin);
-	}
 	
 	@Override
 	public void onEnable(PluginManager pm) {

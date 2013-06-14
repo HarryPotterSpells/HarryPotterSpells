@@ -26,7 +26,6 @@ import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.API.SpellPostCastEvent;
 import com.lavacraftserver.HarryPotterSpells.API.SpellPreCastEvent;
 import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
-import com.lavacraftserver.HarryPotterSpells.Jobs.JobManager;
 
 /**
  * A class that manages spells and holds lots of spell related utilities
@@ -43,34 +42,27 @@ public class SpellManager implements EnableJob {
 	};
 	private SortedSet<Spell> spellList = new TreeSet<Spell>(spellComparator);
 	private Map<String, Integer> currentSpell = new HashMap<String, Integer>();
-	private HPS HPS;
 	
 	public final Permission NO_COOLDOWN_ALL_1 = new Permission("HarryPotterSpells.nocooldown", PermissionDefault.OP), NO_COOLDOWN_ALL_2 = new Permission("HarryPotterSpells.nocooldown.*");
 
-	{ // Register the enable job in a non-static initialiser
-	    JobManager.addEnableJob(this);
-	}
-	
 	@Override
 	public void onEnable(PluginManager pm) {
-		pm.addPermission(NO_COOLDOWN_ALL_1);
-		pm.addPermission(NO_COOLDOWN_ALL_2);
+	    pm.addPermission(NO_COOLDOWN_ALL_1);
+	    pm.addPermission(NO_COOLDOWN_ALL_2);
 	}
 
 	/**
 	 * Constructs the {@link SpellManager}, adding all core spells to the Spell List
 	 * @param plugin an instance of {@link HPS}
 	 */
-	public SpellManager(HPS plugin) {
-	    HPS = plugin;
-	    
-		Reflections ref = new Reflections("com.lavacraftserver.HarryPotterSpells.Spells");
+	public SpellManager() {	    
+		Reflections ref = Reflections.collect();
 		for (Class<?> clazz : ref.getTypesAnnotatedWith(Spell.spell.class)) {
 			Spell spell;
 			if (clazz == Spell.class || !Spell.class.isAssignableFrom(clazz))
 				continue;
 			try {
-				spell = (Spell) clazz.getConstructor(HPS.class).newInstance(HPS);
+				spell = (Spell) clazz.newInstance();
 			} catch (Exception e) {
 				HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errSpells", clazz.getSimpleName()));
 				HPS.PM.debug(e);
@@ -203,7 +195,7 @@ public class SpellManager implements EnableJob {
 			return;
 		}
 
-		if (HPS.getConfig().getBoolean("spell-particle-toggle")) {
+		if (HPS.Plugin.getConfig().getBoolean("spell-particle-toggle")) {
 			Location l = player.getLocation();
 			l.setY(l.getY() + 1);
 			player.getWorld().playEffect(l, Effect.ENDER_SIGNAL, 0);
@@ -230,7 +222,7 @@ public class SpellManager implements EnableJob {
 
 			if (cast && successful && spell.getCoolDown(player) > 0) {
 				setCoolDown(playerName, spell, spell.getCoolDown(player));
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new CoolDown(HPS, playerName, spell), 20L);
+				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new CoolDown(playerName, spell), 20L);
 			}
 		}
 	}

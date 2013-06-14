@@ -16,10 +16,6 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 )
 public class AvadaKedavra extends Spell {
 
-	public AvadaKedavra(HPS plugin) {
-        super(plugin);
-    }
-
     public boolean cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) {
 			LivingEntity livingentity = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());

@@ -11,8 +11,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.plugin.PluginManager;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
+import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
@@ -23,12 +25,12 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		cooldown=60,
 		icon=Material.SPONGE
 )
-public class Spongify extends Spell implements Listener {
+public class Spongify extends Spell implements Listener, EnableJob {
 	private List<String> players = new ArrayList<String>();
 	
-	public Spongify(HPS plugin) {
-	    super(plugin);
-	    plugin.getServer().getPluginManager().registerEvents(this, HPS);
+	@Override
+	public void onEnable(PluginManager pm) {
+	    pm.registerEvents(this, HPS.Plugin);
 	}
 
 	@Override
@@ -40,7 +42,7 @@ public class Spongify extends Spell implements Listener {
 		Location loc = new Location(p.getWorld(), p.getLocation().getBlockX(), p.getLocation().getBlockY() + 1, p.getLocation().getBlockZ());
 		p.getWorld().createExplosion(loc, 0F);
 		
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
+		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
 		    
 		    @Override
 		    public void run() {

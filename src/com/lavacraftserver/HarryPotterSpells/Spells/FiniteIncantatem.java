@@ -16,10 +16,6 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		cooldown=45
 )
 public class FiniteIncantatem extends Spell {
-	
-	public FiniteIncantatem(HPS plugin) {
-        super(plugin);
-    }
 
     @Override
 	public boolean cast(Player p) {

@@ -17,10 +17,6 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 )
 public class Reparo extends Spell {
 
-	public Reparo(HPS plugin) {
-        super(plugin);
-    }
-
     @Override
 	public boolean cast(Player p) {
 		repairItems(p.getInventory().getContents(), p);

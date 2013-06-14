@@ -3,7 +3,6 @@ package com.lavacraftserver.HarryPotterSpells.Spells;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 
-import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
@@ -14,10 +13,6 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		cooldown=45
 )
 public class Confringo extends Spell {
-
-	public Confringo(HPS plugin) {
-        super(plugin);
-    }
 
     public boolean cast(Player p) {
 		Fireball fb = p.launchProjectile(Fireball.class);

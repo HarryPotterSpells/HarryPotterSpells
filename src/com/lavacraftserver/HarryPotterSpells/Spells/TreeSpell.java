@@ -22,10 +22,6 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 )
 public class TreeSpell extends Spell {
 
-	public TreeSpell(HPS plugin) {
-        super(plugin);
-    }
-
     public boolean cast(Player p) {
 		Block block = p.getTargetBlock(null, this.getRange());
 		if (block.getType() == Material.GRASS || block.getType() == Material.DIRT) {

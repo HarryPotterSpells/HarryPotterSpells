@@ -17,7 +17,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 
 import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
-import com.lavacraftserver.HarryPotterSpells.Jobs.JobManager;
 
 /**
  * A class that manages the {@code PlayerSpellConfig.yml} file. <br>
@@ -26,19 +25,6 @@ import com.lavacraftserver.HarryPotterSpells.Jobs.JobManager;
 public class PlayerSpellConfig implements EnableJob {
 	private FileConfiguration PSC = null;
 	private File PSCFile = null;
-	private HPS HPS;
-	
-	{ // Register enable job in non-static initialiser
-	    JobManager.addEnableJob(this);
-	}
-	
-	/**
-	 * Constructs the {@link PlayerSpellConfig}
-	 * @param plugin an instance of {@link HPS}
-	 */
-	public PlayerSpellConfig(HPS plugin) {
-	    HPS = plugin;
-	}
 	
 	/**
 	 * The current version specifying the format of the {@code PlayerSpellConfig.yml}
@@ -50,9 +36,9 @@ public class PlayerSpellConfig implements EnableJob {
 	 */
 	public void reloadPSC() {
 	    if (PSCFile == null)
-	    	PSCFile = new File(HPS.getDataFolder(), "PlayerSpellConfig.yml");
+	    	PSCFile = new File(HPS.Plugin.getDataFolder(), "PlayerSpellConfig.yml");
 	    PSC = YamlConfiguration.loadConfiguration(PSCFile);
-	    InputStream defConfigStream = HPS.getResource("PlayerSpellConfig.yml");
+	    InputStream defConfigStream = HPS.class.getResourceAsStream("PlayerSpellConfig.yml");
 	    if (defConfigStream != null) {
 	        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
 	        PSC.setDefaults(defConfig);

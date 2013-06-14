@@ -1,7 +1,6 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
 import java.util.HashMap;
-import java.util.HashSet;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -10,7 +9,6 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
-import org.bukkit.material.Chest;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
@@ -35,9 +33,6 @@ public class Glacius extends Spell {
 												            BlockFace.WEST,
 												            BlockFace.NORTH_WEST
 												            };
-	public Glacius(HPS plugin) {
-	    super(plugin);
-	}
 	
 	@Override
 	public boolean cast(Player p) {
@@ -76,7 +71,7 @@ public class Glacius extends Spell {
 				
 			}
 			
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
 				public void run() {
 					
 					for (Location locs : locations) {
@@ -95,7 +90,7 @@ public class Glacius extends Spell {
 
 				}
 				
-			}, HPS.getConfig().getLong("spells.glacius.ice-duration", 40L));
+			}, HPS.Plugin.getConfig().getLong("spells.glacius.ice-duration", 40L));
 			
 			return true;
 			

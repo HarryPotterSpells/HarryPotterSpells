@@ -21,10 +21,6 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 )
 public class Incendio extends Spell {
 
-	public Incendio(HPS plugin) {
-        super(plugin);
-    }
-
     public boolean cast(Player p) {
 	    HPS.SpellTargeter.register(p, new SpellHitEvent() {
 

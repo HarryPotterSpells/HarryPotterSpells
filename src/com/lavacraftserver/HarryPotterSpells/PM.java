@@ -19,15 +19,6 @@ import org.bukkit.entity.Player;
  */
 public class PM {
 	private Logger log = Bukkit.getLogger();
-	private HPS HPS;
-
-	/**
-	 * Constructs the {@link PM}
-	 * @param plugin an instance of {@link HPS}
-	 */
-	public PM(HPS plugin) {
-	    HPS = plugin;
-	}
 
 	/**
 	 * Logs any amount of messages to the console
@@ -74,7 +65,7 @@ public class PM {
 	 * @param spell the name of the spell they have cast
 	 */
 	public void notify(Player player, String spell) {
-		if (HPS.getConfig().getBoolean("notify-on-spell-use", true))
+		if (HPS.Plugin.getConfig().getBoolean("notify-on-spell-use", true))
 			player.sendMessage(ChatColor.GOLD + HPS.Localisation.getTranslation("pmSpellCast", ChatColor.AQUA + spell));
 	}
 	
@@ -84,7 +75,7 @@ public class PM {
 	 * @param spell the spell they have cast
 	 */
 	public void shout(Player player, String spell) {
-		if (HPS.getConfig().getBoolean("shout-on-spell-use", false))
+		if (HPS.Plugin.getConfig().getBoolean("shout-on-spell-use", false))
 			player.chat(spell + "!");
 	}
 	
@@ -93,7 +84,7 @@ public class PM {
 	 * @param message the message(s) to log
 	 */
 	public void debug(String... message) {
-		if(HPS.getConfig().getBoolean("debug-mode", false))
+		if(HPS.Plugin.getConfig().getBoolean("debug-mode", false))
 			for(String str : message)
 				log(Level.INFO, "[HPS - Debug] " + str);
 	}
@@ -158,7 +149,7 @@ public class PM {
 	 * @param e the throwable
 	 */
 	public void debug(Throwable e) {
-		if(HPS.getConfig().getBoolean("debug-mode", false))
+		if(HPS.Plugin.getConfig().getBoolean("debug-mode", false))
 			e.printStackTrace();
 	}
 

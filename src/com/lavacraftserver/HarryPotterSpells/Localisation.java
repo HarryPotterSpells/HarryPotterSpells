@@ -17,7 +17,6 @@ import com.google.common.io.InputSupplier;
  * A class that manages localisation within the plugin
  */
 public class Localisation {
-    private HPS HPS;
     private Properties lang;
     private File properties, base, defaultt;
     private boolean once = false;
@@ -26,8 +25,7 @@ public class Localisation {
      * Constructs the {@link Localisation} class
      * @param plugin an instance of {@link HPS}
      */
-    public Localisation(HPS plugin) {
-        HPS = plugin;
+    public Localisation() {
         load();
     }
     
@@ -36,8 +34,8 @@ public class Localisation {
      */
     public void load() {
         lang = new Properties();
-        base = new File(HPS.getDataFolder(), "Language Files");
-        properties = new File(base, HPS.getConfig().getString("Language", "us-english") + ".properties");
+        base = new File(HPS.Plugin.getDataFolder(), "Language Files");
+        properties = new File(base, HPS.Plugin.getConfig().getString("Language", "us-english") + ".properties");
         defaultt = new File(base, "us-english.properties");
                 
         if(!defaultt.exists()) {            
@@ -62,7 +60,7 @@ public class Localisation {
         try {
             lang.load(new FileInputStream(properties));
         } catch (FileNotFoundException e) { // Specifed lang file does not exist. Revert to default once.            
-            HPS.PM.log(Level.WARNING, "Could not find the language file for language " + HPS.getConfig().getString("Language", "us-english") + ". Reverting to default language...");
+            HPS.PM.log(Level.WARNING, "Could not find the language file for language " + HPS.Plugin.getConfig().getString("Language", "us-english") + ". Reverting to default language...");
             HPS.PM.debug(e);
             if(!once) {
                 once = true;
@@ -71,7 +69,7 @@ public class Localisation {
             return;
         } catch (IOException e) { // Panic and tell the user stuff has gone wrong
             HPS.PM.log(Level.SEVERE, "Could not load the language file. Plugin will not function.", "Disabling plugin...");
-            Bukkit.getServer().getPluginManager().disablePlugin(HPS);
+            Bukkit.getServer().getPluginManager().disablePlugin(HPS.Plugin);
             return;
         }
         

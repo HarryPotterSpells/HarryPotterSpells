@@ -11,11 +11,7 @@ import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
 @HCommand(name="unteach", description="cmdUntDescription", usage="<command> <spell> [player]")
-public class Unteach extends HCommandExecutor {
-    
-    public Unteach(HPS plugin) {
-        super(plugin);
-    }
+public class Unteach implements HCommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

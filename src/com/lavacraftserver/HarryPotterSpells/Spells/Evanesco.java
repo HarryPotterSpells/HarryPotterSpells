@@ -16,10 +16,6 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 )
 public class Evanesco extends Spell {
 
-	public Evanesco(HPS plugin) {
-        super(plugin);
-    }
-
     public boolean cast(final Player p) {
 		for (Player players : Bukkit.getServer().getOnlinePlayers()) {
             players.hidePlayer(p);
@@ -29,7 +25,7 @@ public class Evanesco extends Spell {
 		
 		long duration = getTime("duration", 300l);
 		
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
+		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
 		    
 		    @Override    
 		    public void run() {

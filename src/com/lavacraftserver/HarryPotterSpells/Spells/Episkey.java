@@ -19,10 +19,6 @@ import com.lavacraftserver.HarryPotterSpells.Utils.ParticleEffect;
 		cooldown=60
 )
 public class Episkey extends Spell {
-    
-    public Episkey(HPS plugin) {
-        super(plugin);
-    }
 
 	public boolean cast(final Player p) {
 		HPS.SpellTargeter.register(p, new SpellHitEvent() {

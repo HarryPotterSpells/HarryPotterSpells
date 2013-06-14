@@ -12,27 +12,24 @@ import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginManager;
 
 import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
-import com.lavacraftserver.HarryPotterSpells.Jobs.JobManager;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
 public class Listeners implements Listener, EnableJob {
-    private HPS HPS;
     
     public static final Permission CAST_SPELLS = new Permission("HarryPotterSpells.use", PermissionDefault.OP);
     
-    { // Register enable job in a non-static initialiser
-        JobManager.addEnableJob(this);
-    }
-    
     @Override
     public void onEnable(PluginManager pm) {
+        System.out.println("YO THE ENABLE JOB WAS CALLED BIATH");
         pm.addPermission(CAST_SPELLS);
-        pm.registerEvents(this, HPS);
+        pm.registerEvents(this, HPS.Plugin);
     }
     	
 	@EventHandler
 	public void PIE(PlayerInteractEvent e) {
+        System.out.println("BRO EVENT FIRED BRUP TING");
 		if(e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
+		    System.out.println("BRO HAS PERMS");
 		    
             if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE))
                 e.setCancelled(true);
@@ -137,7 +134,7 @@ public class Listeners implements Listener, EnableJob {
 	
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
-		if(HPS.getConfig().getBoolean("spell-castable-with-chat")) {
+		if(HPS.Plugin.getConfig().getBoolean("spell-castable-with-chat")) {
 			if(HPS.SpellManager.isSpell(e.getMessage().substring(0, e.getMessage().length() - 1))) {
 				HPS.SpellManager.cleverCast(e.getPlayer(), HPS.SpellManager.getSpell(e.getMessage().substring(0, e.getMessage().length() - 1)));
 				return;

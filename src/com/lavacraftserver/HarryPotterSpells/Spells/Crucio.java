@@ -14,11 +14,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.SpellTargeter.SpellHitEvent;
+import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 import com.lavacraftserver.HarryPotterSpells.Utils.ParticleEffect;
 
@@ -30,12 +32,12 @@ import com.lavacraftserver.HarryPotterSpells.Utils.ParticleEffect;
 		cooldown=300
 )
 
-public class Crucio extends Spell implements Listener {
+public class Crucio extends Spell implements Listener, EnableJob {
     private Set<String> crucioList = new HashSet<String>();
     
-    public Crucio(HPS plugin) {
-        super(plugin);
-        HPS.getServer().getPluginManager().registerEvents(this, HPS);
+    @Override
+    public void onEnable(PluginManager pm) {
+        pm.registerEvents(this, HPS.Plugin);
     }
 	
 	public boolean cast(final Player p){
@@ -50,7 +52,7 @@ public class Crucio extends Spell implements Listener {
 					setFlightClever(target, true);
 					target.teleport(new Location(entity.getWorld(), entity.getLocation().getX(), entity.getLocation().getBlockY()+2, entity.getLocation().getZ()));
 					crucioList.add(target.getName());
-					Bukkit.getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
+					Bukkit.getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
 
 						@Override
 						public void run() {

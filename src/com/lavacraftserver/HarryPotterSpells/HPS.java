@@ -31,6 +31,7 @@ import com.lavacraftserver.HarryPotterSpells.Metrics.Graph;
 import com.lavacraftserver.HarryPotterSpells.Commands.HCommand;
 import com.lavacraftserver.HarryPotterSpells.Commands.HCommandExecutor;
 import com.lavacraftserver.HarryPotterSpells.Extensions.ExtensionManager;
+import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
 import com.lavacraftserver.HarryPotterSpells.Jobs.JobManager;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 import com.lavacraftserver.HarryPotterSpells.Spells.SpellManager;
@@ -38,13 +39,14 @@ import com.lavacraftserver.HarryPotterSpells.Utils.MetricStatistics;
 import com.lavacraftserver.HarryPotterSpells.Utils.SVPBypass;
 
 public class HPS extends JavaPlugin {
-	public PlayerSpellConfig PlayerSpellConfig;
-	public PM PM;
-	public SpellManager SpellManager;
-	public Wand Wand;
-	public ExtensionManager ExtensionManager;
-	public SpellTargeter SpellTargeter;
-	public Localisation Localisation;
+	public static PlayerSpellConfig PlayerSpellConfig;
+	public static PM PM;
+	public static SpellManager SpellManager;
+	public static Wand Wand;
+	@Deprecated public static ExtensionManager ExtensionManager;
+	public static SpellTargeter SpellTargeter;
+	public static Localisation Localisation;
+	public static Plugin Plugin;
 		
 	private CommandMap commandMap;
 	private Collection<HelpTopic> helpTopics = new ArrayList<HelpTopic>();
@@ -53,12 +55,13 @@ public class HPS extends JavaPlugin {
 	public void onEnable() {	    
 	    // Instance loading 
 	    // ORDER IS IMPORTANT.
-	    PM = new PM(this);
-	    Localisation = new Localisation(this);
-		PlayerSpellConfig = new PlayerSpellConfig(this);
-		SpellManager = new SpellManager(this);
-		Wand = new Wand(this);
-		ExtensionManager = new ExtensionManager(this);
+	    Plugin = this;
+	    PM = new PM();
+	    Localisation = new Localisation();
+		PlayerSpellConfig = new PlayerSpellConfig();
+		SpellManager = new SpellManager();
+		Wand = new Wand();
+		//ExtensionManager = new ExtensionManager();
 		
 		// Configuration
 		loadConfig();
@@ -88,9 +91,21 @@ public class HPS extends JavaPlugin {
 		}
 		PM.debug(Localisation.getTranslation("dbgRegisteredCoreCommands", commands));
 		
-		Bukkit.getHelpMap().addTopic(new IndexHelpTopic("HarryPotterSpells", Localisation.getTranslation("hlpDescription"), "", helpTopics));
+	    Bukkit.getHelpMap().addTopic(new IndexHelpTopic("HarryPotterSpells", Localisation.getTranslation("hlpDescription"), "", helpTopics));
+	    PM.debug(Localisation.getTranslation("dbgHelpCommandsAdded"));
 		
-		PM.debug(Localisation.getTranslation("dbgHelpCommandsAdded"));
+		int enable = 0;
+		for(Class<? extends EnableJob> clazz : reflections.getSubTypesOf(EnableJob.class)) {
+		    try {
+                JobManager.addEnableJob(clazz.newInstance());
+                enable++;
+            } catch (Exception e) {
+                PM.log(Level.WARNING, "Could not add enable job in class " + clazz.getSimpleName() + " to the job manager.");
+                PM.debug(e);
+            }
+		}
+		
+		PM.debug(Localisation.getTranslation("dbgRegisteredCoreEnable", enable));
 		
 		// Plugin Metrics
 		try {
@@ -188,16 +203,6 @@ public class HPS extends JavaPlugin {
 	}
 	
 	/**
-	 * A static method that gets the {@link Plugin} linked to this class. <br>
-	 * It does <b>NOT</b> get an instance of {@link HPS}. 
-	 * If you need an instance of HPS your class is probably in the wrong package.
-	 * @return the plugin linked to this card
-	 */
-	public static Plugin getPlugin() {
-	    return Bukkit.getPluginManager().getPlugin("HarryPotterSpells");
-	}
-	
-	/**
 	 * Registers a {@link HackyCommand} to the plugin
 	 * @param clazz a class that extends {@code CommandExecutor}
 	 * @return {@code true} if the command was added successfully
@@ -218,7 +223,7 @@ public class HPS extends JavaPlugin {
 		hacky.setPermission(permission);
 		hacky.setPermissionMessage(Localisation.getTranslation(cmdInfo.noPermissionMessage()));
 		try {
-			hacky.setExecutor(clazz.getConstructor(HPS.class).newInstance(this));
+			hacky.setExecutor(clazz.newInstance());
 		} catch (Exception e) {
 			PM.log(Level.WARNING, Localisation.getTranslation("errAddCommandMap", clazz.getSimpleName()));
 			PM.debug(e);

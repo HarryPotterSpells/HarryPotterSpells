@@ -16,10 +16,6 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 )
 public class Reducto extends Spell {
 
-	public Reducto(HPS plugin) {
-        super(plugin);
-    }
-
     public boolean cast(Player p) {
 		Block b = p.getTargetBlock(null, this.getRange());
 		if(b.getType() != Material.AIR)

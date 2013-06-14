@@ -20,11 +20,7 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		goThroughWalls=false,
 		cooldown=30
 )
-public class Multicorfors extends Spell{
-
-	public Multicorfors(HPS plugin) {
-        super(plugin);
-    }
+public class Multicorfors extends Spell {
 
     public boolean cast(Player p) {
 		final Block b = p.getTargetBlock(Targeter.getTransparentBlocks(), 25);
@@ -33,7 +29,7 @@ public class Multicorfors extends Spell{
 			if((Boolean) getConfig("explosionEffect", true))
 				sheep.getWorld().createExplosion(sheep.getLocation(), 0F);
 			
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
 			    
 			    @Override
 				public void run() {
@@ -46,7 +42,7 @@ public class Multicorfors extends Spell{
 			if((Boolean) getConfig("explosion-effect", true))
 				p.getWorld().createExplosion(b.getLocation(), 0F);
 			
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
 			    
 			    @Override
 				public void run() {

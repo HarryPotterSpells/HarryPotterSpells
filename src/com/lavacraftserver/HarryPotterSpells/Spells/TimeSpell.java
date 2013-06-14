@@ -5,7 +5,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 
 @spell (
@@ -16,10 +15,6 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 		cooldown=600
 )
 public class TimeSpell extends Spell{
-	
-	public TimeSpell(HPS plugin) {
-        super(plugin);
-    }
 
     //Dawn == 0L
 	//Morning == 2500L

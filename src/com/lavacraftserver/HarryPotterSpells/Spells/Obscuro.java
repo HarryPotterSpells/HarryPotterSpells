@@ -21,10 +21,6 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 )
 public class Obscuro extends Spell {
 
-	public Obscuro(HPS plugin) {
-        super(plugin);
-    }
-
     @Override
 	public boolean cast(Player p) {
 

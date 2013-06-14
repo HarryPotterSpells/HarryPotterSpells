@@ -11,11 +11,7 @@ import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
 @HCommand(name="teach", description="cmdTeaDescription", usage="<command> <spell> [player|me]")
-public class Teach extends HCommandExecutor {
-
-    public Teach(HPS plugin) {
-        super(plugin);
-    }
+public class Teach implements HCommandExecutor {
     
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

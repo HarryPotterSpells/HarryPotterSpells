@@ -12,7 +12,7 @@ public class JobManager {
     private static List<ClearJob> clear = new ArrayList<ClearJob>();
     private static List<EnableJob> enable = new ArrayList<EnableJob>();
     private static List<DisableJob> disable = new ArrayList<DisableJob>();
-	
+	    
 	/**
 	 * Adds a clear job to the executor
 	 * @param job the clear job

@@ -23,10 +23,6 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
 )
 public class Stupefy extends Spell {
 
-	public Stupefy(HPS plugin) {
-        super(plugin);
-    }
-
     @Override
 	public boolean cast(final Player p) {
 		HPS.SpellTargeter.register(p, new SpellHitEvent() {
