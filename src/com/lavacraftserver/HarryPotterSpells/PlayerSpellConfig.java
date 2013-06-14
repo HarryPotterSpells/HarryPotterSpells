@@ -84,12 +84,12 @@ public class PlayerSpellConfig implements EnableJob {
 	@Override
 	public void onEnable(PluginManager pm) {
 	    Double version = getPSC().getDouble("VERSION_DO_NOT_EDIT", -1d) == -1d ? null : getPSC().getDouble("VERSION_DO_NOT_EDIT", -1d);
-	    if(version == null || version < CURRENT_VERSION) {
-	        HPS.PM.log(Level.INFO, HPS.Localisation.getTranslation("pscOutOfDate"));
-	        
+	    if(version == null || version < CURRENT_VERSION) {	        
 	        // STORE UPDATES HERE
 	        
 	        if(version == null) { // Updating from unformatted version to version 0.4
+	            HPS.PM.log(Level.INFO, HPS.Localisation.getTranslation("pscOutOfDate"));
+	            
 	            Map<String, List<String>> newConfig = new HashMap<String, List<String>>(), lists = new HashMap<String, List<String>>();
 	            Set<String> css = new HashSet<String>();
 	            
