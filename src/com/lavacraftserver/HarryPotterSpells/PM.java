@@ -90,19 +90,6 @@ public class PM {
 	}
 	
 	/**
-	 * Checks if a player has a permission
-	 * @deprecated This is exactly the same as the Bukkit API call. </br>
-	 *             Vault also uses the Bukkit API call so this method is deprecated.
-	 * @param permission the permission to check
-	 * @param p the player to check
-	 * @return {@code true} if the player has the specified permission
-	 */
-	@Deprecated
-	public boolean hasPermission(String permission, Player p) {
-        return p.hasPermission(permission);
-	}
-	
-	/**
 	 * Hacks a file to the classpath
 	 * @param file the file to hack
 	 * @return {@code true} if the file was added to the classpath

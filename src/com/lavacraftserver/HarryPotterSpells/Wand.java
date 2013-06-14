@@ -1,9 +1,5 @@
 package com.lavacraftserver.HarryPotterSpells;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -17,16 +13,7 @@ public class Wand {
      * @return {@code true} if the ItemStack is useable as a wand
      */
 	public boolean isWand(ItemStack i) {
-		if(i.getTypeId() == HPS.Plugin.getConfig().getInt("wand-id", 280)) {
-			if(HPS.Plugin.getConfig().getBoolean("apply-wand-enchantment", false)) {
-				Map<Enchantment, Integer> wand = new HashMap<Enchantment, Integer>();
-				wand.put(Enchantment.DURABILITY, 1);
-				Map<Enchantment, Integer> item = (HashMap<Enchantment, Integer>)i.getEnchantments();
-				return wand == item;
-			} else
-				return true;
-		} else
-			return false;
+		return i.getTypeId() == HPS.Plugin.getConfig().getInt("wand-id", 280);
 	}
 	
 	/**
