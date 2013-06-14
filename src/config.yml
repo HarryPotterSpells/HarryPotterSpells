@@ -30,7 +30,12 @@ spells:
   aparecium:
     radius: 5  # The maximum distance players can be from the caster to still be turned visible
   avis:
-    chickens: 5  # How many chickens the wand should shoot
+    chickens:
+      amount: 5  # How many chickens the wand should shoot
+      velocity: 2 # The velocity of the chickens that get shot out of the wand
+    bats:
+      amount: 0  # How many bats the wand should shoot
+      velocity: 2 # The velocity of the bats that get shot out of the wand
   confundo:
     duration: 200t  # How long the target should be confused for
   crucio:
