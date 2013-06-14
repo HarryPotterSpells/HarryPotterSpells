@@ -15,24 +15,15 @@ import org.reflections.Reflections;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Commands.HCommandExecutor;
-import com.lavacraftserver.HarryPotterSpells.Jobs.DisableJob;
-import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
-import com.lavacraftserver.HarryPotterSpells.Jobs.JobManager;
 
 /**
  * A utility class that manages extensions. </br>
  * <b>NOTE:</b> There should never be access to the extension map because disabling individual extensions does not disable listeners/commands/jobs.
  */
-public class ExtensionManager implements EnableJob, DisableJob {
+public class ExtensionManager {
 	private Map<String, Extension> extensionList = new HashMap<String, Extension>();
 	private File extensionFolder;
-	private static boolean instantated = false;
-	private HPS HPS;
-	
-	{ // Register the enable and disable jobs in a non-static initialiser
-	    JobManager.addEnableJob(this);
-	    JobManager.addDisableJob(this);
-	}
+	private static boolean instantated = true;
 	
 	/**
 	 * Constructs the Extension Manager, loading all extensions. </br>
@@ -40,16 +31,14 @@ public class ExtensionManager implements EnableJob, DisableJob {
 	 *
 	 * @param plugin an instance of {@link HPS}
 	 */
-	public ExtensionManager(HPS plugin) {
-	    HPS = plugin;
-	    
+	public ExtensionManager() {	    	    
 	    if(ExtensionManager.instantated)
 	        return;
 	    
 	    ExtensionManager.instantated = true;
 		HPS.PM.debug(HPS.Localisation.getTranslation("dbgExtensionLoading"));
 		
-		extensionFolder = new File(HPS.getDataFolder(), "Extensions");
+		extensionFolder = new File(HPS.Plugin.getDataFolder(), "Extensions");
 		if(!extensionFolder.exists())
 			extensionFolder.mkdirs();
 		
@@ -74,7 +63,7 @@ public class ExtensionManager implements EnableJob, DisableJob {
 				
 				Reflections reflections = new Reflections(description.getPackage());
 				for(Class<? extends Extension> e : reflections.getSubTypesOf(Extension.class)) {
-					Extension ex = e.getConstructor(HPS.class).newInstance(HPS);
+					Extension ex = e.newInstance();
 					ex.setDescription(description);
 					ex.initiate(new File(extensionFolder, description.getName()));
 					extensionList.put(description.getName().toUpperCase(), ex);
@@ -104,7 +93,6 @@ public class ExtensionManager implements EnableJob, DisableJob {
 		
 	}
 
-	@Override
 	public void onDisable(PluginManager pm) {
 		HPS.PM.debug(HPS.Localisation.getTranslation("dbgDisablingExtensions"));
 		Iterator<Entry<String, Extension>> it = extensionList.entrySet().iterator();
@@ -114,8 +102,7 @@ public class ExtensionManager implements EnableJob, DisableJob {
 			HPS.PM.log(Level.INFO, HPS.Localisation.getTranslation("dbgExtensionsDisabled", extensionList.size()));
 	}
 
-	@Override
-	public void onEnable(PluginManager pm) {
+	public void onEnable(PluginManager pm) {	    
         HPS.PM.debug(HPS.Localisation.getTranslation("dbgEnablingExtensions"));
 		Iterator<Entry<String, Extension>> it = extensionList.entrySet().iterator();
 		while(it.hasNext())

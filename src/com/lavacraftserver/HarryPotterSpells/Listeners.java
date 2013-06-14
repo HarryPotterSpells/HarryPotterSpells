@@ -20,16 +20,13 @@ public class Listeners implements Listener, EnableJob {
     
     @Override
     public void onEnable(PluginManager pm) {
-        System.out.println("YO THE ENABLE JOB WAS CALLED BIATH");
         pm.addPermission(CAST_SPELLS);
         pm.registerEvents(this, HPS.Plugin);
     }
     	
 	@EventHandler
 	public void PIE(PlayerInteractEvent e) {
-        System.out.println("BRO EVENT FIRED BRUP TING");
 		if(e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
-		    System.out.println("BRO HAS PERMS");
 		    
             if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE))
                 e.setCancelled(true);
@@ -73,30 +70,6 @@ public class Listeners implements Listener, EnableJob {
 			}
 			
 		}
-		
-		//TODO MOVE TO VAULT ADDON
-		//Spell sign
-		/*
-		if (e.getClickedBlock() != null && plugin.PM.hasPermission("HarryPotterSpells.buyfromsign", e.getPlayer()) && e.getClickedBlock().getType() == Material.SIGN) {
-			String[] signText = ((Sign)e.getClickedBlock()).getLines();
-			String identifier = "[" + ChatColor.GREEN + plugin.getConfig().getString("SpellSigns.textForLine1") + ChatColor.RESET + "]";
-			if(signText[0].equals(identifier)) {
-				double amount = (double)Integer.parseInt(signText[2]);
-				Spell spell = plugin.SpellManager.getSpell(signText[1]);
-				EconomyResponse r = plugin.Vault.econ.depositPlayer(e.getPlayer().getName(), amount);
-				if(spell.playerKnows(e.getPlayer())) {
-					plugin.PM.warn(e.getPlayer(), "You already know that spell.");
-				} else {
-					if(r.transactionSuccess()) {
-						plugin.PM.tell(e.getPlayer(), plugin.Vault.econ.format(amount) + " has been deducted from your account.");
-						spell.teach(e.getPlayer());
-					} else {
-						plugin.PM.warn(e.getPlayer(), "An error occured during the transation: " + r.errorMessage);
-					}
-				}
-			}
-		}
-		*/
 	}
 	
 	@EventHandler
@@ -141,38 +114,5 @@ public class Listeners implements Listener, EnableJob {
 			}
 		}
 	}
-	
-	/*
-	@EventHandler
-	public void onPlayerBlockPlace(BlockPlaceEvent e) {
-		if(plugin.PM.hasPermission("HarryPotterSpells.sign.create", e.getPlayer()) && e.getBlockPlaced().getType() == Material.SIGN) {
-			Sign sign = (Sign)e.getBlockPlaced();
-			String identifier = "[" + plugin.getConfig().getString("SpellSigns.textForLine1") + "]";
-			String[] signText = sign.getLines();
-			boolean error = false;
-			if(signText[0].equals(identifier)) {
-				if(!plugin.SpellManager.isSpell(signText[1])) {
-					sign.setLine(1, "[" + ChatColor.RED + plugin.getConfig().getString("SpellSigns.textForLine1") + ChatColor.RESET + "]");
-					plugin.PM.warn(e.getPlayer(), "That spell was not recognised.");
-					error = true;
-				} else {
-					error = false;
-				}
-				if(!Double.isNaN((double)Integer.parseInt(signText[2]))) {
-					sign.setLine(1, "[" + ChatColor.RED + plugin.getConfig().getString("SpellSigns.textForLine1") + ChatColor.RESET + "]");
-					plugin.PM.warn(e.getPlayer(), "The price is not a number.");
-					error = true;
-				} else {
-					error = false;
-				}
-				if(!error) {
-					sign.setLine(1, "[" + ChatColor.GREEN + plugin.getConfig().getString("SpellSigns.textForLine1") + ChatColor.RESET + "]");
-					plugin.PM.tell(e.getPlayer(), "SpellSign created!");
-				}
-				sign.update();
-			}
-		}
-	}
-	*/ //TODO move to addon
 
 }

@@ -48,8 +48,8 @@ public class HPS extends JavaPlugin {
 	public static Localisation Localisation;
 	public static Plugin Plugin;
 		
-	private CommandMap commandMap;
-	private Collection<HelpTopic> helpTopics = new ArrayList<HelpTopic>();
+	private static CommandMap commandMap;
+	private static Collection<HelpTopic> helpTopics = new ArrayList<HelpTopic>();
 	
 	@Override
 	public void onEnable() {	    
@@ -207,7 +207,7 @@ public class HPS extends JavaPlugin {
 	 * @param clazz a class that extends {@code CommandExecutor}
 	 * @return {@code true} if the command was added successfully
 	 */
-	public boolean addHackyCommand(Class<? extends HCommandExecutor> clazz) {
+	public static boolean addHackyCommand(Class<? extends HCommandExecutor> clazz) {
 		if(!clazz.isAnnotationPresent(HCommand.class)) {
 			PM.log(Level.INFO, Localisation.getTranslation("errAddCommandMapAnnotation", clazz.getSimpleName()));
 			return false;
@@ -237,7 +237,7 @@ public class HPS extends JavaPlugin {
 	/**
 	 * A very hacky class used to register commands at plugin runtime
 	 */
-	private class HackyCommand extends Command {
+	private static class HackyCommand extends Command {
 		private CommandExecutor executor;
 
 		public HackyCommand(String name, String description, String usageMessage, List<String> aliases) {
