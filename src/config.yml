@@ -5,16 +5,20 @@
 
 # Only enable if you want to enable debugging mode
 debug-mode: false
-      
+
 wand-give:  # The command that 'summons' a wand with a command
   explosion-effect: false
 
-wand-id: 280  # Will default to 280 (stick)
+wand:
+  id: 280 # The item id of the wand (280 == stick)
+  enchantment-effect : true # Should wands have the shiny enchantment effect
+  lore:
+    enabled: true # Should we display lore on the wand?
+    name: 'Wand' # The name we should give the wand
+
 shout-on-spell-use: false  # If the player should say 'Spellname!' on every spell cast
 notify-on-spell-use: true  # If we should notify the player when they cast a spell
 spell-particle-toggle: false  # The purple particle effect that happens when the spell is cast (Kezz thinks it's ugly)
-disable-wand-crafting: true  # Fairly obvious... Should we disable wand crafting?
-disable-all-crafting: false  # Should we disable all crafting?
 spell-castable-with-chat: true  # If a spell is castable on the chatting of 'Spellname!'
 
 #########################
