@@ -15,6 +15,16 @@ wand:
   lore:
     enabled: true # Should we display lore on the wand?
     name: 'Wand' # The name we should give the wand
+  crafting: 
+    enabled: true # Should we bother making a crafting recipe for the wand?
+    recipe: # The crafting recipe for the wand. Each space represents a slot in the crafting table.
+      - ' A '
+      - ' B '
+      - ' C '
+    ingredients: # Mapping of the chars in the recipe to items using item id
+      A: 370
+      B: 399
+      C: 280
 
 shout-on-spell-use: false  # If the player should say 'Spellname!' on every spell cast
 notify-on-spell-use: true  # If we should notify the player when they cast a spell

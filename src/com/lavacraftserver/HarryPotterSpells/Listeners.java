@@ -1,9 +1,12 @@
 package com.lavacraftserver.HarryPotterSpells;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -113,6 +116,23 @@ public class Listeners implements Listener, EnableJob {
 				return;
 			}
 		}
+	}
+
+	@EventHandler
+	public void onPlayerCraft(CraftItemEvent e) {
+	    if(HPS.Wand.isLorelessWand(e.getRecipe().getResult())) {
+	        e.setCurrentItem(HPS.Wand.getWand());
+	        final Player p = (Player) e.getWhoClicked();
+	        Bukkit.getScheduler().runTask(HPS.Plugin, new Runnable() {
+
+                @SuppressWarnings("deprecation")
+                @Override
+                public void run() {
+                    p.updateInventory();
+                }
+
+	        });
+	    }
 	}
 
 }

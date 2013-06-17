@@ -57,6 +57,47 @@ public class Wand {
 
 		return wand;
 	}
+	
+	/**
+	 * Checks if a given {@link ItemStack} is the same as {@link Wand#getLorelessWand()}. <br>
+	 * At the moment this is the same as {@link Wand#isWand(ItemStack)} only because Lore checks have not been implemented yet.
+     * @param i the itemstack
+     * @return {@code true} if the ItemStack is the same as a loreless wand
+	 */
+	public boolean isLorelessWand(ItemStack i) {
+	    if(i.getTypeId() != ((Integer) getConfig("id", 280))) // Item id check
+            return false;
+
+        if(((Boolean) getConfig("lore.enabled", true)) && !i.getItemMeta().getDisplayName().equals((String) getConfig("lore.name", "Wand"))) // Lore name check
+                return false;
+
+        return true;
+	}
+	
+	/**
+	 * Gets a wand without lore. 
+	 * Used for crafting so that people can't determine wand lore whilst crafting.
+	 * @return an {@link ItemStack} containing a wand
+	 */
+	public ItemStack getLorelessWand() {
+	    ItemStack wand =  new ItemStack((Integer) getConfig("id", 280));
+
+	    if((Boolean) getConfig("lore.enabled", true)) {
+            ItemMeta meta = wand.getItemMeta();
+            meta.setDisplayName((String) getConfig("lore.name", "Wand"));
+            wand.setItemMeta(meta);
+        }
+
+        if((Boolean) getConfig("enchantment-effect", true))
+            try {
+                wand = MiscUtilities.makeGlow(wand);
+            } catch (Exception e) {
+                HPS.PM.debug(HPS.Localisation.getTranslation("errEnchantmentEffect"));
+                HPS.PM.debug(e);
+            }
+
+        return wand;
+	}
 
 	private Object getConfig(String string, Object defaultt) {
 	    return HPS.Plugin.getConfig().get("wand." + string, defaultt);

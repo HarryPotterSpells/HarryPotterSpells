@@ -6,12 +6,13 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
@@ -20,7 +21,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.help.GenericCommandHelpTopic;
 import org.bukkit.help.HelpTopic;
 import org.bukkit.help.IndexHelpTopic;
-import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.Plugin;
@@ -162,24 +163,26 @@ public class HPS extends JavaPlugin {
 		}
 		
 		// Crafting Changes
-		PM.debug(Localisation.getTranslation("dbgCraftingChanges"));
-		boolean disableAll = getConfig().getBoolean("disable-all-crafting", false), disableWand = getConfig().getBoolean("disable-wand-crafting", true);
-		int wand = getConfig().getInt("wand-id", 280);
-		
-		if(disableAll) {
-			getServer().clearRecipes();
-			PM.debug(Localisation.getTranslation("dbgCraftingRemoved"));
-		} else if(disableWand) {
-			Iterator<Recipe> it = getServer().recipeIterator();
-			while(it.hasNext()) {
-				Recipe current = it.next();
-				if(current.getResult().getTypeId() == wand) {
-					PM.debug(Localisation.getTranslation("dbgRemovedRecipe", current.getResult().toString()));
-					it.remove();
-				}
-			}
+		if(getConfig().getBoolean("wand.crafting.enabled", true)) {
+		    PM.debug(Localisation.getTranslation("dbgCraftingStart"));
+		    
+		    try {
+    		    ShapedRecipe wandRecipe = new ShapedRecipe(Wand.getLorelessWand());
+    		    List<String> list = getConfig().getStringList("wand.crafting.recipe");
+    		    Set<String> ingredients = getConfig().getConfigurationSection("wand.crafting.ingredients").getKeys(false);
+
+    		    wandRecipe.shape(list.get(0), list.get(1), list.get(2));
+    		    for(String string : ingredients)
+    		        wandRecipe.setIngredient(string.toCharArray()[0], Material.getMaterial(getConfig().getInt("wand.crafting.ingredients." + string)));
+
+    		    getServer().addRecipe(wandRecipe);
+		    } catch(Exception e) {
+		        PM.log(Level.INFO, Localisation.getTranslation("errCraftingChanges"));
+		        PM.debug(e);
+		    }
+		    
+		    PM.debug(Localisation.getTranslation("dbgCraftingEnd"));
 		}
-		PM.debug(Localisation.getTranslation("dbgCraftingChangesDone"));
 		
 		JobManager.executeEnableJobs(getServer().getPluginManager());
 		
