@@ -10,10 +10,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.plugin.PluginManager;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
-import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 
 @SpellInfo (
@@ -23,19 +21,18 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 		goThroughWalls=false,
 		cooldown=15
 )
-public class Sonorus extends Spell implements Listener, EnableJob {
+public class Sonorus extends Spell implements Listener {
 	private static List<String> players = new ArrayList<String>();
 	
-	@Override
-	public void onEnable(PluginManager pm) {
-	    pm.registerEvents(this, HPS.Plugin);
-	}
+    public Sonorus(HPS instance) {
+        super(instance);
+    }
 	
 	public boolean cast(final Player p) {
 		Sonorus.players.add(p.getName());
 		Location loc = new Location(p.getWorld(), p.getLocation().getBlockX(), p.getLocation().getBlockY() + 1, p.getLocation().getBlockZ());
 		p.getWorld().createExplosion(loc, 0F);
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
+		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
 			
 			@Override
 		    public void run() {

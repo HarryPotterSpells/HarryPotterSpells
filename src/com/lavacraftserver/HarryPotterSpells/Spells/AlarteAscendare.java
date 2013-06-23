@@ -4,6 +4,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
@@ -15,7 +16,11 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		cooldown=45
 )
 public class AlarteAscendare extends Spell {
-    
+
+    public AlarteAscendare(HPS instance) {
+        super(instance);
+    }
+
     @Override
 	public boolean cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) {
@@ -24,4 +29,5 @@ public class AlarteAscendare extends Spell {
 		}
 		return true;
 	}
+
 }

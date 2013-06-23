@@ -5,6 +5,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 
 @SpellInfo(
@@ -14,6 +15,10 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 		cooldown=5
 )
 public class Accio extends Spell {
+
+    public Accio(HPS instance) {
+        super(instance);
+    }
 
     @Override
 	public boolean cast(Player p) {

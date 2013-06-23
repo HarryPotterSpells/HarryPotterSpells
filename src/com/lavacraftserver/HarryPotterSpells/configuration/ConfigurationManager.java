@@ -10,13 +10,16 @@ import com.lavacraftserver.HarryPotterSpells.HPS;
  * Manages all custom configuration files within the plugin
  */
 public class ConfigurationManager {
+    private HPS HPS;
     private Map<ConfigurationType, CustomConfiguration> configurationMap = new HashMap<ConfigurationType, CustomConfiguration>();
 
     /**
      * Constructs a new {@link ConfigurationManager}
+     * @param instance an instance of {@link HPS}
      */
-    public ConfigurationManager() {
-        configurationMap.put(ConfigurationType.PLAYER_SPELL_CONFIG, new PlayerSpellConfig(new File(HPS.Plugin.getDataFolder(), "PlayerSpellConfig.yml"), HPS.class.getResourceAsStream("PlayerSpellConfig.yml")));
+    public ConfigurationManager(HPS instance) {
+        this.HPS = instance;
+        configurationMap.put(ConfigurationType.PLAYER_SPELL_CONFIG, new PlayerSpellConfig(HPS, new File(HPS.getDataFolder(), "PlayerSpellConfig.yml"), HPS.class.getResourceAsStream("PlayerSpellConfig.yml")));
     }
 
     /**

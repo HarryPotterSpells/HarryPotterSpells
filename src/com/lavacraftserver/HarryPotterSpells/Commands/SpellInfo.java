@@ -5,8 +5,12 @@ import org.bukkit.command.CommandSender;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 
-@HCommand (name="spellinfo", description="cmdSpiDescription", usage="<command> <spell>", permissionDefault="true")
-public class SpellInfo implements HCommandExecutor {
+@CommandInfo (name="spellinfo", description="cmdSpiDescription", usage="<command> <spell>", permissionDefault="true")
+public class SpellInfo extends HCommandExecutor {
+
+    public SpellInfo(HPS instance) {
+        super(instance);
+    }
 
     @Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

@@ -8,6 +8,7 @@ import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 
+import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 
 @SpellInfo(
@@ -16,6 +17,10 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
         cooldown = 60
         )
 public class Morsmordre extends Spell {
+    
+    public Morsmordre(HPS instance) {
+        super(instance);
+    }
 
     @Override
     public boolean cast(Player p) {

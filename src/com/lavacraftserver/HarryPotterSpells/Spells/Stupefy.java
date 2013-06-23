@@ -22,6 +22,10 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 		cooldown=120
 )
 public class Stupefy extends Spell {
+    
+    public Stupefy(HPS instance) {
+        super(instance);
+    }
 
     @Override
 	public boolean cast(final Player p) {

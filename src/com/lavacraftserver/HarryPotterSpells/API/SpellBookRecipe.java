@@ -22,13 +22,16 @@ public class SpellBookRecipe implements Recipe {
     public static final String[] RANDOM_AUTHORS = new String[]{"Merwyn the Malicious", "Delfina Crimp", "Felix Summerbee", "Jarleth Hobart", "Mnemone Radford", "Urquhart Rackharrow", "Orabella Nuttley", "Levina Monkstanley", "Elliot Smethwyck", "Basil Horton", "Randolph Keitch", "Miranda Goshawk", "Tom Riddle", "Severus Snape", "Fred Weasley", "George Weasley", "Unknown"};
 
     private ShapedRecipe recipe;
+    private HPS HPS;
 
     /**
      * Constructs a new {@link SpellBookRecipe}
      * @param spell the {@link Spell} that this recipe will create a book for
      * @param if {@code true} the recipe will be shapeless
      */
-    public SpellBookRecipe(Spell spell) {
+    public SpellBookRecipe(HPS instance, Spell spell) {
+        this.HPS = instance;
+
         ItemStack stack = new ItemStack(Material.WRITTEN_BOOK);
         BookMeta meta = (BookMeta) Bukkit.getItemFactory().getItemMeta(Material.WRITTEN_BOOK);
         meta.setTitle(spell.getName());

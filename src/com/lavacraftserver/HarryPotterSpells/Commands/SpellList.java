@@ -10,22 +10,21 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
-import org.bukkit.plugin.PluginManager;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
-import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 import com.lavacraftserver.HarryPotterSpells.configuration.ConfigurationManager.ConfigurationType;
 import com.lavacraftserver.HarryPotterSpells.configuration.PlayerSpellConfig;
 
-@HCommand(name = "spelllist", description = "cmdSplDescription", usage = "<command> [player]", permissionDefault = "true")
-public class SpellList implements HCommandExecutor, EnableJob {
-	public static final Permission LIST_OTHERS = new Permission("HarryPotterSpells.list.others", PermissionDefault.OP);
-	
-	@Override
-	public void onEnable(PluginManager pm) {
-		pm.addPermission(LIST_OTHERS);
-	}
+@CommandInfo(name = "spelllist", description = "cmdSplDescription", usage = "<command> [player]", permissionDefault = "true")
+public class SpellList extends HCommandExecutor {
+
+	public SpellList(HPS instance) {
+        super(instance);
+        HPS.getServer().getPluginManager().addPermission(LIST_OTHERS);
+    }
+
+    public static final Permission LIST_OTHERS = new Permission("HarryPotterSpells.list.others", PermissionDefault.OP);
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

@@ -12,40 +12,38 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
-import org.bukkit.plugin.PluginManager;
 
-import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 import com.lavacraftserver.HarryPotterSpells.configuration.ConfigurationManager.ConfigurationType;
 import com.lavacraftserver.HarryPotterSpells.configuration.PlayerSpellConfig;
 
-public class Listeners implements Listener, EnableJob {
-    
+public class Listeners implements Listener {
+    private HPS HPS;
+
     public static final Permission CAST_SPELLS = new Permission("HarryPotterSpells.use", PermissionDefault.OP);
-    
-    @Override
-    public void onEnable(PluginManager pm) {
-        pm.addPermission(CAST_SPELLS);
-        pm.registerEvents(this, HPS.Plugin);
+
+    public Listeners(HPS instance) {
+        this.HPS = instance;
+        HPS.getServer().getPluginManager().addPermission(CAST_SPELLS);
     }
-    	
+
 	@EventHandler
 	public void PIE(PlayerInteractEvent e) {
 		if(e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
 		    PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
-		    
+
             if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE))
                 e.setCancelled(true);
-		    
+
 			//Change spell
 			if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			    Integer knows = psc.getStringListOrEmpty(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
-			    			    
+
 			    if(psc.getStringListOrEmpty(e.getPlayer().getName()).isEmpty() || cur == null) {
 			        HPS.PM.tell(e.getPlayer(), HPS.Localisation.getTranslation("genKnowNoSpells"));
 			        return;
 			    }
-			    
+
 			    if(e.getPlayer().isSneaking()) {
 			        if(cur == 0)
 			            neww = knows;
@@ -57,38 +55,38 @@ public class Listeners implements Listener, EnableJob {
 			        else
 			            neww = cur + 1;
 			    }
-			    
+
 			    try {
 			        HPS.PM.newSpell(e.getPlayer(), HPS.SpellManager.setCurrentSpell(e.getPlayer(), neww).getName());
 			    } catch(IllegalArgumentException er) {
                     HPS.PM.tell(e.getPlayer(), HPS.Localisation.getTranslation("genKnowNoSpells"));
                     return;
 			    }
-			    
+
 			    return;
 			}
-			
+
 			//Cast spell
 			if(e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) {
 				Spell currentSpell = HPS.SpellManager.getCurrentSpell(e.getPlayer());
 				if(currentSpell != null)
 					HPS.SpellManager.cleverCast(e.getPlayer(), currentSpell);
 			}
-			
+
 		}
 	}
-	
+
 	@EventHandler
 	public void PIEE(PlayerInteractEntityEvent e) {
 		if(e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
 	        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
 		    Integer knows = psc.getStringListOrEmpty(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
-            
+
             if(cur == null) {
                 HPS.PM.tell(e.getPlayer(), HPS.Localisation.getTranslation("genKnowNoSpells"));
                 return;
             }
-            
+
             if(e.getPlayer().isSneaking()) {
                 if(cur == 0)
                     neww = knows;
@@ -100,21 +98,21 @@ public class Listeners implements Listener, EnableJob {
                 else
                     neww = cur + 1;
             }
-            
+
             try {
                 HPS.PM.newSpell(e.getPlayer(), HPS.SpellManager.setCurrentSpell(e.getPlayer(), neww).getName());
             } catch(IllegalArgumentException er) {
                 HPS.PM.tell(e.getPlayer(), HPS.Localisation.getTranslation("genKnowNoSpells"));
                 return;
             }
-            
+
             return;
 		}
 	}
-	
+
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent e) {
-		if(HPS.Plugin.getConfig().getBoolean("spell-castable-with-chat")) {
+		if(HPS.getConfig().getBoolean("spell-castable-with-chat")) {
 			if(HPS.SpellManager.isSpell(e.getMessage().substring(0, e.getMessage().length() - 1))) {
 				HPS.SpellManager.cleverCast(e.getPlayer(), HPS.SpellManager.getSpell(e.getMessage().substring(0, e.getMessage().length() - 1)));
 				return;
@@ -127,7 +125,7 @@ public class Listeners implements Listener, EnableJob {
 	    if(HPS.Wand.isLorelessWand(e.getRecipe().getResult())) {
 	        e.setCurrentItem(HPS.Wand.getWand());
 	        final Player p = (Player) e.getWhoClicked();
-	        Bukkit.getScheduler().runTask(HPS.Plugin, new Runnable() {
+	        Bukkit.getScheduler().runTask(HPS, new Runnable() {
 
                 @SuppressWarnings("deprecation")
                 @Override

@@ -16,21 +16,25 @@ import com.lavacraftserver.HarryPotterSpells.HPS;
 public class CustomConfiguration {
     private FileConfiguration fileConfiguration = null;
     private File file = null;
+    private HPS HPS;
 
     /**
      * Constructs a new {@link CustomConfiguration} without copying any defaults
+     * @param instance an instance of {@link HPS}
      * @param file where to store the custom configuration
      */
-    public CustomConfiguration(File file) {
-        this(file, null);
+    public CustomConfiguration(HPS instance, File file) {
+        this(instance, file, null);
     }
 
     /**
      * Constructs a new {@link CustomConfiguration}, copying defaults from an {@link InputStream}
+     * @param instance an instance of {@link HPS}
      * @param file where to store the custom configuration
      * @param stream an input stream to copy default configuration from
      */
-    public CustomConfiguration(File file, InputStream stream) {
+    public CustomConfiguration(HPS instance, File file, InputStream stream) {
+        this.HPS = instance;
         this.file = file;
         this.fileConfiguration = YamlConfiguration.loadConfiguration(file);
         if (stream != null) {

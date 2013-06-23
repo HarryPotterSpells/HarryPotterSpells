@@ -16,6 +16,10 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 		cooldown=14400
 )
 public class Reparo extends Spell {
+    
+    public Reparo(HPS instance) {
+        super(instance);
+    }
 
     @Override
 	public boolean cast(Player p) {

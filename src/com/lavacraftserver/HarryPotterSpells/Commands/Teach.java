@@ -10,10 +10,14 @@ import org.bukkit.entity.Player;
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
-@HCommand(name="teach", description="cmdTeaDescription", usage="<command> <spell> [player|me]")
-public class Teach implements HCommandExecutor {
+@CommandInfo(name="teach", description="cmdTeaDescription", usage="<command> <spell> [player|me]")
+public class Teach extends HCommandExecutor {
     
-	@Override
+	public Teach(HPS instance) {
+        super(instance);
+    }
+
+    @Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (args.length > 2 || args.length == 0)
 			return false;

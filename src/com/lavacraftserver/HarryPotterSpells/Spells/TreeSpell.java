@@ -21,6 +21,10 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 		cooldown=105
 )
 public class TreeSpell extends Spell {
+    
+    public TreeSpell(HPS instance) {
+        super(instance);
+    }
 
     public boolean cast(Player p) {
 		Block block = p.getTargetBlock(null, this.getRange());

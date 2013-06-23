@@ -6,16 +6,20 @@ import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 
-@HCommand(name="wand", description="cmdWanDescription")
-public class Wand implements HCommandExecutor {
+@CommandInfo(name="wand", description="cmdWanDescription")
+public class Wand extends HCommandExecutor {
     
-	@Override
+	public Wand(HPS instance) {
+        super(instance);
+    }
+
+    @Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(sender instanceof Player) {
 			Player player = (Player)sender;
 			player.getInventory().setItem(player.getInventory().firstEmpty(), HPS.Wand.getWand());
 			HPS.PM.tell(player, HPS.Localisation.getTranslation("cmdWanGiven"));
-			if(HPS.Plugin.getConfig().getBoolean("wand-give.explosion-effect")) {
+			if(HPS.getConfig().getBoolean("wand-give.explosion-effect")) {
 				player.getWorld().createExplosion(player.getLocation(), 0, false);
 			}
 		} else

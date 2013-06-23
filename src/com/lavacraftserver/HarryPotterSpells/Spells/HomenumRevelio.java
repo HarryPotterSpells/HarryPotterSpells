@@ -18,6 +18,10 @@ import com.lavacraftserver.HarryPotterSpells.Utils.FireworkEffectPlayer;
         cooldown = 600
         )
 public class HomenumRevelio extends Spell {
+    
+    public HomenumRevelio(HPS instance) {
+        super(instance);
+    }
 
     @Override
     public boolean cast(Player p) {

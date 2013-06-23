@@ -20,6 +20,10 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 		icon=Material.FIRE
 )
 public class Incendio extends Spell {
+    
+    public Incendio(HPS instance) {
+        super(instance);
+    }
 
     public boolean cast(Player p) {
 	    HPS.SpellTargeter.register(p, new SpellHitEvent() {

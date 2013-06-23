@@ -9,10 +9,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.plugin.PluginManager;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
-import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 
 @SpellInfo(
@@ -22,13 +20,12 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 		goThroughWalls = false,
 		cooldown=180
 )
-public class WingardiumLeviosa extends Spell implements Listener, EnableJob {
+public class WingardiumLeviosa extends Spell implements Listener {
 	private List<String> players = new ArrayList<String>();
 	
-	@Override
-	public void onEnable(PluginManager pm) {
-	    pm.registerEvents(this, HPS.Plugin);
-	}
+    public WingardiumLeviosa(HPS instance) {
+        super(instance);
+     }
 
 	public boolean cast(final Player p) {
 		if (players.contains(p.getName())) {
@@ -42,7 +39,7 @@ public class WingardiumLeviosa extends Spell implements Listener, EnableJob {
 				players.add(p.getName());
 			}
 						
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
 			    
 			    @Override
 				public void run() {

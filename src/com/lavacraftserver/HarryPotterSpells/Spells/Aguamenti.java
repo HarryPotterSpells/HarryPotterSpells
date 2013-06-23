@@ -20,6 +20,10 @@ import com.lavacraftserver.HarryPotterSpells.Utils.ParticleEffect;
 	icon=Material.WATER
 	)
 public class Aguamenti extends Spell {
+    
+    public Aguamenti(HPS instance) {
+        super(instance);
+    }
 
     public boolean cast(Player p) {
 		HPS.SpellTargeter.register(p, new SpellHitEvent() {

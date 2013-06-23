@@ -19,6 +19,11 @@ import com.lavacraftserver.HarryPotterSpells.configuration.PlayerSpellConfig;
  * An abstract class representing a Spell
  */
 public abstract class Spell {
+    public HPS HPS;
+
+    public Spell(HPS instance) {
+        this.HPS = instance;
+    }
 
 	/**
 	 * Called when a spell is cast
@@ -151,8 +156,8 @@ public abstract class Spell {
             return 0;
 
         int cooldown;
-        if(HPS.Plugin.getConfig().contains("cooldowns." + info.name().toLowerCase()))
-            cooldown = HPS.Plugin.getConfig().getInt("cooldowns." + info.name().toLowerCase());
+        if(HPS.getConfig().contains("cooldowns." + info.name().toLowerCase()))
+            cooldown = HPS.getConfig().getInt("cooldowns." + info.name().toLowerCase());
         else
             cooldown = info.cooldown();
 
@@ -166,7 +171,7 @@ public abstract class Spell {
 	 * @return the object found at that location
 	 */
 	public Object getConfig(String key, @Nullable Object defaultt) {
-	    return defaultt == null ? HPS.Plugin.getConfig().get("spells." + getName() + "." + key) : HPS.Plugin.getConfig().get("spells." + getName() + "." + key, defaultt);
+	    return defaultt == null ? HPS.getConfig().get("spells." + getName() + "." + key) : HPS.getConfig().get("spells." + getName() + "." + key, defaultt);
 	}
 
 	/**

@@ -20,11 +20,14 @@ public class Localisation {
     private Properties lang;
     private File properties, base, defaultt;
     private boolean once = false;
-    
+    private HPS HPS;
+
     /**
      * Constructs the {@link Localisation} class
+     * @param instance an instance of {@link HPS}
      */
-    public Localisation() {
+    public Localisation(HPS instance) {
+        this.HPS = instance;
         load();
     }
     
@@ -33,8 +36,8 @@ public class Localisation {
      */
     public void load() {
         lang = new Properties();
-        base = new File(HPS.Plugin.getDataFolder(), "Language Files");
-        properties = new File(base, HPS.Plugin.getConfig().getString("Language", "us-english") + ".properties");
+        base = new File(HPS.getDataFolder(), "Language Files");
+        properties = new File(base, HPS.getConfig().getString("Language", "us-english") + ".properties");
         defaultt = new File(base, "us-english.properties");
                 
         if(!defaultt.exists()) {            
@@ -59,7 +62,7 @@ public class Localisation {
         try {
             lang.load(new FileInputStream(properties));
         } catch (FileNotFoundException e) { // Specifed lang file does not exist. Revert to default once.            
-            HPS.PM.log(Level.WARNING, "Could not find the language file for language " + HPS.Plugin.getConfig().getString("Language", "us-english") + ". Reverting to default language...");
+            HPS.PM.log(Level.WARNING, "Could not find the language file for language " + HPS.getConfig().getString("Language", "us-english") + ". Reverting to default language...");
             HPS.PM.debug(e);
             if(!once) {
                 once = true;
@@ -68,13 +71,13 @@ public class Localisation {
             return;
         } catch (IOException e) { // Panic and tell the user stuff has gone wrong
             HPS.PM.log(Level.SEVERE, "Could not load the language file. Plugin will not function.", "Disabling plugin...");
-            Bukkit.getServer().getPluginManager().disablePlugin(HPS.Plugin);
+            Bukkit.getServer().getPluginManager().disablePlugin(HPS);
             return;
         }
         
         HPS.PM.debug(getTranslation("dbgLanguageLoaded", properties.getName()));
     }
-    
+
     /**
      * Gets a string from the currently loaded language file
      * @param key the translation to get

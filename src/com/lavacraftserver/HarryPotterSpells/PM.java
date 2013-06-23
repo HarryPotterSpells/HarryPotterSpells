@@ -7,7 +7,6 @@ import java.net.URLClassLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -18,7 +17,17 @@ import org.bukkit.entity.Player;
  * This class manages logs and other ways of sending messages to players/console.
  */
 public class PM {
-	private Logger log = Bukkit.getLogger();
+	private Logger log;
+	private HPS HPS;
+
+	/**
+	 * Constructs an instance of {@link PM}
+	 * @param instance an instance of {@link HPS}
+	 */
+	public PM(HPS instance) {
+	    this.HPS = instance;
+	    this.log = HPS.getLogger();
+	}
 
 	/**
 	 * Logs any amount of messages to the console
@@ -29,7 +38,7 @@ public class PM {
 		for(String str : message)
 			log.log(level, "[HarryPotterSpells] " + str);
 	}
-	
+
 	/**
 	 * Sends a player any amount of messages with an informative aim
 	 * @param player the player to send the message to
@@ -39,7 +48,7 @@ public class PM {
 		for(String str : message)
 			player.sendMessage("[" + ChatColor.GOLD + "HarryPotterSpells" + ChatColor.WHITE + "] " + ChatColor.YELLOW + str);
 	}
-	
+
 	/**
 	 * Sends a player any amount of messages with a warning aim
 	 * @param player the player to send the message to
@@ -49,7 +58,7 @@ public class PM {
 		for(String str : message)
 			player.sendMessage("[" + ChatColor.GOLD + "HarryPotterSpells" + ChatColor.WHITE + "] " + ChatColor.RED + str);
 	}
-	
+
 	/**
 	 * Sends a player a new spell notification
 	 * @param player the player to send the notification to
@@ -58,24 +67,24 @@ public class PM {
 	public void newSpell(Player player, String spell) {
 		player.sendMessage(ChatColor.GOLD + HPS.Localisation.getTranslation("pmSpellSelected", ChatColor.AQUA + spell));
 	}
-	
+
 	/**
 	 * Notifies a player when a spell has been casting if enabled in the config
 	 * @param player the player to notify
 	 * @param spell the name of the spell they have cast
 	 */
 	public void notify(Player player, String spell) {
-		if (HPS.Plugin.getConfig().getBoolean("notify-on-spell-use", true))
+		if (HPS.getConfig().getBoolean("notify-on-spell-use", true))
 			player.sendMessage(ChatColor.GOLD + HPS.Localisation.getTranslation("pmSpellCast", ChatColor.AQUA + spell));
 	}
-	
+
 	/**
 	 * Makes a player shout the name of a spell if enabled in the config
 	 * @param player the player to shout
 	 * @param spell the spell they have cast
 	 */
 	public void shout(Player player, String spell) {
-		if (HPS.Plugin.getConfig().getBoolean("shout-on-spell-use", false))
+		if (HPS.getConfig().getBoolean("shout-on-spell-use", false))
 			player.chat(spell + "!");
 	}
 	
@@ -84,7 +93,7 @@ public class PM {
 	 * @param message the message(s) to log
 	 */
 	public void debug(String... message) {
-		if(HPS.Plugin.getConfig().getBoolean("debug-mode", false))
+		if(HPS.getConfig().getBoolean("debug-mode", false))
 			for(String str : message)
 				log(Level.INFO, "[HPS - Debug] " + str);
 	}
@@ -136,7 +145,7 @@ public class PM {
 	 * @param e the throwable
 	 */
 	public void debug(Throwable e) {
-		if(HPS.Plugin.getConfig().getBoolean("debug-mode", false))
+		if(HPS.getConfig().getBoolean("debug-mode", false))
 			e.printStackTrace();
 	}
 

@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.API.SpellBookRecipe;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 import com.lavacraftserver.HarryPotterSpells.Spells.Interfaces.Craftable;
@@ -18,6 +19,10 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Interfaces.Craftable;
 )
 public class TimeSpell extends Spell implements Craftable {
     private SpellBookRecipe recipe = null;
+    
+    public TimeSpell(HPS instance) {
+        super(instance);
+    }
 
     //Dawn == 0L
 	//Morning == 2500L
@@ -57,7 +62,7 @@ public class TimeSpell extends Spell implements Craftable {
     @Override
     public SpellBookRecipe getCraftingRecipe() {
         if(recipe == null) {
-            recipe = new SpellBookRecipe(this);
+            recipe = new SpellBookRecipe(HPS, this);
             recipe.shape("dGd", "dCd", "DBD");
             recipe.setIngredient('d', Material.DIAMOND);
             recipe.setIngredient('G', Material.GHAST_TEAR);

@@ -15,6 +15,10 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		cooldown=300
 )
 public class AvadaKedavra extends Spell {
+    
+    public AvadaKedavra(HPS instance) {
+        super(instance);
+    }
 
     public boolean cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) {

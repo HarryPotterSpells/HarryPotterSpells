@@ -6,10 +6,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
 public class CoolDown extends BukkitRunnable {
+    private HPS HPS;
 	private String player;
 	private Spell spell;
 
-	public CoolDown(String playerName, Spell spellName) {
+	public CoolDown(HPS instance, String playerName, Spell spellName) {
+	    HPS = instance;
 		player = playerName;
 		spell = spellName;
 	}
@@ -26,7 +28,7 @@ public class CoolDown extends BukkitRunnable {
 		}
 		HPS.SpellManager.setCoolDown(player, spell, newCoolDown);
 		if(newCoolDown != null && newCoolDown >0){
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new CoolDown(player, spell), 20L);
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new CoolDown(HPS, player, spell), 20L);
 		}
 	}
 

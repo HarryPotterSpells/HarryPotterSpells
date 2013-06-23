@@ -6,7 +6,11 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -24,52 +28,105 @@ import org.bukkit.help.IndexHelpTopic;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 
 import com.lavacraftserver.HarryPotterSpells.Metrics.Graph;
 import com.lavacraftserver.HarryPotterSpells.API.events.SpellBookRecipeAddEvent;
-import com.lavacraftserver.HarryPotterSpells.Commands.HCommand;
+import com.lavacraftserver.HarryPotterSpells.Commands.CommandInfo;
 import com.lavacraftserver.HarryPotterSpells.Commands.HCommandExecutor;
-import com.lavacraftserver.HarryPotterSpells.Extensions.ExtensionManager;
-import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
-import com.lavacraftserver.HarryPotterSpells.Jobs.JobManager;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 import com.lavacraftserver.HarryPotterSpells.Spells.SpellManager;
 import com.lavacraftserver.HarryPotterSpells.Spells.Interfaces.Craftable;
 import com.lavacraftserver.HarryPotterSpells.Utils.MetricStatistics;
 import com.lavacraftserver.HarryPotterSpells.Utils.SVPBypass;
 import com.lavacraftserver.HarryPotterSpells.configuration.ConfigurationManager;
+import com.lavacraftserver.HarryPotterSpells.configuration.ConfigurationManager.ConfigurationType;
+import com.lavacraftserver.HarryPotterSpells.configuration.PlayerSpellConfig;
 
 public class HPS extends JavaPlugin {
-	public static ConfigurationManager ConfigurationManager;
-	public static PM PM;
-	public static SpellManager SpellManager;
-	public static Wand Wand;
-	@Deprecated public static ExtensionManager ExtensionManager;
-	public static SpellTargeter SpellTargeter;
-	public static Localisation Localisation;
-	public static Plugin Plugin;
-		
+	public ConfigurationManager ConfigurationManager;
+	public PM PM;
+	public SpellManager SpellManager;
+	public Wand Wand;
+	public SpellTargeter SpellTargeter;
+	public Localisation Localisation;
+
 	private static CommandMap commandMap;
 	private static Collection<HelpTopic> helpTopics = new ArrayList<HelpTopic>();
-	
+
 	@Override
-	public void onEnable() {	    
+	public void onEnable() {
 	    // Instance loading 
-	    // ORDER IS IMPORTANT.
-	    Plugin = this;
-	    PM = new PM();
-	    Localisation = new Localisation();
-		ConfigurationManager = new ConfigurationManager();
-		SpellManager = new SpellManager();
-		Wand = new Wand();
-		//ExtensionManager = new ExtensionManager();
+	    PM = new PM(this);
+	    Localisation = new Localisation(this);
+		ConfigurationManager = new ConfigurationManager(this);
+		SpellTargeter = new SpellTargeter(this);
+		SpellManager = new SpellManager(this);
+		Wand = new Wand(this);
 
 		// Configuration
 		loadConfig();
-				
+
+        PlayerSpellConfig PSC = (PlayerSpellConfig) ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
+		Double version = PSC.get().getDouble("VERSION_DO_NOT_EDIT", -1d) == -1d ? null : PSC.get().getDouble("VERSION_DO_NOT_EDIT", -1d);
+
+        if(version == null || version < PlayerSpellConfig.CURRENT_VERSION) {
+            // STORE UPDATES HERE
+
+            if(version == null) { // Updating from unformatted version to version 0.4
+                PM.log(Level.INFO, Localisation.getTranslation("pscOutOfDate"));
+
+                Map<String, List<String>> newConfig = new HashMap<String, List<String>>(), lists = new HashMap<String, List<String>>();
+                Set<String> css = new HashSet<String>();
+
+                for(String s : PSC.get().getKeys(false)) // This seemingly stupid code is to avoid a ConcurrencyModificationException (google it)
+                    css.add(s);
+
+                for(String s : css)
+                    lists.put(s, PSC.get().getStringList(s));
+
+                for(String cs : css) {
+                    List<String> list = new ArrayList<String>();
+                    for(String spellString : PSC.get().getStringList(cs)) {
+                        if(spellString.equals("AlarteAscendare")) {
+                            list.add("Alarte Ascendare");
+                        } else if(spellString.equals("AvadaKedavra")) {
+                            list.add("Avada Kedavra");
+                        } else if(spellString.equals("FiniteIncantatem")) {
+                            list.add("Finite Incantatem");
+                        } else if(spellString.equals("MagnaTonitrus")) {
+                            list.add("Magna Tonitrus");
+                        } else if(spellString.equals("PetrificusTotalus")) {
+                            list.add("Petrificus Totalus");
+                        } else if(spellString.equals("TimeSpell")) {
+                            list.add("Time");
+                        } else if(spellString.equals("TreeSpell")) {
+                            list.add("Tree");
+                        } else if(spellString.equals("WingardiumLeviosa")) {
+                            list.add("Wingardium Leviosa");
+                        } else {
+                            list.add(spellString);
+                        }
+                    }
+
+                    newConfig.put(cs, list);
+                }
+
+                for(Entry<String, List<String>> ent : newConfig.entrySet())
+                    PSC.get().set(ent.getKey(), ent.getValue());
+
+                PSC.get().set("VERSION_DO_NOT_EDIT", 0.4d);
+                PSC.save();
+
+                PM.log(Level.INFO, Localisation.getTranslation("pscUpdated", "0.4"));
+            }
+        }
+
+		// Listeners
+		getServer().getPluginManager().registerEvents(new Listeners(this), this);
+		getServer().getPluginManager().registerEvents(new MetricStatistics(), this);
+
 		// Hacky command map stuff
 		try {
 		    Class<?> craftServer = SVPBypass.getCurrentCBClass("CraftServer");
@@ -82,9 +139,9 @@ public class HPS extends JavaPlugin {
             PM.log(Level.SEVERE, Localisation.getTranslation("errCommandMap"));
             PM.debug(e);
         }
-		
+
 		Reflections reflections = Reflections.collect();
-				
+
 		// Reflections - Commands
 		int commands = 0;
 		for(Class<? extends HCommandExecutor> clazz : reflections.getSubTypesOf(HCommandExecutor.class)) {
@@ -94,71 +151,58 @@ public class HPS extends JavaPlugin {
 				commands++;
 		}
 		PM.debug(Localisation.getTranslation("dbgRegisteredCoreCommands", commands));
-		
+
 	    Bukkit.getHelpMap().addTopic(new IndexHelpTopic("HarryPotterSpells", Localisation.getTranslation("hlpDescription"), "", helpTopics));
 	    PM.debug(Localisation.getTranslation("dbgHelpCommandsAdded"));
-		
-		int enable = 0;
-		for(Class<? extends EnableJob> clazz : reflections.getSubTypesOf(EnableJob.class)) {
-		    try {
-                JobManager.addEnableJob(clazz.newInstance());
-                enable++;
-            } catch (Exception e) {
-                PM.log(Level.WARNING, "Could not add enable job in class " + clazz.getSimpleName() + " to the job manager.");
-                PM.debug(e);
-            }
-		}
-		
-		PM.debug(Localisation.getTranslation("dbgRegisteredCoreEnable", enable));
-		
+
 		// Plugin Metrics
 		try {
 		    Metrics metrics = new Metrics(this);
-		    
+
 		    // Total amount of spells cast
 		    metrics.addCustomData(new Metrics.Plotter("Total Amount of Spells Cast") {
-                
+
                 @Override
                 public int getValue() {
                     return MetricStatistics.getSpellsCast();
                 }
-                
+
             });
-		    
+
 		    // Types of spell cast
 		    Graph typesOfSpellCast = metrics.createGraph("Types of Spell Cast");
-		    
+
 		    for(final Spell spell : SpellManager.getSpells()) {
 		        typesOfSpellCast.addPlotter(new Metrics.Plotter(spell.getName()) {
-                    
+
                     @Override
                     public int getValue() {
                         return MetricStatistics.getAmountOfTimesCast(spell);
                     }
-                    
+
                 });
 		    }
-		    
+
 		    // Spell success rate
 		    Graph spellSuccessRate = metrics.createGraph("Spell Success Rate");
-		    
+
 		    spellSuccessRate.addPlotter(new Metrics.Plotter("Successes") {
 
                 @Override
                 public int getValue() {
                     return MetricStatistics.getSuccesses();
                 }
-		        
+
 		    });
-		    
+
 		    spellSuccessRate.addPlotter(new Metrics.Plotter("Failures") {
-                
+
                 @Override
                 public int getValue() {
                     return MetricStatistics.getFailures();
                 }
             });
-		    
+
 		    metrics.start();
 		} catch (IOException e) {
 		    PM.log(Level.WARNING, Localisation.getTranslation("errPluginMetrics"));
@@ -198,19 +242,15 @@ public class HPS extends JavaPlugin {
 
         PM.debug(Localisation.getTranslation("dbgCraftingEnd"));
 
-		JobManager.executeEnableJobs(getServer().getPluginManager());
-
 		PM.log(Level.INFO, Localisation.getTranslation("genPluginEnabled"));
 	}
-	
+
 	@Override
 	public void onDisable() {
-		JobManager.executeClearJobs();
-		JobManager.executeDisableJob(getServer().getPluginManager());
 
 		PM.log(Level.INFO, Localisation.getTranslation("genPluginDisabled"));
 	}
-	
+
 	public void loadConfig() {
 		File file = new File(this.getDataFolder(), "config.yml");
 		if(!file.exists()) {
@@ -218,29 +258,29 @@ public class HPS extends JavaPlugin {
 			saveDefaultConfig();
 		}
 	}
-	
+
 	/**
 	 * Registers a {@link HackyCommand} to the plugin
 	 * @param clazz a class that extends {@code CommandExecutor}
 	 * @return {@code true} if the command was added successfully
 	 */
-	public static boolean addHackyCommand(Class<? extends HCommandExecutor> clazz) {
-		if(!clazz.isAnnotationPresent(HCommand.class)) {
+	public boolean addHackyCommand(Class<? extends HCommandExecutor> clazz) {
+		if(!clazz.isAnnotationPresent(CommandInfo.class)) {
 			PM.log(Level.INFO, Localisation.getTranslation("errAddCommandMapAnnotation", clazz.getSimpleName()));
 			return false;
 		}
-		
-		HCommand cmdInfo = clazz.getAnnotation(HCommand.class);
+
+		CommandInfo cmdInfo = clazz.getAnnotation(CommandInfo.class);
 		String name = cmdInfo.name().equals("") ? clazz.getSimpleName().toLowerCase() : cmdInfo.name();
 		String permission = cmdInfo.permission().equals("") ? "HarryPotterSpells." + name : cmdInfo.permission();
 		List<String> aliases = cmdInfo.aliases().equals("") ? new ArrayList<String>() : Arrays.asList(cmdInfo.aliases().split(","));
 		Permission perm = new Permission(permission, PermissionDefault.getByName(cmdInfo.permissionDefault()));
 		Bukkit.getServer().getPluginManager().addPermission(perm);
-		HackyCommand hacky = new HackyCommand(name, Localisation.getTranslation(cmdInfo.description()), cmdInfo.usage(), aliases);
+		HackyCommand hacky = new HackyCommand(this, name, Localisation.getTranslation(cmdInfo.description()), cmdInfo.usage(), aliases);
 		hacky.setPermission(permission);
 		hacky.setPermissionMessage(Localisation.getTranslation(cmdInfo.noPermissionMessage()));
 		try {
-			hacky.setExecutor(clazz.newInstance());
+			hacky.setExecutor(clazz.getConstructor(HPS.class).newInstance(this));
 		} catch (Exception e) {
 			PM.log(Level.WARNING, Localisation.getTranslation("errAddCommandMap", clazz.getSimpleName()));
 			PM.debug(e);
@@ -256,22 +296,24 @@ public class HPS extends JavaPlugin {
 	 */
 	private static class HackyCommand extends Command {
 		private CommandExecutor executor;
+		private HPS HPS;
 
-		public HackyCommand(String name, String description, String usageMessage, List<String> aliases) {
+		public HackyCommand(HPS instance, String name, String description, String usageMessage, List<String> aliases) {
 			super(name, description, usageMessage, aliases);
+			this.HPS = instance;
 		}
 
 		@Override
 		public boolean execute(CommandSender sender, String commandLabel, String[] args) {
 		    String s = sender instanceof Player ? "/" : "";
 		    if(executor == null)
-		        sender.sendMessage(Localisation.getTranslation("cmdUnknown", s));
+		        sender.sendMessage(HPS.Localisation.getTranslation("cmdUnknown", s));
 		    else if(!sender.hasPermission(getPermission()))
-		        PM.dependantMessagingWarn(sender, getPermissionMessage());
+		        HPS.PM.dependantMessagingWarn(sender, getPermissionMessage());
 		    else {
 		        boolean success = executor.onCommand(sender, this, commandLabel, args);
 		        if(!success)
-		            PM.dependantMessagingTell(sender, ChatColor.RED + Localisation.getTranslation("cmdUsage", s, getUsage().replace("<command>", commandLabel)));
+		            HPS.PM.dependantMessagingTell(sender, ChatColor.RED + HPS.Localisation.getTranslation("cmdUsage", s, getUsage().replace("<command>", commandLabel)));
 		    }
 		    return true;
 		}

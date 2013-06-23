@@ -22,7 +22,16 @@ import com.lavacraftserver.HarryPotterSpells.Utils.ParticleEffect;
  * A targeter class that targets using a a fake projectile
  */
 public class SpellTargeter {
-    
+    private HPS HPS;
+
+    /**
+     * Constructs an instance of {@link SpellTargeter}
+     * @param instance an instance of {@link HPS}
+     */
+    public SpellTargeter(HPS instance) {
+        this.HPS = instance;
+    }
+
     /**
      * Registers a new {@link SpellHitEvent} to be called when a spell hits something.
      * @param caster the player who cast the spell
@@ -51,7 +60,7 @@ public class SpellTargeter {
             @Override
             public void run() {
                 if(!running) {
-                    runTaskTimer(HPS.Plugin, 0l, 1l);
+                    runTaskTimer(HPS, 0l, 1l);
                     running = true;
                 }
                 
@@ -91,7 +100,7 @@ public class SpellTargeter {
             @Override
             public void run() {
                 if(!running) {
-                    runTaskTimer(HPS.Plugin, 0l, 1l);
+                    runTaskTimer(HPS, 0l, 1l);
                     running = true;
                 }
                 
@@ -138,7 +147,7 @@ public class SpellTargeter {
             @Override
             public void run() {
                 if(!running) {
-                    runTaskTimer(HPS.Plugin, 0l, 1l);
+                    runTaskTimer(HPS, 0l, 1l);
                     running = true;
                 }
                 

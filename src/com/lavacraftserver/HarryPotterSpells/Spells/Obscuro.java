@@ -20,6 +20,10 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		cooldown=90
 )
 public class Obscuro extends Spell {
+    
+    public Obscuro(HPS instance) {
+        super(instance);
+    }
 
     @Override
 	public boolean cast(Player p) {

@@ -7,8 +7,8 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface HCommand {
-	
+public @interface CommandInfo {
+
 	String name() default ""; // Defaults to class simple name
 	String description() default ""; // Should corrospond with a language file entry
 	String aliases() default "";
@@ -16,5 +16,5 @@ public @interface HCommand {
 	String permissionDefault() default "OP";
 	String usage() default "<command>";
 	String noPermissionMessage() default "cmdNoPermission"; // Should corrospond with a language file entry
-	
+
 }

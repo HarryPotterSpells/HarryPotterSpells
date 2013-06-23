@@ -18,6 +18,10 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		icon=Material.RED_ROSE
 )
 public class Orchideous extends Spell {
+    
+    public Orchideous(HPS instance) {
+        super(instance);
+    }
 
     @Override
 	public boolean cast(Player p) {

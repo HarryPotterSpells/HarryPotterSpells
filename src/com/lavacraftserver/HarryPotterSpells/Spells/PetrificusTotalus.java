@@ -9,10 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.plugin.PluginManager;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
-import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
@@ -23,13 +21,12 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		goThroughWalls=false,
 		cooldown=300
 )
-public class PetrificusTotalus extends Spell implements Listener, EnableJob {
+public class PetrificusTotalus extends Spell implements Listener {
 	public static List<String> players = new ArrayList<String>();
 	
-	@Override
-	public void onEnable(PluginManager pm) {
-	    pm.registerEvents(this, HPS.Plugin);
-	}
+    public PetrificusTotalus(HPS instance) {
+        super(instance);
+    }
 
 	@Override
 	public boolean cast(final Player p) {
@@ -39,7 +36,7 @@ public class PetrificusTotalus extends Spell implements Listener, EnableJob {
 			final Player target = (Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
 			long duration = getTime("duration", 600l);
 			
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new Runnable() {
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
 			    
 			    @Override
 				public void run() {

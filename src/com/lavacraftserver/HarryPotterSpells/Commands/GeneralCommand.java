@@ -7,8 +7,12 @@ import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 
-@HCommand(name="harrypotterspells", description="cmdGenDescription", aliases="hps", usage="<command> [config (reload|edit)]")
-public class GeneralCommand implements HCommandExecutor {
+@CommandInfo(name="harrypotterspells", description="cmdGenDescription", aliases="hps", usage="<command> [config (reload|edit)]")
+public class GeneralCommand extends HCommandExecutor {
+
+    public GeneralCommand(HPS instance) {
+        super(instance);
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -19,14 +23,14 @@ public class GeneralCommand implements HCommandExecutor {
             if(args.length == 1)
                 return false;
             else if(args[1].equalsIgnoreCase("reload")) {
-                HPS.Plugin.reloadConfig();
+                HPS.reloadConfig();
                 HPS.PM.dependantMessagingTell(sender, HPS.Localisation.getTranslation("cmdGenConfigReloaded"));
             } else if(args[1].equalsIgnoreCase("edit")) {
                 if(args.length != 4)
                     HPS.PM.dependantMessagingTell(sender, ChatColor.RED + HPS.Localisation.getTranslation("cmdUsage", (sender instanceof Player ? "/" : "") + label, " config edit <key> <new value>"));
                 else {
-                    HPS.Plugin.getConfig().set(args[2], args[3]);
-                    HPS.Plugin.saveConfig();
+                    HPS.getConfig().set(args[2], args[3]);
+                    HPS.saveConfig();
                     HPS.PM.dependantMessagingTell(sender, HPS.Localisation.getTranslation("cmdGenConfigUpdated"));
                 }
             }

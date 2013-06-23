@@ -16,6 +16,10 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		cooldown=180
 )
 public class Confundo extends Spell {
+    
+    public Confundo(HPS instance) {
+        super(instance);
+    }
 
     public boolean cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {

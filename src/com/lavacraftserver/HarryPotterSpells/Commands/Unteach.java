@@ -10,10 +10,14 @@ import org.bukkit.entity.Player;
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
-@HCommand(name="unteach", description="cmdUntDescription", usage="<command> <spell> [player]")
-public class Unteach implements HCommandExecutor {
+@CommandInfo(name="unteach", description="cmdUntDescription", usage="<command> <spell> [player]")
+public class Unteach extends HCommandExecutor {
 
-	@Override
+	public Unteach(HPS instance) {
+        super(instance);
+    }
+
+    @Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(args.length > 2 || args.length == 0)
 			return false;

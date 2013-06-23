@@ -21,6 +21,10 @@ import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 		cooldown=120
 )
 public class Expelliarmus extends Spell {
+    
+    public Expelliarmus(HPS instance) {
+        super(instance);
+    }
 
     public boolean cast(Player p) {
 		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {

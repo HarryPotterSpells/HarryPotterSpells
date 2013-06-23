@@ -12,8 +12,18 @@ import com.lavacraftserver.HarryPotterSpells.Utils.MiscUtilities;
  * This class manages the wand
  */
 public class Wand {
+    private HPS HPS;
+
     public static final String[] WOOD_TYPES = new String[]{"Elder", "Walnut", "Blackthorn", "Ash", "Hawthorn", "Rose", "Hornbeam", "Holly", "Vine", "Mahogany", "Willow", "Elm", "Oak", "Fir", "Cherry", "Chestnut", "Alder", "Yew"};
     public static final String[] CORES = new String[]{"Thestral tail hair", "Dragon heartstring", "Troll whisker", "Unicorn hair", "Veela hair", "Phoenix feather"};
+
+    /**
+     * Constructs a new {@link Wand}
+     * @param instance an instance of {@link HPS}
+     */
+    public Wand(HPS instance) {
+        this.HPS = instance;
+    }
 
     /**
      * Checks if a given {@link ItemStack} is useable as a wand
@@ -100,7 +110,7 @@ public class Wand {
 	}
 
 	private Object getConfig(String string, Object defaultt) {
-	    return HPS.Plugin.getConfig().get("wand." + string, defaultt);
+	    return HPS.getConfig().get("wand." + string, defaultt);
 	}
 
 }

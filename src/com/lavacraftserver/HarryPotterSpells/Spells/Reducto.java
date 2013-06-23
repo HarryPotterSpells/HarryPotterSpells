@@ -15,6 +15,10 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 		cooldown=300
 )
 public class Reducto extends Spell {
+    
+    public Reducto(HPS instance) {
+        super(instance);
+    }
 
     public boolean cast(Player p) {
 		Block b = p.getTargetBlock(null, this.getRange());

@@ -15,9 +15,9 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
-import org.bukkit.plugin.PluginManager;
 import org.reflections.Reflections;
 
 import com.google.common.collect.Iterables;
@@ -25,14 +25,13 @@ import com.lavacraftserver.HarryPotterSpells.CoolDown;
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.API.events.SpellPostCastEvent;
 import com.lavacraftserver.HarryPotterSpells.API.events.SpellPreCastEvent;
-import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
-import com.lavacraftserver.HarryPotterSpells.configuration.PlayerSpellConfig;
 import com.lavacraftserver.HarryPotterSpells.configuration.ConfigurationManager.ConfigurationType;
+import com.lavacraftserver.HarryPotterSpells.configuration.PlayerSpellConfig;
 
 /**
  * A class that manages spells and holds lots of spell related utilities
  */
-public class SpellManager implements EnableJob {
+public class SpellManager {
 	private HashMap<String, HashMap<Spell, Integer>> cooldowns = new HashMap<String, HashMap<Spell, Integer>>();
 	private Comparator<Spell> spellComparator = new Comparator<Spell>() {
 
@@ -44,27 +43,31 @@ public class SpellManager implements EnableJob {
 	};
 	private SortedSet<Spell> spellList = new TreeSet<Spell>(spellComparator);
 	private Map<String, Integer> currentSpell = new HashMap<String, Integer>();
-	
-	public final Permission NO_COOLDOWN_ALL_1 = new Permission("HarryPotterSpells.nocooldown", PermissionDefault.OP), NO_COOLDOWN_ALL_2 = new Permission("HarryPotterSpells.nocooldown.*");
+	private HPS HPS;
 
-	@Override
-	public void onEnable(PluginManager pm) {
-	    pm.addPermission(NO_COOLDOWN_ALL_1);
-	    pm.addPermission(NO_COOLDOWN_ALL_2);
-	}
+	public final Permission NO_COOLDOWN_ALL_1 = new Permission("HarryPotterSpells.nocooldown", PermissionDefault.OP), NO_COOLDOWN_ALL_2 = new Permission("HarryPotterSpells.nocooldown.*");
 
 	/**
 	 * Constructs the {@link SpellManager}, adding all core spells to the Spell List
 	 * @param plugin an instance of {@link HPS}
 	 */
-	public SpellManager() {
+	public SpellManager(HPS instance) {
+	    this.HPS = instance;
+	    HPS.getServer().getPluginManager().addPermission(NO_COOLDOWN_ALL_1);
+        HPS.getServer().getPluginManager().addPermission(NO_COOLDOWN_ALL_2);
+
 		Reflections ref = Reflections.collect();
 		for (Class<?> clazz : ref.getTypesAnnotatedWith(Spell.SpellInfo.class)) {
 			Spell spell;
 			if (clazz == Spell.class || !Spell.class.isAssignableFrom(clazz))
 				continue;
 			try {
-				spell = (Spell) clazz.newInstance();
+				spell = (Spell) clazz.getConstructor(HPS.class).newInstance(HPS);
+
+				if(Listener.class.isAssignableFrom(clazz)) {
+				    HPS.getServer().getPluginManager().registerEvents((Listener) spell, HPS);
+				}
+
 			} catch (Exception e) {
 				HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errSpells", clazz.getSimpleName()));
 				HPS.PM.debug(e);
@@ -203,7 +206,7 @@ public class SpellManager implements EnableJob {
 			return;
 		}
 
-		if (HPS.Plugin.getConfig().getBoolean("spell-particle-toggle")) {
+		if (HPS.getConfig().getBoolean("spell-particle-toggle")) {
 			Location l = player.getLocation();
 			l.setY(l.getY() + 1);
 			player.getWorld().playEffect(l, Effect.ENDER_SIGNAL, 0);
@@ -230,7 +233,7 @@ public class SpellManager implements EnableJob {
 
 			if (cast && successful && spell.getCoolDown(player) > 0) {
 				setCoolDown(playerName, spell, spell.getCoolDown(player));
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS.Plugin, new CoolDown(playerName, spell), 20L);
+				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new CoolDown(HPS, playerName, spell), 20L);
 			}
 		}
 	}
