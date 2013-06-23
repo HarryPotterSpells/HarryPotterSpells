@@ -8,9 +8,9 @@ import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 
-import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 
-@spell(
+@SpellInfo(
         name = "Morsmordre",
         description = "descMorsmordre",
         cooldown = 60

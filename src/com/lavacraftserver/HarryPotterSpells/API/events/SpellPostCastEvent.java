@@ -1,25 +1,20 @@
-package com.lavacraftserver.HarryPotterSpells.API;
+package com.lavacraftserver.HarryPotterSpells.API.events;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 
-/**
- * Generic event for spells
- */
-public class SpellEvent extends Event {
+public class SpellPostCastEvent extends SpellEvent {
     private static final HandlerList handlers = new HandlerList();
     
-    private Spell spell;
-    private Player caster;
-    
-    public SpellEvent(Spell spell, Player caster) {
-        this.spell = spell;
-        this.caster = caster;
-    }
+    private final boolean successful;
 
+    public SpellPostCastEvent(Spell spell, Player caster, boolean successful) {
+        super(spell, caster);
+        this.successful = successful;
+    }
+    
     /**
      * Gets the HandlerList for this event
      * @return the handler list
@@ -30,19 +25,11 @@ public class SpellEvent extends Event {
     }
     
     /**
-     * Gets the spell that is being cast
-     * @return the spell
+     * Gets whether the spell was successfully cast or not
+     * @return {@code true} if the spell was successfully cast
      */
-    public Spell getSpell() {
-        return spell;
-    }
-    
-    /**
-     * Gets the caster of the spell
-     * @return the caster
-     */
-    public Player getCaster() {
-        return caster;
+    public boolean wasSuccessful() {
+        return successful;
     }
     
     /*

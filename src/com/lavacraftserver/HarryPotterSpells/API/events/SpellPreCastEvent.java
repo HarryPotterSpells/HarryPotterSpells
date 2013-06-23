@@ -1,6 +1,7 @@
-package com.lavacraftserver.HarryPotterSpells.API;
+package com.lavacraftserver.HarryPotterSpells.API.events;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
@@ -8,7 +9,7 @@ import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 /**
  * Event called before a spell is cast
  */
-public class SpellPreCastEvent extends SpellEvent {
+public class SpellPreCastEvent extends SpellEvent implements Cancellable {
 	private static final HandlerList handlers = new HandlerList();
 	
 	private boolean cancelled = false;
@@ -30,6 +31,7 @@ public class SpellPreCastEvent extends SpellEvent {
 	 * Gets the cancelation status of this spell
 	 * @return {@code true} if the spell has been cancelled
 	 */
+	@Override
 	public boolean isCancelled() {
 		return cancelled;
 	}
@@ -38,6 +40,7 @@ public class SpellPreCastEvent extends SpellEvent {
 	 * Sets the cancelation status of this spell
 	 * @param cancel
 	 */
+	@Override
 	public void setCancelled(boolean cancel) {
 		cancelled = cancel;
 	}

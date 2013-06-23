@@ -14,9 +14,9 @@ import org.bukkit.plugin.PluginManager;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
-import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 
-@spell (
+@SpellInfo (
 		name="Sonorus",
 		description="descSonorus",
 		range=0,

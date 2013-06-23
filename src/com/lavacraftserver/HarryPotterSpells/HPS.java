@@ -29,6 +29,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 
 import com.lavacraftserver.HarryPotterSpells.Metrics.Graph;
+import com.lavacraftserver.HarryPotterSpells.API.events.SpellBookRecipeAddEvent;
 import com.lavacraftserver.HarryPotterSpells.Commands.HCommand;
 import com.lavacraftserver.HarryPotterSpells.Commands.HCommandExecutor;
 import com.lavacraftserver.HarryPotterSpells.Extensions.ExtensionManager;
@@ -36,11 +37,13 @@ import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
 import com.lavacraftserver.HarryPotterSpells.Jobs.JobManager;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
 import com.lavacraftserver.HarryPotterSpells.Spells.SpellManager;
+import com.lavacraftserver.HarryPotterSpells.Spells.Interfaces.Craftable;
 import com.lavacraftserver.HarryPotterSpells.Utils.MetricStatistics;
 import com.lavacraftserver.HarryPotterSpells.Utils.SVPBypass;
+import com.lavacraftserver.HarryPotterSpells.configuration.ConfigurationManager;
 
 public class HPS extends JavaPlugin {
-	public static PlayerSpellConfig PlayerSpellConfig;
+	public static ConfigurationManager ConfigurationManager;
 	public static PM PM;
 	public static SpellManager SpellManager;
 	public static Wand Wand;
@@ -59,11 +62,11 @@ public class HPS extends JavaPlugin {
 	    Plugin = this;
 	    PM = new PM();
 	    Localisation = new Localisation();
-		PlayerSpellConfig = new PlayerSpellConfig();
+		ConfigurationManager = new ConfigurationManager();
 		SpellManager = new SpellManager();
 		Wand = new Wand();
 		//ExtensionManager = new ExtensionManager();
-		
+
 		// Configuration
 		loadConfig();
 				
@@ -161,11 +164,11 @@ public class HPS extends JavaPlugin {
 		    PM.log(Level.WARNING, Localisation.getTranslation("errPluginMetrics"));
 		    PM.debug(e);
 		}
-		
+
 		// Crafting Changes
+        PM.debug(Localisation.getTranslation("dbgCraftingStart"));
+
 		if(getConfig().getBoolean("wand.crafting.enabled", true)) {
-		    PM.debug(Localisation.getTranslation("dbgCraftingStart"));
-		    
 		    try {
     		    ShapedRecipe wandRecipe = new ShapedRecipe(Wand.getLorelessWand());
     		    List<String> list = getConfig().getStringList("wand.crafting.recipe");
@@ -176,16 +179,27 @@ public class HPS extends JavaPlugin {
     		        wandRecipe.setIngredient(string.toCharArray()[0], Material.getMaterial(getConfig().getInt("wand.crafting.ingredients." + string)));
 
     		    getServer().addRecipe(wandRecipe);
-		    } catch(Exception e) {
+		    } catch(Exception e) { // It's surrounded by a try/catch block because we can't let any stupid errors in config disable the plugin.
 		        PM.log(Level.INFO, Localisation.getTranslation("errCraftingChanges"));
 		        PM.debug(e);
 		    }
-		    
-		    PM.debug(Localisation.getTranslation("dbgCraftingEnd"));
 		}
-		
+
+		if(getConfig().getBoolean("spells-craftable", true)) {
+		    for(Spell s : SpellManager.getSpells()) {
+		        if(s instanceof Craftable) {
+		            SpellBookRecipeAddEvent e = new SpellBookRecipeAddEvent(((Craftable) s).getCraftingRecipe());
+		            getServer().getPluginManager().callEvent(e);
+		            if(!e.isCancelled())
+		                getServer().addRecipe(e.getRecipe());
+		        }
+		    }
+		}
+
+        PM.debug(Localisation.getTranslation("dbgCraftingEnd"));
+
 		JobManager.executeEnableJobs(getServer().getPluginManager());
-		
+
 		PM.log(Level.INFO, Localisation.getTranslation("genPluginEnabled"));
 	}
 	

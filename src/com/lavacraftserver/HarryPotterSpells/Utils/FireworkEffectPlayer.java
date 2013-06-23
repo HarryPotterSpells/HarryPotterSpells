@@ -1,5 +1,7 @@
 package com.lavacraftserver.HarryPotterSpells.Utils;
 
+import static com.lavacraftserver.HarryPotterSpells.Utils.SVPBypass.getMethod;
+
 import java.lang.reflect.Method;
 
 import org.bukkit.FireworkEffect;
@@ -89,21 +91,6 @@ public class FireworkEffectPlayer {
         nms_world_broadcastEntityEffect.invoke(nms_world, new Object[] {nms_firework, (byte) 17});
         // remove from the game
         fw.remove();
-    }
-    
-    /**
-     * Internal method, used as shorthand to grab our method in a nice friendly manner
-     * @param cl
-     * @param method
-     * @return Method (or null)
-     */
-    private static Method getMethod(Class<?> cl, String method) {
-        for(Method m : cl.getMethods()) {
-            if(m.getName().equals(method)) {
-                return m;
-            }
-        }
-        return null;
     }
 
 }

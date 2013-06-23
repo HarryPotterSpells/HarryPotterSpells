@@ -3,9 +3,9 @@ package com.lavacraftserver.HarryPotterSpells.Spells;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 
-import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 
-@spell (
+@SpellInfo (
 		name="Confringo",
 		description="descConfringo",
 		range=0,

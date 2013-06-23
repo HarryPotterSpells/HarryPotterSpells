@@ -9,9 +9,9 @@ import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.SpellTargeter.SpellHitEvent;
-import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 
-@spell (
+@SpellInfo (
 		name="Incendio",
 		description="descIncendio",
 		range=50,

@@ -12,9 +12,9 @@ import org.bukkit.util.Vector;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.SpellTargeter.SpellHitEvent;
-import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 
-@spell (
+@SpellInfo (
 		name="Stupefy",
 		description="descStupefy",
 		range=50,

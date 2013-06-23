@@ -16,6 +16,8 @@ import org.bukkit.plugin.PluginManager;
 
 import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
+import com.lavacraftserver.HarryPotterSpells.configuration.ConfigurationManager.ConfigurationType;
+import com.lavacraftserver.HarryPotterSpells.configuration.PlayerSpellConfig;
 
 public class Listeners implements Listener, EnableJob {
     
@@ -30,15 +32,16 @@ public class Listeners implements Listener, EnableJob {
 	@EventHandler
 	public void PIE(PlayerInteractEvent e) {
 		if(e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
+		    PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
 		    
             if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE))
                 e.setCancelled(true);
 		    
 			//Change spell
 			if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			    Integer knows = HPS.PlayerSpellConfig.getStringListOrEmpty(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
+			    Integer knows = psc.getStringListOrEmpty(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
 			    			    
-			    if(HPS.PlayerSpellConfig.getStringListOrEmpty(e.getPlayer().getName()).isEmpty() || cur == null) {
+			    if(psc.getStringListOrEmpty(e.getPlayer().getName()).isEmpty() || cur == null) {
 			        HPS.PM.tell(e.getPlayer(), HPS.Localisation.getTranslation("genKnowNoSpells"));
 			        return;
 			    }
@@ -78,7 +81,8 @@ public class Listeners implements Listener, EnableJob {
 	@EventHandler
 	public void PIEE(PlayerInteractEntityEvent e) {
 		if(e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
-		    Integer knows = HPS.PlayerSpellConfig.getStringListOrEmpty(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
+	        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
+		    Integer knows = psc.getStringListOrEmpty(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
             
             if(cur == null) {
                 HPS.PM.tell(e.getPlayer(), HPS.Localisation.getTranslation("genKnowNoSpells"));

@@ -1,6 +1,7 @@
 package com.lavacraftserver.HarryPotterSpells.Utils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import org.bukkit.Bukkit;
 
@@ -9,7 +10,7 @@ import org.bukkit.Bukkit;
  * This class is an unwanted necessity.
  */
 public class SVPBypass {
-    
+
     /**
      * Gets the current package version used in the SVP. <br>
      * It returns the part in []: org.bukkit.craftbukkit.[1.5.1_R3].CraftServer
@@ -18,7 +19,7 @@ public class SVPBypass {
     public static String getCurrentPackageVersion() {
         return Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
     }
-    
+
     /**
      * Gets the current version of the CraftBukkit class, bypassing the Bukkit SVP.
      * @param clazz the class relative to the root of the version. <br>
@@ -32,11 +33,11 @@ public class SVPBypass {
             return null;
         }
     }
-    
+
     /**
      * Gets the current version of the NMS (net.minecraft.server) class, bypassing the Bukkit SVP.
      * @param clazz the class relative to the root of the version. <br>
-     *              E.G {@code EnchantmentManager} will return the current class that contains the EntityManager.
+     *              E.G {@code EnchantmentManager} will return the current class that contains the EnchantmentManager.
      * @return the class
      */
     public static Class<?> getCurrentNMSClass(String clazz) {
@@ -46,7 +47,7 @@ public class SVPBypass {
             return null;
         }
     }
-    
+
     /**
     * Sets a value of an {@link Object} via reflection
     * @param instance instance the class to use
@@ -59,7 +60,7 @@ public class SVPBypass {
         field.setAccessible(true);
         field.set(instance, value);
     }
- 
+
     /**
     * Get a value of an {@link Object}'s {@link Field}
     * @param instance the target {@link Object}
@@ -71,6 +72,21 @@ public class SVPBypass {
         Field field = instance.getClass().getDeclaredField(fieldName);
         field.setAccessible(true);
         return field.get(instance);
+    }
+
+    /**
+     * Utility function to get a {@link Method} from a class.
+     * @param cl the class to get the method from
+     * @param method the name of the method
+     * @return the method retrieved by the function
+     */
+    public static Method getMethod(Class<?> cl, String method) {
+        for(Method m : cl.getMethods()) {
+            if(m.getName().equals(method)) {
+                return m;
+            }
+        }
+        return null;
     }
 
 }

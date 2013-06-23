@@ -5,16 +5,19 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
+import com.lavacraftserver.HarryPotterSpells.API.SpellBookRecipe;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
+import com.lavacraftserver.HarryPotterSpells.Spells.Interfaces.Craftable;
 
-@spell (
+@SpellInfo (
 		name="Time",
 		description="descTime",
 		range=0,
 		goThroughWalls=false,
 		cooldown=600
 )
-public class TimeSpell extends Spell{
+public class TimeSpell extends Spell implements Craftable {
+    private SpellBookRecipe recipe = null;
 
     //Dawn == 0L
 	//Morning == 2500L
@@ -50,5 +53,19 @@ public class TimeSpell extends Spell{
 		w.strikeLightningEffect(new Location(w, x - 2, y, z));
 		w.strikeLightningEffect(new Location(w, x + 2, y, z));
 	}
-	
+
+    @Override
+    public SpellBookRecipe getCraftingRecipe() {
+        if(recipe == null) {
+            recipe = new SpellBookRecipe(this);
+            recipe.shape("dGd", "dCd", "DBD");
+            recipe.setIngredient('d', Material.DIAMOND);
+            recipe.setIngredient('G', Material.GHAST_TEAR);
+            recipe.setIngredient('C', Material.WATCH);
+            recipe.setIngredient('D', Material.DIAMOND_BLOCK);
+            recipe.setIngredient('B', Material.BOOK);
+        }
+        return recipe;
+    }
+
 }

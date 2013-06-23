@@ -23,9 +23,11 @@ import org.reflections.Reflections;
 import com.google.common.collect.Iterables;
 import com.lavacraftserver.HarryPotterSpells.CoolDown;
 import com.lavacraftserver.HarryPotterSpells.HPS;
-import com.lavacraftserver.HarryPotterSpells.API.SpellPostCastEvent;
-import com.lavacraftserver.HarryPotterSpells.API.SpellPreCastEvent;
+import com.lavacraftserver.HarryPotterSpells.API.events.SpellPostCastEvent;
+import com.lavacraftserver.HarryPotterSpells.API.events.SpellPreCastEvent;
 import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
+import com.lavacraftserver.HarryPotterSpells.configuration.PlayerSpellConfig;
+import com.lavacraftserver.HarryPotterSpells.configuration.ConfigurationManager.ConfigurationType;
 
 /**
  * A class that manages spells and holds lots of spell related utilities
@@ -55,9 +57,9 @@ public class SpellManager implements EnableJob {
 	 * Constructs the {@link SpellManager}, adding all core spells to the Spell List
 	 * @param plugin an instance of {@link HPS}
 	 */
-	public SpellManager() {	    
+	public SpellManager() {
 		Reflections ref = Reflections.collect();
-		for (Class<?> clazz : ref.getTypesAnnotatedWith(Spell.spell.class)) {
+		for (Class<?> clazz : ref.getTypesAnnotatedWith(Spell.SpellInfo.class)) {
 			Spell spell;
 			if (clazz == Spell.class || !Spell.class.isAssignableFrom(clazz))
 				continue;
@@ -79,7 +81,8 @@ public class SpellManager implements EnableJob {
 	 * @return the current spell position they are on
 	 */
 	public Integer getCurrentSpellPosition(Player player) {
-		List<String> spellsTheyKnow = HPS.PlayerSpellConfig.getStringListOrEmpty(player.getName());
+        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
+		List<String> spellsTheyKnow = psc.getStringListOrEmpty(player.getName());
 
 		if (spellsTheyKnow.isEmpty())
 			return null;
@@ -97,8 +100,9 @@ public class SpellManager implements EnableJob {
 	 * @return the current spell they are on
 	 */
 	public Spell getCurrentSpell(Player player) {
+        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
 		Integer cur = getCurrentSpellPosition(player);
-		List<String> spells = HPS.PlayerSpellConfig.getStringListOrEmpty(player.getName());
+		List<String> spells = psc.getStringListOrEmpty(player.getName());
 		if (spells.isEmpty())
 			return null;
 		return cur == null ? null : getSpell(Iterables.get(new TreeSet<String>(spells), cur.intValue()));
@@ -113,7 +117,8 @@ public class SpellManager implements EnableJob {
 	 * @throws IllegalArgumentException if the id parameter is invalid
 	 */
 	public Spell setCurrentSpell(Player player, int id) throws IllegalArgumentException {
-		List<String> spellsTheyKnow = HPS.PlayerSpellConfig.getStringListOrEmpty(player.getName());
+        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
+		List<String> spellsTheyKnow = psc.getStringListOrEmpty(player.getName());
 		if (spellsTheyKnow == null || id >= spellsTheyKnow.size() || id < 0)
 			throw new IllegalArgumentException("id was invalid");
 		currentSpell.put(player.getName(), id);
@@ -129,7 +134,8 @@ public class SpellManager implements EnableJob {
 	 * @throws IllegalArgumentException if the spell parameter is invalid
 	 */
 	public Spell setCurrentSpell(Player player, Spell spell) throws IllegalArgumentException {
-		Integer spellIndex = getIndex(new TreeSet<String>(HPS.PlayerSpellConfig.getStringListOrEmpty(player.getName())), spell.getName());
+        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
+		Integer spellIndex = getIndex(new TreeSet<String>(psc.getStringListOrEmpty(player.getName())), spell.getName());
 		if (spellIndex == null)
 			throw new IllegalArgumentException("player does not know that spell");
 		setCurrentSpell(player, spellIndex);
@@ -189,7 +195,9 @@ public class SpellManager implements EnableJob {
 		if (!player.hasPermission("HarryPotterSpells.use") || !spell.playerKnows(player) || !player.getInventory().contains(Material.STICK))
 			return;
 
-		List<String> spellList = HPS.PlayerSpellConfig.getStringListOrEmpty(player.getName());
+        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
+
+		List<String> spellList = psc.getStringListOrEmpty(player.getName());
 		if (spellList == null || spellList.isEmpty()) {
 			HPS.PM.tell(player, "You don't know any spells.");
 			return;

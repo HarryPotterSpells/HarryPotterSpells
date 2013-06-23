@@ -4,10 +4,10 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
-@spell (
+@SpellInfo (
 		name="Alarte Ascendare",
 		description="descAlarteAscendare",
 		range=30,

@@ -10,10 +10,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
-import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
-@spell (
+@SpellInfo (
 		name="Multicorfors",
 		description="descMulticorfors",
 		range=25,

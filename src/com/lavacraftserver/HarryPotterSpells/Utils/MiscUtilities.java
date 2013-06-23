@@ -1,6 +1,6 @@
 package com.lavacraftserver.HarryPotterSpells.Utils;
 
-import java.lang.reflect.Method;
+import static com.lavacraftserver.HarryPotterSpells.Utils.SVPBypass.getMethod;
 
 import org.bukkit.inventory.ItemStack;
 
@@ -53,15 +53,6 @@ public class MiscUtilities {
         getMethod(nmsTagCompound, "set").invoke(tag, "ench", null);
         getMethod(nmsItemStack, "setTag").invoke(nmsStack, tag);
         return (ItemStack) getMethod(cbItemStack, "asCraftMirror").invoke(cbItemStack, nmsStack);
-    }
-
-    private static Method getMethod(Class<?> cl, String method) {
-        for(Method m : cl.getMethods()) {
-            if(m.getName().equals(method)) {
-                return m;
-            }
-        }
-        return null;
     }
 
 }

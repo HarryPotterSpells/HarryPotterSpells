@@ -8,10 +8,10 @@ import org.bukkit.potion.PotionEffectType;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.SpellTargeter.SpellHitEvent;
-import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 import com.lavacraftserver.HarryPotterSpells.Utils.ParticleEffect;
 
-@spell (
+@SpellInfo (
 		name="Episkey",
 		description="descEpiskey",
 		range=50,

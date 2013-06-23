@@ -5,10 +5,10 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
-import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
-@spell (
+@SpellInfo (
 		name="Confundo",
 		description="descConfundo",
 		range=20,

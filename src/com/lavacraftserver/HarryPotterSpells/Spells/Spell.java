@@ -1,6 +1,5 @@
 package com.lavacraftserver.HarryPotterSpells.Spells;
 
-import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -13,6 +12,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
+import com.lavacraftserver.HarryPotterSpells.configuration.ConfigurationManager.ConfigurationType;
+import com.lavacraftserver.HarryPotterSpells.configuration.PlayerSpellConfig;
 
 /**
  * An abstract class representing a Spell
@@ -48,19 +49,21 @@ public abstract class Spell {
 	 * @param p the player
 	 */
 	public void teach(Player p) {
-		List<String> list = HPS.PlayerSpellConfig.getStringListOrEmpty(p.getName());
+        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
+		List<String> list = psc.getStringListOrEmpty(p.getName());
 		list.add(getName());
-		HPS.PlayerSpellConfig.getPSC().set(p.getName(), list);
-		HPS.PlayerSpellConfig.savePSC();
-	}	
+		psc.get().set(p.getName(), list);
+        psc.save();
+	}
 
 	/**
 	 * Gets whether a player knows this spell
 	 * @param p the player
 	 * @return {@code true} if the player knows this spell
 	 */
-	public boolean playerKnows(Player p){
-		List<String> list = HPS.PlayerSpellConfig.getStringListOrEmpty(p.getName());
+	public boolean playerKnows(Player p) {
+        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
+		List<String> list = psc.getStringListOrEmpty(p.getName());
 		return list.contains(getName());
 	}
 
@@ -69,48 +72,38 @@ public abstract class Spell {
 	 * @param p the player
 	 */
 	public void unTeach(Player p) {
-		List<String> list = HPS.PlayerSpellConfig.getStringListOrEmpty(p.getName());
+        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
+		List<String> list = psc.getStringListOrEmpty(p.getName());
 		list.remove(getName());
-		HPS.PlayerSpellConfig.getPSC().set(p.getName(), list);
-		HPS.PlayerSpellConfig.savePSC();
+		psc.get().set(p.getName(), list);
+		psc.save();
 	}
 
 	/**
 	 * Gets the name of this spell
 	 * @return the spell's name
 	 */
-	public String getName(){
-		for(Annotation a : this.getClass().getAnnotations()) {
-			if(a instanceof spell){
-				spell s = (spell) a;
-				if(!s.name().equals(""))
-					return s.name();
-			}
-		}
-		return getClass().getSimpleName();
+	public String getName() {
+	    SpellInfo info = this.getClass().getAnnotation(SpellInfo.class);
+	    return info == null ? this.getClass().getSimpleName() : info.name();
 	}
 
 	/**
 	 * Gets the description of this spell
 	 * @return the description
 	 */
-	public String getDescription(){
-		for(Annotation a : this.getClass().getAnnotations()) {
-			if(a instanceof spell) {
-				spell s = (spell) a;
-				return HPS.Localisation.getTranslation(s.description());
-			}
-		}
-		return null;
+	public String getDescription() {
+	    SpellInfo info = this.getClass().getAnnotation(SpellInfo.class);
+	    return info == null ? "" : HPS.Localisation.getTranslation(info.description());
 	}
 
 	/**
 	 * The annotation required for a spell to be used. <br>
-	 * This annotation contains all the infomation needed for using a spell
+	 * This annotation contains all the information needed for using a spell
 	 */
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.TYPE)
-	@interface spell {
+	@interface SpellInfo {
 		String name() default ""; //"" defaults to class name
 		String description() default "";
 		int range() default 25;
@@ -118,73 +111,56 @@ public abstract class Spell {
 		int cooldown() default 60;
 		Material icon() default Material.STICK;
 	}
-	
+
 	/**
 	 * Gets the icon for this spell
 	 * @return the icon as a {@link Material}
 	 */
 	public Material getIcon() {
-	    for(Annotation a : this.getClass().getAnnotations()) {
-            if(a instanceof spell) {
-                spell s = (spell) a;
-                return s.icon();
-            }
-        }
-        return Material.STICK;
+	    SpellInfo info = this.getClass().getAnnotation(SpellInfo.class);
+	    return info == null ? Material.STICK : info.icon();
 	}
-	
+
 	/**
 	 * Gets whether the spell can be cast through walls
 	 * @return {@code true} if the spel can be cast through walls.
 	 */
 	public boolean canBeCastThroughWalls() {
-		for(Annotation a : this.getClass().getAnnotations()) {
-			if(a instanceof spell) {
-				spell s = (spell) a;
-				return s.goThroughWalls();
-			}
-		}
-		return false;
+	    SpellInfo info = this.getClass().getAnnotation(SpellInfo.class);
+	    return info == null ? false : info.goThroughWalls();
 	}
-	
+
 	/**
 	 * Gets the range of the spell
 	 * @return the range
 	 */
 	public int getRange() {
-		for(Annotation a : this.getClass().getAnnotations()) {
-			if(a instanceof spell){
-				spell s = (spell) a;
-				return s.range();
-			}
-		}
-		return 25;
+	    SpellInfo info = this.getClass().getAnnotation(SpellInfo.class);
+	    return info == null ? 25 : info.range();
 	}
-	
+
 	/**
 	 * Gets the cool down of the spell for a player
 	 * @return the cool down
 	 */
 	public int getCoolDown(Player p) {
-		for(Annotation a : this.getClass().getAnnotations()) {
-			if(a instanceof spell) {
-				if(p.hasPermission(HPS.SpellManager.NO_COOLDOWN_ALL_1) || p.hasPermission(HPS.SpellManager.NO_COOLDOWN_ALL_2) || p.hasPermission("HarryPotterSpells.nocooldown." + getName()))
-					return 0;
-				spell s = (spell) a;
-				int cooldown;
-				if(HPS.Plugin.getConfig().contains("cooldowns." + s.name().toLowerCase()))
-					cooldown = HPS.Plugin.getConfig().getInt("cooldowns." + s.name().toLowerCase());
-				else
-					cooldown = s.cooldown();
-				
-				return cooldown == -1 ? s.cooldown() : cooldown;
-			}
-		}
-		return 60;
+		SpellInfo info = this.getClass().getAnnotation(SpellInfo.class);
+		if(info == null)
+		    return 60;
+		if(p.hasPermission(HPS.SpellManager.NO_COOLDOWN_ALL_1) || p.hasPermission(HPS.SpellManager.NO_COOLDOWN_ALL_2) || p.hasPermission("HarryPotterSpells.nocooldown." + getName()))
+            return 0;
+
+        int cooldown;
+        if(HPS.Plugin.getConfig().contains("cooldowns." + info.name().toLowerCase()))
+            cooldown = HPS.Plugin.getConfig().getInt("cooldowns." + info.name().toLowerCase());
+        else
+            cooldown = info.cooldown();
+
+        return cooldown == -1 ? info.cooldown() : cooldown;
 	}
-	
+
 	/**
-	 * A utility method used to shorten the retrival of something from the spells confuration section
+	 * A utility method used to shorten the retrieval of something from the spells configuration section
 	 * @param key the key to the value relative to {@code spells.[spell name].}
 	 * @param defaultt the nullable value to return if nothing was found
 	 * @return the object found at that location
@@ -192,7 +168,7 @@ public abstract class Spell {
 	public Object getConfig(String key, @Nullable Object defaultt) {
 	    return defaultt == null ? HPS.Plugin.getConfig().get("spells." + getName() + "." + key) : HPS.Plugin.getConfig().get("spells." + getName() + "." + key, defaultt);
 	}
-	
+
 	/**
 	 * Gets a time from the spells configuration as formatted by the following table: <br>
 	 * Default: seconds <br>
@@ -203,10 +179,10 @@ public abstract class Spell {
 	 */
 	public long getTime(String key, @Nullable long defaultt) {
 	    String durationString = (String) getConfig(key, "");
-	    
+
 	    if(durationString.equals(""))
 	        return defaultt;
-	    
+
         int duration = 0;
 
         if (durationString.endsWith("t")) {
@@ -214,19 +190,8 @@ public abstract class Spell {
             duration = Integer.parseInt(ticks);
         } else
             duration = Integer.parseInt(durationString) * 20;
-        
+
         return duration;
 	}
-	
-	/**
-	 * @deprecated This no longer returns the name of a spell. <br>
-	 * Use: {@link Spell#getName()}
-	 * @return {@code null} always
-	 */
-	@Override
-	@Deprecated
-	public String toString() {
-	    return null;
-	}
-	
+
 }

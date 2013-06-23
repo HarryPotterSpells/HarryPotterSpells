@@ -9,10 +9,10 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
-import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 import com.lavacraftserver.HarryPotterSpells.Utils.FireworkEffectPlayer;
 
-@spell (
+@SpellInfo (
         name = "Homenum Revelio",
         description = "descHomenumRevelio",
         cooldown = 600

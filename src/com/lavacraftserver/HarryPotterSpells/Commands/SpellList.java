@@ -15,6 +15,8 @@ import org.bukkit.plugin.PluginManager;
 import com.lavacraftserver.HarryPotterSpells.HPS;
 import com.lavacraftserver.HarryPotterSpells.Jobs.EnableJob;
 import com.lavacraftserver.HarryPotterSpells.Spells.Spell;
+import com.lavacraftserver.HarryPotterSpells.configuration.ConfigurationManager.ConfigurationType;
+import com.lavacraftserver.HarryPotterSpells.configuration.PlayerSpellConfig;
 
 @HCommand(name = "spelllist", description = "cmdSplDescription", usage = "<command> [player]", permissionDefault = "true")
 public class SpellList implements HCommandExecutor, EnableJob {
@@ -43,9 +45,11 @@ public class SpellList implements HCommandExecutor, EnableJob {
 			return true;
 		}
 		
+		PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
+		
 		if(args[0].equalsIgnoreCase("me")) { // List spells I know
 			if(sender instanceof Player) {
-				SortedSet<String> spells = new TreeSet<String>(HPS.PlayerSpellConfig.getStringListOrEmpty(sender.getName()));
+				SortedSet<String> spells = new TreeSet<String>(psc.getStringListOrEmpty(sender.getName()));
 				if(spells.size() == 0)
 					HPS.PM.tell((Player) sender, HPS.Localisation.getTranslation("genKnowNoSpells"));
 				else {
@@ -71,7 +75,7 @@ public class SpellList implements HCommandExecutor, EnableJob {
 					return true;
 				}
 				
-				SortedSet<String> spells = new TreeSet<String>(HPS.PlayerSpellConfig.getStringListOrEmpty(args[0]));
+				SortedSet<String> spells = new TreeSet<String>(psc.getStringListOrEmpty(args[0]));
 				if(spells.size() == 0)
 					HPS.PM.tell((Player) sender, HPS.Localisation.getTranslation("cmdSplNoneKnown", args[0]));
 				else {

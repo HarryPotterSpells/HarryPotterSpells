@@ -10,10 +10,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
-import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
-@spell (
+@SpellInfo (
 		name="Expelliarmus",
 		description="descExpelliarmus",
 		range=25,

@@ -6,10 +6,10 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
-import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 import com.lavacraftserver.HarryPotterSpells.Utils.Targeter;
 
-@spell (
+@SpellInfo (
 		name="Orchideous",
 		description="descOrchideous",
 		range=50,

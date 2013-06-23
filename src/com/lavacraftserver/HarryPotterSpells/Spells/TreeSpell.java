@@ -11,9 +11,9 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
 import com.lavacraftserver.HarryPotterSpells.HPS;
-import com.lavacraftserver.HarryPotterSpells.Spells.Spell.spell;
+import com.lavacraftserver.HarryPotterSpells.Spells.Spell.SpellInfo;
 
-@spell (
+@SpellInfo (
 		name="Tree",
 		description="descTree",
 		range=50,

@@ -23,7 +23,6 @@ public class Localisation {
     
     /**
      * Constructs the {@link Localisation} class
-     * @param plugin an instance of {@link HPS}
      */
     public Localisation() {
         load();
