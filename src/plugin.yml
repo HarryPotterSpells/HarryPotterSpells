@@ -1,4 +1,4 @@
 name: HarryPotterSpells
-main: com.lavacraftserver.HarryPotterSpells.HPS
-version: ALPHA 0.4
+main: com.hpspells.core.HPS
+version: ALPHA 0.5
 authors: [np98765, Kezz101]
