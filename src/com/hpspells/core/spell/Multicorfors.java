@@ -6,12 +6,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
+import org.bukkit.material.Wool;
 
 import com.hpspells.core.HPS;
+import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
-import com.hpspells.core.util.Targeter;
+import com.hpspells.core.util.ParticleEffect;
 
 @SpellInfo (
 		name="Multicorfors",
@@ -27,41 +31,52 @@ public class Multicorfors extends Spell {
     }
 
     public boolean cast(Player p) {
-		final Block b = p.getTargetBlock(Targeter.getTransparentBlocks(), 25);
-		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Sheep) {
-			final Sheep sheep = (Sheep) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
-			if((Boolean) getConfig("explosionEffect", true))
-				sheep.getWorld().createExplosion(sheep.getLocation(), 0F);
-			
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
-			    
-			    @Override
-				public void run() {
-				    sheep.setColor(randomDyeColor());
-				}
-				
-			}, 4L);
-			return true;
-		} else if(b.getType() == Material.WOOL) {
-			if((Boolean) getConfig("explosion-effect", true))
-				p.getWorld().createExplosion(b.getLocation(), 0F);
-			
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
-			    
-			    @Override
-				public void run() {
-				    b.setData(randomDyeColorInt());
-				}
-				
-			}, 4L);
-			return true;
-		} else {
-			HPS.PM.warn(p, HPS.Localisation.getTranslation("spellWoolenOnly"));
-			return false;
-		}
+        HPS.SpellTargeter.register(p, new SpellHitEvent() {
+
+            @Override
+            public void hitBlock(Block block) { // Hit wool
+                if(block.getType() == Material.WOOL) {
+                    final Wool wool = (Wool) block;
+                    
+                    if((Boolean) getConfig("explosionEffect", true))
+                        block.getWorld().createExplosion(block.getLocation(), 0F);
+                    
+                    Bukkit.getScheduler().runTask(HPS, new Runnable() {
+
+                        @Override
+                        public void run() {
+                            wool.setColor(randomDyeColor());                            
+                        }
+                        
+                    });
+                }
+            }
+
+            @Override
+            public void hitEntity(LivingEntity entity) { // Hit sheep
+                if(entity.getType() == EntityType.SHEEP) {
+                    final Sheep sheep = (Sheep) entity;
+                    
+                    if((Boolean) getConfig("explosionEffect", true))
+                        sheep.getWorld().createExplosion(sheep.getLocation(), 0F);
+                    
+                    Bukkit.getScheduler().runTask(HPS, new Runnable() {
+
+                        @Override
+                        public void run() {
+                            sheep.setColor(randomDyeColor());                            
+                        }
+                        
+                    });
+                }
+            }
+            
+        }, 1.10d, ParticleEffect.RED_DUST);
+
+        return true;
 	}
 	
-	public DyeColor randomDyeColor() {
+	private DyeColor randomDyeColor() {
 		DyeColor et;
 		int maxMobs = 16, minMobs = 1;
 		int randomNum = new Random().nextInt(maxMobs - minMobs + 1) + minMobs;
@@ -103,12 +118,6 @@ public class Multicorfors extends Spell {
 				 break;
 		}
 		return et;
-	}
-	
-	public byte randomDyeColorInt() {
-		int maxMobs = 16, minMobs = 1;
-		int randomNum = new Random().nextInt(maxMobs - minMobs + 1) + minMobs;
-		return (byte)randomNum;
 	}
 
 }
