@@ -1,4 +1,5 @@
 name: HarryPotterSpells
 main: com.hpspells.core.HPS
+prefix: ""
 version: ALPHA 0.5
 authors: [np98765, Kezz101]

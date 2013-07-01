@@ -1,9 +1,5 @@
 package com.hpspells.core;
 
-import java.io.File;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -95,25 +91,7 @@ public class PM {
 	public void debug(String... message) {
 		if(HPS.getConfig().getBoolean("debug-mode", false))
 			for(String str : message)
-				log(Level.INFO, "[HPS - Debug] " + str);
-	}
-	
-	/**
-	 * Hacks a file to the classpath
-	 * @param file the file to hack
-	 * @return {@code true} if the file was added to the classpath
-	 */
-	public boolean hackFile(File file) {
-		URLClassLoader sysloader = (URLClassLoader) ClassLoader.getSystemClassLoader();
-        Class<?> sysclass = URLClassLoader.class;
-        try {
-            Method method = sysclass.getDeclaredMethod("addURL", new Class[] { URL.class });
-            method.setAccessible(true);
-            method.invoke(sysloader, new Object[] { file.toURI().toURL() });
-        } catch (Throwable t) {
-            return false;
-        }
-        return true;
+				log.log(Level.INFO, "[HPS - Debug] " + str);
 	}
 	
 	/**
