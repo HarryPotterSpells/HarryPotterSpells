@@ -60,7 +60,8 @@ public class Listeners implements Listener {
 			        HPS.PM.newSpell(e.getPlayer(), HPS.SpellManager.setCurrentSpell(e.getPlayer(), neww).getName());
 			    } catch(IllegalArgumentException er) {
                     HPS.PM.tell(e.getPlayer(), HPS.Localisation.getTranslation("genKnowNoSpells"));
-                    return;
+			    } catch(NullPointerException er) {
+			        PIE(e);
 			    }
 
 			    return;
@@ -103,7 +104,8 @@ public class Listeners implements Listener {
                 HPS.PM.newSpell(e.getPlayer(), HPS.SpellManager.setCurrentSpell(e.getPlayer(), neww).getName());
             } catch(IllegalArgumentException er) {
                 HPS.PM.tell(e.getPlayer(), HPS.Localisation.getTranslation("genKnowNoSpells"));
-                return;
+            } catch(NullPointerException er) {
+                PIEE(e);
             }
 
             return;
