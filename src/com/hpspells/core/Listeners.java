@@ -113,10 +113,17 @@ public class Listeners implements Listener {
 	}
 
 	@EventHandler
-	public void onPlayerChat(AsyncPlayerChatEvent e) {
+	public void onPlayerChat(final AsyncPlayerChatEvent e) {
 		if(HPS.getConfig().getBoolean("spell-castable-with-chat")) {
 			if(HPS.SpellManager.isSpell(e.getMessage().substring(0, e.getMessage().length() - 1))) {
-				HPS.SpellManager.cleverCast(e.getPlayer(), HPS.SpellManager.getSpell(e.getMessage().substring(0, e.getMessage().length() - 1)));
+				Bukkit.getScheduler().runTask(HPS, new Runnable() {
+
+				    @Override
+				    public void run(){
+				        HPS.SpellManager.cleverCast(e.getPlayer(), HPS.SpellManager.getSpell(e.getMessage().substring(0, e.getMessage().length() - 1)));
+				    }
+
+				});
 				return;
 			}
 		}
