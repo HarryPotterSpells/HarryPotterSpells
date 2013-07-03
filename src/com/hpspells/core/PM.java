@@ -15,6 +15,8 @@ import org.bukkit.entity.Player;
 public class PM {
 	private Logger log;
 	private HPS HPS;
+	private String tag;
+	private ChatColor info, warning;
 
 	/**
 	 * Constructs an instance of {@link PM}
@@ -23,6 +25,9 @@ public class PM {
 	public PM(HPS instance) {
 	    this.HPS = instance;
 	    this.log = HPS.getLogger();
+	    this.tag = HPS.getConfig().getString("messaging.tag", "&f[&6HarryPotterSpells&f] ").replace('&', '§');
+	    this.info = ChatColor.valueOf(HPS.getConfig().getString("messaging.tag", "YELLOW"));
+	    this.warning = ChatColor.valueOf(HPS.getConfig().getString("messaging.tag", "RED"));
 	}
 
 	/**
@@ -32,7 +37,7 @@ public class PM {
 	 */
 	public void log(Level level, String... message) {
 		for(String str : message)
-			log.log(level, "[HarryPotterSpells] " + str);
+			log.log(level, str);
 	}
 
 	/**
@@ -42,7 +47,7 @@ public class PM {
 	 */
 	public void tell(Player player, String... message) {
 		for(String str : message)
-			player.sendMessage("[" + ChatColor.GOLD + "HarryPotterSpells" + ChatColor.WHITE + "] " + ChatColor.YELLOW + str);
+			player.sendMessage(tag + info + str);
 	}
 
 	/**
@@ -52,7 +57,7 @@ public class PM {
 	 */
 	public void warn(Player player, String... message) {
 		for(String str : message)
-			player.sendMessage("[" + ChatColor.GOLD + "HarryPotterSpells" + ChatColor.WHITE + "] " + ChatColor.RED + str);
+			player.sendMessage(tag + warning + str);
 	}
 
 	/**
@@ -83,7 +88,7 @@ public class PM {
 		if (HPS.getConfig().getBoolean("shout-on-spell-use", false))
 			player.chat(spell + "!");
 	}
-	
+
 	/**
 	 * Logs a debug message to the console if enabled in the config
 	 * @param message the message(s) to log
@@ -91,9 +96,9 @@ public class PM {
 	public void debug(String... message) {
 		if(HPS.getConfig().getBoolean("debug-mode", false))
 			for(String str : message)
-				log.log(Level.INFO, "[HPS - Debug] " + str);
+				log.log(Level.INFO, "Debug: " + str);
 	}
-	
+
 	/**
 	 * Sends a informational message to the Console or a Player depending on the sender
 	 * @param sender the sender
@@ -104,8 +109,8 @@ public class PM {
 			tell((Player) sender, message);
 		else if(sender instanceof ConsoleCommandSender)
 			log(Level.INFO, message);
-	}
-	
+    }
+
 	/**
 	 * Sends a warning message to the Console or a Player depending on the sender
 	 * @param sender the sender
@@ -117,7 +122,7 @@ public class PM {
 		else if(sender instanceof ConsoleCommandSender)
 			log(Level.WARNING, message);
 	}
-	
+
 	/**
 	 * Prints the stack trace of an error to the console if debug mode is enabled
 	 * @param e the throwable

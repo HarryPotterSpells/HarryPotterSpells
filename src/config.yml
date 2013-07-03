@@ -9,6 +9,11 @@ debug-mode: false
 wand-give:  # The command that 'summons' a wand with a command
   explosion-effect: false
 
+messaging:
+  tag: '&f[&6HarryPotterSpells&f] '
+  info: 'YELLOW'
+  warning: 'RED'
+
 wand:
   id: 280 # The item id of the wand (280 == stick)
   enchantment-effect : true # Should wands have the shiny enchantment effect
