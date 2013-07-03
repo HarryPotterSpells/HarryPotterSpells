@@ -47,6 +47,7 @@ public class HPS extends JavaPlugin {
 	public SpellTargeter SpellTargeter;
 	public Localisation Localisation;
 	public DataManager DataManager;
+	public net. VaultPermissions;
 
 	private static CommandMap commandMap;
 	private static Collection<HelpTopic> helpTopics = new ArrayList<HelpTopic>();
