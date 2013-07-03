@@ -18,7 +18,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
-import org.reflections.Reflections;
 
 import com.google.common.collect.Iterables;
 import com.hpspells.core.CoolDown;
@@ -27,6 +26,8 @@ import com.hpspells.core.api.event.SpellPostCastEvent;
 import com.hpspells.core.api.event.SpellPreCastEvent;
 import com.hpspells.core.configuration.ConfigurationManager.ConfigurationType;
 import com.hpspells.core.configuration.PlayerSpellConfig;
+import com.hpspells.core.spell.Spell.SpellInfo;
+import com.hpspells.core.util.ReflectionsReplacement;
 
 /**
  * A class that manages spells and holds lots of spell related utilities
@@ -56,25 +57,30 @@ public class SpellManager {
 	    HPS.getServer().getPluginManager().addPermission(NO_COOLDOWN_ALL_1);
         HPS.getServer().getPluginManager().addPermission(NO_COOLDOWN_ALL_2);
 
-		Reflections ref = Reflections.collect();
-		for (Class<?> clazz : ref.getTypesAnnotatedWith(Spell.SpellInfo.class)) {
-			Spell spell;
-			if (clazz == Spell.class || !Spell.class.isAssignableFrom(clazz))
-				continue;
-			try {
-				spell = (Spell) clazz.getConstructor(HPS.class).newInstance(HPS);
+		try {
+            for (Class<?> clazz : ReflectionsReplacement.getSubtypesOf(Spell.class, "com.hpspells.core.spell", HPS.getHPSClassLoader(), Spell.class)) {
+            	if (clazz.getAnnotation(SpellInfo.class) == null)
+            		continue;
 
-				if(Listener.class.isAssignableFrom(clazz)) {
-				    HPS.getServer().getPluginManager().registerEvents((Listener) spell, HPS);
-				}
+            	Spell spell;
+            	try {
+            		spell = (Spell) clazz.getConstructor(HPS.class).newInstance(HPS);
 
-			} catch (Exception e) {
-				HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errSpells", clazz.getSimpleName()));
-				HPS.PM.debug(e);
-				continue;
-			}
-			spellList.add(spell);
-		}
+            		if(Listener.class.isAssignableFrom(clazz)) {
+            		    HPS.getServer().getPluginManager().registerEvents((Listener) spell, HPS);
+            		}
+
+            	} catch (Exception e) {
+            		HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errSpells", clazz.getSimpleName()));
+            		HPS.PM.debug(e);
+            		continue;
+            	}
+            	spellList.add(spell);
+            }
+        } catch (Exception e) {
+            HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errReflectionsReplacementSpelll"));
+            HPS.PM.debug(e);
+        }
 	}
 
 	/**

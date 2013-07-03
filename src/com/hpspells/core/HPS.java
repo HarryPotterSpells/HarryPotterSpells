@@ -29,19 +29,19 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.reflections.Reflections;
 
 import com.hpspells.core.Metrics.Graph;
-import com.hpspells.core.spell.Spell;
-import com.hpspells.core.spell.SpellManager;
-import com.hpspells.core.spell.interfaces.Craftable;
 import com.hpspells.core.api.event.SpellBookRecipeAddEvent;
 import com.hpspells.core.command.CommandInfo;
 import com.hpspells.core.command.HCommandExecutor;
 import com.hpspells.core.configuration.ConfigurationManager;
-import com.hpspells.core.configuration.PlayerSpellConfig;
 import com.hpspells.core.configuration.ConfigurationManager.ConfigurationType;
+import com.hpspells.core.configuration.PlayerSpellConfig;
+import com.hpspells.core.spell.Spell;
+import com.hpspells.core.spell.SpellManager;
+import com.hpspells.core.spell.interfaces.Craftable;
 import com.hpspells.core.util.MetricStatistics;
+import com.hpspells.core.util.ReflectionsReplacement;
 import com.hpspells.core.util.SVPBypass;
 
 public class HPS extends JavaPlugin {
@@ -140,16 +140,17 @@ public class HPS extends JavaPlugin {
             PM.debug(e);
         }
 
-		Reflections reflections = Reflections.collect();
-
 		// Reflections - Commands
 		int commands = 0;
-		for(Class<? extends HCommandExecutor> clazz : reflections.getSubTypesOf(HCommandExecutor.class)) {
-		    if(clazz.getName().equals(HCommandExecutor.class.getName()))
-		        continue;
-		    else if(addHackyCommand(clazz))
-				commands++;
-		}
+		try {
+            for(Class<? extends HCommandExecutor> clazz : ReflectionsReplacement.getSubtypesOf(HCommandExecutor.class, "com.hpspells.core.command", getClassLoader(), HCommandExecutor.class)) {
+                if(addHackyCommand(clazz))
+            		commands++;
+            }
+        } catch (Exception e) {
+            PM.log(Level.WARNING, Localisation.getTranslation("errReflectionsReplacementCmd"));
+            PM.debug(e);
+        }
 		PM.debug(Localisation.getTranslation("dbgRegisteredCoreCommands", commands));
 
 	    Bukkit.getHelpMap().addTopic(new IndexHelpTopic("HarryPotterSpells", Localisation.getTranslation("hlpDescription"), "", helpTopics));
@@ -258,6 +259,10 @@ public class HPS extends JavaPlugin {
 			saveDefaultConfig();
 		}
 	}
+
+    public ClassLoader getHPSClassLoader() {
+        return getClassLoader();
+    }
 
 	/**
 	 * Registers a {@link HackyCommand} to the plugin

@@ -4,35 +4,30 @@
   <artifactId>HarryPotterSpells</artifactId>
   <version>A_0.5-SNAPSHOT</version>
   <name>HarryPotterSpells</name>
-  
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-  
+
   <repositories>
     <repository>
       <id>bukkit-repo</id>
       <url>http://repo.bukkit.org/content/groups/public/</url>
     </repository>
   </repositories>
-  
+
   <dependencies>
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>craftbukkit</artifactId>
-      <version>1.5.2-R0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.reflections</groupId>
-      <artifactId>reflections</artifactId>
-      <version>0.9.9-RC1</version>
+      <version>1.6.1-R0.1-SNAPSHOT</version>
     </dependency>
   </dependencies>
-  
+
   <build>
     <finalName>HarryPotterSpells</finalName>
     <sourceDirectory>src</sourceDirectory>
-    
+
     <resources>
       <resource>
         <directory>src</directory>
@@ -41,7 +36,7 @@
         </excludes>
       </resource>
     </resources>
-    
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -52,21 +47,7 @@
           <target>1.6</target>
         </configuration>
       </plugin>
-      
-      <plugin>
-        <groupId>org.reflections</groupId>
-        <artifactId>reflections-maven</artifactId>
-        <version>0.9.9-RC1</version>
-        <executions>
-          <execution> <!-- The error here is because M2Eclipse is stupid. Build only using command line. -->
-        	<goals>
-        	  <goal>reflections</goal>
-        	</goals>
-        	<phase>process-classes</phase>
-          </execution>
-        </executions>
-      </plugin>
-      
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
@@ -82,13 +63,9 @@
             </goals>
             <configuration>
               <artifactSet>
-                <includes>
-                  <!-- Use for testing dependencies <include>org.bukkit:craftbukkit</include> !-->
-                  <include>org.reflections:reflections</include>
-                  <include>org.slf4j:slf4j-api</include>
-                  <include>org.javassist:javassist</include>
-                  <include>dom4j:dom4j</include>
-                </includes>
+                <excludes>
+                  <exclude>org.bukkit:craftbukkit</exclude>
+                </excludes>
               </artifactSet>
             </configuration>
           </execution>
