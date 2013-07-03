@@ -14,6 +14,11 @@
       <id>bukkit-repo</id>
       <url>http://repo.bukkit.org/content/groups/public/</url>
     </repository>
+
+    <repository>
+	  <id>vault-repo</id>
+	  <url>http://ci.herocraftonline.com/plugin/repository/everything</url>
+    </repository>
   </repositories>
 
   <dependencies>
@@ -21,6 +26,10 @@
       <groupId>org.bukkit</groupId>
       <artifactId>craftbukkit</artifactId>
       <version>1.6.1-R0.1-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId></groupId>
     </dependency>
   </dependencies>
 

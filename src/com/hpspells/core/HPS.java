@@ -6,11 +6,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -35,8 +31,7 @@ import com.hpspells.core.api.event.SpellBookRecipeAddEvent;
 import com.hpspells.core.command.CommandInfo;
 import com.hpspells.core.command.HCommandExecutor;
 import com.hpspells.core.configuration.ConfigurationManager;
-import com.hpspells.core.configuration.ConfigurationManager.ConfigurationType;
-import com.hpspells.core.configuration.PlayerSpellConfig;
+import com.hpspells.core.data.DataManager;
 import com.hpspells.core.spell.Spell;
 import com.hpspells.core.spell.SpellManager;
 import com.hpspells.core.spell.interfaces.Craftable;
@@ -51,6 +46,7 @@ public class HPS extends JavaPlugin {
 	public Wand Wand;
 	public SpellTargeter SpellTargeter;
 	public Localisation Localisation;
+	public DataManager DataManager;
 
 	private static CommandMap commandMap;
 	private static Collection<HelpTopic> helpTopics = new ArrayList<HelpTopic>();
@@ -63,65 +59,11 @@ public class HPS extends JavaPlugin {
 		ConfigurationManager = new ConfigurationManager(this);
 		SpellTargeter = new SpellTargeter(this);
 		SpellManager = new SpellManager(this);
+		DataManager = new DataManager(this);
 		Wand = new Wand(this);
 
 		// Configuration
 		loadConfig();
-
-        PlayerSpellConfig PSC = (PlayerSpellConfig) ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
-		Double version = PSC.get().getDouble("VERSION_DO_NOT_EDIT", -1d) == -1d ? null : PSC.get().getDouble("VERSION_DO_NOT_EDIT", -1d);
-
-        if(version == null || version < PlayerSpellConfig.CURRENT_VERSION) {
-            // STORE UPDATES HERE
-
-            if(version == null) { // Updating from unformatted version to version 0.4
-                PM.log(Level.INFO, Localisation.getTranslation("pscOutOfDate"));
-
-                Map<String, List<String>> newConfig = new HashMap<String, List<String>>(), lists = new HashMap<String, List<String>>();
-                Set<String> css = new HashSet<String>();
-
-                for(String s : PSC.get().getKeys(false)) // This seemingly stupid code is to avoid a ConcurrencyModificationException (google it)
-                    css.add(s);
-
-                for(String s : css)
-                    lists.put(s, PSC.get().getStringList(s));
-
-                for(String cs : css) {
-                    List<String> list = new ArrayList<String>();
-                    for(String spellString : PSC.get().getStringList(cs)) {
-                        if(spellString.equals("AlarteAscendare")) {
-                            list.add("Alarte Ascendare");
-                        } else if(spellString.equals("AvadaKedavra")) {
-                            list.add("Avada Kedavra");
-                        } else if(spellString.equals("FiniteIncantatem")) {
-                            list.add("Finite Incantatem");
-                        } else if(spellString.equals("MagnaTonitrus")) {
-                            list.add("Magna Tonitrus");
-                        } else if(spellString.equals("PetrificusTotalus")) {
-                            list.add("Petrificus Totalus");
-                        } else if(spellString.equals("TimeSpell")) {
-                            list.add("Time");
-                        } else if(spellString.equals("TreeSpell")) {
-                            list.add("Tree");
-                        } else if(spellString.equals("WingardiumLeviosa")) {
-                            list.add("Wingardium Leviosa");
-                        } else {
-                            list.add(spellString);
-                        }
-                    }
-
-                    newConfig.put(cs, list);
-                }
-
-                for(Entry<String, List<String>> ent : newConfig.entrySet())
-                    PSC.get().set(ent.getKey(), ent.getValue());
-
-                PSC.get().set("VERSION_DO_NOT_EDIT", 0.4d);
-                PSC.save();
-
-                PM.log(Level.INFO, Localisation.getTranslation("pscUpdated", "0.4"));
-            }
-        }
 
 		// Listeners
 		getServer().getPluginManager().registerEvents(new Listeners(this), this);
