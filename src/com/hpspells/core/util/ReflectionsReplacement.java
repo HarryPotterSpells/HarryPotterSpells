@@ -78,7 +78,6 @@ public class ReflectionsReplacement {
             if(clazz.isAssignableFrom(indi) && !ignores.contains(indi)) {
                 @SuppressWarnings("unchecked") Class<? extends T> extended = (Class<? extends T>) indi;
                 returnMe.add(extended);
-                System.out.print("added!");
             }
         }
         return returnMe;
