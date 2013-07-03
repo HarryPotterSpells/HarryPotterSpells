@@ -37,7 +37,7 @@ public class PlayerSpellConfig extends CustomConfiguration {
 	/**
 	 * The current version specifying the format of the {@code PlayerSpellConfig.yml}
 	 */
-	public static final double CURRENT_VERSION = 0.5d;
+	public static final double CURRENT_VERSION = 0.6d;
 
 	/**
 	 * A utility function that is meant to be used instead of {@link FileConfiguration#getStringList(String)}. <br>

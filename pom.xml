@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>HarryPotterSpells</groupId>
   <artifactId>HarryPotterSpells</artifactId>
-  <version>A_0.5-SNAPSHOT</version>
+  <version>A_0.6-SNAPSHOT</version>
   <name>HarryPotterSpells</name>
 
   <properties>
