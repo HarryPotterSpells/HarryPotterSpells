@@ -29,7 +29,9 @@
     </dependency>
 
     <dependency>
-      <groupId></groupId>
+      <groupId>net.milkbowl.vault</groupId>
+      <artifactId>Vault</artifactId>
+      <version>1.2.26-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
@@ -74,6 +76,7 @@
               <artifactSet>
                 <excludes>
                   <exclude>org.bukkit:craftbukkit</exclude>
+                  <exclude>net.milkbowl.vault:Vault</exclude>
                 </excludes>
               </artifactSet>
             </configuration>
