@@ -31,6 +31,7 @@ import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.hpspells.core.Metrics.Graph;
+import com.hpspells.core.Metrics.Plotter;
 import com.hpspells.core.api.event.SpellBookRecipeAddEvent;
 import com.hpspells.core.command.CommandInfo;
 import com.hpspells.core.command.HCommandExecutor;
@@ -160,8 +161,10 @@ public class HPS extends JavaPlugin {
 		try {
 		    Metrics metrics = new Metrics(this);
 
+		    Graph totalAmountOfSpellsCast = metrics.createGraph("Total Amount of Spells Cast");
+
 		    // Total amount of spells cast
-		    metrics.addCustomData(new Metrics.Plotter("Total Amount of Spells Cast") {
+		    totalAmountOfSpellsCast.addPlotter(new Plotter("Total") {
 
                 @Override
                 public int getValue() {
@@ -170,11 +173,28 @@ public class HPS extends JavaPlugin {
 
             });
 
+		    totalAmountOfSpellsCast.addPlotter(new Plotter("Hits") {
+
+                @Override
+                public int getValue() {
+                    return MetricStatistics.getSuccesses();
+                }
+
+            });
+
+		    totalAmountOfSpellsCast.addPlotter(new Plotter("Misses") {
+
+                @Override
+                public int getValue() {
+                    return MetricStatistics.getFailures();
+                }
+            });
+
 		    // Types of spell cast
 		    Graph typesOfSpellCast = metrics.createGraph("Types of Spell Cast");
 
 		    for(final Spell spell : SpellManager.getSpells()) {
-		        typesOfSpellCast.addPlotter(new Metrics.Plotter(spell.getName()) {
+		        typesOfSpellCast.addPlotter(new Plotter(spell.getName()) {
 
                     @Override
                     public int getValue() {
@@ -183,26 +203,6 @@ public class HPS extends JavaPlugin {
 
                 });
 		    }
-
-		    // Spell success rate
-		    Graph spellSuccessRate = metrics.createGraph("Spell Success Rate");
-
-		    spellSuccessRate.addPlotter(new Metrics.Plotter("Successes") {
-
-                @Override
-                public int getValue() {
-                    return MetricStatistics.getSuccesses();
-                }
-
-		    });
-
-		    spellSuccessRate.addPlotter(new Metrics.Plotter("Failures") {
-
-                @Override
-                public int getValue() {
-                    return MetricStatistics.getFailures();
-                }
-            });
 
 		    metrics.start();
 		} catch (IOException e) {
