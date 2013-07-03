@@ -26,7 +26,7 @@ public class Avis extends Spell {
 			Entity mob = p.getWorld().spawnEntity(p.getEyeLocation(), EntityType.CHICKEN);
 			mob.setVelocity(p.getEyeLocation().getDirection().multiply(chickenVelocity));
 		}
-		for(int i = 0; i <= batAmount; i++) {
+		for(int i = 0; i < batAmount; i++) {
 		    Entity mob = p.getWorld().spawnEntity(p.getEyeLocation(), EntityType.BAT);
 		    mob.setVelocity(p.getEyeLocation().getDirection().multiply(batVelocity));
 		}
