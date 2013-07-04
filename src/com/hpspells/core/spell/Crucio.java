@@ -32,20 +32,20 @@ import com.hpspells.core.util.ParticleEffect;
 
 public class Crucio extends Spell implements Listener {
     private Set<String> crucioList = new HashSet<String>();
-    
+
     public Crucio(HPS instance) {
         super(instance);
     }
 	
 	public boolean cast(final Player p){
 		HPS.SpellTargeter.register(p, new SpellHitEvent() {
-			
+
 			@Override
 			public void hitEntity(LivingEntity entity) {
 				if(entity instanceof Player) {
 					final Player target = (Player) entity;
-					int duration = (int) getTime("duration", 200l);
-					target.addPotionEffect(new PotionEffect(PotionEffectType.HARM, duration, 0));
+					long duration = getTime("duration", 200l);
+					target.addPotionEffect(new PotionEffect(PotionEffectType.HARM, (int) duration, 0));
 					setFlightClever(target, true);
 					target.teleport(new Location(entity.getWorld(), entity.getLocation().getX(), entity.getLocation().getBlockY()+2, entity.getLocation().getZ()));
 					crucioList.add(target.getName());
@@ -56,21 +56,21 @@ public class Crucio extends Spell implements Listener {
 							crucioList.remove(target.getName());
 							setFlightClever(target, false);
 						}
-						
-					}, (long) duration);
+
+					}, duration);
 				} else 
 					HPS.PM.warn(p, HPS.Localisation.getTranslation("spellPlayerOnly"));
 			}
-			
+
 			@Override
 			public void hitBlock(Block block) {
                 HPS.PM.warn(p, HPS.Localisation.getTranslation("spellPlayerOnly"));
 			}
-			
+
 		}, 1.2d, ParticleEffect.DEPTH_SUSPEND);
 		return true;
 	}
-	
+
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent e) {
 		if(crucioList.contains(e.getPlayer().getName())) {
@@ -80,7 +80,7 @@ public class Crucio extends Spell implements Listener {
 			e.setTo(changeTo);
 		}
 	}
-	
+
 	@EventHandler
 	public void onPlayerDamage(EntityDamageEvent e) {
 		if(e.getEntityType() == EntityType.PLAYER && crucioList.contains(((Player) e.getEntity()).getName())) {
@@ -89,7 +89,7 @@ public class Crucio extends Spell implements Listener {
 				e.setDamage(0);
 		}
 	}
-	
+
 	private void setFlightClever(Player player, boolean allow) {
 		if(!allow && player.getGameMode() == GameMode.CREATIVE) { // If they should fly anyway
 			player.setFlying(false);
@@ -99,5 +99,5 @@ public class Crucio extends Spell implements Listener {
 		player.setAllowFlight(allow);
 		player.setFlying(allow);
 	}
-	
+
 }
