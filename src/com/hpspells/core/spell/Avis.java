@@ -1,5 +1,7 @@
 package com.hpspells.core.spell;
 
+import java.util.Random;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -25,11 +27,27 @@ public class Avis extends Spell {
 		for(int i = 0; i <= chickenAmount; i++) {
 			Entity mob = p.getWorld().spawnEntity(p.getEyeLocation(), EntityType.CHICKEN);
 			mob.setVelocity(p.getEyeLocation().getDirection().multiply(chickenVelocity));
+			randomizeVelocity(mob);
 		}
 		for(int i = 0; i < batAmount; i++) {
 		    Entity mob = p.getWorld().spawnEntity(p.getEyeLocation(), EntityType.BAT);
 		    mob.setVelocity(p.getEyeLocation().getDirection().multiply(batVelocity));
+		    randomizeVelocity(mob);
 		}
 		return true;
-	}
+    }
+    
+    /** The numbers chosen for this are completely arbitrary and are not a result of any knowledge or testing.
+     * Testing will need to be done for appropriate randomization
+     **/
+    public void randomizeVelocity(Entity e) {
+    	Random random = new Random();
+    	float randomX = random.nextFloat(3) - 1;
+    	float randomY = random.nextFloat(3) - 1;
+    	float randomZ = random.nextFloat(3) - 1;
+    	Vector v = e.getVelocity();
+    	v.setX(v.getX() + randomX);
+    	v.setY(v.getY() + randomY);
+    	v.setX(v.getZ() + randomZ);
+    }
 }
