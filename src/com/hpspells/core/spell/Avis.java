@@ -5,6 +5,7 @@ import java.util.Random;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import com.hpspells.core.HPS;
 import com.hpspells.core.spell.Spell.SpellInfo;
@@ -42,9 +43,9 @@ public class Avis extends Spell {
      **/
     public void randomizeVelocity(Entity e) {
     	Random random = new Random();
-    	float randomX = random.nextFloat(3) - 1;
-    	float randomY = random.nextFloat(3) - 1;
-    	float randomZ = random.nextFloat(3) - 1;
+    	float randomX = (random.nextFloat() * 2) - 1;
+    	float randomY = (random.nextFloat() * 2) - 1;
+    	float randomZ = (random.nextFloat() * 2) - 1;
     	Vector v = e.getVelocity();
     	v.setX(v.getX() + randomX);
     	v.setY(v.getY() + randomY);
