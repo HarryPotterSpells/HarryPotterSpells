@@ -8,7 +8,15 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 
+import com.hpspells.core.spell.Spell.SpellInfo;
 
+@SpellInfo (
+		name="Bauleo",
+		description="descBauleo",
+		range=10,
+		goThroughWalls=true,
+		cooldown=10
+)
 public class Bauleo extends Spell {
 
 	public Bauleo(com.hpspells.core.HPS instance) {
