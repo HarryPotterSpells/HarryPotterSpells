@@ -25,7 +25,7 @@ public class PM {
 	public PM(HPS instance) {
 	    this.HPS = instance;
 	    this.log = HPS.getLogger();
-	    this.tag = HPS.getConfig().getString("messaging.tag", "&f[&6HarryPotterSpells&f] ").replace('&', 'ยง');
+	    this.tag = HPS.getConfig().getString("messaging.tag", "&f[&6HarryPotterSpells&f] ").replace('&', 'ง');
 	    this.info = ChatColor.valueOf(HPS.getConfig().getString("messaging.tag", "YELLOW"));
 	    this.warning = ChatColor.valueOf(HPS.getConfig().getString("messaging.tag", "RED"));
 	}
