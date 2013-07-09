@@ -26,12 +26,12 @@ public class Sectumsempra extends Spell {
     }
 
     @Override
-	public boolean cast(Player p) {
+	public boolean cast(final Player p) {
     	HPS.SpellTargeter.register(p, new SpellHitEvent() {
 
 			@Override
 			public void hitBlock(Block block) {
-				// Do nothing
+				HPS.PM.warn(p, HPS.Localisation.getTranslation("spellLivingEntityOnly"));
 			}
 
 			@Override
