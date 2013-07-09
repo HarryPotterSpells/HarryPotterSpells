@@ -24,12 +24,13 @@ public class Confundo extends Spell {
         super(instance);
     }
 
-    public boolean cast(final Player p) {
+    public boolean cast(Player p) {
+    	final Player caster = p;
     	HPS.SpellTargeter.register(p, new SpellHitEvent() {
 
 			@Override
 			public void hitBlock(Block block) {
-				// TODO Auto-generated method stub
+				// Do nothing
 				
 			}
 
@@ -41,7 +42,7 @@ public class Confundo extends Spell {
 					player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, (int) duration, 1));
 					return;
 				} else {
-					HPS.PM.warn(p, HPS.Localisation.getTranslation("spellPlayerOnly"));
+					HPS.PM.warn(caster, HPS.Localisation.getTranslation("spellPlayerOnly"));
 					return;
 				}
 				
