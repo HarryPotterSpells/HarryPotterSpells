@@ -3,12 +3,14 @@ package com.hpspells.core.spell;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
+import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.hpspells.core.HPS;
+import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
-import com.hpspells.core.util.Targeter;
+import com.hpspells.core.util.ParticleEffect;
 
 @SpellInfo (
 		name="Sectumsempra",
@@ -24,17 +26,24 @@ public class Sectumsempra extends Spell {
     }
 
     @Override
-	public boolean cast(Player p) {
-		if (Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof LivingEntity) {
-			LivingEntity le = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
-			SectumsempraRunnable sectumsemprarunnable = new SectumsempraRunnable();
-			sectumsemprarunnable.le = le;
-			sectumsemprarunnable.taskID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(HPS, sectumsemprarunnable, 0L, 20L);
-			return true;
-		} else {
-			HPS.PM.warn(p, HPS.Localisation.getTranslation("spellLivingEntityOnly"));
-			return false;
-		}
+	public boolean cast(final Player p) {
+    	HPS.SpellTargeter.register(p, new SpellHitEvent() {
+
+			@Override
+			public void hitBlock(Block block) {
+				HPS.PM.warn(p, HPS.Localisation.getTranslation("spellLivingEntityOnly"));
+			}
+
+			@Override
+			public void hitEntity(LivingEntity entity) {
+				SectumsempraRunnable sectumsemprarunnable = new SectumsempraRunnable();
+				sectumsemprarunnable.le = entity;
+				sectumsemprarunnable.taskID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(HPS, sectumsemprarunnable, 0L, 20L);
+				
+			}
+    		
+    	}, 1.0, ParticleEffect.RED_DUST);
+		return true;
 	}
 
 	private class SectumsempraRunnable implements Runnable {
