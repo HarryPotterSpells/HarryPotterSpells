@@ -9,8 +9,6 @@ import com.hpspells.core.HPS;
 import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
 import com.hpspells.core.util.ParticleEffect;
-import com.hpspells.core.util.Targeter;
-
 @SpellInfo (
 		name="Alarte Ascendare",
 		description="descAlarteAscendare",
@@ -30,7 +28,7 @@ public class AlarteAscendare extends Spell {
 
 			@Override
 			public void hitBlock(Block block) {
-				// TODO Auto-generated method stub
+				// Do nothing?
 				
 			}
 

@@ -1,12 +1,15 @@
 package com.hpspells.core.spell;
 
+import org.bukkit.block.Block;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import com.hpspells.core.HPS;
+import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
-import com.hpspells.core.util.Targeter;
+import com.hpspells.core.util.ParticleEffect;
 
 @SpellInfo (
 		name="Confundo",
@@ -21,17 +24,31 @@ public class Confundo extends Spell {
         super(instance);
     }
 
-    public boolean cast(Player p) {
-		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {
-			Player player = (Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
-			long duration = getTime("duration", 200l);
-			
-			player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, (int) duration, 1));
-			return true;
-		} else {
-			HPS.PM.warn(p, HPS.Localisation.getTranslation("spellPlayerOnly"));
-			return false;
-		}
+    public boolean cast(final Player p) {
+    	HPS.SpellTargeter.register(p, new SpellHitEvent() {
+
+			@Override
+			public void hitBlock(Block block) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void hitEntity(LivingEntity entity) {
+				if(entity instanceof Player) {
+					Player player = (Player) entity;
+					long duration = getTime("duration", 200l);
+					player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, (int) duration, 1));
+					return;
+				} else {
+					HPS.PM.warn(p, HPS.Localisation.getTranslation("spellPlayerOnly"));
+					return;
+				}
+				
+			}
+    		
+    	}, 1.0, ParticleEffect.LARGE_SMOKE);
+		return true;
 	}
 	
 }
