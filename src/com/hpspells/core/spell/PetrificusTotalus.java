@@ -5,14 +5,17 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import com.hpspells.core.HPS;
+import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
-import com.hpspells.core.util.Targeter;
+import com.hpspells.core.util.ParticleEffect;
 
 @SpellInfo (
 		name="Petrificus Totalus",
@@ -30,30 +33,44 @@ public class PetrificusTotalus extends Spell implements Listener {
 
 	@Override
 	public boolean cast(final Player p) {
-		if (Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {
-			
-			players.add(((Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls())).getName());
-			final Player target = (Player) Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
-			long duration = getTime("duration", 600l);
-			
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
-			    
-			    @Override
-				public void run() {
-				    if(players.contains(target.getName())) {
-				        players.remove(target.getName());
-					} 
+		HPS.SpellTargeter.register(p, new SpellHitEvent() {
+
+			@Override
+			public void hitBlock(Block block) {
+				HPS.PM.warn(p, HPS.Localisation.getTranslation("spellPlayerOnly"));
+				return;
+			}
+
+			@Override
+			public void hitEntity(LivingEntity entity) {
+				if (entity instanceof Player) {
+					final Player target = (Player) entity;
+					players.add(target.getName());
+					long duration = getTime("duration", 600l);
+					
+					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
+					    
+					    @Override
+						public void run() {
+						    if(players.contains(target.getName())) {
+						        players.remove(target.getName());
+							} 
+						}
+						
+					}, duration);
+					
+					Location loc = new Location(target.getWorld(), target.getLocation().getBlockX(), target.getLocation().getBlockY() + 1, target.getLocation().getBlockZ());
+					target.getWorld().createExplosion(loc, 0F);
+					return;
+				} else {
+					HPS.PM.warn(p, HPS.Localisation.getTranslation("spellPlayerOnly"));
+					return;
 				}
 				
-			}, duration);
+			}
 			
-			Location loc = new Location(target.getWorld(), target.getLocation().getBlockX(), target.getLocation().getBlockY() + 1, target.getLocation().getBlockZ());
-			target.getWorld().createExplosion(loc, 0F);
-			return true;
-		} else {
-			HPS.PM.warn(p, HPS.Localisation.getTranslation("spellPlayerOnly"));
-			return false;
-		}
+		}, 1.0d, ParticleEffect.CRIT);
+		return true;
 	}
 	
 	@EventHandler
