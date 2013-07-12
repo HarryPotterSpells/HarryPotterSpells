@@ -30,6 +30,7 @@
   </dependencies>
 
   <build>
+    <defaultGoal>package</defaultGoal>
     <finalName>HarryPotterSpells</finalName>
     <sourceDirectory>src</sourceDirectory>
 
