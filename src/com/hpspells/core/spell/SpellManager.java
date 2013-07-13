@@ -222,11 +222,7 @@ public class SpellManager {
 		if (!sce.isCancelled()) {
 			Boolean cast = true;
 			String playerName = player.getName();
-			if (cooldowns.containsKey(playerName) && cooldowns.get(playerName).containsKey(spell)) { // TODO
-																										// move
-																										// to
-																										// another
-																										// class
+			if (needsCooldown(playerName, spell)) {
 				HPS.PM.dependantMessagingTell((CommandSender) player, HPS.Localisation.getTranslation("cldWait", cooldowns.get(playerName).get(spell).toString()));
 				cast = false;
 			}
@@ -250,9 +246,12 @@ public class SpellManager {
 	 * @return
 	 */
 	public boolean needsCooldown(String playerName, Spell spell) {
+		HPS.PM.debug(Boolean.toString(cooldowns.containsKey(playerName)));
+		HPS.PM.debug(Boolean.toString(cooldowns.get(playerName).containsKey(spell)));
 		if (cooldowns.containsKey(playerName) && cooldowns.get(playerName).containsKey(spell)) {
 			long currentTime = System.currentTimeMillis();
 			long lastTime = cooldowns.get(playerName).get(spell);
+			HPS.PM.debug(currentTime + ":" + lastTime);
 			return ((currentTime - lastTime) / 1000) > spell.getCoolDown(Bukkit.getPlayer(playerName));
 		}
 		return false;
