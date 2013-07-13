@@ -173,7 +173,7 @@ public abstract class Spell {
 	public Object getConfig(String key, @Nullable Object defaultt) {
 	    return defaultt == null ? HPS.getConfig().get("spells." + getName() + "." + key) : HPS.getConfig().get("spells." + getName() + "." + key, defaultt);
 	}
-
+	
 	/**
 	 * Gets a time from the spells configuration as formatted by the following table: <br>
 	 * Default: seconds <br>
