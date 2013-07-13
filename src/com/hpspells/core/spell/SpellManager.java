@@ -246,14 +246,10 @@ public class SpellManager {
 	 * @return
 	 */
 	public boolean needsCooldown(String playerName, Spell spell) {
-		HPS.PM.debug(Boolean.toString(cooldowns.containsKey(playerName)));
 		if (cooldowns.containsKey(playerName) && cooldowns.get(playerName).containsKey(spell)) {
 			long currentTime = System.currentTimeMillis();
 			long lastTime = cooldowns.get(playerName).get(spell);
 			long difference = (currentTime - lastTime) / 1000;
-			HPS.PM.debug(currentTime + ":" + lastTime);
-			HPS.PM.debug(difference + "seconds");
-			HPS.PM.debug("cooldown: " + spell.getCoolDown(Bukkit.getPlayer(playerName)));
 			return difference < spell.getCoolDown(Bukkit.getPlayer(playerName));
 		}
 		return false;
@@ -267,7 +263,7 @@ public class SpellManager {
 	 * @param cooldown
 	 */
 	public void setCoolDown(String playerName, Spell spell) {
-		if (cooldowns.containsKey(playerName) && cooldowns.get(playerName).containsKey(spell)) {
+		if (cooldowns.containsKey(playerName)) {
 			cooldowns.get(playerName).put(spell, System.currentTimeMillis());
 		} else {
 				cooldowns.put(playerName, new HashMap<Spell, Long>());
