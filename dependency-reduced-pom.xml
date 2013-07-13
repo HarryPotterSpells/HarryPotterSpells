@@ -4,9 +4,10 @@
   <groupId>HarryPotterSpells</groupId>
   <artifactId>HarryPotterSpells</artifactId>
   <name>HarryPotterSpells</name>
-  <version>A_0.5-SNAPSHOT</version>
+  <version>A_0.6-SNAPSHOT</version>
   <build>
     <sourceDirectory>src</sourceDirectory>
+    <defaultGoal>package</defaultGoal>
     <resources>
       <resource>
         <directory>src</directory>
@@ -26,19 +27,6 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.reflections</groupId>
-        <artifactId>reflections-maven</artifactId>
-        <version>0.9.9-RC1</version>
-        <executions>
-          <execution>
-            <phase>process-classes</phase>
-            <goals>
-              <goal>reflections</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <artifactId>maven-shade-plugin</artifactId>
         <version>2.1</version>
         <executions>
@@ -49,12 +37,9 @@
             </goals>
             <configuration>
               <artifactSet>
-                <includes>
-                  <include>org.reflections:reflections</include>
-                  <include>org.slf4j:slf4j-api</include>
-                  <include>org.javassist:javassist</include>
-                  <include>dom4j:dom4j</include>
-                </includes>
+                <excludes>
+                  <exclude>org.bukkit:craftbukkit</exclude>
+                </excludes>
               </artifactSet>
             </configuration>
           </execution>
@@ -75,7 +60,7 @@
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>craftbukkit</artifactId>
-      <version>1.5.2-R0.1</version>
+      <version>1.6.1-R0.1-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>

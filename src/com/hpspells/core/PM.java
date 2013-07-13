@@ -25,9 +25,9 @@ public class PM {
 	public PM(HPS instance) {
 	    this.HPS = instance;
 	    this.log = HPS.getLogger();
-	    this.tag = HPS.getConfig().getString("messaging.tag", "&f[&6HarryPotterSpells&f] ").replace('&', '§');
-	    this.info = ChatColor.valueOf(HPS.getConfig().getString("messaging.tag", "YELLOW"));
-	    this.warning = ChatColor.valueOf(HPS.getConfig().getString("messaging.tag", "RED"));
+	    this.tag = ChatColor.translateAlternateColorCodes('&', HPS.getConfig().getString("messaging.tag", "&f[&6HarryPotterSpells&f] "));
+	    this.info = ChatColor.valueOf(HPS.getConfig().getString("messaging.info", "YELLOW"));
+	    this.warning = ChatColor.valueOf(HPS.getConfig().getString("messaging.warning", "RED"));
 	}
 
 	/**
