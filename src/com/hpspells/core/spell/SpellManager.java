@@ -20,7 +20,6 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
 import com.google.common.collect.Iterables;
-import com.hpspells.core.CoolDown;
 import com.hpspells.core.HPS;
 import com.hpspells.core.api.event.SpellPostCastEvent;
 import com.hpspells.core.api.event.SpellPreCastEvent;
@@ -33,7 +32,7 @@ import com.hpspells.core.util.ReflectionsReplacement;
  * A class that manages spells and holds lots of spell related utilities
  */
 public class SpellManager {
-	private HashMap<String, HashMap<Spell, Integer>> cooldowns = new HashMap<String, HashMap<Spell, Integer>>();
+	private HashMap<String, HashMap<Spell, Long>> cooldowns = new HashMap<String, HashMap<Spell, Long>>();
 	private Comparator<Spell> spellComparator = new Comparator<Spell>() {
 
 		@Override
@@ -223,12 +222,8 @@ public class SpellManager {
 		if (!sce.isCancelled()) {
 			Boolean cast = true;
 			String playerName = player.getName();
-			if (cooldowns.containsKey(playerName) && cooldowns.get(playerName).containsKey(spell)) { // TODO
-																										// move
-																										// to
-																										// another
-																										// class
-				HPS.PM.dependantMessagingTell((CommandSender) player, HPS.Localisation.getTranslation("cldWait", cooldowns.get(playerName).get(spell).toString()));
+			if (needsCooldown(playerName, spell)) {
+				HPS.PM.dependantMessagingTell((CommandSender) player, HPS.Localisation.getTranslation("cldWait", spell.getCoolDown(player) - ((System.currentTimeMillis() - cooldowns.get(playerName).get(spell))/1000)).toString());
 				cast = false;
 			}
 			boolean successful = false;
@@ -238,21 +233,26 @@ public class SpellManager {
 			Bukkit.getServer().getPluginManager().callEvent(new SpellPostCastEvent(spell, player, successful));
 
 			if (cast && successful && spell.getCoolDown(player) > 0) {
-				setCoolDown(playerName, spell, spell.getCoolDown(player));
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new CoolDown(HPS, playerName, spell), 20L);
+				setCoolDown(playerName, spell);
 			}
 		}
 	}
 
 	/**
-	 * Gets the cooldown of a certain spell for a certain player
+	 * Gets if a cooldown is needed by a player for a certain spell.
 	 * 
 	 * @param playerName
 	 * @param spell
 	 * @return
 	 */
-	public Integer getCoolDown(String playerName, Spell spell) {
-		return cooldowns.get(playerName).get(spell);
+	public boolean needsCooldown(String playerName, Spell spell) {
+		if (cooldowns.containsKey(playerName) && cooldowns.get(playerName).containsKey(spell)) {
+			long currentTime = System.currentTimeMillis();
+			long lastTime = cooldowns.get(playerName).get(spell);
+			long difference = (currentTime - lastTime) / 1000;
+			return difference < spell.getCoolDown(Bukkit.getPlayer(playerName));
+		}
+		return false;
 	}
 
 	/**
@@ -262,26 +262,12 @@ public class SpellManager {
 	 * @param spell
 	 * @param cooldown
 	 */
-	public void setCoolDown(String playerName, Spell spell, Integer cooldown) {
-		if (cooldowns.containsKey(playerName) && cooldowns.get(playerName).containsKey(spell)) {
-			if (cooldown == null) {
-				cooldowns.get(playerName).remove(spell);
-			} else {
-				cooldowns.get(playerName).put(spell, cooldown);
-			}
-		} else if (cooldowns.containsKey(playerName) && !cooldowns.get(playerName).containsKey(spell)) {
-			if (cooldown == null) {
-				return;
-			} else {
-				cooldowns.get(playerName).put(spell, cooldown);
-			}
+	public void setCoolDown(String playerName, Spell spell) {
+		if (cooldowns.containsKey(playerName)) {
+			cooldowns.get(playerName).put(spell, System.currentTimeMillis());
 		} else {
-			if (cooldown == null) {
-				return;
-			} else {
-				cooldowns.put(playerName, new HashMap<Spell, Integer>());
-				cooldowns.get(playerName).put(spell, cooldown);
-			}
+				cooldowns.put(playerName, new HashMap<Spell, Long>());
+				cooldowns.get(playerName).put(spell, System.currentTimeMillis());
 		}
 	}
 
