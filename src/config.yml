@@ -51,6 +51,8 @@ spells:
     duration: 30 # How long before the water disappears
   aparecium:
     radius: 5  # The maximum distance players can be from the caster to still be turned visible
+  arania-exumai:
+    knockback: 10 # How much the spider is knocked backwards
   avis:
     chickens:
       amount: 5  # How many chickens the wand should shoot
@@ -111,6 +113,7 @@ cooldowns:
   aguamenti: 90
   'alarte ascendare': 45
   aparecium: 300
+  'arania Exumai': 90
   'avada kedavra': 300
   avis: 300
   'bubble head charm': 45
