@@ -47,6 +47,8 @@ spell-castable-with-chat: true  # If a spell is castable on the chatting of 'Spe
 spells:
   accio:
     radius: 5  # The maximum distance drops can be from the player to still be attracted
+  aguamenti:
+    duration: 30 # How long before the water disappears
   aparecium:
     radius: 5  # The maximum distance players can be from the caster to still be turned visible
   avis:
