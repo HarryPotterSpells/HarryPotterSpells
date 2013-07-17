@@ -72,6 +72,8 @@ spells:
     duration: 300t  # How long the caster will be invisible for
   expelliarmus:
     disarm-weapons: true  # Should Expelliarmus disarm weapons (swords and bows) as well as wands? 
+  flame-freezing-charm:
+    duration: 60 # How long the Fire Resistance effect lasts for
   homenum-revelio:
     box:  # The size of the box used in the search for nearby players
       x: 10  # 1/2 the size of the box along x axis
@@ -126,6 +128,7 @@ cooldowns:
   evanesco: 45
   expelliarmus: 120
   'finite incantatem': 45 
+  'flame freezing charm': 300
   glacius: 120
   'homenum revelio': 600
   incendio: 45
@@ -146,3 +149,4 @@ cooldowns:
   time: 600
   tree: 105
   'windgardium leviosa': 180
+  workbench: 20
