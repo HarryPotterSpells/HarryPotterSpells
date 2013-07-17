@@ -18,6 +18,7 @@ For more information check out our [Bukkit Dev page](http://dev.bukkit.org/serve
 + [zachoooo](http://forums.bukkit.org/members/zachoooo.1858/): Contributor
 + [Hoolean/MrBluebear3](http://forums.bukkit.org/members/hoolean.90699782/): Contributor
 + [lol768](https://forums.bukkit.org/members/lol768.90686461/): Contributor
++ [jacklin213](https://forums.bukkit.org/members/jacklin213.103857/): Contributor
 
 We are looking for more team members to help make this plugin even more awesome. If you are interested just let us know [here](http://forums.bukkit.org/threads/harrypotterspells.149902/) or join our IRC [#harrypotterspells](http://webchat.esper.net/?channels=#harrypotterspells).
 
