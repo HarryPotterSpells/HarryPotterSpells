@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,7 +15,8 @@ import org.bukkit.potion.PotionEffectType;
 
 import com.hpspells.core.HPS;
 import com.hpspells.core.spell.Spell.SpellInfo;
-import com.hpspells.core.util.Targeter;
+import com.hpspells.core.util.ParticleEffect;
+import com.hpspells.core.SpellTargeter.SpellHitEvent;
 
 @SpellInfo (
 		name="Deprimo",
@@ -22,43 +24,52 @@ import com.hpspells.core.util.Targeter;
 		range=20,
 		goThroughWalls=false,
 		cooldown=180
-)
+		)
 public class Deprimo extends Spell implements Listener {
 	private static List<String> players = new ArrayList<String>();
-	
-    public Deprimo(HPS instance) {
-        super(instance);
-    }
 
-	public boolean cast(Player p) {
-		if(Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls()) instanceof Player) {
-			
-			LivingEntity target = Targeter.getTarget(p, this.getRange(), this.canBeCastThroughWalls());
-			
-			int duration = (int) getTime("duration", 100l);
-			
-			target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, duration, 1));
-			
-			if (target instanceof Player) {
-				final Player player = (Player) target;
-				Deprimo.players.add(player.getName());
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
-					   
-					@Override
-					public void run() {
-					   Deprimo.players.remove(player.getName());
-					}
-					   
-				}, 400L);
-			}
-			return true;
-			
-		} else {
-			HPS.PM.warn(p, HPS.Localisation.getTranslation("spellLivingEntityOnly"));
-			return false;
-		}
+	public Deprimo(HPS instance) {
+		super(instance);
 	}
-	
+
+	public boolean cast(final Player p) {
+		HPS.SpellTargeter.register(p, new SpellHitEvent() {
+
+			@Override
+			public void hitBlock(Block block) {
+				HPS.PM.warn(p, HPS.Localisation.getTranslation("spellLivingEntityOnly"));
+
+			}
+
+			@Override
+			public void hitEntity(LivingEntity entity) {
+
+				LivingEntity target = entity;
+
+				int duration = (int) getTime("duration", 100l);
+
+				target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, duration, 1));
+
+				if (target instanceof Player) {
+					final Player player = (Player) target;
+					Deprimo.players.add(player.getName());
+					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
+
+						@Override
+						public void run() {
+							Deprimo.players.remove(player.getName());
+						}
+
+					}, 400L);
+				}
+				return;
+
+			}
+
+		}, 1.0, ParticleEffect.MAGIC_CRIT);
+		return true;
+	}
+
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent e) {
 		if(Deprimo.players.contains(e.getPlayer().getName())) {
