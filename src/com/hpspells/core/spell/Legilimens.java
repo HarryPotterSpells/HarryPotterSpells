@@ -55,7 +55,7 @@ public class Legilimens extends Spell {
 			}
 			
 		}, 1.00, Effect.SMOKE);
-		return false;
+		return true;
 	}
 
 	

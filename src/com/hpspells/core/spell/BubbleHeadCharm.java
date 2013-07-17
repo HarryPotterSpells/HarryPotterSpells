@@ -51,7 +51,7 @@ public class BubbleHeadCharm extends Spell{
 			}
 			
 		}, 1.0, ParticleEffect.BUBBLE);
-		return false;
+		return true;
 	}
 
 }

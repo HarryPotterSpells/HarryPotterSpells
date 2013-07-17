@@ -3,11 +3,13 @@ package com.hpspells.core.spell;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.hpspells.core.HPS;
+import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
-import com.hpspells.core.util.Targeter;
+import com.hpspells.core.util.ParticleEffect;
 
 @SpellInfo (
 		name="Orchideous",
@@ -24,16 +26,27 @@ public class Orchideous extends Spell {
     }
 
     @Override
-	public boolean cast(Player p) {
-		Block b = p.getTargetBlock(Targeter.getTransparentBlocks(), this.getRange());
-		if (isValidBlock(b) && blockAboveIsValidBlock(b)) {
-			getBlockAbove(b).setType(Material.RED_ROSE);
-			return true;
-		} else {
-			HPS.PM.warn(p, HPS.Localisation.getTranslation("spellNoRose"));
-			return false;
-		}
+	public boolean cast(final Player p) {
+    	HPS.SpellTargeter.register(p, new SpellHitEvent(){
 
+			@Override
+			public void hitBlock(Block block) {
+				if (isValidBlock(block) && blockAboveIsValidBlock(block)) {
+					getBlockAbove(block).setType(Material.RED_ROSE);
+					return;
+				} else {
+					HPS.PM.warn(p, HPS.Localisation.getTranslation("spellNoRose"));
+					return;
+				}
+			}
+
+			@Override
+			public void hitEntity(LivingEntity entity) {
+				HPS.PM.warn(p, HPS.Localisation.getTranslation("spellBlockOnly"));
+			}
+    		
+    	}, 1.0, ParticleEffect.HEART);
+    	return true;
 	}
 
 	private boolean blockAboveIsValidBlock(Block b) {
