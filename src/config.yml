@@ -76,6 +76,8 @@ spells:
     effect-color: yellow  # The color the effect around the hidden player should be
   incendio:
     duration: 100t  # How long the fire should last
+  legilimens:
+    duration: 20 # How long targets inventory can be seen
   multicorfors:
     explosion-effect: true  # Should an explosion happen on color change
   obscuro:
@@ -122,6 +124,7 @@ cooldowns:
   glacius: 120
   'homenum revelio': 600
   incendio: 45
+  legilimens: 180
   'magna tonitrus': 60
   morsmordre: 60
   multicorfors: 30
