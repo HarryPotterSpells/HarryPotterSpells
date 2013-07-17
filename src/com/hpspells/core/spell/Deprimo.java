@@ -44,14 +44,12 @@ public class Deprimo extends Spell implements Listener {
 			@Override
 			public void hitEntity(LivingEntity entity) {
 
-				LivingEntity target = entity;
-
 				int duration = (int) getTime("duration", 100l);
 
-				target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, duration, 1));
+				entity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, duration, 1));
 
-				if (target instanceof Player) {
-					final Player player = (Player) target;
+				if (entity instanceof Player) {
+					final Player player = (Player) entity;
 					Deprimo.players.add(player.getName());
 					Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
 
