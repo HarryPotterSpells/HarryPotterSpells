@@ -8,6 +8,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import com.hpspells.core.HPS;
@@ -22,7 +23,7 @@ import com.hpspells.core.spell.Spell.SpellInfo;
 	cooldown=90
 )
 
-public class Silencio extends Spell{
+public class Silencio extends Spell implements Listener{
 
 	public Silencio(HPS instance) {
 		super(instance);
