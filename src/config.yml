@@ -82,6 +82,8 @@ spells:
     duration: 400t  # How long the target should be blinded for
   petrificus-totalus:
     duration: 100t  # How long the target should be petrified (frozen) for
+  silencio:
+    duration: 30 #How long the target is muted for.
   spongify:
     duration: 600t  # How long damage should be cancelled for
   stupefy:
@@ -128,6 +130,7 @@ cooldowns:
   reducto: 300
   reparo: 14400
   sectumsempra: 300
+  silencio: 90
   sonorus: 15
   spongify: 60
   stupefy: 120
