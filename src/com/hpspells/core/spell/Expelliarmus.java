@@ -1,5 +1,6 @@
 package com.hpspells.core.spell;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class Expelliarmus extends Spell {
 
 			@Override
 			public void hitBlock(Block block) {
-				HPS.PM.warn(p, HPS.Localisation.getTranslation("spellPlayerOnly"));
+				HPS.PM.warn(p, HPS.Localisation.getTranslation("spellLivingEntityOnly"));
 				return;
 
 			}
@@ -42,7 +43,7 @@ public class Expelliarmus extends Spell {
 			@Override
 			public void hitEntity(LivingEntity entity) {
 				Location targetloc = entity.getLocation();			
-				List<Integer> disarmItems = Arrays.asList(HPS.Wand.getWand().getTypeId());
+				List<Integer> disarmItems = new ArrayList<Integer>(Arrays.asList(HPS.Wand.getWand().getTypeId()));
 				if((Boolean) getConfig("disarm-weapons", true))
 					disarmItems.addAll(Arrays.asList(Material.STICK.getId(), Material.WOOD_SWORD.getId(), Material.STONE_SWORD.getId(), Material.IRON_SWORD.getId(), Material.GOLD_SWORD.getId(), Material.DIAMOND_SWORD.getId(), Material.BOW.getId()));
 
@@ -56,7 +57,7 @@ public class Expelliarmus extends Spell {
 				return;
 			}
 
-		}, 1.0, ParticleEffect.DRIP_LAVA);
+		}, 1.0, 0.5f, 10, ParticleEffect.DRIP_LAVA);
 		return true;
 	}
 }

@@ -22,7 +22,7 @@ public class AvadaKedavra extends Spell {
         super(instance);
     }
 
-    public boolean cast(Player p) {
+    public boolean cast(final Player p) {
     	HPS.SpellTargeter.register(p, new SpellHitEvent() {
     		@Override
     		public void hitEntity(LivingEntity entity) {
@@ -31,7 +31,7 @@ public class AvadaKedavra extends Spell {
 
 			@Override
 			public void hitBlock(Block block) {
-				block.getWorld().createExplosion(block.getLocation(), 0f);
+				HPS.PM.warn(p, HPS.Localisation.getTranslation("spellLivingEntityOnly"));
 				
 			}
     	}, 1.00, ParticleEffect.RED_DUST);
