@@ -37,7 +37,6 @@ public class Silencio extends Spell implements Listener{
 			@Override
 			public void hitBlock(Block block) {
 				HPS.PM.warn(p, HPS.Localisation.getTranslation("spellLivingEntityOnly"));
-				
 			}
 
 			@Override
