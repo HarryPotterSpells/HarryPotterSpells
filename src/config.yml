@@ -90,6 +90,8 @@ spells:
     duration: 400t  # How long the target should be blinded for
   petrificus-totalus:
     duration: 100t  # How long the target should be petrified (frozen) for
+  refiling-charm:
+    bucket: water # Wether the spell fills the bucket with water or milk
   silencio:
     duration: 30 # How long the target is muted for.
   spongify:
@@ -140,6 +142,7 @@ cooldowns:
   orchideous: 45 
   'petrificus totalus': 300
   reducto: 300
+  'refilling charm': 120
   reparo: 14400
   sectumsempra: 300
   silencio: 90
