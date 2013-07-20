@@ -47,8 +47,12 @@ spell-castable-with-chat: true  # If a spell is castable on the chatting of 'Spe
 spells:
   accio:
     radius: 5  # The maximum distance drops can be from the player to still be attracted
+  aguamenti:
+    duration: 30 # How long before the water disappears
   aparecium:
     radius: 5  # The maximum distance players can be from the caster to still be turned visible
+  arania-exumai:
+    knockback: 10 # How much the spider is knocked backwards
   avis:
     chickens:
       amount: 5  # How many chickens the wand should shoot
@@ -68,6 +72,8 @@ spells:
     duration: 300t  # How long the caster will be invisible for
   expelliarmus:
     disarm-weapons: true  # Should Expelliarmus disarm weapons (swords and bows) as well as wands? 
+  flame-freezing-charm:
+    duration: 60 # How long the Fire Resistance effect lasts for
   homenum-revelio:
     box:  # The size of the box used in the search for nearby players
       x: 10  # 1/2 the size of the box along x axis
@@ -76,12 +82,18 @@ spells:
     effect-color: yellow  # The color the effect around the hidden player should be
   incendio:
     duration: 100t  # How long the fire should last
+  legilimens:
+    duration: 20 # How long targets inventory can be seen
   multicorfors:
     explosion-effect: true  # Should an explosion happen on color change
   obscuro:
     duration: 400t  # How long the target should be blinded for
   petrificus-totalus:
     duration: 100t  # How long the target should be petrified (frozen) for
+  refiling-charm:
+    bucket: water # Wether the spell fills the bucket with water or milk
+  silencio:
+    duration: 30 # How long the target is muted for.
   spongify:
     duration: 600t  # How long damage should be cancelled for
   stupefy:
@@ -105,8 +117,10 @@ cooldowns:
   aguamenti: 90
   'alarte ascendare': 45
   aparecium: 300
+  'arania Exumai': 90
   'avada kedavra': 300
   avis: 300
+  'bubble head charm': 45
   confringo: 45 
   confundo: 180
   crucio: 300
@@ -116,9 +130,11 @@ cooldowns:
   evanesco: 45
   expelliarmus: 120
   'finite incantatem': 45 
+  'flame freezing charm': 300
   glacius: 120
   'homenum revelio': 600
   incendio: 45
+  legilimens: 180
   'magna tonitrus': 60
   morsmordre: 60
   multicorfors: 30
@@ -126,11 +142,14 @@ cooldowns:
   orchideous: 45 
   'petrificus totalus': 300
   reducto: 300
+  'refilling charm': 120
   reparo: 14400
   sectumsempra: 300
+  silencio: 90
   sonorus: 15
   spongify: 60
   stupefy: 120
   time: 600
   tree: 105
   'windgardium leviosa': 180
+  workbench: 20
