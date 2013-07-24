@@ -1,5 +1,6 @@
 package com.hpspells.core.spell;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -34,11 +35,22 @@ public class Aguamenti extends Spell {
 			}
 			
 			@Override
-			public void hitBlock(Block block) {
-				if(block.getType().isTransparent())
+			public void hitBlock(final Block block) {
+				if(block.getType().isTransparent()){
 					block.setType(Material.WATER);
-				else if(block.getRelative(BlockFace.UP).getType().isTransparent())
+					Bukkit.getScheduler().scheduleSyncDelayedTask(HPS, new Runnable(){
+						public void run(){
+							block.setType(Material.AIR);
+						}
+					}, getTime("duration", 30));
+				} else if(block.getRelative(BlockFace.UP).getType().isTransparent()){
 					block.getRelative(BlockFace.UP).setType(Material.WATER);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(HPS, new Runnable(){
+						public void run(){
+							block.setType(Material.AIR);
+						}
+					}, getTime("duration", 30));
+				}
 			}
 			
 		}, 1.2f, ParticleEffect.DRIP_WATER);
