@@ -56,6 +56,8 @@ public class SpellTargeter {
 			Location loc = caster.getEyeLocation();
 			Vector direction = loc.getDirection().multiply(spellSpeed);
 			boolean running = false;
+			long tickTracker = 0;
+			long maxTicks = HPS.getConfig().getLong("spell-effective-time"); // Caching so that it doesn't compare the value every single time
 
 			@Override
 			public void run() {
@@ -78,7 +80,12 @@ public class SpellTargeter {
 					onHit.hitEntity(list.get(0));
 					cancel();
 					return;
-				} 
+				}
+				tickTracker++;
+				if (tickTracker / 20 > maxTicks && !(maxTicks == -1)) {
+					cancel();
+					return;
+				}
 			}
 
 		}.run();
@@ -96,6 +103,8 @@ public class SpellTargeter {
 			Location loc = caster.getEyeLocation();
 			Vector direction = loc.getDirection().multiply(spellSpeed);
 			boolean running = false;
+			long tickTracker = 0;
+			long maxTicks = HPS.getConfig().getLong("spell-effective-time"); // Caching so that it doesn't compare the value every single time
 
 			@Override
 			public void run() {
@@ -123,7 +132,12 @@ public class SpellTargeter {
 					onHit.hitEntity(list.get(0));
 					cancel();
 					return;
-				} 
+				}
+				tickTracker++;
+				if (tickTracker / 20 > maxTicks && !(maxTicks == -1)) {
+					cancel();
+					return;
+				}
 			}
 
 		}.run();
@@ -143,6 +157,8 @@ public class SpellTargeter {
 			Location loc = caster.getEyeLocation();
 			Vector direction = loc.getDirection().multiply(spellSpeed);
 			boolean running = false;
+			long tickTracker = 0;
+			long maxTicks = HPS.getConfig().getLong("spell-effective-time"); // Caching so that it doesn't compare the value every single time
 
 			@Override
 			public void run() {
@@ -172,7 +188,13 @@ public class SpellTargeter {
 					onHit.hitEntity(list.get(0));
 					cancel();
 					return;
-				} 
+				}
+				tickTracker++;
+				if (tickTracker / 20 > maxTicks && !(maxTicks == -1)) {
+					cancel();
+					return;
+				}
+				
 			}
 
 		}.run();
