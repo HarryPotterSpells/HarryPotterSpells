@@ -50,5 +50,6 @@ public class Avis extends Spell {
     	v.setX(v.getX() + randomX);
     	v.setY(v.getY() + randomY);
     	v.setX(v.getZ() + randomZ);
+    	e.setVelocity(v);
     }
 }
