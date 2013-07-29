@@ -8,10 +8,13 @@ import org.bukkit.TreeType;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.hpspells.core.HPS;
+import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
+import com.hpspells.core.util.ParticleEffect;
 
 @SpellInfo (
 		name="Tree",
@@ -26,20 +29,33 @@ public class TreeSpell extends Spell {
         super(instance);
     }
 
-    public boolean cast(Player p) {
-		Block block = p.getTargetBlock(null, this.getRange());
-		if (block.getType() == Material.GRASS || block.getType() == Material.DIRT) {
-			if(!p.getWorld().generateTree(block.getLocation(), TreeType.TREE)) {
-				HPS.PM.warn(p, HPS.Localisation.getTranslation("spellNoTree"));
-				return false;
-			} else {
-				boom(block, block.getWorld());
-				return true;
+    public boolean cast(final Player p) {
+    	HPS.SpellTargeter.register(p, new SpellHitEvent() {
+
+			@Override
+			public void hitBlock(Block block) {
+				if (block.getType() == Material.GRASS || block.getType() == Material.DIRT) {
+					if(!p.getWorld().generateTree(block.getLocation(), TreeType.TREE)) {
+						HPS.PM.warn(p, HPS.Localisation.getTranslation("spellNoTree"));
+						return;
+					} else {
+						boom(block, block.getWorld());
+						return;
+					}
+				} else {
+					HPS.PM.warn(p, HPS.Localisation.getTranslation("spellEarthOnly"));
+					return;
+				}
+				
 			}
-		} else {
-			HPS.PM.warn(p, HPS.Localisation.getTranslation("spellEarthOnly"));
-			return false;
-		}
+
+			@Override
+			public void hitEntity(LivingEntity entity) {
+				HPS.PM.warn(p, HPS.Localisation.getTranslation("spellBlockOnly"));
+			}
+    		
+    	}, 1.0d, ParticleEffect.SPELL);
+		return true;
 	}
 	
 	public  void boom (Block block, World world) {

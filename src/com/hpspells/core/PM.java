@@ -136,8 +136,8 @@ public class PM {
 	 * 
 	 * @param s the message to be broadcast to the server
 	 */
-	public void broadcastMessage(String s) {
-		broadcastMessage(s, false);
+	public void broadcastMessage(String message) {
+		broadcastMessage(message, false);
 	}
 
 	/**
@@ -145,11 +145,19 @@ public class PM {
 	 * @param s the message to be broadcast to the server
 	 * @param translateColorCodes should color codes be translated
 	 */
-	public void broadcastMessage(String s, boolean translateColorCodes) {
+	public void broadcastMessage(String message, boolean translateColorCodes) {
 		String[] string = new String[1];
-		string[0] = s;
+		string[0] = message;
 		broadcastMessage(string, translateColorCodes);
 
+	}
+	
+	/**
+	 * 
+	 * @param messagesArray Array of messages to be broadcast
+	 */
+	public void broadcastMessage(String[] messagesArray) {
+		broadcastMessage(messagesArray, false);
 	}
 	
 	/**
@@ -157,13 +165,16 @@ public class PM {
 	 * @param s Array of messages to be sent
 	 * @param translateColorCodes should color codes be translated
 	 */
-	public void broadcastMessage(String[] s, boolean translateColorCodes) {
+	public void broadcastMessage(String[] messagesArray, boolean translateColorCodes) {
 		if (translateColorCodes) {
-			for (int i = 0; i < s.length; i++) {
-				s[i] = ChatColor.translateAlternateColorCodes('&', s[i]);
+			for (int i = 0; i < messagesArray.length; i++) {
+				messagesArray[i] = ChatColor.translateAlternateColorCodes('&', messagesArray[i]);
 			}
 		}
-		HPS.getServer().broadcastMessage(tag + s);
+		messagesArray[0] = tag + messagesArray[0];
+		for (String message : messagesArray) {
+			HPS.getServer().broadcastMessage(message);
+		}
 	}
 
 }
