@@ -23,11 +23,11 @@ public class PM {
 	 * @param instance an instance of {@link HPS}
 	 */
 	public PM(HPS instance) {
-	    this.HPS = instance;
-	    this.log = HPS.getLogger();
-	    this.tag = ChatColor.translateAlternateColorCodes('&', HPS.getConfig().getString("messaging.tag", "&f[&6HarryPotterSpells&f] "));
-	    this.info = ChatColor.valueOf(HPS.getConfig().getString("messaging.info", "YELLOW"));
-	    this.warning = ChatColor.valueOf(HPS.getConfig().getString("messaging.warning", "RED"));
+		this.HPS = instance;
+		this.log = HPS.getLogger();
+		this.tag = ChatColor.translateAlternateColorCodes('&', HPS.getConfig().getString("messaging.tag", "&f[&6HarryPotterSpells&f] "));
+		this.info = ChatColor.valueOf(HPS.getConfig().getString("messaging.info", "YELLOW"));
+		this.warning = ChatColor.valueOf(HPS.getConfig().getString("messaging.warning", "RED"));
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class PM {
 			tell((Player) sender, message);
 		else if(sender instanceof ConsoleCommandSender)
 			log(Level.INFO, message);
-    }
+	}
 
 	/**
 	 * Sends a warning message to the Console or a Player depending on the sender
@@ -130,6 +130,40 @@ public class PM {
 	public void debug(Throwable e) {
 		if(HPS.getConfig().getBoolean("debug-mode", false))
 			e.printStackTrace();
+	}
+
+	/**
+	 * 
+	 * @param s the message to be broadcast to the server
+	 */
+	public void broadcastMessage(String s) {
+		broadcastMessage(s, false);
+	}
+
+	/**
+	 * 
+	 * @param s the message to be broadcast to the server
+	 * @param translateColorCodes should color codes be translated
+	 */
+	public void broadcastMessage(String s, boolean translateColorCodes) {
+		String[] string = new String[1];
+		string[0] = s;
+		broadcastMessage(string, translateColorCodes);
+
+	}
+	
+	/**
+	 * 
+	 * @param s Array of messages to be sent
+	 * @param translateColorCodes should color codes be translated
+	 */
+	public void broadcastMessage(String[] s, boolean translateColorCodes) {
+		if (translateColorCodes) {
+			for (int i = 0; i < s.length; i++) {
+				s[i] = ChatColor.translateAlternateColorCodes('&', s[i]);
+			}
+		}
+		HPS.getServer().broadcastMessage(tag + s);
 	}
 
 }
