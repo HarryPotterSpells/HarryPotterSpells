@@ -82,7 +82,7 @@ public class SpellTargeter {
 					return;
 				}
 				tickTracker++;
-				if (tickTracker / 20 > maxTicks && !(maxTicks == -1)) {
+				if (tickTracker > maxTicks && !(maxTicks == -1)) {
 					cancel();
 					return;
 				}
@@ -134,7 +134,7 @@ public class SpellTargeter {
 					return;
 				}
 				tickTracker++;
-				if (tickTracker / 20 > maxTicks && !(maxTicks == -1)) {
+				if (tickTracker > maxTicks && !(maxTicks == -1)) {
 					cancel();
 					return;
 				}
@@ -190,7 +190,7 @@ public class SpellTargeter {
 					return;
 				}
 				tickTracker++;
-				if (tickTracker / 20 > maxTicks && !(maxTicks == -1)) {
+				if (tickTracker > maxTicks && !(maxTicks == -1)) {
 					cancel();
 					return;
 				}
