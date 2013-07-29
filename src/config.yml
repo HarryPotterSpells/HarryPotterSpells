@@ -36,6 +36,7 @@ shout-on-spell-use: false  # If the player should say 'Spellname!' on every spel
 notify-on-spell-use: true  # If we should notify the player when they cast a spell
 spell-particle-toggle: false  # The purple particle effect that happens when the spell is cast (Kezz thinks it's ugly)
 spell-castable-with-chat: true  # If a spell is castable on the chatting of 'Spellname!'
+spell-effective-time: -1 # The amount of time that the spell should travel for before it disappears, Use -1 for it to go forever
 
 #########################
 ## Spell Configuration ##
