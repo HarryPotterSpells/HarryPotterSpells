@@ -55,6 +55,7 @@ spells:
   arania-exumai:
     knockback: 10 # How much the spider is knocked backwards
   avis:
+    randomness: 1 # How randomly should the bats or chickens be spread out
     chickens:
       amount: 5  # How many chickens the wand should shoot
       velocity: 2 # The velocity of the chickens that get shot out of the wand

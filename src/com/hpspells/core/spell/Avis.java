@@ -42,10 +42,11 @@ public class Avis extends Spell {
      * Testing will need to be done for appropriate randomization
      **/
     public void randomizeVelocity(Entity e) {
+    	float randomness = (float) this.getConfig("randomness", 1);
     	Random random = new Random();
-    	float randomX = (random.nextFloat() * 2) - 1;
-    	float randomY = (random.nextFloat() * 2) - 1;
-    	float randomZ = (random.nextFloat() * 2) - 1;
+    	float randomX = (random.nextFloat() * (2 * randomness)) - randomness;
+    	float randomY = (random.nextFloat() * (2 * randomness)) - randomness;
+    	float randomZ = (random.nextFloat() * (2 * randomness)) - randomness;
     	Vector v = e.getVelocity();
     	v.setX(v.getX() + randomX);
     	v.setY(v.getY() + randomY);
