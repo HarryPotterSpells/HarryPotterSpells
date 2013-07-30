@@ -49,7 +49,7 @@ public class Avis extends Spell {
     	Vector v = e.getVelocity();
     	v.setX(v.getX() + randomX);
     	v.setY(v.getY() + randomY);
-    	v.setX(v.getZ() + randomZ);
+    	v.setZ(v.getZ() + randomZ);
     	e.setVelocity(v);
     }
 }
