@@ -2,6 +2,8 @@ package com.hpspells.core.util;
 
 import static com.hpspells.core.util.SVPBypass.getMethod;
 
+import java.util.Random;
+
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -53,6 +55,28 @@ public class MiscUtilities {
         getMethod(nmsTagCompound, "set").invoke(tag, "ench", null);
         getMethod(nmsItemStack, "setTag").invoke(nmsStack, tag);
         return (ItemStack) getMethod(cbItemStack, "asCraftMirror").invoke(cbItemStack, nmsStack);
+    }
+    
+    /**
+     * 
+     * @param min minimum random value that can be generated
+     * @param max maximum random value that can be generated
+     * @return an EXCLUSIVE random number in the range. Value ranges are (min, max)
+     */
+    public static float randomBetween(float min, float max) {
+    	Random random = new Random();
+    	return (random.nextFloat() * (max - min)) + min;
+    }
+    
+    /**
+     * 
+     * @param min minimum random value that can be generated
+     * @param max maximum random value that can be generated
+     * @return an INCLUSIVE random number in the range. Value ranges are [min, max]
+     */
+    public static int randomBetween(int min, int max) {
+    	Random random = new Random();
+    	return random.nextInt(max - min + 1) + min;
     }
 
 }

@@ -9,6 +9,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 
 import com.hpspells.core.spell.Spell.SpellInfo;
+import com.hpspells.core.HPS;
 
 @SpellInfo (
 		name="Bauleo",
@@ -19,7 +20,7 @@ import com.hpspells.core.spell.Spell.SpellInfo;
 )
 public class Bauleo extends Spell {
 
-	public Bauleo(com.hpspells.core.HPS instance) {
+	public Bauleo(HPS instance) {
 		super(instance);
 	}
 
