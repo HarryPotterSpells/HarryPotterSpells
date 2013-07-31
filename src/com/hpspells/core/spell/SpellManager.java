@@ -124,7 +124,7 @@ public class SpellManager {
 	 * @return the spell they have changed to
 	 * @throws IllegalArgumentException if the id parameter is invalid
 	 */
-	public Spell setCurrentSpell(Player player, int id) throws IllegalArgumentException {
+	public Spell setCurrentSpellPosition(Player player, int id) throws IllegalArgumentException {
         PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
 		List<String> spellsTheyKnow = psc.getStringListOrEmpty(player.getName());
 		if (spellsTheyKnow == null || id >= spellsTheyKnow.size() || id < 0)
@@ -146,7 +146,7 @@ public class SpellManager {
 		Integer spellIndex = getIndex(new TreeSet<String>(psc.getStringListOrEmpty(player.getName())), spell.getName());
 		if (spellIndex == null)
 			throw new IllegalArgumentException("player does not know that spell");
-		setCurrentSpell(player, spellIndex);
+		setCurrentSpellPosition(player, spellIndex);
 		return getCurrentSpell(player);
 	}
 

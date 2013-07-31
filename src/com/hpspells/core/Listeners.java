@@ -57,7 +57,7 @@ public class Listeners implements Listener {
 			    }
 
 			    try {
-			        HPS.PM.newSpell(e.getPlayer(), HPS.SpellManager.setCurrentSpell(e.getPlayer(), neww).getName());
+			        HPS.PM.newSpell(e.getPlayer(), HPS.SpellManager.setCurrentSpellPosition(e.getPlayer(), neww).getName());
 			    } catch(IllegalArgumentException er) {
                     HPS.PM.tell(e.getPlayer(), HPS.Localisation.getTranslation("genKnowNoSpells"));
 			    } catch(NullPointerException er) {
@@ -101,7 +101,7 @@ public class Listeners implements Listener {
             }
 
             try {
-                HPS.PM.newSpell(e.getPlayer(), HPS.SpellManager.setCurrentSpell(e.getPlayer(), neww).getName());
+                HPS.PM.newSpell(e.getPlayer(), HPS.SpellManager.setCurrentSpellPosition(e.getPlayer(), neww).getName());
             } catch(IllegalArgumentException er) {
                 HPS.PM.tell(e.getPlayer(), HPS.Localisation.getTranslation("genKnowNoSpells"));
             } catch(NullPointerException er) {
