@@ -31,6 +31,9 @@ public class SpellSwitch extends HCommandExecutor{
 						return true;
 					} else {
 						HPS.SpellManager.setCurrentSpell(player, spell);
+						// Captializes the spell name before sending it to the player
+						spellName = spellName.substring(0, 1).toUpperCase() + spellName.substring(1);
+						HPS.PM.newSpell(player, spellName);
 						return true;
 					}
 				}
