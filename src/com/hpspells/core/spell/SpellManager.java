@@ -9,6 +9,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.logging.Level;
 
+import javax.annotation.Nullable;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -241,8 +243,8 @@ public class SpellManager {
 	/**
 	 * Gets if a cooldown is needed by a player for a certain spell.
 	 * 
-	 * @param playerName
-	 * @param spell
+	 * @param playerName The name of the player you're checking if needs a cooldown
+	 * @param spell The spell you're checking for
 	 * @return
 	 */
 	public boolean needsCooldown(String playerName, Spell spell) {
@@ -256,18 +258,25 @@ public class SpellManager {
 	}
 
 	/**
-	 * Sets the cooldown of a certain spell for a certain player
+	 * Sets the cooldown of a certain spell for a certain player for right now
 	 * 
-	 * @param playerName
-	 * @param spell
+	 * @param playerName name of the player you're setting a cooldown for
+	 * @param spell the spell you're setting the cooldown for
 	 * @param cooldown
 	 */
 	public void setCoolDown(String playerName, Spell spell) {
+		setCooldown(playerName, spell, null);
+	}
+	
+	public void setCooldown(String playerName, Spell spell, @Nullable Long timeInMilliseconds) {
+		if (timeInMilliseconds == null) {
+			timeInMilliseconds = 0L;
+		}
 		if (cooldowns.containsKey(playerName)) {
-			cooldowns.get(playerName).put(spell, System.currentTimeMillis());
+			cooldowns.get(playerName).put(spell, System.currentTimeMillis() + timeInMilliseconds);
 		} else {
 				cooldowns.put(playerName, new HashMap<Spell, Long>());
-				cooldowns.get(playerName).put(spell, System.currentTimeMillis());
+				cooldowns.get(playerName).put(spell, System.currentTimeMillis() + timeInMilliseconds);
 		}
 	}
 
