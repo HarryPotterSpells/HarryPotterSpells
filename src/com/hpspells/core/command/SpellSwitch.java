@@ -23,12 +23,16 @@ public class SpellSwitch extends HCommandExecutor{
 			} else {
 				String spellName = args[0].replace('_', ' ');
 				if (!HPS.SpellManager.isSpell(spellName)) {
-					HPS.PM.dependantMessagingWarn(sender, HPS.Localisation.getTranslation("genSpellNotRecognized"));
+					HPS.PM.dependantMessagingWarn(player, HPS.Localisation.getTranslation("genSpellNotRecognized"));
 				} else {
 					Spell spell = HPS.SpellManager.getSpell(spellName);
-					HPS.SpellManager.setCurrentSpell(player, spell);
-					HPS.PM.newSpell(player, spellName);
-					return true;
+					if (!spell.playerKnows(player)){
+						HPS.PM.warn(player, HPS.Localisation.getTranslation("cmdSpsPlayerDoesntKnow"));
+						return true;
+					} else {
+						HPS.SpellManager.setCurrentSpell(player, spell);
+						return true;
+					}
 				}
 			}
 		} else 
