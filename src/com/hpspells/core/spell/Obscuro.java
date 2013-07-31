@@ -31,6 +31,7 @@ public class Obscuro extends Spell {
 
     @Override
 	public boolean cast(final Player p) {
+    	final long time = getTime((String) getConfig("duration", null), 400l);
     	HPS.SpellTargeter.register(p, new SpellHitEvent() {
 
 			@Override
@@ -66,7 +67,7 @@ public class Obscuro extends Spell {
 					entity.setVelocity(new Vector(0,0,0));//stop them in their tracks
 					
 					// invert where they're looking (make them look in the opposite direction)
-					ObscuroRunnable runnable = new ObscuroRunnable(creature, (Integer) getConfig("spinTime", 100));
+					ObscuroRunnable runnable = new ObscuroRunnable(creature, time);
 					runnable.taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(HPS, runnable, 0l, 1l);
 					Location loc = entity.getLocation();
 					
@@ -88,9 +89,9 @@ public class Obscuro extends Spell {
     	int loops;
     	int currentLoop;
     	
-    	public ObscuroRunnable(Creature creature, int loops) {
+    	public ObscuroRunnable(Creature creature, long loops) {
     		this.creature = creature;
-    		this.loops = loops;
+    		this.loops = (int) loops;
     	}
     	
 		@Override
