@@ -27,6 +27,7 @@ public class SpellSwitch extends HCommandExecutor{
 				} else {
 					Spell spell = HPS.SpellManager.getSpell(spellName);
 					HPS.SpellManager.setCurrentSpell(player, spell);
+					HPS.PM.newSpell(player, spellName);
 					return true;
 				}
 			}
