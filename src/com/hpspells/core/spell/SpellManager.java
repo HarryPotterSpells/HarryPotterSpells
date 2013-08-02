@@ -262,12 +262,17 @@ public class SpellManager {
 	 * 
 	 * @param playerName name of the player you're setting a cooldown for
 	 * @param spell the spell you're setting the cooldown for
-	 * @param cooldown
 	 */
 	public void setCoolDown(String playerName, Spell spell) {
 		setCooldown(playerName, spell, null);
 	}
 	
+	/**
+	 * 
+	 * @param playerName The name of the player you're setting a cooldown for
+	 * @param spell The spell you're setting the cooldown for
+	 * @param timeInMilliseconds The amount of additional time you wish for the cooldown to last, can be negative.
+	 */
 	public void setCooldown(String playerName, Spell spell, @Nullable Long timeInMilliseconds) {
 		if (timeInMilliseconds == null) {
 			timeInMilliseconds = 0L;

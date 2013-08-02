@@ -4,9 +4,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+
+import com.hpspells.core.spell.SpellNotification;
 
 /**
  * PM stands for PluginMessenger. <br>
@@ -29,7 +32,26 @@ public class PM {
 		this.info = ChatColor.valueOf(HPS.getConfig().getString("messaging.info", "YELLOW"));
 		this.warning = ChatColor.valueOf(HPS.getConfig().getString("messaging.warning", "RED"));
 	}
-
+	
+	public void sendPlayerSpellNotification(Player player, SpellNotification spellNotification) {
+		Sound sound;
+		switch (spellNotification) {
+		case SPELL_FAILED:
+			sound = Sound.NOTE_BASS;
+			break;
+		case SPELL_MISSED:
+			sound = Sound.NOTE_BASS_DRUM;
+			break;
+		case SPELL_SUCCESS:
+			sound = Sound.NOTE_PLING;
+			break;
+		default:
+			sound = Sound.NOTE_BASS;
+			break;
+		}
+		player.playSound(player.getLocation(), sound, 1, 1);
+	}
+	
 	/**
 	 * Logs any amount of messages to the console
 	 * @param level the level to log the message at
