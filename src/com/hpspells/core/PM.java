@@ -6,8 +6,6 @@ import java.util.logging.Logger;
 import org.bukkit.ChatColor;
 import org.bukkit.Instrument;
 import org.bukkit.Note;
-import org.bukkit.Note.Tone;
-import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -36,7 +34,17 @@ public class PM {
 		this.warning = ChatColor.valueOf(HPS.getConfig().getString("messaging.warning", "RED"));
 	}
 	
+	/** CURRENTLY A DUMMY METHOD, SOMEONE NEEDS TO ENTER VALUES FOR THIS!
+	 * 
+	 * @param player The player to send the spell notification to
+	 * @param spellNotification The notification you want to give the player of the spells status
+	 * 
+	 * zachoooo: We need to get some programmer thats good at music to help decide/test what these should be.
+	 */
 	public void sendPlayerSpellNotification(Player player, SpellNotification spellNotification) {
+		if (player == null || spellNotification == null) {
+			return;
+		}
 		Note note = null;
 		switch (spellNotification) {
 		case SPELL_FAILED:
