@@ -4,6 +4,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Instrument;
+import org.bukkit.Note;
+import org.bukkit.Note.Tone;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -34,22 +37,18 @@ public class PM {
 	}
 	
 	public void sendPlayerSpellNotification(Player player, SpellNotification spellNotification) {
-		Sound sound;
+		Note note = null;
 		switch (spellNotification) {
 		case SPELL_FAILED:
-			sound = Sound.NOTE_BASS;
 			break;
 		case SPELL_MISSED:
-			sound = Sound.NOTE_BASS_DRUM;
 			break;
 		case SPELL_SUCCESS:
-			sound = Sound.NOTE_PLING;
 			break;
 		default:
-			sound = Sound.NOTE_BASS;
 			break;
 		}
-		player.playSound(player.getLocation(), sound, 1, 1);
+		player.playNote(player.getLocation(), Instrument.PIANO, note);
 	}
 	
 	/**
