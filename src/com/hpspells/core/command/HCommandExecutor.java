@@ -1,8 +1,7 @@
 package com.hpspells.core.command;
 
-import org.bukkit.command.CommandExecutor;
-
 import com.hpspells.core.HPS;
+import org.bukkit.command.CommandExecutor;
 
 /**
  * A custom {@link CommandExecutor} for use with commands in this plugin

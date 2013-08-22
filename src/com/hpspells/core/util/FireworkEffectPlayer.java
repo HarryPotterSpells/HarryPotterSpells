@@ -1,49 +1,50 @@
 package com.hpspells.core.util;
 
-import static com.hpspells.core.util.SVPBypass.getMethod;
-
-import java.lang.reflect.Method;
-
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
 
+import java.lang.reflect.Method;
+
+import static com.hpspells.core.util.SVPBypass.getMethod;
+
 /**
  * FireworkEffectPlayer v1.0
- * 
+ * <p/>
  * FireworkEffectPlayer provides a thread-safe and (reasonably) version independant way to instantly explode a FireworkEffect at a given location.
  * You are welcome to use, redistribute, modify and destroy your own copies of this source with the following conditions:
- * 
+ * <p/>
  * 1. No warranty is given or implied.
  * 2. All damage is your own responsibility.
  * 3. You provide credit publicly to the original source should you release the plugin.
- * 
+ *
  * @author codename_B
  */
 public class FireworkEffectPlayer {
-    
+
     /*
      * Example use:
-     * 
+     *
      * public class FireWorkPlugin implements Listener {
-     * 
+     *
      * FireworkEffectPlayer fplayer = new FireworkEffectPlayer();
-     * 
+     *
      * @EventHandler
      * public void onPlayerLogin(PlayerLoginEvent event) {
      *   fplayer.playFirework(event.getPlayer().getWorld(), event.getPlayer.getLocation(), Util.getRandomFireworkEffect());
      * }
-     * 
+     *
      * }
      */
-    
+
     // internal references, performance improvements
     private static Method world_getHandle = null, nms_world_broadcastEntityEffect = null, firework_getHandle = null;
-    
+
     /**
      * Play a pretty firework at the location with the FireworkEffect when called
+     *
      * @param world
      * @param loc
      * @param fe
@@ -58,7 +59,7 @@ public class FireworkEffectPlayer {
         /*
          * The reflection part, this gives us access to funky ways of messing around with things
          */
-        if(world_getHandle == null) {
+        if (world_getHandle == null) {
             // get the methods of the craftbukkit objects
             world_getHandle = getMethod(world.getClass(), "getHandle");
             firework_getHandle = getMethod(fw.getClass(), "getHandle");
@@ -67,7 +68,7 @@ public class FireworkEffectPlayer {
         nms_world = world_getHandle.invoke(world, (Object[]) null);
         nms_firework = firework_getHandle.invoke(fw, (Object[]) null);
         // null checks are fast, so having this seperate is ok
-        if(nms_world_broadcastEntityEffect == null) {
+        if (nms_world_broadcastEntityEffect == null) {
             // get the method of the nms_world
             nms_world_broadcastEntityEffect = getMethod(nms_world.getClass(), "broadcastEntityEffect");
         }
@@ -88,7 +89,7 @@ public class FireworkEffectPlayer {
          * Finally, we broadcast the entity effect then kill our fireworks object
          */
         // invoke with arguments
-        nms_world_broadcastEntityEffect.invoke(nms_world, new Object[] {nms_firework, (byte) 17});
+        nms_world_broadcastEntityEffect.invoke(nms_world, new Object[]{nms_firework, (byte) 17});
         // remove from the game
         fw.remove();
     }

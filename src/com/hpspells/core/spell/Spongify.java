@@ -1,8 +1,7 @@
 package com.hpspells.core.spell;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.hpspells.core.HPS;
+import com.hpspells.core.spell.Spell.SpellInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -12,54 +11,54 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
-import com.hpspells.core.HPS;
-import com.hpspells.core.spell.Spell.SpellInfo;
+import java.util.ArrayList;
+import java.util.List;
 
-@SpellInfo (
-		name="Spongify",
-		description="descSpongify",
-		range=0,
-		goThroughWalls=false,
-		cooldown=60,
-		icon=Material.SPONGE
+@SpellInfo(
+        name = "Spongify",
+        description = "descSpongify",
+        range = 0,
+        goThroughWalls = false,
+        cooldown = 60,
+        icon = Material.SPONGE
 )
 public class Spongify extends Spell implements Listener {
-	private List<String> players = new ArrayList<String>();
-	
-	public Spongify(HPS instance) {
-	    super(instance);
-	}
+    private List<String> players = new ArrayList<String>();
 
-	@Override
-	public boolean cast(final Player p) {
-		if(players.contains(p.getName()))
-			return false;
+    public Spongify(HPS instance) {
+        super(instance);
+    }
 
-		players.add(p.getName());
-		Location loc = new Location(p.getWorld(), p.getLocation().getBlockX(), p.getLocation().getBlockY() + 1, p.getLocation().getBlockZ());
-		p.getWorld().createExplosion(loc, 0F);
-		
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
-		    
-		    @Override
-		    public void run() {
-			    if(players.contains(p.getName())) {
-			 	   players.remove(p.getName());
-			    } 
-		    }
-			   
-		}, getTime("duration", 600l));
-		
-		return true;
-	}
-	
-	@EventHandler
-	public void onPlayerDamage(EntityDamageEvent e) {
-		if(e.getCause() == DamageCause.FALL && e.getEntity() instanceof Player) {
-			Player p = (Player)e.getEntity();
-			if(players.contains(p.getName()))
-				e.setDamage(0);			
-		}
-	}
+    @Override
+    public boolean cast(final Player p) {
+        if (players.contains(p.getName()))
+            return false;
+
+        players.add(p.getName());
+        Location loc = new Location(p.getWorld(), p.getLocation().getBlockX(), p.getLocation().getBlockY() + 1, p.getLocation().getBlockZ());
+        p.getWorld().createExplosion(loc, 0F);
+
+        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
+
+            @Override
+            public void run() {
+                if (players.contains(p.getName())) {
+                    players.remove(p.getName());
+                }
+            }
+
+        }, getTime("duration", 600l));
+
+        return true;
+    }
+
+    @EventHandler
+    public void onPlayerDamage(EntityDamageEvent e) {
+        if (e.getCause() == DamageCause.FALL && e.getEntity() instanceof Player) {
+            Player p = (Player) e.getEntity();
+            if (players.contains(p.getName()))
+                e.setDamage(0);
+        }
+    }
 
 }

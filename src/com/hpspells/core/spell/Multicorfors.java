@@ -1,7 +1,9 @@
 package com.hpspells.core.spell;
 
-import java.util.Random;
-
+import com.hpspells.core.HPS;
+import com.hpspells.core.SpellTargeter.SpellHitEvent;
+import com.hpspells.core.spell.Spell.SpellInfo;
+import com.hpspells.core.util.ParticleEffect;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -12,20 +14,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 import org.bukkit.material.Wool;
 
-import com.hpspells.core.HPS;
-import com.hpspells.core.SpellTargeter.SpellHitEvent;
-import com.hpspells.core.spell.Spell.SpellInfo;
-import com.hpspells.core.util.ParticleEffect;
+import java.util.Random;
 
-@SpellInfo (
-		name="Multicorfors",
-		description="descMulticorfors",
-		range=25,
-		goThroughWalls=false,
-		cooldown=30
+@SpellInfo(
+        name = "Multicorfors",
+        description = "descMulticorfors",
+        range = 25,
+        goThroughWalls = false,
+        cooldown = 30
 )
 public class Multicorfors extends Spell {
-    
+
     public Multicorfors(HPS instance) {
         super(instance);
     }
@@ -35,89 +34,106 @@ public class Multicorfors extends Spell {
 
             @Override
             public void hitBlock(Block block) { // Hit wool
-                if(block.getType() == Material.WOOL) {
+                if (block.getType() == Material.WOOL) {
                     final Wool wool = (Wool) block;
-                    
-                    if((Boolean) getConfig("explosionEffect", true))
+
+                    if ((Boolean) getConfig("explosionEffect", true))
                         block.getWorld().createExplosion(block.getLocation(), 0F);
-                    
+
                     Bukkit.getScheduler().runTask(HPS, new Runnable() {
 
                         @Override
                         public void run() {
-                            wool.setColor(randomDyeColor());                            
+                            wool.setColor(randomDyeColor());
                         }
-                        
+
                     });
                 }
             }
 
             @Override
             public void hitEntity(LivingEntity entity) { // Hit sheep
-                if(entity.getType() == EntityType.SHEEP) {
+                if (entity.getType() == EntityType.SHEEP) {
                     final Sheep sheep = (Sheep) entity;
-                    
-                    if((Boolean) getConfig("explosionEffect", true))
+
+                    if ((Boolean) getConfig("explosionEffect", true))
                         sheep.getWorld().createExplosion(sheep.getLocation(), 0F);
-                    
+
                     Bukkit.getScheduler().runTask(HPS, new Runnable() {
 
                         @Override
                         public void run() {
-                            sheep.setColor(randomDyeColor());                            
+                            sheep.setColor(randomDyeColor());
                         }
-                        
+
                     });
                 }
             }
-            
+
         }, 1.10d, ParticleEffect.RED_DUST);
 
         return true;
-	}
-	
-	private DyeColor randomDyeColor() {
-		DyeColor et;
-		int maxMobs = 16, minMobs = 1;
-		int randomNum = new Random().nextInt(maxMobs - minMobs + 1) + minMobs;
-		
-		switch(randomNum) {
-		case 1:	et = DyeColor.BLACK;
-				break;
-		case 2:	et = DyeColor.BLUE;
-				break;
-		case 3: et = DyeColor.BROWN;
-				break;
-		case 4:	et = DyeColor.CYAN;
-				break;
-		case 5:	et = DyeColor.GRAY;
-				break;
-		case 6:	et = DyeColor.GREEN;
-				break;
-		case 7: et = DyeColor.LIGHT_BLUE;
-				break;
-		case 8:	et = DyeColor.LIME;
-				break;
-		case 9:	et = DyeColor.MAGENTA;
-				break;
-	    case 10: et = DyeColor.ORANGE;
-				 break;
-		case 11: et = DyeColor.PINK;
-				 break;
-		case 12: et = DyeColor.PURPLE;
-				 break;
-		case 13: et = DyeColor.RED;
-				 break;
-		case 14: et = DyeColor.SILVER;
-				 break;
-		case 15: et = DyeColor.WHITE;
-				 break;
-		case 16: et = DyeColor.YELLOW;
-				 break;
-		default: et = DyeColor.WHITE;
-				 break;
-		}
-		return et;
-	}
+    }
+
+    private DyeColor randomDyeColor() {
+        DyeColor et;
+        int maxMobs = 16, minMobs = 1;
+        int randomNum = new Random().nextInt(maxMobs - minMobs + 1) + minMobs;
+
+        switch (randomNum) {
+            case 1:
+                et = DyeColor.BLACK;
+                break;
+            case 2:
+                et = DyeColor.BLUE;
+                break;
+            case 3:
+                et = DyeColor.BROWN;
+                break;
+            case 4:
+                et = DyeColor.CYAN;
+                break;
+            case 5:
+                et = DyeColor.GRAY;
+                break;
+            case 6:
+                et = DyeColor.GREEN;
+                break;
+            case 7:
+                et = DyeColor.LIGHT_BLUE;
+                break;
+            case 8:
+                et = DyeColor.LIME;
+                break;
+            case 9:
+                et = DyeColor.MAGENTA;
+                break;
+            case 10:
+                et = DyeColor.ORANGE;
+                break;
+            case 11:
+                et = DyeColor.PINK;
+                break;
+            case 12:
+                et = DyeColor.PURPLE;
+                break;
+            case 13:
+                et = DyeColor.RED;
+                break;
+            case 14:
+                et = DyeColor.SILVER;
+                break;
+            case 15:
+                et = DyeColor.WHITE;
+                break;
+            case 16:
+                et = DyeColor.YELLOW;
+                break;
+            default:
+                et = DyeColor.WHITE;
+                break;
+        }
+        return et;
+    }
 
 }

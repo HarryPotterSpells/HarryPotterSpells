@@ -1,14 +1,13 @@
 package com.hpspells.core.configuration;
 
+import com.hpspells.core.HPS;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
-
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-
-import com.hpspells.core.HPS;
 
 /**
  * Represents a custom configuration file in YAML format
@@ -20,8 +19,9 @@ public class CustomConfiguration {
 
     /**
      * Constructs a new {@link CustomConfiguration} without copying any defaults
+     *
      * @param instance an instance of {@link HPS}
-     * @param file where to store the custom configuration
+     * @param file     where to store the custom configuration
      */
     public CustomConfiguration(HPS instance, File file) {
         this(instance, file, null);
@@ -29,9 +29,10 @@ public class CustomConfiguration {
 
     /**
      * Constructs a new {@link CustomConfiguration}, copying defaults from an {@link InputStream}
+     *
      * @param instance an instance of {@link HPS}
-     * @param file where to store the custom configuration
-     * @param stream an input stream to copy default configuration from
+     * @param file     where to store the custom configuration
+     * @param stream   an input stream to copy default configuration from
      */
     public CustomConfiguration(HPS instance, File file, InputStream stream) {
         this.HPS = instance;
@@ -46,6 +47,7 @@ public class CustomConfiguration {
 
     /**
      * Gets the custom configuration file
+     *
      * @return the {@link FileConfiguration} represented by this class
      */
     public FileConfiguration get() {

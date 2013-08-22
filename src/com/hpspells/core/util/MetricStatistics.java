@@ -1,13 +1,12 @@
 package com.hpspells.core.util;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.hpspells.core.api.event.SpellPostCastEvent;
+import com.hpspells.core.spell.Spell;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import com.hpspells.core.spell.Spell;
-import com.hpspells.core.api.event.SpellPostCastEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MetricStatistics implements Listener {
     private static int spellsCast = 0, successes = 0, failures = 0;
@@ -33,7 +32,7 @@ public class MetricStatistics implements Listener {
     public void postSpellCast(SpellPostCastEvent e) {
         spellsCast++;
         typesOfSpellCast.put(e.getSpell().getName(), typesOfSpellCast.get(e.getSpell().getName()) == null ? 1 : typesOfSpellCast.get(e.getSpell().getName()) + 1);
-        if(e.wasSuccessful())
+        if (e.wasSuccessful())
             successes++;
         else
             failures++;

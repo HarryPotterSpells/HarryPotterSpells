@@ -1,8 +1,8 @@
 package com.hpspells.core.api;
 
-import java.util.Random;
-import java.util.logging.Level;
-
+import com.hpspells.core.HPS;
+import com.hpspells.core.spell.Spell;
+import com.hpspells.core.util.MiscUtilities;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -10,9 +10,8 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.BookMeta;
 
-import com.hpspells.core.HPS;
-import com.hpspells.core.spell.Spell;
-import com.hpspells.core.util.MiscUtilities;
+import java.util.Random;
+import java.util.logging.Level;
 
 /**
  * Represents the recipe for a spell book.<br>
@@ -26,8 +25,9 @@ public class SpellBookRecipe implements Recipe {
 
     /**
      * Constructs a new {@link SpellBookRecipe}
+     *
      * @param spell the {@link Spell} that this recipe will create a book for
-     * @param if {@code true} the recipe will be shapeless
+     * @param if    {@code true} the recipe will be shapeless
      */
     public SpellBookRecipe(HPS instance, Spell spell) {
         this.HPS = instance;
@@ -73,6 +73,7 @@ public class SpellBookRecipe implements Recipe {
 
     /**
      * Gets a random spell author from {@link SpellBookRecipe#RANDOM_AUTHORS}
+     *
      * @return a random spell author
      */
     public static String getRandomAuthor() {

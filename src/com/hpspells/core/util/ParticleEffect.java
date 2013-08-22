@@ -1,21 +1,21 @@
 package com.hpspells.core.util;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
- 
 /**
  * A utility class designed to send particle effects not available in the Bukkit API. <br>
  * This enum has been modified and optimised from the class found <a href="http://forums.bukkit.org/threads/particle-packet-library.138493/">here</a>.
  */
 public enum ParticleEffect {
- 
+
     HUGE_EXPLOSION("hugeexplosion", 0),
     LARGE_EXPLODE("largeexplode", 1),
     FIREWORKS_SPARK("fireworksSpark", 2),
@@ -51,34 +51,36 @@ public enum ParticleEffect {
     HAPPY_VILLAGER("happyVillager", 32),
     ICONCRACK("iconcrack", 33),
     TILECRACK("tilecrack", 34);
- 
+
     private String name;
     private int id;
- 
+
     ParticleEffect(String name, int id) {
         this.name = name;
         this.id = id;
     }
- 
+
     public String getName() {
         return name;
     }
- 
+
     public int getId() {
         return id;
     }
- 
+
     private static final Map<String, ParticleEffect> NAME_MAP = new HashMap<String, ParticleEffect>();
     private static final Map<Integer, ParticleEffect> ID_MAP = new HashMap<Integer, ParticleEffect>();
+
     static {
         for (ParticleEffect effect : values()) {
             NAME_MAP.put(effect.name, effect);
             ID_MAP.put(effect.id, effect);
         }
     }
- 
+
     /**
      * Gets a {@link ParticleEffect} by it's name
+     *
      * @param name the name
      * @return the particle effect or {@code null} if not found
      */
@@ -91,16 +93,17 @@ public enum ParticleEffect {
         }
         return null;
     }
- 
+
     /**
      * Gets a {@link ParticleEffect} by it's id
+     *
      * @param id the id
      * @return the particle effect or {@code null} if not found
      */
     public static ParticleEffect fromId(int id) {
         return ID_MAP.get(id);
     }
- 
+
     /**
      * Sends a particle effect to a player
      */
@@ -108,7 +111,7 @@ public enum ParticleEffect {
         Object packet = createPacket(effect, location, offsetX, offsetY, offsetZ, speed, count);
         sendPacket(player, packet);
     }
- 
+
     /**
      * Sends a particle effect to a location
      */
@@ -117,7 +120,7 @@ public enum ParticleEffect {
         for (Player player : Bukkit.getOnlinePlayers())
             sendPacket(player, packet);
     }
- 
+
     /**
      * Sends a crack effect to a player
      */
@@ -125,7 +128,7 @@ public enum ParticleEffect {
         Object packet = createCrackPacket(icon, id, data, location, offsetX, offsetY, offsetZ, count);
         sendPacket(player, packet);
     }
- 
+
     /**
      * Sends a crack effect to a location
      */
@@ -134,11 +137,11 @@ public enum ParticleEffect {
         for (Player player : Bukkit.getOnlinePlayers())
             sendPacket(player, packet);
     }
- 
+
     /*
      * START PRIVATE UTILITIES
      */
-    
+
     private static Object createPacket(ParticleEffect effect, Location location, float offsetX, float offsetY, float offsetZ, float speed, int count) throws Exception {
         if (count <= 0)
             count = 1;
@@ -154,13 +157,13 @@ public enum ParticleEffect {
         SVPBypass.setValue(packet, "i", count);
         return packet;
     }
- 
+
     private static Object createCrackPacket(boolean icon, int id, byte data, Location location, float offsetX, float offsetY, float offsetZ, int count) throws Exception {
         if (count <= 0)
             count = 1;
         Object packet = SVPBypass.getCurrentNMSClass("Packet63WorldParticles").newInstance();
         String modifier = "iconcrack_" + id;
-        if (!icon) 
+        if (!icon)
             modifier = "tilecrack_" + id + "_" + data;
         SVPBypass.setValue(packet, "a", modifier);
         SVPBypass.setValue(packet, "b", (float) location.getX());
@@ -173,12 +176,12 @@ public enum ParticleEffect {
         SVPBypass.setValue(packet, "i", count);
         return packet;
     }
- 
+
     private static Object getEntityPlayer(Player p) throws Exception {
         Method getHandle = p.getClass().getMethod("getHandle");
         return getHandle.invoke(p);
     }
- 
+
     private static void sendPacket(Player p, Object packet) throws Exception {
         Object eplayer = getEntityPlayer(p);
         Field playerConnectionField = eplayer.getClass().getField("playerConnection");
@@ -190,5 +193,5 @@ public enum ParticleEffect {
             }
         }
     }
-    
+
 }

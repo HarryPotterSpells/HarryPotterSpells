@@ -1,10 +1,10 @@
 package com.hpspells.core.configuration;
 
+import com.hpspells.core.HPS;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.hpspells.core.HPS;
 
 /**
  * Manages all custom configuration files within the plugin
@@ -15,6 +15,7 @@ public class ConfigurationManager {
 
     /**
      * Constructs a new {@link ConfigurationManager}
+     *
      * @param instance an instance of {@link HPS}
      */
     public ConfigurationManager(HPS instance) {
@@ -24,6 +25,7 @@ public class ConfigurationManager {
 
     /**
      * Gets a {@link CustomConfiguration} that represents the given {@link Type} of configuration
+     *
      * @param type what configuration file you want to retrieve
      * @return the configuration file
      */

@@ -1,10 +1,9 @@
 package com.hpspells.core.api.event;
 
+import com.hpspells.core.api.SpellBookRecipe;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-
-import com.hpspells.core.api.SpellBookRecipe;
 
 /**
  * An event called just before a {@link SpellBookRecipe} is added to the server
@@ -21,6 +20,7 @@ public class SpellBookRecipeAddEvent extends Event implements Cancellable {
 
     /**
      * Gets the HandlerList for this event
+     *
      * @return the handler list
      */
     @Override
@@ -30,6 +30,7 @@ public class SpellBookRecipeAddEvent extends Event implements Cancellable {
 
     /**
      * Gets the cancellation status of this spell
+     *
      * @return {@code true} if the spell has been cancelled
      */
     @Override
@@ -39,6 +40,7 @@ public class SpellBookRecipeAddEvent extends Event implements Cancellable {
 
     /**
      * Sets the cancellation status of this spell
+     *
      * @param cancel
      */
     @Override
@@ -48,6 +50,7 @@ public class SpellBookRecipeAddEvent extends Event implements Cancellable {
 
     /**
      * Gets the recipe associated with this event
+     *
      * @return the recipe
      */
     public SpellBookRecipe getRecipe() {
@@ -56,6 +59,7 @@ public class SpellBookRecipeAddEvent extends Event implements Cancellable {
 
     /**
      * Sets the recipe associated with this event
+     *
      * @param recipe
      */
     public void setRecipe(SpellBookRecipe recipe) {
