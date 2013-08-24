@@ -4,7 +4,9 @@ import com.google.common.collect.Lists;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -84,6 +86,29 @@ public class ReflectionsReplacement {
             }
         }
         return returnMe;
+    }
+
+    /**
+     * Adds a file to a classpath
+     *
+     * @param classPath the classpath
+     * @param file the file
+     * @throws Exception if an error occurred while adding the class to the classpath
+     */
+    public static void addFileToClasspath(ClassLoader classPath, File file) throws Exception {
+        Method method = URLClassLoader.class.getDeclaredMethod("addURL", new Class[]{URL.class});
+        method.setAccessible(true);
+        method.invoke(classPath, new Object[]{file.toURI().toURL()});
+    }
+
+    /**
+     * Adds a file to the system's classpath
+     *
+     * @param file the file
+     * @throws Exception if an error occurred while adding the class to the classpath
+     */
+    public static void addFileToClasspath(File file) throws Exception {
+        addFileToClasspath(ClassLoader.getSystemClassLoader(), file);
     }
 
 }

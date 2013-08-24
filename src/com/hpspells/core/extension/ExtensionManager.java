@@ -5,10 +5,10 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.IOException;
 import java.util.Comparator;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -19,7 +19,7 @@ import java.util.zip.ZipFile;
 public class ExtensionManager {
     private HPS HPS;
     private final File extensionFolder;
-    private final Set<Extension> extensions = new TreeSet<Extension>(new Comparator<Extension>() {
+    private final SortedMap<Extension, Extension.State> extensions = new TreeMap(new Comparator<Extension>() {
 
         @Override
         public int compare(Extension o1, Extension o2) {
@@ -63,21 +63,54 @@ public class ExtensionManager {
                     continue;
                 }
 
-                extensions.add(Extension.create(file, YamlConfiguration.loadConfiguration(zip.getInputStream(description))));
+                extensions.put(Extension.create(HPS, file, YamlConfiguration.loadConfiguration(zip.getInputStream(description))), Extension.State.LOADED);
                 zip.close();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errExtensionLoading", file.getName()));
                 HPS.PM.debug(e);
             }
         }
     }
 
-    public void enableExtensions() {
-
+    /**
+     * Gets the folder for storing {@link Extension}s
+     * @return the folder
+     */
+    public File getExtensionFolder() {
+        return extensionFolder;
     }
 
-    public void disableExtensions() {
+    /**
+     * Enables all {@link Extension}s with the {@link Extension.State#LOADED} state
+     */
+    public void enableExtensions() {
+        for(Map.Entry<Extension, Extension.State> entry : extensions.entrySet()) {
+            if(entry.getValue() == Extension.State.LOADED) {
+                entry.getKey().onEnable();
+                extensions.put(entry.getKey(), Extension.State.ENABLED);
+            }
+        }
+    }
 
+    /**
+     * Disables all {@link Extension}s with the {@link Extension.State#ENABLED} state
+     */
+    public void disableExtensions() {
+        for(Map.Entry<Extension, Extension.State> entry : extensions.entrySet()) {
+            if(entry.getValue() == Extension.State.ENABLED) {
+                entry.getKey().onDisable();
+                extensions.put(entry.getKey(), Extension.State.DISABLED);
+            }
+        }
+    }
+
+    /**
+     * Gets the {@link Extension.State} of an {@link Extension}
+     * @param extension the extension
+     * @return the extension's state
+     */
+    public Extension.State getState(Extension extension) {
+        return extensions.get(extension);
     }
 
 }
