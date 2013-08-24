@@ -52,6 +52,7 @@ public class HPS extends JavaPlugin {
     public Wand Wand;
     public SpellTargeter SpellTargeter;
     public Localisation Localisation;
+    public ExtensionManager ExtensionManager;
 
     private static CommandMap commandMap;
     private static Collection<HelpTopic> helpTopics = new ArrayList<HelpTopic>();
@@ -72,6 +73,7 @@ public class HPS extends JavaPlugin {
         	SpellTargeter = new SpellTargeter(this);
             SpellManager = new SpellManager(this);
             Wand = new Wand(this);
+            ExtensionManager = new ExtensionManager(this);
             
             // Configuration
             ConfigurationManager.loadConfig();
@@ -249,6 +251,12 @@ public class HPS extends JavaPlugin {
             }
 
             PM.debug(Localisation.getTranslation("dbgCraftingEnd"));
+
+            // Extension manager setup
+            PM.debug(Localisation.getTranslation("dbgExtensionStart"));
+            ExtensionManager.reloadExtensions();
+            ExtensionManager.enableExtensions();
+            PM.debug(Localisation.getTranslation("dbgExtensionStop"));
 
             PM.log(Level.INFO, Localisation.getTranslation("genPluginEnabled"));
         }
