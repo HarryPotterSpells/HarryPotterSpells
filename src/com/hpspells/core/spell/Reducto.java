@@ -14,7 +14,9 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SpellInfo(
         name = "Reducto",
@@ -35,7 +37,10 @@ public class Reducto extends Spell {
             @Override
             public void hitBlock(Block block) {
                 if (block.getType() != Material.AIR) {
-                    final List<Block> blocks = createExplosion(block.getLocation(), 4);
+                    final List<DestroyedBlockData> blocks = new ArrayList<DestroyedBlockData>();
+                    for (Block block1 : createExplosion(block.getLocation(), 4)) {
+                        blocks.add(new DestroyedBlockData(block1));
+                    }
                     long replaceAfter = getTime("replace-blocks", 100);
                     if (replaceAfter < 0) {
                         return;
@@ -43,9 +48,8 @@ public class Reducto extends Spell {
                     Bukkit.getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
                         @Override
                         public void run() {
-                            for (Block block1 : blocks) {
-                                Block block2 = block1.getLocation().getBlock();
-                                block2.setTypeIdAndData(block1.getTypeId(), block1.getData(), true);
+                            for (DestroyedBlockData destroyedBlockData : blocks) {
+                                destroyedBlockData.getBlock().setTypeIdAndData(destroyedBlockData.getMaterial().getId(), destroyedBlockData.getData(), false);
                             }
                         }
                     }, replaceAfter);
@@ -68,6 +72,30 @@ public class Reducto extends Spell {
         Explosion explosion = world.createExplosion(null, location.getX(), location.getY(), location.getZ(), radius, false, false);
         return explosion.blocks;
 
+    }
+
+    private class DestroyedBlockData {
+        private Material material;
+        private Block block;
+        private byte data;
+
+        private DestroyedBlockData(Block block) {
+            this.block = block;
+            this.material = block.getType();
+            this.data = block.getData();
+        }
+
+        public Material getMaterial() {
+            return material;
+        }
+
+        public Block getBlock() {
+            return block;
+        }
+
+        public byte getData() {
+            return data;
+        }
     }
 
 }
