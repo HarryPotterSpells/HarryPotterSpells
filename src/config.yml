@@ -92,6 +92,8 @@ spells:
     duration: 400t  # How long the target should be blinded for
   petrificus-totalus:
     duration: 100t  # How long the target should be petrified (frozen) for
+  reducto:
+    replace-blocks: 100t # After how long should the blocks be replaced
   refiling-charm:
     bucket: water # Wether the spell fills the bucket with water or milk
   silencio:
