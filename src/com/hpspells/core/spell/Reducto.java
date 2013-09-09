@@ -4,12 +4,14 @@ import com.hpspells.core.HPS;
 import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
 import com.hpspells.core.util.ParticleEffect;
+import net.minecraft.server.v1_6_R1.Entity;
 import net.minecraft.server.v1_6_R1.Explosion;
 import net.minecraft.server.v1_6_R1.World;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_6_R1.CraftWorld;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -67,13 +69,23 @@ public class Reducto extends Spell {
         return true;
     }
 
+    /**
+     * Special explosion creation method to get around limitations of the Bukkit API
+     *
+     * @param location The location of the explosion
+     * @param radius The radius of the explosion
+     * @return A list of blocks affected by the explosion
+     */
     public static List<Block> createExplosion(Location location, float radius) {
-        World world = (World) location.getWorld();
-        Explosion explosion = world.createExplosion(null, location.getX(), location.getY(), location.getZ(), radius, false, false);
+        World world = ((CraftWorld) location.getWorld()).getHandle();
+        Explosion explosion = world.explode(null, location.getX(), location.getY(), location.getZ(), radius, false);
         return explosion.blocks;
 
     }
 
+    /**
+     * Basic private class to make storing and retrieving destroyed block data easier
+     */
     private class DestroyedBlockData {
         private Material material;
         private Block block;
