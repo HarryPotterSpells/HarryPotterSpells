@@ -4,21 +4,17 @@ import com.hpspells.core.HPS;
 import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
 import com.hpspells.core.util.ParticleEffect;
-import net.minecraft.server.v1_6_R1.Entity;
-import net.minecraft.server.v1_6_R1.Explosion;
-import net.minecraft.server.v1_6_R1.World;
+import com.hpspells.core.util.SVPBypass;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_6_R1.CraftWorld;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @SpellInfo(
         name = "Reducto",
@@ -40,8 +36,13 @@ public class Reducto extends Spell {
             public void hitBlock(Block block) {
                 if (block.getType() != Material.AIR) {
                     final List<DestroyedBlockData> blocks = new ArrayList<DestroyedBlockData>();
-                    for (Block block1 : createExplosion(block.getLocation(), 4)) {
-                        blocks.add(new DestroyedBlockData(block1));
+                    try {
+                        for (Block block1 : createExplosion(block.getLocation(), 4)) {
+                            blocks.add(new DestroyedBlockData(block1));
+                        }
+                    } catch (Exception e) {
+                        // TODO catch this please!
+                        return;
                     }
                     long replaceAfter = getTime("replace-blocks", 100);
                     if (replaceAfter < 0) {
@@ -76,10 +77,14 @@ public class Reducto extends Spell {
      * @param radius The radius of the explosion
      * @return A list of blocks affected by the explosion
      */
-    public static List<Block> createExplosion(Location location, float radius) {
-        World world = ((CraftWorld) location.getWorld()).getHandle();
-        Explosion explosion = world.explode(null, location.getX(), location.getY(), location.getZ(), radius, false);
-        return explosion.blocks;
+    public static List<Block> createExplosion(Location location, float radius) throws Exception {
+        Class<?> craftWorld = SVPBypass.getCurrentCBClass("CraftWorld");
+        Method craftWorldExplosion = SVPBypass.getMethod(craftWorld, "explode");
+
+        Object craftWorldObj = SVPBypass.getCurrentCBClass("CraftWorld").cast(location.getWorld());
+        Object explosion = craftWorldExplosion.invoke(craftWorldObj, null, location.getX(), location.getY(), location.getZ(), radius, false);
+
+        return (List<Block>) SVPBypass.getValue(explosion, "blocks");
 
     }
 
