@@ -1,4 +1,4 @@
 name: HarryPotterSpells
 main: com.hpspells.core.HPS
 prefix: "HPS"
-version: ALPHA 0.6
+version: ALPHA 0.7-SNAPSHOT
