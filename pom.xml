@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>HarryPotterSpells</groupId>
     <artifactId>HarryPotterSpells</artifactId>
-    <version>A_0.6-SNAPSHOT</version>
+    <version>A_0.6</version>
     <name>HarryPotterSpells</name>
 
     <properties>
