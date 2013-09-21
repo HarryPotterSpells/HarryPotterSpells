@@ -1,9 +1,12 @@
 package com.hpspells.core;
 
 import com.hpspells.core.util.MiscUtilities;
+import com.hpspells.core.util.nbt.*;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -15,6 +18,8 @@ public class Wand {
 
     public static final String[] WOOD_TYPES = new String[]{"Elder", "Walnut", "Blackthorn", "Ash", "Hawthorn", "Rose", "Hornbeam", "Holly", "Vine", "Mahogany", "Willow", "Elm", "Oak", "Fir", "Cherry", "Chestnut", "Alder", "Yew"};
     public static final String[] CORES = new String[]{"Thestral tail hair", "Dragon heartstring", "Troll whisker", "Unicorn hair", "Veela hair", "Phoenix feather"};
+
+    private static final String TAG_NAME = "HPS-WAND";
 
     /**
      * Constructs a new {@link Wand}
@@ -32,22 +37,19 @@ public class Wand {
      * @return {@code true} if the ItemStack is useable as a wand
      */
     public boolean isWand(ItemStack i) {
-        if (i.getTypeId() != ((Integer) getConfig("id", 280))) // Item id check
-            return false;
-
-        if (((Boolean) getConfig("lore.enabled", true)) && !i.getItemMeta().getDisplayName().equals((String) getConfig("lore.name", "Wand"))) // Lore name check
-            return false;
-
-        return true;
+        return new NBTContainerItem(i).getTag(TAG_NAME) != null;
     }
 
     /**
      * Gets the wand
      *
+     * @param owner a {@link Nullable} parameter that specifies the owner of the wand
+     *
      * @return an {@link ItemStack} that has been specified as a wand in the config
      */
-    public ItemStack getWand() {
+    public ItemStack getWand(@Nullable Player owner) {
         ItemStack wand = new ItemStack((Integer) getConfig("id", 280));
+        NBTTagCompound comp = new NBTTagCompound(TAG_NAME);
 
         if ((Boolean) getConfig("lore.enabled", true)) {
             ItemMeta meta = wand.getItemMeta();
@@ -59,32 +61,26 @@ public class Wand {
             wand.setItemMeta(meta);
         }
 
-        if ((Boolean) getConfig("enchantment-effect", true))
+        if ((Boolean) getConfig("enchantment-effect", true)) {
             try {
                 wand = MiscUtilities.makeGlow(wand);
             } catch (Exception e) {
                 HPS.PM.debug(HPS.Localisation.getTranslation("errEnchantmentEffect"));
                 HPS.PM.debug(e);
             }
+        }
 
+        if(owner != null) {
+            NBTTagString tag = new NBTTagString();
+            tag.setName("Owner");
+            tag.set(owner.getName());
+
+            comp.set("Owner", tag);
+        }
+
+        NBTContainerItem item = new NBTContainerItem(wand);
+        item.setTag(comp);
         return wand;
-    }
-
-    /**
-     * Checks if a given {@link ItemStack} is the same as {@link Wand#getLorelessWand()}. <br>
-     * At the moment this is the same as {@link Wand#isWand(ItemStack)} only because Lore checks have not been implemented yet.
-     *
-     * @param i the itemstack
-     * @return {@code true} if the ItemStack is the same as a loreless wand
-     */
-    public boolean isLorelessWand(ItemStack i) {
-        if (i.getTypeId() != ((Integer) getConfig("id", 280))) // Item id check
-            return false;
-
-        if (((Boolean) getConfig("lore.enabled", true)) && !i.getItemMeta().getDisplayName().equals((String) getConfig("lore.name", "Wand"))) // Lore name check
-            return false;
-
-        return true;
     }
 
     /**
@@ -111,6 +107,31 @@ public class Wand {
             }
 
         return wand;
+    }
+
+    /**
+     * Gets the owner of a wand
+     *
+     * @param itemStack the wand
+     *
+     * @return the owners name or {@code null} if not found
+     */
+    public String getWandOwner(ItemStack itemStack) {
+        NBTContainerItem nbt = new NBTContainerItem(itemStack);
+        NBTBase base = nbt.getTag(TAG_NAME);
+
+        if(base == null) {
+            return null;
+        }
+
+        if(base instanceof NBTTagCompound) {
+            NBTTagCompound compound =(NBTTagCompound) base;
+            if(compound.getString("Owner") != null) {
+                return compound.getString("Owner");
+            }
+        }
+
+        return null;
     }
 
     private Object getConfig(String string, Object defaultt) {
