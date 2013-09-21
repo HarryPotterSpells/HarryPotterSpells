@@ -95,4 +95,55 @@ public class SVPBypass {
         return null;
     }
 
+    /**
+     * Gets a method by type types
+     *
+     * @param clazz the class
+     * @param type the type
+     * @param paramTypes any param types
+     *
+     * @return the method
+     */
+    public static Method getMethodByTypeTypes(Class clazz, Class type, Class... paramTypes) {
+        w1: for(Method m:clazz.getDeclaredMethods()){
+            if(!m.getReturnType().equals(type)) continue;
+            if(m.getParameterTypes().length!=paramTypes.length) continue;
+            for(int i=0;i<paramTypes.length;i++) {
+                if (!m.getParameterTypes()[i].equals(paramTypes[i])) {
+                    continue w1;
+                }
+            }
+            return m;
+        }
+        w1: for(Method m:clazz.getMethods()){
+            if(!m.getReturnType().equals(type)) continue;
+            if(m.getParameterTypes().length!=paramTypes.length) continue;
+            for(int i=0;i<paramTypes.length;i++) {
+                if (!m.getParameterTypes()[i].equals(paramTypes[i])) {
+                    continue w1;
+                }
+            }
+            return m;
+        }
+        return null;
+    }
+
+    /**
+     * Gets a field by the type
+     *
+     * @param clazz the class
+     * @param type the type
+     *
+     * @return the field
+     */
+    public static Field getFieldByType(Class clazz,Class type) {
+        for(Field f:clazz.getDeclaredFields()){
+            if (f.getType().equals(type)) return f;
+        }
+        for(Field f:clazz.getFields()){
+            if (f.getType().equals(type)) return f;
+        }
+        return null;
+    }
+
 }
