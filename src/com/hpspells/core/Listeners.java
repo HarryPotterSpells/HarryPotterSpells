@@ -130,8 +130,8 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onPlayerCraft(CraftItemEvent e) {
-        if (HPS.Wand.isLorelessWand(e.getRecipe().getResult())) {
-            e.setCurrentItem(HPS.Wand.getWand());
+        if (HPS.Wand.isWand(e.getRecipe().getResult())) {
+            e.setCurrentItem(HPS.Wand.getWand((Player) e.getWhoClicked()));
             final Player p = (Player) e.getWhoClicked();
             Bukkit.getScheduler().runTask(HPS, new Runnable() {
 
