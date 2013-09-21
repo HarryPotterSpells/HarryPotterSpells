@@ -16,7 +16,7 @@ public class Wand extends HCommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            player.getInventory().setItem(player.getInventory().firstEmpty(), HPS.Wand.getWand());
+            player.getInventory().setItem(player.getInventory().firstEmpty(), HPS.Wand.getWand(player));
             HPS.PM.tell(player, HPS.Localisation.getTranslation("cmdWanGiven"));
             if (HPS.getConfig().getBoolean("wand-give.explosion-effect")) {
                 player.getWorld().createExplosion(player.getLocation(), 0, false);
