@@ -37,7 +37,14 @@ public class Wand {
      * @return {@code true} if the ItemStack is useable as a wand
      */
     public boolean isWand(ItemStack i) {
-        return new NBTContainerItem(i).getTag(TAG_NAME) != null;
+    	 if (i.getTypeId() != ((Integer) getConfig("id", 280))) // Item id check
+             return false;
+
+         if (((Boolean) getConfig("lore.enabled", true)) && !i.getItemMeta().getDisplayName().equals((String) getConfig("lore.name", "Wand"))) // Lore name check
+             return false;
+
+         return true;
+        //return new NBTContainerItem(i).getTag(TAG_NAME) != null;
     }
 
     /**
