@@ -49,7 +49,7 @@ public class Wand {
      */
     public ItemStack getWand(@Nullable Player owner) {
         ItemStack wand = new ItemStack((Integer) getConfig("id", 280));
-        NBTTagCompound comp = new NBTTagCompound(TAG_NAME);
+        //NBTTagCompound comp = new NBTTagCompound(TAG_NAME);
 
         if ((Boolean) getConfig("lore.enabled", true)) {
             ItemMeta meta = wand.getItemMeta();
@@ -70,7 +70,7 @@ public class Wand {
             }
         }
 
-        if(owner != null) {
+        /*if(owner != null) {
             NBTTagString tag = new NBTTagString();
             tag.setName("Owner");
             tag.set(owner.getName());
@@ -79,7 +79,7 @@ public class Wand {
         }
 
         NBTContainerItem item = new NBTContainerItem(wand);
-        item.setTag(comp);
+        item.setTag(comp);*/
         return wand;
     }
 
