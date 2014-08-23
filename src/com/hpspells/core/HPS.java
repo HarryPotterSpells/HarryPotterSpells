@@ -1,19 +1,19 @@
 package com.hpspells.core;
 
-import com.hpspells.core.Metrics.Graph;
-import com.hpspells.core.Metrics.Plotter;
-import com.hpspells.core.api.event.SpellBookRecipeAddEvent;
-import com.hpspells.core.command.CommandInfo;
-import com.hpspells.core.command.HCommandExecutor;
-import com.hpspells.core.configuration.ConfigurationManager;
-import com.hpspells.core.configuration.ConfigurationManager.ConfigurationType;
-import com.hpspells.core.configuration.PlayerSpellConfig;
-import com.hpspells.core.spell.Spell;
-import com.hpspells.core.spell.SpellManager;
-import com.hpspells.core.spell.interfaces.Craftable;
-import com.hpspells.core.util.MetricStatistics;
-import com.hpspells.core.util.ReflectionsReplacement;
-import com.hpspells.core.util.SVPBypass;
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.logging.Level;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -30,12 +30,21 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.logging.Level;
+import com.hpspells.core.Metrics.Graph;
+import com.hpspells.core.Metrics.Plotter;
+import com.hpspells.core.api.event.SpellBookRecipeAddEvent;
+import com.hpspells.core.command.CommandInfo;
+import com.hpspells.core.command.HCommandExecutor;
+import com.hpspells.core.configuration.ConfigurationManager;
+import com.hpspells.core.configuration.ConfigurationManager.ConfigurationType;
+import com.hpspells.core.configuration.CustomConfiguration;
+import com.hpspells.core.configuration.PlayerSpellConfig;
+import com.hpspells.core.spell.Spell;
+import com.hpspells.core.spell.SpellManager;
+import com.hpspells.core.spell.interfaces.Craftable;
+import com.hpspells.core.util.MetricStatistics;
+import com.hpspells.core.util.ReflectionsReplacement;
+import com.hpspells.core.util.SVPBypass;
 
 public class HPS extends JavaPlugin {
     public ConfigurationManager ConfigurationManager;
@@ -61,7 +70,7 @@ public class HPS extends JavaPlugin {
         // Configuration
         loadConfig();
 
-        PlayerSpellConfig PSC = (PlayerSpellConfig) ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
+        PlayerSpellConfig PSC = (PlayerSpellConfig) ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
         Double version = PSC.get().getDouble("VERSION_DO_NOT_EDIT", -1d) == -1d ? null : PSC.get().getDouble("VERSION_DO_NOT_EDIT", -1d);
 
         if (version == null || version < PlayerSpellConfig.CURRENT_VERSION) {
@@ -247,13 +256,19 @@ public class HPS extends JavaPlugin {
     public void loadConfig() {
         File file = new File(this.getDataFolder(), "config.yml");
         if (!file.exists()) {
-            getConfig().options().copyDefaults(true);
             saveDefaultConfig();
+        } else {
+        	getConfig().options().copyDefaults(true);
+        	saveConfig();
         }
     }
 
     public ClassLoader getHPSClassLoader() {
         return getClassLoader();
+    }
+    
+    public CustomConfiguration getConfig(ConfigurationType type) {
+    	return ConfigurationManager.getConfig(type);
     }
 
     /**

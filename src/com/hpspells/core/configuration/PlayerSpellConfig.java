@@ -32,7 +32,7 @@ public class PlayerSpellConfig extends CustomConfiguration {
      * @param stream   an input stream to copy default configuration from
      */
     public PlayerSpellConfig(HPS instance, File file, InputStream stream) {
-        super(instance, file, stream);
+        super(instance, file, stream, null);
     }
 
     /**
