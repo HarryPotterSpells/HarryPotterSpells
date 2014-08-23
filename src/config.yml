@@ -1,14 +1,5 @@
-############################
-## General Configuration  ##
-## http://tiny.cc/hpsconf ##
-############################
-
-# Only enable if you want to enable debugging mode
-debug-mode: false
-
-wand-give:  # The command that 'summons' a wand with a command
-  explosion-effect: false
-
+debug-mode: false  
+language: us-english
 messaging:
   tag: '&f[&6HarryPotterSpells&f] '
   info: 'YELLOW'
@@ -16,6 +7,7 @@ messaging:
 
 wand:
   id: 280 # The item id of the wand (280 == stick)
+  explosion-effect: false  # Generate explosion when /wand is used?
   enchantment-effect : true # Should wands have the shiny enchantment effect
   lore:
     enabled: true # Should we display lore on the wand?
