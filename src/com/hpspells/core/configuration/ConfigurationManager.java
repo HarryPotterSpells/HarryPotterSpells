@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.configuration.MemoryConfiguration;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -20,7 +21,7 @@ public class ConfigurationManager {
 		"## General Configuration  ## #",
 		"## http://tiny.cc/hpsconf ## #",
 		"############################ #",
-		" ",
+		"\n",
 		"Only enable if you want to enable debugging mode"
 	};
 	
@@ -64,20 +65,24 @@ public class ConfigurationManager {
     public void loadConfig() {
         File file = new File(HPS.getDataFolder(), "config.yml");
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+        FileConfiguration resource = HPS.getConfig();
         if (!file.exists()) {
         	HPS.saveDefaultConfig();
         } else {
-        	config.options().copyDefaults(true);
         	if (configHeader != null) {
             	String header = "";
-                for (String line : configHeader) {
-                	header = header + line + "\n";
+                for (int i = 0; i < configHeader.length; i++) {
+                	header = header + configHeader[i];
+                	if (i+2 < configHeader.length) {
+                		header = header + "\n";
+                	}
                 }
                 config.options().header(header);
-                HPS.getLogger().info(header);
-                config.options().copyHeader(true);
-                HPS.getLogger().info("Header has been copied");
         	}
+        	config.setDefaults(resource.getDefaults());
+        	HPS.getLogger().info(config.options().header());
+        	config.options().copyDefaults(true);
+        	config.options().copyHeader(true);
         	try {
 				config.save(file);
 			} catch (IOException e) {
