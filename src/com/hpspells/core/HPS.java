@@ -70,7 +70,7 @@ public class HPS extends JavaPlugin {
         ExtensionManager = new ExtensionManager(this);
 
         // Configuration
-        loadConfig();
+        ConfigurationManager.loadConfig();
 
         PlayerSpellConfig PSC = (PlayerSpellConfig) ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
         Double version = PSC.get().getDouble("VERSION_DO_NOT_EDIT", -1d) == -1d ? null : PSC.get().getDouble("VERSION_DO_NOT_EDIT", -1d);
@@ -261,15 +261,7 @@ public class HPS extends JavaPlugin {
         PM.log(Level.INFO, Localisation.getTranslation("genPluginDisabled"));
     }
 
-    public void loadConfig() {
-        File file = new File(this.getDataFolder(), "config.yml");
-        if (!file.exists()) {
-            saveDefaultConfig();
-        } else {
-        	getConfig().options().copyDefaults(true);
-        	saveConfig();
-        }
-    }
+    
 
     public ClassLoader getHPSClassLoader() {
         return getClassLoader();
