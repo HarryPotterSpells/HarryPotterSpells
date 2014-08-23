@@ -204,20 +204,29 @@ public abstract class Spell {
      * @return a {@code long} with the amount of ticks the time specified
      */
     public long getTime(String key, @Nullable long defaultt) {
-        String durationString = (String) getConfig(key, "");
+    	Object time = getConfig(key, "");
+    	if (time instanceof String) {
+    		String durationString = (String) time;
+    		if (durationString.contains("#")) {
+        		String[] value = durationString.split("#");
+        		durationString = value[0];
+        	}
+        	
+            if (durationString.equals(""))
+                return defaultt;
 
-        if (durationString.equals(""))
-            return defaultt;
+            int duration = 0;
 
-        int duration = 0;
+            if (durationString.endsWith("t")) {
+                String ticks = durationString.substring(0, durationString.length() - 1);
+                duration = Integer.parseInt(ticks);
+            } else {
+            	duration = Integer.parseInt(durationString) * 20;
+            }
+            return duration;
+    	}
 
-        if (durationString.endsWith("t")) {
-            String ticks = durationString.substring(0, durationString.length() - 1);
-            duration = Integer.parseInt(ticks);
-        } else
-            duration = Integer.parseInt(durationString) * 20;
-
-        return duration;
+        return (Integer) time * 20;
     }
 
 }
