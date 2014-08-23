@@ -43,7 +43,7 @@ public class SpellList extends HCommandExecutor {
             return true;
         }
 
-        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
+        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
 
         if (args[0].equalsIgnoreCase("me")) { // List spells I know
             if (sender instanceof Player) {
