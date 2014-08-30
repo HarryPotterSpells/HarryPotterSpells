@@ -26,6 +26,7 @@ public class GeneralCommand extends HCommandExecutor {
             else if (args[1].equalsIgnoreCase("reload")) {
                 HPS.reloadConfig();
                 HPS.ConfigurationManager.reloadConfigAll();
+                HPS.Localisation.load();
                 HPS.PM.dependantMessagingTell(sender, HPS.Localisation.getTranslation("cmdGenConfigReloaded"));
             } else if (args[1].equalsIgnoreCase("edit")) {
                 if (args.length != 5)
