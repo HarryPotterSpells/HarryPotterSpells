@@ -63,6 +63,8 @@ public class SpellManager {
                     if (Listener.class.isAssignableFrom(clazz)) {
                         HPS.getServer().getPluginManager().registerEvents((Listener) spell, HPS);
                     }
+                    
+                    HPS.getServer().getPluginManager().addPermission(spell.getPermission());
 
                 } catch (Exception e) {
                     HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errSpells", clazz.getSimpleName()));
