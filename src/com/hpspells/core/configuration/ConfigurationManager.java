@@ -79,7 +79,7 @@ public class ConfigurationManager {
                 config.options().header(header);
         	}
         	config.setDefaults(resource.getDefaults());
-        	HPS.getLogger().info(config.options().header());
+        	if (HPS.getConfig().getBoolean("debug-mode")) HPS.getLogger().info(config.options().header());
         	config.options().copyDefaults(true);
         	config.options().copyHeader(true);
         	try {
