@@ -11,6 +11,8 @@ import javax.annotation.Nullable;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 
 import com.hpspells.core.HPS;
 import com.hpspells.core.configuration.ConfigurationManager.ConfigurationType;
@@ -89,7 +91,16 @@ public abstract class Spell {
         psc.get().set(p.getName(), list);
         psc.save();
     }
-
+    
+    /**
+     * Gets the permission required to teach the spell and cast the spell
+     * 
+     * @return spell permission
+     */
+    public Permission getPermission() {
+    	return new Permission("harrypotterspells.spell." + this.getName().toLowerCase(), PermissionDefault.TRUE);
+    }
+    
     /**
      * Gets the name of this spell
      *

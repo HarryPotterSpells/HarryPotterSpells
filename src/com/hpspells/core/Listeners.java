@@ -1,5 +1,6 @@
 package com.hpspells.core;
 
+import com.hpspells.core.api.event.SpellPreCastEvent;
 import com.hpspells.core.configuration.ConfigurationManager.ConfigurationType;
 import com.hpspells.core.configuration.PlayerSpellConfig;
 import com.hpspells.core.spell.Spell;
@@ -7,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.CraftItemEvent;
@@ -143,6 +145,11 @@ public class Listeners implements Listener {
 
             });
         }
+    }
+    
+    @EventHandler(priority=EventPriority.LOWEST)
+    public void onSpellCast(SpellPreCastEvent e) {
+    	if (!e.getCaster().hasPermission(e.getSpell().getPermission())) e.setCancelled(true);
     }
 
 }
