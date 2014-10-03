@@ -1,14 +1,15 @@
 package com.hpspells.core;
 
-import com.hpspells.core.util.MiscUtilities;
-import com.hpspells.core.util.nbt.*;
+import java.util.Arrays;
+import java.util.Random;
+
+import javax.annotation.Nullable;
+
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.Random;
+import com.hpspells.core.util.MiscUtilities;
 
 /**
  * This class manages the wand
@@ -18,8 +19,6 @@ public class Wand {
 
     public static final String[] WOOD_TYPES = new String[]{"Elder", "Walnut", "Blackthorn", "Ash", "Hawthorn", "Rose", "Hornbeam", "Holly", "Vine", "Mahogany", "Willow", "Elm", "Oak", "Fir", "Cherry", "Chestnut", "Alder", "Yew"};
     public static final String[] CORES = new String[]{"Thestral tail hair", "Dragon heartstring", "Troll whisker", "Unicorn hair", "Veela hair", "Phoenix feather"};
-
-    private static final String TAG_NAME = "HPS-WAND";
 
     /**
      * Constructs a new {@link Wand}
@@ -114,31 +113,6 @@ public class Wand {
             }
 
         return wand;
-    }
-
-    /**
-     * Gets the owner of a wand
-     *
-     * @param itemStack the wand
-     *
-     * @return the owners name or {@code null} if not found
-     */
-    public String getWandOwner(ItemStack itemStack) {
-        NBTContainerItem nbt = new NBTContainerItem(itemStack);
-        NBTBase base = nbt.getTag(TAG_NAME);
-
-        if(base == null) {
-            return null;
-        }
-
-        if(base instanceof NBTTagCompound) {
-            NBTTagCompound compound =(NBTTagCompound) base;
-            if(compound.getString("Owner") != null) {
-                return compound.getString("Owner");
-            }
-        }
-
-        return null;
     }
 
     private Object getConfig(String string, Object defaultt) {
