@@ -149,7 +149,10 @@ public class Listeners implements Listener {
     
     @EventHandler(priority=EventPriority.LOWEST)
     public void onSpellCast(SpellPreCastEvent e) {
-    	if (!e.getCaster().hasPermission(e.getSpell().getPermission())) e.setCancelled(true);
+    	if (!e.getCaster().hasPermission(e.getSpell().getPermission())) {
+    		e.setCancelled(true);
+    		HPS.PM.warn(e.getCaster(), HPS.Localisation.getTranslation("spellUnauthorized"));
+    	}
     }
 
 }

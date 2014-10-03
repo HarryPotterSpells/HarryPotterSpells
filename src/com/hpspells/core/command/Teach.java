@@ -69,7 +69,7 @@ public class Teach extends HCommandExecutor {
             } else {
             	if (!teachTo.hasPermission(spell.getPermission())) {
             		HPS.PM.dependantMessagingWarn(teachTo, HPS.Localisation.getTranslation("spellUnauthorized"));
-            		return false;
+            		return true;
             	}
                 if (spell.playerKnows(teachTo)) {
                     HPS.PM.dependantMessagingWarn(sender, HPS.Localisation.getTranslation("cmdTeaKnowsThat", teachTo.getName()));
