@@ -284,7 +284,7 @@ public class HPS extends JavaPlugin {
 
         CommandInfo cmdInfo = clazz.getAnnotation(CommandInfo.class);
         String name = cmdInfo.name().equals("") ? clazz.getSimpleName().toLowerCase() : cmdInfo.name();
-        String permission = cmdInfo.permission().equals("") ? "HarryPotterSpells." + name : cmdInfo.permission();
+        String permission = cmdInfo.permission().equals("") ? "harrypotterspells." + name : cmdInfo.permission();
         List<String> aliases = cmdInfo.aliases().equals("") ? new ArrayList<String>() : Arrays.asList(cmdInfo.aliases().split(","));
         Permission perm = new Permission(permission, PermissionDefault.getByName(cmdInfo.permissionDefault()));
         Bukkit.getServer().getPluginManager().addPermission(perm);

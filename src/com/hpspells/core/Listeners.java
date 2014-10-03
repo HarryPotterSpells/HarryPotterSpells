@@ -21,7 +21,7 @@ import org.bukkit.permissions.PermissionDefault;
 public class Listeners implements Listener {
     private HPS HPS;
 
-    public static final Permission CAST_SPELLS = new Permission("HarryPotterSpells.use", PermissionDefault.OP);
+    public static final Permission CAST_SPELLS = new Permission("harrypotterspells.cast", PermissionDefault.OP);
 
     public Listeners(HPS instance) {
         this.HPS = instance;

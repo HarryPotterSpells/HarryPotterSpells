@@ -15,7 +15,7 @@ public @interface CommandInfo {
 
     String aliases() default "";
 
-    String permission() default ""; // Defaults to HarryPotterSpells.[name()]
+    String permission() default ""; // Defaults to harrypotterspells.[name()]
 
     String permissionDefault() default "OP";
 
