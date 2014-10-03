@@ -181,7 +181,7 @@ public abstract class Spell {
         SpellInfo info = this.getClass().getAnnotation(SpellInfo.class);
         if (info == null)
             return 60;
-        if (p.hasPermission(HPS.SpellManager.NO_COOLDOWN_ALL_1) || p.hasPermission(HPS.SpellManager.NO_COOLDOWN_ALL_2) || p.hasPermission("HarryPotterSpells.nocooldown." + getName()))
+        if (p.hasPermission(HPS.SpellManager.NO_COOLDOWN_ALL_1) || p.hasPermission(HPS.SpellManager.NO_COOLDOWN_ALL_2) || p.hasPermission("harrypotterspells.nocooldown." + getName().toLowerCase()))
             return 0;
 
         int cooldown;

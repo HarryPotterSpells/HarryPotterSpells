@@ -39,7 +39,7 @@ public class SpellManager {
     private Map<String, Integer> currentSpell = new HashMap<String, Integer>();
     private HPS HPS;
 
-    public final Permission NO_COOLDOWN_ALL_1 = new Permission("HarryPotterSpells.nocooldown", PermissionDefault.OP), NO_COOLDOWN_ALL_2 = new Permission("HarryPotterSpells.nocooldown.*");
+    public final Permission NO_COOLDOWN_ALL_1 = new Permission("harrypotterspells.nocooldown", PermissionDefault.OP), NO_COOLDOWN_ALL_2 = new Permission("harrypotterspells.nocooldown.*");
 
     /**
      * Constructs the {@link SpellManager}, adding all core spells to the Spell List
@@ -197,7 +197,7 @@ public class SpellManager {
      * @param spell  the spell that they are casting
      */
     public void cleverCast(Player player, Spell spell) {
-        if (!player.hasPermission("HarryPotterSpells.use") || !spell.playerKnows(player) || !player.getInventory().contains(Material.STICK))
+        if (!player.hasPermission("harrypotterspells.cast") || !spell.playerKnows(player) || !player.getInventory().contains(Material.STICK))
             return;
 
         PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
