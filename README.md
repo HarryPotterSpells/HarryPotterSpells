@@ -22,7 +22,7 @@ For more information check out our [Bukkit Dev page](http://dev.bukkit.org/serve
 
 We are looking for more team members to help make this plugin even more awesome. If you are interested just let us know [here](http://forums.bukkit.org/threads/harrypotterspells.149902/) or join our IRC [#harrypotterspells](http://webchat.esper.net/?channels=#harrypotterspells).
 
-If you are looking for our guide on how to contribute to HarryPotterSpells then see [here](https://github.com/kezz101/HarryPotterSpells/wiki/Contributing).
+To contribute to HarryPotterSpells take a look at our [Contributing file](https://github.com/HarryPotterSpells/HarryPotterSpells/blob/master/CONTRIBUTING.md)
 
 ## Other Notes ##
 
