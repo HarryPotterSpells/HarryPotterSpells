@@ -53,7 +53,7 @@ public class Orchideous extends Spell {
         if (blockAbove == null) {
             return false;
         }
-        if (blockAbove.getTypeId() == 0) {
+        if (blockAbove.getType() == Material.AIR) {
             return true;
         }
         return false;
@@ -69,10 +69,10 @@ public class Orchideous extends Spell {
         if (b == null) {
             return false;
         }
-        switch (b.getTypeId()) {
-            case 2:
+        switch (b.getType()) {
+        	case GRASS:
                 return true;
-            case 3:
+            case DIRT:
                 return true;
         }
         return false;
