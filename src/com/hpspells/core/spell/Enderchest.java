@@ -14,9 +14,9 @@ import org.bukkit.inventory.Inventory;
         cooldown = 0,
         icon = Material.ENDER_CHEST
 )
-public class EnderChestSpell extends Spell {
+public class Enderchest extends Spell {
 
-    public EnderChestSpell(HPS instance) {
+    public Enderchest(HPS instance) {
         super(instance);
     }
 
