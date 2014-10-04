@@ -41,5 +41,5 @@ If you are having issues importing the project into your Eclipse IDE you may fin
 If these files need updating notify Kezz101 and he will re-upload them for you.
 
 ### Stats ###
-[![Plugin Metrics for HarryPotterSpells](http://api.mcstats.org/signature/HarryPotterSpells.png)](http://mcstats.org/plugin/HarryPotterSpells)
+[![Plugin Metrics for HarryPotterSpells](http://i.mcstats.org/HarryPotterSpells/Global+Statistics.png)](http://mcstats.org/plugin/HarryPotterSpells)
 
