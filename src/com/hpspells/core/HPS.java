@@ -256,11 +256,8 @@ public class HPS extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
         PM.log(Level.INFO, Localisation.getTranslation("genPluginDisabled"));
     }
-
-    
 
     public ClassLoader getHPSClassLoader() {
         return getClassLoader();

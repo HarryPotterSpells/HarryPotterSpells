@@ -43,7 +43,7 @@ public class Localisation {
     public void load() {
     	langFolder = new File(HPS.getDataFolder(), "Language Files");
     	if (!langFolder.exists()) {
-    		langFolder.mkdir();
+    		langFolder.mkdirs();
     	}
     	this.registerLang(Language.ENGLISH, new File(langFolder, "us-english.properties"));
         this.registerLang(Language.DUTCH, new File(langFolder, "nl-dutch.properties"));
