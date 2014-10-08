@@ -75,7 +75,7 @@ public class HPS extends JavaPlugin {
         if (version == null || version < PlayerSpellConfig.CURRENT_VERSION) {
             // STORE UPDATES HERE
 
-            if (version == null) { // Updating from unformatted version to version 0.4
+            if (version == null) { // Updating from unformatted version to version 1.1
                 PM.log(Level.INFO, Localisation.getTranslation("pscOutOfDate"));
 
                 Map<String, List<String>> newConfig = new HashMap<String, List<String>>(), lists = new HashMap<String, List<String>>();
@@ -117,10 +117,10 @@ public class HPS extends JavaPlugin {
                 for (Entry<String, List<String>> ent : newConfig.entrySet())
                     PSC.get().set(ent.getKey(), ent.getValue());
 
-                PSC.get().set("VERSION_DO_NOT_EDIT", 0.4d);
+                PSC.get().set("VERSION_DO_NOT_EDIT", 1.1d);
                 PSC.save();
 
-                PM.log(Level.INFO, Localisation.getTranslation("pscUpdated", "0.4"));
+                PM.log(Level.INFO, Localisation.getTranslation("pscUpdated", "1.1"));
             }
         }
 
