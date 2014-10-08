@@ -60,8 +60,8 @@ public class HPS extends JavaPlugin {
     public void onEnable() {
         // Instance loading
         PM = new PM(this);
-        Localisation = new Localisation(this);
         ConfigurationManager = new ConfigurationManager(this);
+        Localisation = new Localisation(this);
         SpellTargeter = new SpellTargeter(this);
         SpellManager = new SpellManager(this);
         Wand = new Wand(this);

@@ -43,7 +43,7 @@ public class Localisation {
     public void load() {
     	langFolder = new File(HPS.getDataFolder(), "Language Files");
     	if (!langFolder.exists()) {
-    		langFolder.mkdirs();
+    		langFolder.mkdir();
     	}
     	this.registerLang(Language.ENGLISH, new File(langFolder, "us-english.properties"));
         this.registerLang(Language.DUTCH, new File(langFolder, "nl-dutch.properties"));
@@ -163,6 +163,7 @@ public class Localisation {
     	InputStream stream = HPS.class.getResourceAsStream("/" + lang);
         if (stream == null) {
         	HPS.PM.log(Level.SEVERE, "Could not generate language file " + lang + " Ignore this message if you arent using this language");
+        	return;
         }
         OutputStream resStreamOut = null;
         int readBytes;
