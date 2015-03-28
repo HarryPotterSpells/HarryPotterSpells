@@ -65,7 +65,7 @@ public class HPS extends JavaPlugin {
         SpellTargeter = new SpellTargeter(this);
         SpellManager = new SpellManager(this);
         Wand = new Wand(this);
-
+        
         // Configuration
         ConfigurationManager.loadConfig();
 

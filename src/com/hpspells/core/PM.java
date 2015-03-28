@@ -79,7 +79,7 @@ public class PM {
      */
     public void tell(Player player, String... message) {
         for (String str : message)
-            player.sendMessage(tag + info + str);
+            player.sendMessage(tag + info + ChatColor.translateAlternateColorCodes('&', str));
     }
 
     /**
@@ -90,7 +90,7 @@ public class PM {
      */
     public void warn(Player player, String... message) {
         for (String str : message)
-            player.sendMessage(tag + warning + str);
+            player.sendMessage(tag + warning + ChatColor.translateAlternateColorCodes('&', str));
     }
 
     /**
