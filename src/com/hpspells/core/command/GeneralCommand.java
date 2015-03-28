@@ -8,9 +8,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandInfo(name = "harrypotterspells", description = "cmdGenDescription", aliases = "hps", usage = "<command> [config (reload|edit)]")
+@CommandInfo(
+		name = "harrypotterspells", 
+		description = "cmdGenDescription", 
+		aliases = "hps", 
+		usage = "<command> [config (reload|edit)]" + '\n' + "For help run /<command> [help]")
 public class GeneralCommand extends HCommandExecutor {
-
+	
     public GeneralCommand(HPS instance) {
         super(instance);
     }
@@ -49,6 +53,16 @@ public class GeneralCommand extends HCommandExecutor {
             }
 
             return true;
+        }
+        if (args[0].equalsIgnoreCase("help")) {
+        	HPS.PM.dependantMessagingTell(sender, "&6o0=======&c[&eHarryPotterSpells&c]&6========0o");
+        	HPS.PM.dependantMessagingTell(sender, "&b/spellinfo &f- &e" + HPS.Localisation.getTranslation("cmdSpiDescription"));
+        	HPS.PM.dependantMessagingTell(sender, "&b/spelllist &f- &e" + HPS.Localisation.getTranslation("cmdSplDescription"));
+        	HPS.PM.dependantMessagingTell(sender, "&b/spellswitch &f- &e" + HPS.Localisation.getTranslation("cmdSpsDescription"));
+        	HPS.PM.dependantMessagingTell(sender, "&b/teach &f- &e" + HPS.Localisation.getTranslation("cmdTeaDescription"));
+        	HPS.PM.dependantMessagingTell(sender, "&b/unteach &f- &e" + HPS.Localisation.getTranslation("cmdUntDescription"));
+        	HPS.PM.dependantMessagingTell(sender, "&b/wand &f- &e" + HPS.Localisation.getTranslation("cmdWanDescription"));
+        	return true;
         }
 
         return false;
