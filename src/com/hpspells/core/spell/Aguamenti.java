@@ -42,14 +42,14 @@ public class Aguamenti extends Spell {
                         public void run() {
                             block.setType(Material.AIR);
                         }
-                    }, getTime("duration", 30));
+                    }, getTime("duration", 600));
                 } else if (block.getRelative(BlockFace.UP).getType().isTransparent()) {
                     block.getRelative(BlockFace.UP).setType(Material.WATER);
                     Bukkit.getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
                         public void run() {
                             block.getRelative(BlockFace.UP).setType(Material.AIR);
                         }
-                    }, getTime("duration", 30));
+                    }, getTime("duration", 600));
                 }
             }
 
