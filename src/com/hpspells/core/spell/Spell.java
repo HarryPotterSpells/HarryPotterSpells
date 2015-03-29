@@ -202,7 +202,7 @@ public abstract class Spell {
      */
     public Object getConfig(String key, @Nullable Object defaultt) {
     	FileConfiguration spellConfig = HPS.ConfigurationManager.getConfig(ConfigurationType.SPELL).get();
-        return defaultt == null ? spellConfig.get("spells." + getName() + "." + key) : spellConfig.get("spells." + getName() + "." + key, defaultt);
+        return defaultt == null ? spellConfig.get("spells." + getName().toLowerCase() + "." + key) : spellConfig.get("spells." + getName() + "." + key, defaultt);
     }
 
     /**
@@ -211,12 +211,12 @@ public abstract class Spell {
      * {@code endsWith("t")}: ticks
      *
      * @param key      the key to the value relative to {@code spells.[spellname].}
-     * @param defaultt the nullable value to return if nothing was found
+     * @param defaultt the nullable ticks to return if nothing was found
      * @return a {@code long} with the amount of ticks the time specified
      */
     public long getTime(String key, @Nullable long defaultt) {
     	Object time = getConfig(key, "");
-    	if (time instanceof String) {
+    	if (time instanceof String || time instanceof Integer) {
     		String durationString = (String) time;
     		if (durationString.contains("#")) {
         		String[] value = durationString.split("#");
@@ -236,8 +236,7 @@ public abstract class Spell {
             }
             return duration;
     	}
-
-        return (Integer) time * 20;
+    	return defaultt;
     }
 
 }
