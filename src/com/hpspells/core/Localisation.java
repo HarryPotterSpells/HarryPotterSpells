@@ -41,7 +41,7 @@ public class Localisation {
      * Generates and loads the language files.
      */
     public void load() {
-    	langFolder = new File(HPS.getDataFolder(), "Language Files");
+    	langFolder = new File(HPS.getDataFolder(), "Locale");
     	if (!langFolder.exists()) {
     		langFolder.mkdir();
     	}
