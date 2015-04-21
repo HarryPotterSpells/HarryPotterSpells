@@ -1,4 +1,4 @@
-# HarryPotterSpells [![Build Status](http://ci.drtshock.com/buildStatus/icon?job=HarryPotterSpells)](http://ci.drtshock.com/view/np98765/job/HarryPotterSpells/)
+# HarryPotterSpells [![Build Status](https://travis-ci.org/HarryPotterSpells/HarryPotterSpells.svg?branch=master)](https://travis-ci.org/HarryPotterSpells/HarryPotterSpells)
 
 ## What is HarryPotterSpells? ##
 
