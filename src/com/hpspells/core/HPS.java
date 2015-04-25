@@ -258,6 +258,8 @@ public class HPS extends JavaPlugin {
     public void onDisable() {
     	if (localeState)
     		PM.log(Level.INFO, Localisation.getTranslation("genPluginDisabled"));
+    	else
+    		PM.log(Level.INFO, "Plugin disabled.");
     }
 
     public ClassLoader getHPSClassLoader() {
