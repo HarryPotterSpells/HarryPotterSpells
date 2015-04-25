@@ -3,7 +3,6 @@ package com.hpspells.core.api;
 import com.hpspells.core.HPS;
 import com.hpspells.core.spell.Spell;
 import com.hpspells.core.util.MiscUtilities;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -33,7 +32,8 @@ public class SpellBookRecipe implements Recipe {
         this.HPS = instance;
 
         ItemStack stack = new ItemStack(Material.WRITTEN_BOOK);
-        BookMeta meta = (BookMeta) Bukkit.getItemFactory().getItemMeta(Material.WRITTEN_BOOK);
+        
+        BookMeta meta = (BookMeta) stack.getItemMeta();
         meta.setTitle(spell.getName());
         meta.addPage(spell.getDescription());
         meta.setAuthor(getRandomAuthor());

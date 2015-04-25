@@ -36,10 +36,10 @@ public class Wand {
      * @return {@code true} if the ItemStack is useable as a wand
      */
     public boolean isWand(ItemStack i) {
-    	 if (i.getTypeId() != ((Integer) getConfig("id", 280))) // Item id check
+    	 if (i.getTypeId() != (Integer) getConfig("id", 280)) // Item id check
              return false;
 
-         if (((Boolean) getConfig("lore.enabled", true)) && !i.getItemMeta().getDisplayName().equals((String) getConfig("lore.name", "Wand"))) // Lore name check
+         if ((Boolean) getConfig("lore.enabled", true) && !i.getItemMeta().getDisplayName().equals((String) getConfig("lore.name", "Wand"))) // Lore name check
              return false;
 
          return true;
