@@ -59,7 +59,9 @@ public class Localisation {
     public void registerLang(Language language, File file) {
     	languages.put(language, file);
     	loadedProperties.put(language, new Properties());
-    	this.generateFile(file, file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("\\") + 1));
+    	for (Language lang : languages.keySet())
+    		if (!languages.get(lang).exists()) 
+    			this.generateFile(file, file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("\\") + 1));
     	HPS.PM.debug(file.getAbsolutePath());
     }
     
