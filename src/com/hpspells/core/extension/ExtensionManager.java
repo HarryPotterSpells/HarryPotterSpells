@@ -3,7 +3,6 @@ package com.hpspells.core.extension;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.Comparator;
-import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.logging.Level;
