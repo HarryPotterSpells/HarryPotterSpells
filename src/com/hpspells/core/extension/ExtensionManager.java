@@ -1,8 +1,5 @@
 package com.hpspells.core.extension;
 
-import com.hpspells.core.HPS;
-import org.bukkit.configuration.file.YamlConfiguration;
-
 import java.io.File;
 import java.io.FileFilter;
 import java.util.Comparator;
@@ -13,13 +10,18 @@ import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import com.hpspells.core.HPS;
+import com.hpspells.core.extension.Extension.State;
+
 /**
  * Handles management of all extensions
  */
 public class ExtensionManager {
     private HPS HPS;
     private final File extensionFolder;
-    private final SortedMap<Extension, Extension.State> extensions = new TreeMap(new Comparator<Extension>() {
+    private final SortedMap<Extension, Extension.State> extensions = new TreeMap<Extension, State>(new Comparator<Extension>() {
 
         @Override
         public int compare(Extension o1, Extension o2) {
@@ -62,7 +64,6 @@ public class ExtensionManager {
                     HPS.PM.log(Level.INFO, HPS.Localisation.getTranslation("extMissingDescription", file.getName()));
                     continue;
                 }
-
                 extensions.put(Extension.create(HPS, file, YamlConfiguration.loadConfiguration(zip.getInputStream(description))), Extension.State.LOADED);
                 zip.close();
             } catch (Exception e) {
@@ -84,24 +85,25 @@ public class ExtensionManager {
      * Enables all {@link Extension}s with the {@link Extension.State#LOADED} state
      */
     public void enableExtensions() {
-        for(Map.Entry<Extension, Extension.State> entry : extensions.entrySet()) {
-            if(entry.getValue() == Extension.State.LOADED) {
-                entry.getKey().onEnable();
-                extensions.put(entry.getKey(), Extension.State.ENABLED);
-            }
-        }
+    	for (Extension extension : extensions.keySet()) {
+    		if (extensions.get(extension) == Extension.State.LOADED) {
+    			extension.onEnable();
+                HPS.getServer().getPluginManager().registerEvents(extension, HPS);
+                extensions.put(extension, Extension.State.ENABLED);
+    		}
+    	}
     }
 
     /**
      * Disables all {@link Extension}s with the {@link Extension.State#ENABLED} state
      */
     public void disableExtensions() {
-        for(Map.Entry<Extension, Extension.State> entry : extensions.entrySet()) {
-            if(entry.getValue() == Extension.State.ENABLED) {
-                entry.getKey().onDisable();
-                extensions.put(entry.getKey(), Extension.State.DISABLED);
-            }
-        }
+    	for (Extension extension : extensions.keySet()) {
+    		if (extensions.get(extension) == Extension.State.ENABLED) {
+    			extension.onDisable();
+                extensions.put(extension, Extension.State.DISABLED);
+    		}
+    	}
     }
 
     /**
