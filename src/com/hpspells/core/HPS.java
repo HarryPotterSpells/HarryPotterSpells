@@ -38,6 +38,7 @@ import com.hpspells.core.configuration.ConfigurationManager;
 import com.hpspells.core.configuration.ConfigurationManager.ConfigurationType;
 import com.hpspells.core.configuration.CustomConfiguration;
 import com.hpspells.core.configuration.PlayerSpellConfig;
+import com.hpspells.core.extension.ExtensionManager;
 import com.hpspells.core.spell.Spell;
 import com.hpspells.core.spell.SpellManager;
 import com.hpspells.core.spell.interfaces.Craftable;
