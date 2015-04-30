@@ -137,7 +137,6 @@ public class Listeners implements Listener {
             final Player p = (Player) e.getWhoClicked();
             Bukkit.getScheduler().runTask(HPS, new Runnable() {
 
-                @SuppressWarnings("deprecation")
                 @Override
                 public void run() {
                     p.updateInventory();

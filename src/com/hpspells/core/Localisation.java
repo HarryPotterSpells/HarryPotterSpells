@@ -47,8 +47,8 @@ public class Localisation {
     	}
     	this.registerLang(Language.ENGLISH, new File(langFolder, "us-english.properties"));
         this.registerLang(Language.DUTCH, new File(langFolder, "nl-dutch.properties"));
-        this.loadDefaultLang();
-        this.loadLang(Language.getLanuage(HPS.getConfig().getString("language")));
+        if (loadDefaultLang())
+        	this.loadLang(Language.getLanuage(HPS.getConfig().getString("language")));
     }
     
     /**
@@ -60,6 +60,7 @@ public class Localisation {
     	languages.put(language, file);
     	loadedProperties.put(language, new Properties());
     	this.generateFile(file, file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("\\") + 1));
+    	HPS.PM.debug(file.getAbsolutePath());
     }
     
     /**
@@ -79,23 +80,31 @@ public class Localisation {
             HPS.PM.debug(e);
 		} catch (IOException e) {
 			HPS.PM.log(Level.SEVERE, "Could not load any language file. Plugin will not function.", "Disabling plugin...");
+			HPS.PM.debug(e);
+			HPS.localeState = false;
             Bukkit.getServer().getPluginManager().disablePlugin(HPS);
             return;
 		}
     }
     
     /**
-     * Loads the default language of english
+     * Loads the default language of english and returns a boolean
+     * depending on whether the default language was loaded or not.
+     * 
+     * @return true if default language was loaded
      */
-    private void loadDefaultLang() {
+    private boolean loadDefaultLang() {
     	try {
+    		if (!new File(this.langFolder, "us-english.properties").exists()) throw new Exception();
     		defaultLang = loadedProperties.get(Language.ENGLISH);
     		defaultLang.load(new FileInputStream(languages.get(Language.ENGLISH)));
+    		return true;
 		} catch (Exception e) {
 			HPS.PM.log(Level.SEVERE, "Could not load default language. Plugin will not function.", "Disabling plugin...");
             HPS.PM.debug(e);
+            HPS.localeState = false;
             Bukkit.getServer().getPluginManager().disablePlugin(HPS);
-            return;
+            return false;
 		}
     }
     
@@ -160,7 +169,11 @@ public class Localisation {
 
     
     private void generateFile(File file, final String lang) {
-    	InputStream stream = HPS.class.getResourceAsStream("/" + lang);
+    	InputStream stream = HPS.class.getClassLoader().getResourceAsStream(lang);
+//    	HPS.PM.log(Level.INFO, "URL: " + HPS.class.getClassLoader().getResource(lang) == null ? "null" : HPS.class.getClassLoader().getResource(lang).toString());
+//    	HPS.PM.log(Level.INFO, "URL: " + HPS.class.getClassLoader().getResource("/" + lang) == null ? "null" : HPS.class.getClassLoader().getResource("/" + lang).toString()); //null on windows
+//    	HPS.PM.log(Level.INFO, "URL: " + HPS.class.getResource(lang) == null ? "null" : HPS.class.getResource(lang).toString()); //null on windows
+//    	HPS.PM.log(Level.INFO, "URL: " + HPS.class.getResource("/" + lang) == null ? "null" : HPS.class.getResource("/" + lang).toString());
         if (stream == null) {
         	HPS.PM.log(Level.SEVERE, "Could not generate language file " + lang + " Ignore this message if you arent using this language");
         	return;
@@ -184,6 +197,7 @@ public class Localisation {
 				HPS.PM.log(Level.SEVERE, "Error occured while generating language files...", "Unable to close streams");
 				e.printStackTrace();
 			}
+            HPS.PM.log(Level.INFO, "Language file " + lang + " has been sucessfully created.");
         }
         
 //    	if (!file.exists()) {
