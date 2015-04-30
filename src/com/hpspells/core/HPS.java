@@ -31,6 +31,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.hpspells.core.Metrics.Graph;
 import com.hpspells.core.Metrics.Plotter;
+import com.hpspells.core.api.APIHandler;
 import com.hpspells.core.api.event.SpellBookRecipeAddEvent;
 import com.hpspells.core.command.CommandInfo;
 import com.hpspells.core.command.HCommandExecutor;
@@ -75,6 +76,7 @@ public class HPS extends JavaPlugin {
             SpellManager = new SpellManager(this);
             Wand = new Wand(this);
             ExtensionManager = new ExtensionManager(this);
+            new APIHandler(this);
             
             // Configuration
             ConfigurationManager.loadConfig();
