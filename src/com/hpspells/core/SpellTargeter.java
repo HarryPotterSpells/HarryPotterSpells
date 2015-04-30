@@ -174,7 +174,8 @@ public class SpellTargeter {
                 loc.add(direction);
                 try {
                     for (ParticleEffect pe : effect) {
-                        ParticleEffect.sendToLocation(pe, loc, offset, offset, offset, 1f, count);
+                    	pe.display(loc, offset, offset, offset, 1f, count);
+                        //ParticleEffect.sendToLocation(pe, loc, offset, offset, offset, 1f, count);
                     }
                 } catch (Exception e) {
                     HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errParticleEffect"));

@@ -1,14 +1,5 @@
-############################
-## General Configuration  ##
-## http://tiny.cc/hpsconf ##
-############################
-
-# Only enable if you want to enable debugging mode
-debug-mode: false
-
-wand-give:  # The command that 'summons' a wand with a command
-  explosion-effect: false
-
+debug-mode: false  
+language: us-english
 messaging:
   tag: '&f[&6HarryPotterSpells&f] '
   info: 'YELLOW'
@@ -16,11 +7,12 @@ messaging:
 
 wand:
   id: 280 # The item id of the wand (280 == stick)
+  explosion-effect: false  # Generate explosion when /wand is used?
   enchantment-effect : true # Should wands have the shiny enchantment effect
   lore:
     enabled: true # Should we display lore on the wand?
     name: 'Wand' # The name we should give the wand
-  crafting: 
+  crafting:
     enabled: true # Should we bother making a crafting recipe for the wand?
     recipe: # The crafting recipe for the wand. Each space represents a slot in the crafting table.
       - ' A '
@@ -37,121 +29,3 @@ notify-on-spell-use: true  # If we should notify the player when they cast a spe
 spell-particle-toggle: false  # The purple particle effect that happens when the spell is cast (Kezz thinks it's ugly)
 spell-castable-with-chat: true  # If a spell is castable on the chatting of 'Spellname!'
 spell-effective-time: -1 # The amount of time that the spell should travel in ticks (about 20 ticks a second) before it disappears, Use -1 for it to go forever
-
-#########################
-## Spell Configuration ##
-#########################
-
-## When configuring spells, seconds are assumed. If you'd like to specify ticks (1/20 of a second), append a 't' to the value.
-## For example, 600t = 600 ticks = 30 seconds
-## while 600 (without the t) = 600 seconds
-spells:
-  accio:
-    radius: 5  # The maximum distance drops can be from the player to still be attracted
-  aguamenti:
-    duration: 30 # How long before the water disappears
-  aparecium:
-    radius: 5  # The maximum distance players can be from the caster to still be turned visible
-  arania-exumai:
-    knockback: 10 # How much the spider is knocked backwards
-  avis:
-    randomness: 1 # How randomly should the bats or chickens be spread out
-    chickens:
-      amount: 5  # How many chickens the wand should shoot
-      velocity: 2 # The velocity of the chickens that get shot out of the wand
-    bats:
-      amount: 0  # How many bats the wand should shoot
-      velocity: 2 # The velocity of the bats that get shot out of the wand
-  confundo:
-    duration: 200t  # How long the target should be confused for
-  crucio:
-    duration: 10 # How long the target should be victimised for
-  deprimo:
-    duration: 100t  # How long the target should be slowed for
-  episkey:
-    duration: 100t  # How long the target should be healed for
-  evanesco:
-    duration: 300t  # How long the caster will be invisible for
-  expelliarmus:
-    disarm-weapons: true  # Should Expelliarmus disarm weapons (swords and bows) as well as wands? 
-  flame-freezing-charm:
-    duration: 60 # How long the Fire Resistance effect lasts for
-  homenum-revelio:
-    box:  # The size of the box used in the search for nearby players
-      x: 10  # 1/2 the size of the box along x axis
-      y: 10  # 1/2 the size of the box along y axis
-      z: 10  # 1/2 the size of the box along z axis
-    effect-color: yellow  # The color the effect around the hidden player should be
-  incendio:
-    duration: 100t  # How long the fire should last
-  legilimens:
-    duration: 20 # How long targets inventory can be seen
-  multicorfors:
-    explosion-effect: true  # Should an explosion happen on color change
-  obscuro:
-    duration: 400t  # How long the target should be blinded for
-  petrificus-totalus:
-    duration: 100t  # How long the target should be petrified (frozen) for
-  refiling-charm:
-    bucket: water # Wether the spell fills the bucket with water or milk
-  silencio:
-    duration: 30 # How long the target is muted for.
-  spongify:
-    duration: 600t  # How long damage should be cancelled for
-  stupefy:
-    vertical-knockback: 2  # How much the target should be knocked backwards
-    horizontal-knockback: 0.5  # How much the target should be knocked upwards (into the air)
-    confusion-duration: 200t  # How long the target should be confused for
-    weakness-duration: 100t  # How long the target should be weakened for
-    damage: 2  # How many half-hearts the user should be damaged (set to 0 for no damage)
-  timespell:
-    lightning: true  # Should lightning strike on casting of the spell
-  wingardium-leviosa:
-    cancel-fall-damage: true  # Should fall damage be cancelled when flying
-    duration: 200t  # How long the caster should be able to fly for
-    
-cooldowns:
-## Do not use 0 for no cooldown. Use -1 instead.
-## All cooldown values are in seconds. DO NOT USE 't'.
-## Give the permission node 'HarryPotterSpells.nocooldown to bypass cooldowns.
-
-  accio: 5
-  aguamenti: 90
-  'alarte ascendare': 45
-  aparecium: 300
-  'arania Exumai': 90
-  'avada kedavra': 300
-  avis: 300
-  'bubble head charm': 45
-  confringo: 45 
-  confundo: 180
-  crucio: 300
-  deprimo: 180
-  enderchest: -1
-  episkey: 60
-  evanesco: 45
-  expelliarmus: 120
-  'finite incantatem': 45 
-  'flame freezing charm': 300
-  glacius: 120
-  'homenum revelio': 600
-  incendio: 45
-  legilimens: 180
-  'magna tonitrus': 60
-  morsmordre: 60
-  multicorfors: 30
-  obscuro: 90
-  orchideous: 45 
-  'petrificus totalus': 300
-  reducto: 300
-  'refilling charm': 120
-  reparo: 14400
-  sectumsempra: 300
-  silencio: 90
-  sonorus: 15
-  spongify: 60
-  stupefy: 120
-  time: 600
-  tree: 105
-  'windgardium leviosa': 180
-  workbench: 20

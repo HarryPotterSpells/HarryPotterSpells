@@ -24,7 +24,7 @@ public class CustomConfiguration {
      * @param file     where to store the custom configuration
      */
     public CustomConfiguration(HPS instance, File file) {
-        this(instance, file, null);
+        this(instance, file, null, null);
     }
 
     /**
@@ -33,18 +33,29 @@ public class CustomConfiguration {
      * @param instance an instance of {@link HPS}
      * @param file     where to store the custom configuration
      * @param stream   an input stream to copy default configuration from
+     * @param header   String array of text as header
      */
-    public CustomConfiguration(HPS instance, File file, InputStream stream) {
+    @SuppressWarnings("deprecation")
+	public CustomConfiguration(HPS instance, File file, InputStream stream, String[] header) {
         this.HPS = instance;
         this.file = file;
         this.fileConfiguration = YamlConfiguration.loadConfiguration(file);
         if (stream != null) {
             YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(stream);
             fileConfiguration.setDefaults(defConfig);
+            fileConfiguration.options().copyDefaults(true);
+        } 
+        if (header != null) {
+        	String head = "";
+            for (String line : header) {
+            	head = head + line + "\n";
+            }
+            fileConfiguration.options().header(head);
+            fileConfiguration.options().copyHeader(true);
         }
         save();
     }
-
+    
     /**
      * Gets the custom configuration file
      *

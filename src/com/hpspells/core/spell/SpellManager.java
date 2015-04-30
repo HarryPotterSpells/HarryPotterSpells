@@ -39,7 +39,7 @@ public class SpellManager {
     private Map<String, Integer> currentSpell = new HashMap<String, Integer>();
     private HPS HPS;
 
-    public final Permission NO_COOLDOWN_ALL_1 = new Permission("HarryPotterSpells.nocooldown", PermissionDefault.OP), NO_COOLDOWN_ALL_2 = new Permission("HarryPotterSpells.nocooldown.*");
+    public final Permission NO_COOLDOWN_ALL_1 = new Permission("harrypotterspells.nocooldown", PermissionDefault.OP), NO_COOLDOWN_ALL_2 = new Permission("harrypotterspells.nocooldown.*");
 
     /**
      * Constructs the {@link SpellManager}, adding all core spells to the Spell List
@@ -63,6 +63,8 @@ public class SpellManager {
                     if (Listener.class.isAssignableFrom(clazz)) {
                         HPS.getServer().getPluginManager().registerEvents((Listener) spell, HPS);
                     }
+                    
+                    HPS.getServer().getPluginManager().addPermission(spell.getPermission());
 
                 } catch (Exception e) {
                     HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errSpells", clazz.getSimpleName()));
@@ -84,7 +86,7 @@ public class SpellManager {
      * @return the current spell position they are on
      */
     public Integer getCurrentSpellPosition(Player player) {
-        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
+        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
         List<String> spellsTheyKnow = psc.getStringListOrEmpty(player.getName());
 
         if (spellsTheyKnow.isEmpty())
@@ -103,7 +105,7 @@ public class SpellManager {
      * @return the current spell they are on
      */
     public Spell getCurrentSpell(Player player) {
-        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
+        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
         Integer cur = getCurrentSpellPosition(player);
         List<String> spells = psc.getStringListOrEmpty(player.getName());
         if (spells.isEmpty())
@@ -120,7 +122,7 @@ public class SpellManager {
      * @throws IllegalArgumentException if the id parameter is invalid
      */
     public Spell setCurrentSpellPosition(Player player, int id) throws IllegalArgumentException {
-        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
+        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
         List<String> spellsTheyKnow = psc.getStringListOrEmpty(player.getName());
         if (spellsTheyKnow == null || id >= spellsTheyKnow.size() || id < 0)
             throw new IllegalArgumentException("id was invalid");
@@ -137,7 +139,7 @@ public class SpellManager {
      * @throws IllegalArgumentException if the spell parameter is invalid
      */
     public Spell setCurrentSpell(Player player, Spell spell) throws IllegalArgumentException {
-        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
+        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
         Integer spellIndex = getIndex(new TreeSet<String>(psc.getStringListOrEmpty(player.getName())), spell.getName());
         if (spellIndex == null)
             throw new IllegalArgumentException("player does not know that spell");
@@ -195,10 +197,10 @@ public class SpellManager {
      * @param spell  the spell that they are casting
      */
     public void cleverCast(Player player, Spell spell) {
-        if (!player.hasPermission("HarryPotterSpells.use") || !spell.playerKnows(player) || !player.getInventory().contains(Material.STICK))
+        if (!player.hasPermission("harrypotterspells.cast") || !spell.playerKnows(player) || !player.getInventory().contains(Material.STICK))
             return;
 
-        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
+        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
 
         List<String> spellList = psc.getStringListOrEmpty(player.getName());
         if (spellList == null || spellList.isEmpty()) {

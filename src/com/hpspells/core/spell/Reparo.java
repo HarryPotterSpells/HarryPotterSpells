@@ -30,7 +30,7 @@ public class Reparo extends Spell {
     }
 
     private void repairItem(final ItemStack item) {
-        final Material material = Material.getMaterial(item.getTypeId());
+        final Material material = item.getType();
         if (material.isBlock() || material.getMaxDurability() < 1)
             return;
         item.setDurability((short) 0);

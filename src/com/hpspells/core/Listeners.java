@@ -1,5 +1,6 @@
 package com.hpspells.core;
 
+import com.hpspells.core.api.event.SpellPreCastEvent;
 import com.hpspells.core.configuration.ConfigurationManager.ConfigurationType;
 import com.hpspells.core.configuration.PlayerSpellConfig;
 import com.hpspells.core.spell.Spell;
@@ -7,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.CraftItemEvent;
@@ -19,7 +21,7 @@ import org.bukkit.permissions.PermissionDefault;
 public class Listeners implements Listener {
     private HPS HPS;
 
-    public static final Permission CAST_SPELLS = new Permission("HarryPotterSpells.use", PermissionDefault.OP);
+    public static final Permission CAST_SPELLS = new Permission("harrypotterspells.cast", PermissionDefault.OP);
 
     public Listeners(HPS instance) {
         this.HPS = instance;
@@ -29,7 +31,7 @@ public class Listeners implements Listener {
     @EventHandler
     public void PIE(PlayerInteractEvent e) {
         if (e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
-            PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
+            PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
 
             if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE))
                 e.setCancelled(true);
@@ -79,7 +81,7 @@ public class Listeners implements Listener {
     @EventHandler
     public void PIEE(PlayerInteractEntityEvent e) {
         if (e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
-            PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
+            PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
             Integer knows = psc.getStringListOrEmpty(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
 
             if (cur == null) {
@@ -130,8 +132,8 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onPlayerCraft(CraftItemEvent e) {
-        if (HPS.Wand.isLorelessWand(e.getRecipe().getResult())) {
-            e.setCurrentItem(HPS.Wand.getWand());
+        if (HPS.Wand.isWand(e.getRecipe().getResult())) {
+            e.setCurrentItem(HPS.Wand.getWand((Player) e.getWhoClicked()));
             final Player p = (Player) e.getWhoClicked();
             Bukkit.getScheduler().runTask(HPS, new Runnable() {
 
@@ -143,6 +145,14 @@ public class Listeners implements Listener {
 
             });
         }
+    }
+    
+    @EventHandler(priority=EventPriority.LOWEST)
+    public void onSpellCast(SpellPreCastEvent e) {
+    	if (!e.getCaster().hasPermission(e.getSpell().getPermission())) {
+    		e.setCancelled(true);
+    		HPS.PM.warn(e.getCaster(), HPS.Localisation.getTranslation("spellUnauthorized"));
+    	}
     }
 
 }

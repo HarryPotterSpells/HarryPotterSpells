@@ -1,15 +1,16 @@
 package com.hpspells.core.spell;
 
-import com.hpspells.core.HPS;
-import com.hpspells.core.SpellTargeter.SpellHitEvent;
-import com.hpspells.core.spell.Spell.SpellInfo;
-import com.hpspells.core.util.ParticleEffect;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+
+import com.hpspells.core.HPS;
+import com.hpspells.core.SpellTargeter.SpellHitEvent;
+import com.hpspells.core.spell.Spell.SpellInfo;
+import com.hpspells.core.util.ParticleEffect;
 
 @SpellInfo(
         name = "Aguamenti",
@@ -41,14 +42,14 @@ public class Aguamenti extends Spell {
                         public void run() {
                             block.setType(Material.AIR);
                         }
-                    }, getTime("duration", 30));
+                    }, getTime("duration", 600));
                 } else if (block.getRelative(BlockFace.UP).getType().isTransparent()) {
                     block.getRelative(BlockFace.UP).setType(Material.WATER);
                     Bukkit.getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
                         public void run() {
-                            block.setType(Material.AIR);
+                            block.getRelative(BlockFace.UP).setType(Material.AIR);
                         }
-                    }, getTime("duration", 30));
+                    }, getTime("duration", 600));
                 }
             }
 

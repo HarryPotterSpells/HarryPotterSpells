@@ -10,6 +10,7 @@ For more information check out our [Bukkit Dev page](http://dev.bukkit.org/serve
 
 + [Kezz101](http://forums.bukkit.org/members/kezz101.90637645/): Head Coder
 + [np98765](http://forums.bukkit.org/members/np98765.17954/): Head Coder
++ [jacklin213](https://forums.bukkit.org/members/jacklin213.103857/): Official Maintainer
 + [korikisulda](http://forums.bukkit.org/members/korikisulda.90675487/): Contributor
 + [RingOfStorms](http://forums.bukkit.org/members/ringofstorms.52391/): Contributor
 + [evilmidget38](http://forums.bukkit.org/members/evilmidget38.97830/): Contributor
@@ -18,11 +19,10 @@ For more information check out our [Bukkit Dev page](http://dev.bukkit.org/serve
 + [zachoooo](http://forums.bukkit.org/members/zachoooo.1858/): Contributor
 + [Hoolean/MrBluebear3](http://forums.bukkit.org/members/hoolean.90699782/): Contributor
 + [lol768](https://forums.bukkit.org/members/lol768.90686461/): Contributor
-+ [jacklin213](https://forums.bukkit.org/members/jacklin213.103857/): Contributor
 
 We are looking for more team members to help make this plugin even more awesome. If you are interested just let us know [here](http://forums.bukkit.org/threads/harrypotterspells.149902/) or join our IRC [#harrypotterspells](http://webchat.esper.net/?channels=#harrypotterspells).
 
-If you are looking for our guide on how to contribute to HarryPotterSpells then see [here](https://github.com/kezz101/HarryPotterSpells/wiki/Contributing).
+To contribute to HarryPotterSpells take a look at our [Contributing file](https://github.com/HarryPotterSpells/HarryPotterSpells/blob/master/CONTRIBUTING.md)
 
 ## Other Notes ##
 
@@ -41,5 +41,5 @@ If you are having issues importing the project into your Eclipse IDE you may fin
 If these files need updating notify Kezz101 and he will re-upload them for you.
 
 ### Stats ###
-[![Plugin Metrics for HarryPotterSpells](http://api.mcstats.org/signature/HarryPotterSpells.png)](http://mcstats.org/plugin/HarryPotterSpells)
+[![Plugin Metrics for HarryPotterSpells](http://i.mcstats.org/HarryPotterSpells/Global+Statistics.png)](http://mcstats.org/plugin/HarryPotterSpells)
 

@@ -1,17 +1,22 @@
 package com.hpspells.core.spell;
 
-import com.hpspells.core.HPS;
-import com.hpspells.core.configuration.ConfigurationManager.ConfigurationType;
-import com.hpspells.core.configuration.PlayerSpellConfig;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-
-import javax.annotation.Nullable;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.List;
+
+import javax.annotation.Nullable;
+
+import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
+
+import com.hpspells.core.HPS;
+import com.hpspells.core.configuration.ConfigurationManager.ConfigurationType;
+import com.hpspells.core.configuration.PlayerSpellConfig;
 
 /**
  * An abstract class representing a Spell
@@ -55,7 +60,7 @@ public abstract class Spell {
      * @param p the player
      */
     public void teach(Player p) {
-        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
+        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
         List<String> list = psc.getStringListOrEmpty(p.getName());
         list.add(getName());
         psc.get().set(p.getName(), list);
@@ -69,7 +74,7 @@ public abstract class Spell {
      * @return {@code true} if the player knows this spell
      */
     public boolean playerKnows(Player p) {
-        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
+        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
         List<String> list = psc.getStringListOrEmpty(p.getName());
         return list.contains(getName());
     }
@@ -80,13 +85,22 @@ public abstract class Spell {
      * @param p the player
      */
     public void unTeach(Player p) {
-        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL_CONFIG);
+        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
         List<String> list = psc.getStringListOrEmpty(p.getName());
         list.remove(getName());
         psc.get().set(p.getName(), list);
         psc.save();
     }
-
+    
+    /**
+     * Gets the permission required to teach the spell and cast the spell
+     * 
+     * @return spell permission
+     */
+    public Permission getPermission() {
+    	return new Permission("harrypotterspells.spell." + this.getName().toLowerCase(), PermissionDefault.TRUE);
+    }
+    
     /**
      * Gets the name of this spell
      *
@@ -163,15 +177,16 @@ public abstract class Spell {
      * @return the cool down
      */
     public int getCoolDown(Player p) {
+    	FileConfiguration cdConfig = HPS.ConfigurationManager.getConfig(ConfigurationType.COOLDOWN).get();
         SpellInfo info = this.getClass().getAnnotation(SpellInfo.class);
         if (info == null)
             return 60;
-        if (p.hasPermission(HPS.SpellManager.NO_COOLDOWN_ALL_1) || p.hasPermission(HPS.SpellManager.NO_COOLDOWN_ALL_2) || p.hasPermission("HarryPotterSpells.nocooldown." + getName()))
+        if (p.hasPermission(HPS.SpellManager.NO_COOLDOWN_ALL_1) || p.hasPermission(HPS.SpellManager.NO_COOLDOWN_ALL_2) || p.hasPermission("harrypotterspells.nocooldown." + getName().toLowerCase()))
             return 0;
 
         int cooldown;
-        if (HPS.getConfig().contains("cooldowns." + info.name().toLowerCase()))
-            cooldown = HPS.getConfig().getInt("cooldowns." + info.name().toLowerCase());
+        if (cdConfig.contains("cooldowns." + info.name().toLowerCase()))
+            cooldown = cdConfig.getInt("cooldowns." + info.name().toLowerCase());
         else
             cooldown = info.cooldown();
 
@@ -179,14 +194,15 @@ public abstract class Spell {
     }
 
     /**
-     * A utility method used to shorten the retrieval of something from the spells configuration section
+     * A utility method used to shorten the retrieval of something from the spells configuration file
      *
      * @param key      the key to the value relative to {@code spells.[spell name].}
      * @param defaultt the nullable value to return if nothing was found
      * @return the object found at that location
      */
     public Object getConfig(String key, @Nullable Object defaultt) {
-        return defaultt == null ? HPS.getConfig().get("spells." + getName() + "." + key) : HPS.getConfig().get("spells." + getName() + "." + key, defaultt);
+    	FileConfiguration spellConfig = HPS.ConfigurationManager.getConfig(ConfigurationType.SPELL).get();
+        return defaultt == null ? spellConfig.get("spells." + getName().toLowerCase() + "." + key) : spellConfig.get("spells." + getName() + "." + key, defaultt);
     }
 
     /**
@@ -194,25 +210,33 @@ public abstract class Spell {
      * Default: seconds <br>
      * {@code endsWith("t")}: ticks
      *
-     * @param key      the key to the value relative to {@code spells.[spell name ].}
-     * @param defaultt the nullable value to return if nothing was found
-     * @return a {code long} with the amount of ticks the time specified
+     * @param key      the key to the value relative to {@code spells.[spellname].}
+     * @param defaultt the nullable ticks to return if nothing was found
+     * @return a {@code long} with the amount of ticks the time specified
      */
     public long getTime(String key, @Nullable long defaultt) {
-        String durationString = (String) getConfig(key, "");
+    	Object time = getConfig(key, "");
+    	if (time instanceof String || time instanceof Integer) {
+    		String durationString = (String) time;
+    		if (durationString.contains("#")) {
+        		String[] value = durationString.split("#");
+        		durationString = value[0];
+        	}
+        	
+            if (durationString.equals(""))
+                return defaultt;
 
-        if (durationString.equals(""))
-            return defaultt;
+            int duration = 0;
 
-        int duration = 0;
-
-        if (durationString.endsWith("t")) {
-            String ticks = durationString.substring(0, durationString.length() - 1);
-            duration = Integer.parseInt(ticks);
-        } else
-            duration = Integer.parseInt(durationString) * 20;
-
-        return duration;
+            if (durationString.endsWith("t")) {
+                String ticks = durationString.substring(0, durationString.length() - 1);
+                duration = Integer.parseInt(ticks);
+            } else {
+            	duration = Integer.parseInt(durationString) * 20;
+            }
+            return duration;
+    	}
+    	return defaultt;
     }
 
 }

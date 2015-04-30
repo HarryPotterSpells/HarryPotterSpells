@@ -1,9 +1,12 @@
 package com.hpspells.core.spell;
 
+import java.util.Set;
+
 import com.hpspells.core.HPS;
 import com.hpspells.core.api.SpellBookRecipe;
 import com.hpspells.core.spell.Spell.SpellInfo;
 import com.hpspells.core.spell.interfaces.Craftable;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -30,7 +33,7 @@ public class TimeSpell extends Spell implements Craftable {
     //Night == 15000L
     public boolean cast(Player p) {
         World w = p.getWorld();
-        Material m = p.getTargetBlock(null, 50).getType();
+        Material m = p.getTargetBlock((Set<Material>) null, 50).getType();
         if (m == Material.GLOWSTONE)
             w.setTime(0L);
         else if (m == Material.OBSIDIAN)

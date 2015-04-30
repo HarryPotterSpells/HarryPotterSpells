@@ -48,6 +48,10 @@ public class Teach extends HCommandExecutor {
                 String learnedspells = null;
                 for (Spell newSpell : spells) {
                     if (!newSpell.playerKnows(teachTo)) {
+                    	if (!teachTo.hasPermission(newSpell.getPermission())) {
+                    		HPS.PM.dependantMessagingWarn(teachTo, HPS.Localisation.getTranslation("spellUnauthorized"));
+                    		continue;
+                    	}
                         if (learnedspells == null) {
                             newSpell.teach(teachTo);
                             learnedspells = HPS.Localisation.getTranslation("cmdTeaTaught", teachTo.getName()) + newSpell.getName();
@@ -63,7 +67,10 @@ public class Teach extends HCommandExecutor {
                 HPS.PM.dependantMessagingTell(sender, learnedspells + ".");
 
             } else {
-
+            	if (!teachTo.hasPermission(spell.getPermission())) {
+            		HPS.PM.dependantMessagingWarn(teachTo, HPS.Localisation.getTranslation("spellUnauthorized"));
+            		return true;
+            	}
                 if (spell.playerKnows(teachTo)) {
                     HPS.PM.dependantMessagingWarn(sender, HPS.Localisation.getTranslation("cmdTeaKnowsThat", teachTo.getName()));
                 } else {

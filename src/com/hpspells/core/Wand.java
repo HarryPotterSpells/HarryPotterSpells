@@ -1,11 +1,15 @@
 package com.hpspells.core;
 
-import com.hpspells.core.util.MiscUtilities;
+import java.util.Arrays;
+import java.util.Random;
+
+import javax.annotation.Nullable;
+
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
-import java.util.Random;
+import com.hpspells.core.util.MiscUtilities;
 
 /**
  * This class manages the wand
@@ -32,22 +36,26 @@ public class Wand {
      * @return {@code true} if the ItemStack is useable as a wand
      */
     public boolean isWand(ItemStack i) {
-        if (i.getTypeId() != ((Integer) getConfig("id", 280))) // Item id check
-            return false;
+    	 if (i.getTypeId() != ((Integer) getConfig("id", 280))) // Item id check
+             return false;
 
-        if (((Boolean) getConfig("lore.enabled", true)) && !i.getItemMeta().getDisplayName().equals((String) getConfig("lore.name", "Wand"))) // Lore name check
-            return false;
+         if (((Boolean) getConfig("lore.enabled", true)) && !i.getItemMeta().getDisplayName().equals((String) getConfig("lore.name", "Wand"))) // Lore name check
+             return false;
 
-        return true;
+         return true;
+        //return new NBTContainerItem(i).getTag(TAG_NAME) != null;
     }
 
     /**
      * Gets the wand
      *
+     * @param owner a {@link Nullable} parameter that specifies the owner of the wand
+     *
      * @return an {@link ItemStack} that has been specified as a wand in the config
      */
-    public ItemStack getWand() {
+    public ItemStack getWand(@Nullable Player owner) {
         ItemStack wand = new ItemStack((Integer) getConfig("id", 280));
+        //NBTTagCompound comp = new NBTTagCompound(TAG_NAME);
 
         if ((Boolean) getConfig("lore.enabled", true)) {
             ItemMeta meta = wand.getItemMeta();
@@ -59,32 +67,26 @@ public class Wand {
             wand.setItemMeta(meta);
         }
 
-        if ((Boolean) getConfig("enchantment-effect", true))
+        if ((Boolean) getConfig("enchantment-effect", true)) {
             try {
                 wand = MiscUtilities.makeGlow(wand);
             } catch (Exception e) {
                 HPS.PM.debug(HPS.Localisation.getTranslation("errEnchantmentEffect"));
                 HPS.PM.debug(e);
             }
+        }
 
+        /*if(owner != null) {
+            NBTTagString tag = new NBTTagString();
+            tag.setName("Owner");
+            tag.set(owner.getName());
+
+            comp.set("Owner", tag);
+        }
+
+        NBTContainerItem item = new NBTContainerItem(wand);
+        item.setTag(comp);*/
         return wand;
-    }
-
-    /**
-     * Checks if a given {@link ItemStack} is the same as {@link Wand#getLorelessWand()}. <br>
-     * At the moment this is the same as {@link Wand#isWand(ItemStack)} only because Lore checks have not been implemented yet.
-     *
-     * @param i the itemstack
-     * @return {@code true} if the ItemStack is the same as a loreless wand
-     */
-    public boolean isLorelessWand(ItemStack i) {
-        if (i.getTypeId() != ((Integer) getConfig("id", 280))) // Item id check
-            return false;
-
-        if (((Boolean) getConfig("lore.enabled", true)) && !i.getItemMeta().getDisplayName().equals((String) getConfig("lore.name", "Wand"))) // Lore name check
-            return false;
-
-        return true;
     }
 
     /**
