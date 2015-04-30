@@ -31,6 +31,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.hpspells.core.Metrics.Graph;
 import com.hpspells.core.Metrics.Plotter;
+import com.hpspells.core.api.APIHandler;
 import com.hpspells.core.api.event.SpellBookRecipeAddEvent;
 import com.hpspells.core.command.CommandInfo;
 import com.hpspells.core.command.HCommandExecutor;
@@ -38,6 +39,7 @@ import com.hpspells.core.configuration.ConfigurationManager;
 import com.hpspells.core.configuration.ConfigurationManager.ConfigurationType;
 import com.hpspells.core.configuration.CustomConfiguration;
 import com.hpspells.core.configuration.PlayerSpellConfig;
+import com.hpspells.core.extension.ExtensionManager;
 import com.hpspells.core.spell.Spell;
 import com.hpspells.core.spell.SpellManager;
 import com.hpspells.core.spell.interfaces.Craftable;
@@ -52,6 +54,7 @@ public class HPS extends JavaPlugin {
     public Wand Wand;
     public SpellTargeter SpellTargeter;
     public Localisation Localisation;
+    public ExtensionManager ExtensionManager;
 
     private static CommandMap commandMap;
     private static Collection<HelpTopic> helpTopics = new ArrayList<HelpTopic>();
@@ -72,6 +75,8 @@ public class HPS extends JavaPlugin {
         	SpellTargeter = new SpellTargeter(this);
             SpellManager = new SpellManager(this);
             Wand = new Wand(this);
+            ExtensionManager = new ExtensionManager(this);
+            new APIHandler(this);
             
             // Configuration
             ConfigurationManager.loadConfig();
@@ -249,6 +254,12 @@ public class HPS extends JavaPlugin {
             }
 
             PM.debug(Localisation.getTranslation("dbgCraftingEnd"));
+
+            // Extension manager setup
+            PM.debug(Localisation.getTranslation("dbgExtensionStart"));
+            ExtensionManager.reloadExtensions();
+            ExtensionManager.enableExtensions();
+            PM.debug(Localisation.getTranslation("dbgExtensionStop"));
 
             PM.log(Level.INFO, Localisation.getTranslation("genPluginEnabled"));
         }
