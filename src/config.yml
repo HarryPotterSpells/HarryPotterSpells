@@ -10,8 +10,81 @@ wand:
   explosion-effect: false  # Generate explosion when /wand is used?
   enchantment-effect : true # Should wands have the shiny enchantment effect
   lore:
-    enabled: true # Should we display lore on the wand?
     name: 'Wand' # The name we should give the wand
+    enabled: true # Should we display custom lore on the wand (length, core, wood type, etc.)?
+    length: # Wand length settings
+      measurement: 'inches'
+      minimum: 9
+      maximum: 18
+    wood-types: # Edit or add your own wood types in any of the 6 categories below
+      1: # Rarest
+        - 'Elder'
+      2: # Very rare
+        - 'Cherry'
+      3: # Rare
+        - 'Apple'
+        - 'Holly'
+        - 'Yew'
+      4: # Very uncommon
+        - 'Acacia'
+        - 'Birch'
+        - 'Ivy'
+        - 'Oak'
+        - 'Red'
+        - 'Rose'
+        - 'Silver Lime'
+        - 'Vine'
+        - 'Willow'
+      5: # Uncommon
+        - 'Alder'
+        - 'Aspen'
+        - 'Beech'
+        - 'Blackthorn'
+        - 'Black Walnut'
+        - 'Cedar'
+        - 'Cypress'
+        - 'Dog'
+        - 'Ebony'
+        - 'Elm'
+        - 'Fir'
+        - 'Hawthorn'
+        - 'Hazel'
+        - 'Hornbeam'
+        - 'Larch'
+        - 'Laurel'
+        - 'Mahogany'
+        - 'Maple'
+        - 'Pear'
+        - 'Poplar'
+        - 'Reed'
+        - 'Rowan'
+        - 'Spruce'
+        - 'Sycamore'
+        - 'Walnut'
+      6: # Common
+        - 'Ash'
+        - 'Chesnut'
+        - 'Pine'
+    cores: # Add your own wand core with "Wand_Core: probability". Probability must add up to 1.0
+      Dragon_heartstring: 0.3
+      Phoenix_feather: 0.0009
+      Unicorn_tail_hair: 0.3
+      Veela_hair: 0.133
+      Thestral_tail_hair: 0.0001
+      Troll_whisker: 0.133
+      Coral: 0.133
+    manufacturers: # Add your own wand manufacturer with "Manufacturer: probability". Probability must add up to 1.0
+      Arturo_Cephalopos: 0.0094
+      Antioch_Peverell: 0.0005
+      Death: 0.0001
+      Mykew_Gregorovitch: 0.1
+      Jimmy_Kiddell: 0.2
+      Ollivander_family: 0.69
+    rigidity: # Define your own rigidity by editing or adding any values below
+      - 'Very unyielding'
+      - 'Quite unyielding'
+      - 'Quite springy'
+      - 'Very springy'
   crafting:
     enabled: true # Should we bother making a crafting recipe for the wand?
     recipe: # The crafting recipe for the wand. Each space represents a slot in the crafting table.

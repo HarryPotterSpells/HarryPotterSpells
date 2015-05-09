@@ -1,10 +1,11 @@
 package com.hpspells.core;
 
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 
 import javax.annotation.Nullable;
 
+import com.hpspells.core.api.event.wand.WandCreationEvent;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -16,9 +17,6 @@ import com.hpspells.core.util.MiscUtilities;
  */
 public class Wand {
     private HPS HPS;
-
-    public static final String[] WOOD_TYPES = new String[]{"Elder", "Walnut", "Blackthorn", "Ash", "Hawthorn", "Rose", "Hornbeam", "Holly", "Vine", "Mahogany", "Willow", "Elm", "Oak", "Fir", "Cherry", "Chestnut", "Alder", "Yew"};
-    public static final String[] CORES = new String[]{"Thestral tail hair", "Dragon heartstring", "Troll whisker", "Unicorn hair", "Veela hair", "Phoenix feather"};
 
     /**
      * Constructs a new {@link Wand}
@@ -55,19 +53,22 @@ public class Wand {
      */
     public ItemStack getWand(@Nullable Player owner) {
         ItemStack wand = new ItemStack((Integer) getConfig("id", 280));
+        ItemMeta meta = wand.getItemMeta();
+        WandCreationEvent wandCreationEvent = new WandCreationEvent(owner, null, true);
         //NBTTagCompound comp = new NBTTagCompound(TAG_NAME);
 
         if ((Boolean) getConfig("lore.enabled", true)) {
-            ItemMeta meta = wand.getItemMeta();
-            Random random = new Random();
-
-            meta.setDisplayName((String) getConfig("lore.name", "Wand"));
-            meta.setLore(Arrays.asList(WOOD_TYPES[random.nextInt(WOOD_TYPES.length)] + " wood", CORES[random.nextInt(CORES.length)] + " core", random.nextInt(20) + " inches long"));
-
-            wand.setItemMeta(meta);
+            wandCreationEvent.setLore(generateLore());
         }
 
         if ((Boolean) getConfig("enchantment-effect", true)) {
+            wandCreationEvent.setEnchantmentEffect(true);
+        }
+
+        // Call creation event
+        HPS.getServer().getPluginManager().callEvent(wandCreationEvent);
+
+        if (wandCreationEvent.hasEnchantmentEffect()) {
             try {
                 wand = MiscUtilities.makeGlow(wand);
             } catch (Exception e) {
@@ -75,6 +76,19 @@ public class Wand {
                 HPS.PM.debug(e);
             }
         }
+
+        if (wandCreationEvent.hasLore()) {
+            Lore lore = wandCreationEvent.getLore();
+
+            meta.setLore(Arrays.asList(lore.getLength() + " " + getConfig("lore.length.measurement", "inches"),
+                    lore.getCore() + " core",
+                    lore.getWood() + " wood (" + lore.getWoodRarityString() + ")",
+                    lore.getRigidity(),
+                    "Manufactured by " + lore.getManufacturer()));
+        }
+
+        meta.setDisplayName((String) getConfig("lore.name", "Wand"));
+        wand.setItemMeta(meta);
 
         /*if(owner != null) {
             NBTTagString tag = new NBTTagString();
@@ -97,12 +111,10 @@ public class Wand {
      */
     public ItemStack getLorelessWand() {
         ItemStack wand = new ItemStack((Integer) getConfig("id", 280));
+        ItemMeta meta = wand.getItemMeta();
 
-        if ((Boolean) getConfig("lore.enabled", true)) {
-            ItemMeta meta = wand.getItemMeta();
-            meta.setDisplayName((String) getConfig("lore.name", "Wand"));
-            wand.setItemMeta(meta);
-        }
+        meta.setDisplayName((String) getConfig("lore.name", "Wand"));
+        wand.setItemMeta(meta);
 
         if ((Boolean) getConfig("enchantment-effect", true))
             try {
@@ -115,8 +127,95 @@ public class Wand {
         return wand;
     }
 
+    public Lore generateLore() {
+        Lore lore = new Lore();
+        Random random = new Random();
+        ConfigurationSection cs = HPS.getConfig().getConfigurationSection("wand.lore");
+
+        int woodRarity = MiscUtilities.randomBetween(1, 6);
+        List<String> possibleRarities = cs.getStringList("wood-types." + woodRarity),
+                possibleRigidities = cs.getStringList("rigidity");
+
+        Map<String, Object> cores = cs.getConfigurationSection("cores").getValues(false),
+                manufacturers = cs.getConfigurationSection("manufacturers").getValues(false);
+
+        lore.setWoodRarity(woodRarity);
+        lore.setWood(possibleRarities.get(random.nextInt(possibleRarities.size())));
+        lore.setRigidity(possibleRigidities.get(random.nextInt(possibleRigidities.size())));
+        lore.setLength(MiscUtilities.randomBetween(cs.getInt("length.minimum", 9), cs.getInt("length.maximum", 18)));
+        lore.setCore(MiscUtilities.getStringFromProbability(cores));
+        lore.setManufacturer(MiscUtilities.getStringFromProbability(manufacturers));
+
+        return lore;
+    }
+
     private Object getConfig(String string, Object defaultt) {
         return HPS.getConfig().get("wand." + string, defaultt);
+    }
+
+    public class Lore {
+        private String wood = "Unknown", manufacturer = "somebody", core = "Unknown", rigidity = "Unknown rigidity";
+        private int woodRarity = 0, length = 13;
+
+        public String getWood() {
+            return wood;
+        }
+
+        public void setWood(String wood) {
+            this.wood = wood;
+        }
+
+        public String getManufacturer() {
+            return manufacturer;
+        }
+
+        public void setManufacturer(String manufacturer) {
+            this.manufacturer = manufacturer;
+        }
+
+        public String getCore() {
+            return core;
+        }
+
+        public void setCore(String core) {
+            this.core = core;
+        }
+
+        public String getRigidity() {
+            return rigidity;
+        }
+
+        public void setRigidity(String rigidity) {
+            this.rigidity = rigidity;
+        }
+
+        public void setWoodRarity(int woodRarity) {
+            this.woodRarity = woodRarity;
+        }
+
+        public int getWoodRarity() {
+            return woodRarity;
+        }
+
+        public int getLength() {
+            return length;
+        }
+
+        public void setLength(int length) {
+            this.length = length;
+        }
+
+        public String getWoodRarityString() {
+            switch (woodRarity) {
+                case 1: return "very rare";
+                case 2: return "rare";
+                case 3: return "very uncommon";
+                case 4: return "uncommon";
+                case 5: return "common";
+                default: return "unknown rarity";
+            }
+        }
+
     }
 
 }
