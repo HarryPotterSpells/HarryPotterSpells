@@ -1,10 +1,13 @@
 package com.hpspells.core;
 
 import java.util.*;
+import java.util.logging.Level;
 
 import javax.annotation.Nullable;
 
 import com.hpspells.core.api.event.wand.WandCreationEvent;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -34,13 +37,13 @@ public class Wand {
      * @return {@code true} if the ItemStack is useable as a wand
      */
     public boolean isWand(ItemStack i) {
-    	 if (i.getTypeId() != (Integer) getConfig("id", 280)) // Item id check
-             return false;
+        if (i == null || !i.hasItemMeta() || i.getType() != Material.matchMaterial((String) getConfig("type", "STICK"))) {
+            return false;
+        }
 
-         if ((Boolean) getConfig("lore.enabled", true) && !i.getItemMeta().getDisplayName().equals((String) getConfig("lore.name", "Wand"))) // Lore name check
-             return false;
+        ItemMeta itemMeta = i.getItemMeta();
 
-         return true;
+        return itemMeta.hasDisplayName() && ChatColor.stripColor(itemMeta.getDisplayName()).equals(ChatColor.stripColor((String) getConfig("name", "Wand")));
         //return new NBTContainerItem(i).getTag(TAG_NAME) != null;
     }
 
@@ -52,8 +55,15 @@ public class Wand {
      * @return an {@link ItemStack} that has been specified as a wand in the config
      */
     public ItemStack getWand(@Nullable Player owner) {
-        ItemStack wand = new ItemStack((Integer) getConfig("id", 280));
-        ItemMeta meta = wand.getItemMeta();
+        Material wandMaterial = Material.matchMaterial((String) getConfig("type", "STICK"));
+
+        if (wandMaterial == null || wandMaterial == Material.AIR) {
+            wandMaterial = Material.STICK;
+            HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errWandCreationInvalidType", (String) getConfig("type", "STICK")));
+        }
+
+        ItemStack wand = new ItemStack(wandMaterial);
+        ItemMeta meta = HPS.getServer().getItemFactory().getItemMeta(wandMaterial);
         WandCreationEvent wandCreationEvent = new WandCreationEvent(owner, null, true);
         //NBTTagCompound comp = new NBTTagCompound(TAG_NAME);
 
@@ -68,6 +78,13 @@ public class Wand {
         // Call creation event
         HPS.getServer().getPluginManager().callEvent(wandCreationEvent);
 
+        if (wandCreationEvent.hasLore()) {
+            meta.setLore(wandCreationEvent.getLore().toStringList());
+        }
+
+        meta.setDisplayName(ChatColor.RESET + ChatColor.translateAlternateColorCodes('&', (String) getConfig("lore.name", "Wand")));
+        wand.setItemMeta(meta);
+
         if (wandCreationEvent.hasEnchantmentEffect()) {
             try {
                 wand = MiscUtilities.makeGlow(wand);
@@ -76,19 +93,6 @@ public class Wand {
                 HPS.PM.debug(e);
             }
         }
-
-        if (wandCreationEvent.hasLore()) {
-            Lore lore = wandCreationEvent.getLore();
-
-            meta.setLore(Arrays.asList(lore.getLength() + " " + getConfig("lore.length.measurement", "inches"),
-                    lore.getCore() + " core",
-                    lore.getWood() + " wood (" + lore.getWoodRarityString() + ")",
-                    lore.getRigidity(),
-                    "Manufactured by " + lore.getManufacturer()));
-        }
-
-        meta.setDisplayName((String) getConfig("lore.name", "Wand"));
-        wand.setItemMeta(meta);
 
         /*if(owner != null) {
             NBTTagString tag = new NBTTagString();
@@ -110,19 +114,27 @@ public class Wand {
      * @return an {@link ItemStack} containing a wand
      */
     public ItemStack getLorelessWand() {
-        ItemStack wand = new ItemStack((Integer) getConfig("id", 280));
-        ItemMeta meta = wand.getItemMeta();
+        Material wandMaterial = Material.matchMaterial((String) getConfig("type", "STICK"));
 
-        meta.setDisplayName((String) getConfig("lore.name", "Wand"));
+        if (wandMaterial == null || wandMaterial == Material.AIR) {
+            wandMaterial = Material.STICK;
+            HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errWandCreationInvalidType", (String) getConfig("type", "STICK")));
+        }
+
+        ItemStack wand = new ItemStack(wandMaterial);
+        ItemMeta meta = HPS.getServer().getItemFactory().getItemMeta(wandMaterial);
+
+        meta.setDisplayName(ChatColor.RESET + ChatColor.translateAlternateColorCodes('&', (String) getConfig("lore.name", "Wand")));
         wand.setItemMeta(meta);
 
-        if ((Boolean) getConfig("enchantment-effect", true))
+        if ((Boolean) getConfig("enchantment-effect", true)) {
             try {
                 wand = MiscUtilities.makeGlow(wand);
             } catch (Exception e) {
                 HPS.PM.debug(HPS.Localisation.getTranslation("errEnchantmentEffect"));
                 HPS.PM.debug(e);
             }
+        }
 
         return wand;
     }
@@ -166,7 +178,7 @@ public class Wand {
         }
 
         public String getManufacturer() {
-            return manufacturer;
+            return manufacturer.replace('_', ' ').trim();
         }
 
         public void setManufacturer(String manufacturer) {
@@ -174,7 +186,7 @@ public class Wand {
         }
 
         public String getCore() {
-            return core;
+            return core.replace('_', ' ').trim();
         }
 
         public void setCore(String core) {
@@ -216,6 +228,25 @@ public class Wand {
             }
         }
 
+        public List<String> toStringList() {
+            List<String> formatList = HPS.getConfig().getStringList("wand.lore.format");
+
+            for (int i = 0; i < formatList.size(); i++) {
+                String line = formatList.get(i);
+
+                line = line.replace("%length", String.valueOf(this.getLength()));
+                line = line.replace("%core", this.getCore());
+                line = line.replace("%wood", this.getWood());
+                line = line.replace("%rarity", this.getWoodRarityString());
+                line = line.replace("%rigidity", this.getRigidity());
+                line = line.replace("%manufacturer", this.getManufacturer());
+                line = ChatColor.RESET + ChatColor.translateAlternateColorCodes('&', line);
+
+                formatList.set(i, line);
+            }
+
+            return formatList;
+        }
     }
 
 }

@@ -6,14 +6,19 @@ messaging:
   warning: 'RED'
 
 wand:
-  id: 280 # The item id of the wand (280 == stick)
+  type: stick # The material type of the wand
   explosion-effect: false  # Generate explosion when /wand is used?
   enchantment-effect : true # Should wands have the shiny enchantment effect
   lore:
-    name: 'Wand' # The name we should give the wand
+    name: '&3Wand' # The name we should give the wand
     enabled: true # Should we display custom lore on the wand (length, core, wood type, etc.)?
+    format: # Format for the lore of wands, &x formatting codes can be used
+      - '&b%length&r inches'
+      - '&b%core&r core'
+      - '&b%wood&r wood (&o%rarity&r)'
+      - '%rigidity'
+      - 'Manufactured by &b%manufacturer'
     length: # Wand length settings
-      measurement: 'inches'
       minimum: 9
       maximum: 18
     wood-types: # Edit or add your own wood types in any of the 6 categories below
@@ -91,10 +96,10 @@ wand:
       - ' A '
       - ' B '
       - ' C '
-    ingredients: # Mapping of the chars in the recipe to items using item id
-      A: 370
-      B: 399
-      C: 280
+    ingredients: # Mapping of the chars in the recipe to items using material name
+      A: 'ghast tear'
+      B: 'nether star'
+      C: 'stick'
 
 spells-craftable: true # Should we allow spells to be craftable into books?
 shout-on-spell-use: false  # If the player should say 'Spellname!' on every spell cast
