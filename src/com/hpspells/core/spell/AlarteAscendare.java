@@ -37,8 +37,8 @@ public class AlarteAscendare extends Spell {
                 entity.setVelocity(new Vector(0, 1, 0));
             }
 
-        }, 1.0, ParticleEffect.EXPLODE);
+        }, 1f, ParticleEffect.EXPLOSION_NORMAL);
+
         return true;
     }
-
 }

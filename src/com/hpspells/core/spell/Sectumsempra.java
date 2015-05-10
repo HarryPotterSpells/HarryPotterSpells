@@ -41,7 +41,7 @@ public class Sectumsempra extends Spell {
 
             }
 
-        }, 1.0, ParticleEffect.RED_DUST);
+        }, 1f, ParticleEffect.REDSTONE);
         return true;
     }
 

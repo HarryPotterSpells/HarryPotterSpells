@@ -53,7 +53,7 @@ public class TreeSpell extends Spell {
                 HPS.PM.warn(p, HPS.Localisation.getTranslation("spellBlockOnly"));
             }
 
-        }, 1.0d, ParticleEffect.SPELL);
+        }, 1f, ParticleEffect.SPELL);
         return true;
     }
 

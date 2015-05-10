@@ -66,7 +66,7 @@ public class Crucio extends Spell implements Listener {
                 HPS.PM.warn(p, HPS.Localisation.getTranslation("spellPlayerOnly"));
             }
 
-        }, 1.2d, ParticleEffect.DEPTH_SUSPEND);
+        }, 1.2f, ParticleEffect.SUSPENDED_DEPTH);
         return true;
     }
 

@@ -156,7 +156,7 @@ public class SpellTargeter {
      * @param offset     how far the particles should randomly offset from the center trail
      * @param count      how many particles should be displayed per tick
      */
-    public void register(final Player caster, final SpellHitEvent onHit, final double spellSpeed, final float offset, final int count, final ParticleEffect... effect) {
+    public void register(final Player caster, final SpellHitEvent onHit, final float spellSpeed, final float offset, final int count, final ParticleEffect... effect) {
         new BukkitRunnable() {
             Location loc = caster.getEyeLocation();
             Vector direction = loc.getDirection().multiply(spellSpeed);
@@ -174,8 +174,7 @@ public class SpellTargeter {
                 loc.add(direction);
                 try {
                     for (ParticleEffect pe : effect) {
-                    	pe.display(loc, offset, offset, offset, 1f, count);
-                        //ParticleEffect.sendToLocation(pe, loc, offset, offset, offset, 1f, count);
+                        pe.display(offset, offset, offset, spellSpeed, count, loc, 25);
                     }
                 } catch (Exception e) {
                     HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errParticleEffect"));
@@ -197,11 +196,8 @@ public class SpellTargeter {
                 tickTracker++;
                 if (tickTracker > maxTicks && !(maxTicks == -1)) {
                     cancel();
-                    return;
                 }
-
             }
-
         }.run();
     }
 
@@ -213,7 +209,7 @@ public class SpellTargeter {
      * @param spellSpeed the vector multiplier for the movement of the spell
      * @param effect     the {@link ParticleEffect} to play during the movement of the spell
      */
-    public void register(final Player caster, final SpellHitEvent onHit, final double spellSpeed, final ParticleEffect effect) {
+    public void register(final Player caster, final SpellHitEvent onHit, final float spellSpeed, final ParticleEffect effect) {
         register(caster, onHit, spellSpeed, 0.5f, 1, effect);
     }
 
