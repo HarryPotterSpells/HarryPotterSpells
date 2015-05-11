@@ -1,18 +1,22 @@
 package com.hpspells.core;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.logging.Level;
 
 import javax.annotation.Nullable;
 
-import com.hpspells.core.api.event.wand.WandCreationEvent;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.hpspells.core.api.event.wand.WandCreationEvent;
+import com.hpspells.core.spell.Spell;
 import com.hpspells.core.util.MiscUtilities;
 
 /**
@@ -38,7 +42,7 @@ public class Wand {
      */
     public boolean isWand(ItemStack i) {
         if (i == null || !i.hasItemMeta() || i.getType() != Material.matchMaterial((String) getConfig("type", "STICK"))) {
-            return false;
+        	return false;
         }
 
         ItemMeta itemMeta = i.getItemMeta();
@@ -68,9 +72,14 @@ public class Wand {
         //NBTTagCompound comp = new NBTTagCompound(TAG_NAME);
 
         if ((Boolean) getConfig("lore.enabled", true)) {
-            wandCreationEvent.setLore(generateLore());
+        	Lore lore = generateLore();
+        	if ((Boolean) getConfig("lore.show-current-spell", true)) {
+            	Spell spell = HPS.SpellManager.getCurrentSpell(owner);
+            	lore.setCurrentSpell(spell == null ? "None" : spell.getName());
+            }
+            wandCreationEvent.setLore(lore);
         }
-
+        
         if ((Boolean) getConfig("enchantment-effect", true)) {
             wandCreationEvent.setEnchantmentEffect(true);
         }
@@ -105,6 +114,20 @@ public class Wand {
         NBTContainerItem item = new NBTContainerItem(wand);
         item.setTag(comp);*/
         return wand;
+    }
+    
+    /**
+     * Gets a wand from any inventory, can be null if none found.
+     * @param inv The inventory to search for
+     * @return the wand ItemStack
+     */
+    public ItemStack getWandFromInventory(Inventory inv) {
+    	for (ItemStack is : inv.getContents()) {
+    		if (isWand(is)) {
+    			return is;
+    		}
+    	}
+    	return null;
     }
 
     /**
@@ -166,9 +189,17 @@ public class Wand {
     }
 
     public class Lore {
-        private String wood = "Unknown", manufacturer = "somebody", core = "Unknown", rigidity = "Unknown rigidity";
+        private String currentSpell = "None", wood = "Unknown", manufacturer = "somebody", core = "Unknown", rigidity = "Unknown rigidity";
         private int woodRarity = 0, length = 13;
 
+        public String getCurrentSpell() {
+        	return currentSpell;
+        }
+        
+        public void setCurrentSpell(String spellname) {
+        	currentSpell = spellname;
+        }
+        
         public String getWood() {
             return wood;
         }
@@ -234,6 +265,7 @@ public class Wand {
             for (int i = 0; i < formatList.size(); i++) {
                 String line = formatList.get(i);
 
+                line = line.replace("%spell", this.getCurrentSpell());
                 line = line.replace("%length", String.valueOf(this.getLength()));
                 line = line.replace("%core", this.getCore());
                 line = line.replace("%wood", this.getWood());

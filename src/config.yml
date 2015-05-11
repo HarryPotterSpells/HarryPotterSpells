@@ -12,7 +12,9 @@ wand:
   lore:
     name: '&3Wand' # The name we should give the wand
     enabled: true # Should we display custom lore on the wand (length, core, wood type, etc.)?
+    show-current-spell: true # Should we display the current-spell on the wand itself
     format: # Format for the lore of wands, &x formatting codes can be used
+      - '&eCurrent Spell: &6%spell'
       - '&b%length&r inches'
       - '&b%core&r core'
       - '&b%wood&r wood (&o%rarity&r)'
