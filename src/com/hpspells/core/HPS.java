@@ -43,18 +43,20 @@ import com.hpspells.core.extension.ExtensionManager;
 import com.hpspells.core.spell.Spell;
 import com.hpspells.core.spell.SpellManager;
 import com.hpspells.core.spell.interfaces.Craftable;
+import com.hpspells.core.storage.WizardManager;
 import com.hpspells.core.util.MetricStatistics;
 import com.hpspells.core.util.ReflectionsReplacement;
 import com.hpspells.core.util.SVPBypass;
 
 public class HPS extends JavaPlugin {
     public ConfigurationManager ConfigurationManager;
+    public ExtensionManager ExtensionManager;
+    public WizardManager wizardManager;
+    public Localisation Localisation;
     public PM PM;
     public SpellManager SpellManager;
-    public Wand Wand;
     public SpellTargeter SpellTargeter;
-    public Localisation Localisation;
-    public ExtensionManager ExtensionManager;
+    public Wand Wand;
 
     private static CommandMap commandMap;
     private static Collection<HelpTopic> helpTopics = new ArrayList<HelpTopic>();
@@ -73,6 +75,7 @@ public class HPS extends JavaPlugin {
         Localisation = new Localisation(this);
         if (localeState) {
         	SpellTargeter = new SpellTargeter(this);
+        	wizardManager = new WizardManager();
             SpellManager = new SpellManager(this);
             Wand = new Wand(this);
             ExtensionManager = new ExtensionManager(this);
