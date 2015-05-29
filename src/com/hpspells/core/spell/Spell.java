@@ -16,7 +16,7 @@ import org.bukkit.permissions.PermissionDefault;
 
 import com.hpspells.core.HPS;
 import com.hpspells.core.configuration.ConfigurationManager.ConfigurationType;
-import com.hpspells.core.configuration.PlayerSpellConfig;
+import com.hpspells.core.storage.WizardManager;
 
 /**
  * An abstract class representing a Spell
@@ -60,11 +60,8 @@ public abstract class Spell {
      * @param p the player
      */
     public void teach(Player p) {
-        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
-        List<String> list = psc.getStringListOrEmpty(p.getName());
-        list.add(getName());
-        psc.get().set(p.getName(), list);
-        psc.save();
+    	WizardManager.getWizard(p.getUniqueId()).addKnownSpell(this);
+        WizardManager.saveWizard(p);
     }
 
     /**
@@ -74,9 +71,7 @@ public abstract class Spell {
      * @return {@code true} if the player knows this spell
      */
     public boolean playerKnows(Player p) {
-        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
-        List<String> list = psc.getStringListOrEmpty(p.getName());
-        return list.contains(getName());
+    	return WizardManager.getWizard(p.getUniqueId()).knowsSpell(this);
     }
 
     /**
@@ -85,11 +80,8 @@ public abstract class Spell {
      * @param p the player
      */
     public void unTeach(Player p) {
-        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
-        List<String> list = psc.getStringListOrEmpty(p.getName());
-        list.remove(getName());
-        psc.get().set(p.getName(), list);
-        psc.save();
+        WizardManager.getWizard(p.getUniqueId()).removeKnownSpell(this);
+        WizardManager.saveWizard(p);
     }
     
     /**

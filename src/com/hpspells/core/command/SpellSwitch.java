@@ -29,7 +29,7 @@ public class SpellSwitch extends HCommandExecutor {
                         HPS.PM.warn(player, HPS.Localisation.getTranslation("cmdSpsPlayerDoesntKnow"));
                         return true;
                     } else {
-                        HPS.SpellManager.setCurrentSpell(player, spell);
+                        HPS.SpellManager.setCurrentSpell(player.getUniqueId(), spell);
                         // Captializes the spell name before sending it to the player
                         spellName = spellName.substring(0, 1).toUpperCase() + spellName.substring(1);
                         HPS.PM.newSpell(player, spellName);

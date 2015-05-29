@@ -26,7 +26,7 @@ public class Obliviate extends Spell {
             public void hitEntity(LivingEntity entity) {
                 if (entity instanceof Player) {
                     Player target = (Player) entity;
-                    Spell spell = HPS.SpellManager.getCurrentSpell(target);
+                    Spell spell = HPS.SpellManager.getCurrentSpell(target.getUniqueId());
                     if (spell == null) {
                         HPS.PM.warn(p, "That player doesn't know any spells or has none selected!");
                     } else {

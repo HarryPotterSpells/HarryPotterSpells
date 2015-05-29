@@ -1,14 +1,15 @@
 package com.hpspells.core.spell;
 
-import com.google.common.collect.Iterables;
-import com.hpspells.core.HPS;
-import com.hpspells.core.api.event.SpellPostCastEvent;
-import com.hpspells.core.api.event.SpellPreCastEvent;
-import com.hpspells.core.configuration.ConfigurationManager.ConfigurationType;
-import com.hpspells.core.configuration.PlayerSpellConfig;
-import com.hpspells.core.spell.Spell.SpellInfo;
-import com.hpspells.core.storage.Wizard;
-import com.hpspells.core.util.ReflectionsReplacement;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.UUID;
+import java.util.logging.Level;
+
+import javax.annotation.Nullable;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
@@ -20,10 +21,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
-import javax.annotation.Nullable;
-
-import java.util.*;
-import java.util.logging.Level;
+import com.google.common.collect.Iterables;
+import com.hpspells.core.HPS;
+import com.hpspells.core.api.event.SpellPostCastEvent;
+import com.hpspells.core.api.event.SpellPreCastEvent;
+import com.hpspells.core.spell.Spell.SpellInfo;
+import com.hpspells.core.storage.Wizard;
+import com.hpspells.core.storage.WizardManager;
+import com.hpspells.core.util.ReflectionsReplacement;
 
 /**
  * A class that manages spells and holds lots of spell related utilities
@@ -52,7 +57,7 @@ public class SpellManager {
         this.HPS = instance;
         HPS.getServer().getPluginManager().addPermission(NO_COOLDOWN_ALL_1);
         HPS.getServer().getPluginManager().addPermission(NO_COOLDOWN_ALL_2);
-
+        
         try {
             for (Class<?> clazz : ReflectionsReplacement.getSubtypesOf(Spell.class, "com.hpspells.core.spell", HPS.getHPSClassLoader(), Spell.class)) {
                 if (clazz.getAnnotation(SpellInfo.class) == null)
@@ -84,23 +89,23 @@ public class SpellManager {
     /**
      * Gets the current spell position a player is on.
      *
-     * @param player The player
+     * @param uuid The player's uuid
      * @return the current spell position they are on
      */
-    public Integer getCurrentSpellPosition(Player player) {
-        Wizard wizard = HPS.wizardManager.getWizard(player);
+    public Integer getCurrentSpellPosition(UUID uuid) {
+        Wizard wizard = WizardManager.getWizard(uuid);
         return wizard.getCurrentSpellPosition();
     }
 
     /**
      * Gets the current spell a player is on.
      *
-     * @param player The player
+     * @param uuid The player's uuid
      * @return the current spell they are on
      */
-    public Spell getCurrentSpell(Player player) {
-        Wizard wizard = HPS.wizardManager.getWizard(player);
-        Integer cur = getCurrentSpellPosition(player);
+    public Spell getCurrentSpell(UUID uuid) {
+        Wizard wizard = WizardManager.getWizard(uuid);
+        Integer cur = getCurrentSpellPosition(uuid);
         List<String> spells = wizard.getKnownSpellsList();
         return cur == -1 ? null : getSpell(Iterables.get(new TreeSet<String>(spells), cur.intValue()));
     }
@@ -108,35 +113,35 @@ public class SpellManager {
     /**
      * Sets the current spell position a player is on.
      *
-     * @param player The player
+     * @param uuid The player's uuid
      * @param id The new current spell position the player is on
      * @return the spell they have changed to
      * @throws IllegalArgumentException if the id parameter is invalid
      */
-    public Spell setCurrentSpellPosition(Player player, int id) throws IllegalArgumentException {
-        Wizard wizard = HPS.wizardManager.getWizard(player);
+    public Spell setCurrentSpellPosition(UUID uuid, int id) throws IllegalArgumentException {
+        Wizard wizard = WizardManager.getWizard(uuid);
         List<String> spellsTheyKnow = wizard.getKnownSpellsList();
         if (spellsTheyKnow == null || id >= spellsTheyKnow.size() || id < 0)
             throw new IllegalArgumentException("id was invalid");
         wizard.setCurrentSpellPosition(id);
-        return getCurrentSpell(player);
+        return getCurrentSpell(uuid);
     }
 
     /**
      * Sets the current spell a player is on.
      *
-     * @param player The player
+     * @param uuid The player's uuid
      * @param spell The new spell the player is on
      * @return the spell they have changed to for chaining
      * @throws IllegalArgumentException if the spell parameter is invalid
      */
-    public Spell setCurrentSpell(Player player, Spell spell) throws IllegalArgumentException {
-        Wizard wizard = HPS.wizardManager.getWizard(player);
+    public Spell setCurrentSpell(UUID uuid, Spell spell) throws IllegalArgumentException {
+        Wizard wizard = WizardManager.getWizard(uuid);
         Integer spellIndex = getIndex(new TreeSet<String>(wizard.getKnownSpellsList()), spell.getName());
         if (spellIndex == null)
             throw new IllegalArgumentException("player does not know that spell");
-        setCurrentSpellPosition(player, spellIndex);
-        return getCurrentSpell(player);
+        setCurrentSpellPosition(uuid, spellIndex);
+        return getCurrentSpell(uuid);
     }
     
     /**
@@ -190,11 +195,9 @@ public class SpellManager {
      */
     public void cleverCast(Player player, Spell spell) {
         if (!player.hasPermission("harrypotterspells.cast") || !spell.playerKnows(player) || !player.getInventory().contains(Material.STICK))
-            return;
+        	return;
 
-        PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
-
-        List<String> spellList = psc.getStringListOrEmpty(player.getName());
+        List<String> spellList = WizardManager.getWizard(player.getUniqueId()).getKnownSpellsList();
         if (spellList == null || spellList.isEmpty()) {
             HPS.PM.tell(player, "You don't know any spells.");
             return;
