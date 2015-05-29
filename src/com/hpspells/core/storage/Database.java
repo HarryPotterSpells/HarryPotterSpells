@@ -2,10 +2,15 @@ package com.hpspells.core.storage;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Logger;
+
+import org.bukkit.scheduler.BukkitRunnable;
+
+import com.hpspells.core.HPS;
 
 public abstract class Database {
 
@@ -72,19 +77,26 @@ public abstract class Database {
     }
 
     /**
-     * Queries the Database, for queries which modify data
-     *
+     * Queries the Database asynchronously, for queries which modify data.
+     * 
      * @param query Query to run
+     * @return an executed bukkitrunnable of the query
      */
-    public void modifyQuery(String query) {
-        try {
-            Statement stmt = this.connection.createStatement();
-            stmt.execute(query);
+    public BukkitRunnable modifyQuery(final String query) {
+    	BukkitRunnable runnable = new BukkitRunnable() {
+			public void run() {
+				try {
+		            Statement stmt = connection.createStatement();
+		            stmt.execute(query);
 
-            stmt.close();
-        } catch(SQLException e) {
-            e.printStackTrace();
-        }
+		            stmt.close();
+		        } catch(SQLException e) {
+		            e.printStackTrace();
+		        }
+			}
+    	};
+        runnable.runTaskAsynchronously(HPS.getInstance());
+        return runnable;
     }
 
     /**
@@ -103,6 +115,22 @@ public abstract class Database {
             e.printStackTrace();
             return null;
         }
+    }
+    
+    /**
+     * Prepares a PreparedStatement.
+     * 
+     * @param query String query to prepare
+     * @return statement in non-executed state
+     */
+    public PreparedStatement prepareStatement(String query) {
+    	try {
+			PreparedStatement statement = this.connection.prepareStatement(query);
+			return statement;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
     }
 
     /**
@@ -124,4 +152,18 @@ public abstract class Database {
         }
     }
 
+    public enum StorageFormat {
+    	YML, MYSQL, SQLITE;
+    	
+    	public static StorageFormat get(String string) {
+    		switch(string.toLowerCase()) {
+    		case "mysql":
+    			return MYSQL;
+    		case "sqlite":
+    			return SQLITE;
+    		default:
+    			return YML;
+    		}
+    	}
+    }
 }
