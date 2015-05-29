@@ -31,6 +31,18 @@ public class Wizard {
 		this.name = name;
 	}
 	
+	public void addKnownSpell(Spell spell) {
+		if (!knowsSpell(spell)) {
+			knownSpellsList.add(spell.getName());
+		}
+	}
+	
+	public void removeKnownSpell(Spell spell) {
+		if (knowsSpell(spell)) {
+			knownSpellsList.remove(spell.getName());
+		}
+	}
+	
 	public void setCurrentSpell(Spell spell) {
 		this.currentSpell = spell;
 	}
@@ -46,7 +58,7 @@ public class Wizard {
      * @return true if spell is known
      */
 	public boolean knowsSpell(Spell spell) {
-		if (knownSpellsList.contains(spell)) {
+		if (knownSpellsList.contains(spell.getName())) {
 			return true;
 		}
 		return false;
@@ -54,6 +66,10 @@ public class Wizard {
 	
 	public UUID getUUID() {
 		return UUID;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getName() {
@@ -92,9 +108,11 @@ public class Wizard {
 		if (knownSpellsList.isEmpty()) {
 			return -1;
 		}
+		/*
 		if (getCurrentSpell() == null) {
 			return 0;
 		}
+		*/
 		return currentSpellPosition;
 	}
 
