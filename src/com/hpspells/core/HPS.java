@@ -43,13 +43,22 @@ import com.hpspells.core.extension.ExtensionManager;
 import com.hpspells.core.spell.Spell;
 import com.hpspells.core.spell.SpellManager;
 import com.hpspells.core.spell.interfaces.Craftable;
+import com.hpspells.core.storage.DatabaseManager;
 import com.hpspells.core.storage.WizardManager;
 import com.hpspells.core.util.MetricStatistics;
 import com.hpspells.core.util.ReflectionsReplacement;
 import com.hpspells.core.util.SVPBypass;
 
 public class HPS extends JavaPlugin {
+	
+	private static HPS instance;
+	
+	public static HPS getInstance() {
+		return instance;
+	}
+	
     public ConfigurationManager ConfigurationManager;
+    public DatabaseManager dbManager;
     public ExtensionManager ExtensionManager;
     public WizardManager wizardManager;
     public Localisation Localisation;
@@ -60,7 +69,7 @@ public class HPS extends JavaPlugin {
 
     private static CommandMap commandMap;
     private static Collection<HelpTopic> helpTopics = new ArrayList<HelpTopic>();
-
+    
     /**
      * State of the Localisation class, if it requires the plugin to disable 
      * {@code state = false;} otherwise state will always be true
@@ -69,13 +78,15 @@ public class HPS extends JavaPlugin {
     
     @Override
     public void onEnable() {
+        instance = this;
         // Instance loading
         PM = new PM(this);
         ConfigurationManager = new ConfigurationManager(this);
         Localisation = new Localisation(this);
         if (localeState) {
-        	SpellTargeter = new SpellTargeter(this);
-        	wizardManager = new WizardManager();
+            dbManager = new DatabaseManager(this);
+            SpellTargeter = new SpellTargeter(this);
+            wizardManager = new WizardManager(this);
             SpellManager = new SpellManager(this);
             Wand = new Wand(this);
             ExtensionManager = new ExtensionManager(this);
@@ -263,6 +274,10 @@ public class HPS extends JavaPlugin {
             ExtensionManager.reloadExtensions();
             ExtensionManager.enableExtensions();
             PM.debug(Localisation.getTranslation("dbgExtensionStop"));
+            
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                WizardManager.loadWizard(player.getUniqueId(), player.getName());
+            }
 
             PM.log(Level.INFO, Localisation.getTranslation("genPluginEnabled"));
         }
@@ -270,10 +285,11 @@ public class HPS extends JavaPlugin {
 
     @Override
     public void onDisable() {
-    	if (localeState)
-    		PM.log(Level.INFO, Localisation.getTranslation("genPluginDisabled"));
-    	else
-    		PM.log(Level.INFO, "Plugin disabled.");
+        wizardManager.getWizardList().clear();
+        if (localeState)
+            PM.log(Level.INFO, Localisation.getTranslation("genPluginDisabled"));
+        else
+            PM.log(Level.INFO, "Plugin disabled.");
     }
 
     public ClassLoader getHPSClassLoader() {
@@ -283,7 +299,7 @@ public class HPS extends JavaPlugin {
     public CustomConfiguration getConfig(ConfigurationType type) {
     	return ConfigurationManager.getConfig(type);
     }
-
+    
     /**
      * Registers a {@link HackyCommand} to the plugin
      *
