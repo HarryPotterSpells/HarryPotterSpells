@@ -48,10 +48,12 @@ import com.hpspells.core.util.ReflectionsReplacement;
 import com.hpspells.core.util.SVPBypass;
 
 public class HPS extends JavaPlugin {
+	private static HPS instance;
+	
     public ConfigurationManager ConfigurationManager;
     public PM PM;
     public SpellManager SpellManager;
-    public Wand Wand;
+    public WandManager WandManager;
     public SpellTargeter SpellTargeter;
     public Localisation Localisation;
     public ExtensionManager ExtensionManager;
@@ -67,6 +69,7 @@ public class HPS extends JavaPlugin {
     
     @Override
     public void onEnable() {
+    	instance = this;
         // Instance loading
         PM = new PM(this);
         ConfigurationManager = new ConfigurationManager(this);
@@ -74,7 +77,7 @@ public class HPS extends JavaPlugin {
         if (localeState) {
         	SpellTargeter = new SpellTargeter(this);
             SpellManager = new SpellManager(this);
-            Wand = new Wand(this);
+            WandManager = new WandManager(this);
             ExtensionManager = new ExtensionManager(this);
             new APIHandler(this);
             
@@ -227,7 +230,7 @@ public class HPS extends JavaPlugin {
 
             if (getConfig().getBoolean("wand.crafting.enabled", true)) {
                 try {
-                    ShapedRecipe wandRecipe = new ShapedRecipe(Wand.getLorelessWand());
+                    ShapedRecipe wandRecipe = new ShapedRecipe(new Wand(null, true).getItemstack());
                     List<String> list = getConfig().getStringList("wand.crafting.recipe");
                     Set<String> ingredients = getConfig().getConfigurationSection("wand.crafting.ingredients").getKeys(false);
 
@@ -272,6 +275,10 @@ public class HPS extends JavaPlugin {
     		PM.log(Level.INFO, Localisation.getTranslation("genPluginDisabled"));
     	else
     		PM.log(Level.INFO, "Plugin disabled.");
+    }
+    
+    public static HPS getInstance() {
+    	return instance;
     }
 
     public ClassLoader getHPSClassLoader() {

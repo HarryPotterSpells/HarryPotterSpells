@@ -1,9 +1,10 @@
 package com.hpspells.core.command;
 
-import com.hpspells.core.HPS;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import com.hpspells.core.HPS;
 
 @CommandInfo(name = "wand", description = "cmdWanDescription")
 public class Wand extends HCommandExecutor {
@@ -16,7 +17,7 @@ public class Wand extends HCommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            player.getInventory().setItem(player.getInventory().firstEmpty(), HPS.Wand.getWand(player));
+            player.getInventory().setItem(player.getInventory().firstEmpty(), new com.hpspells.core.Wand(player).getItemstack());
             HPS.PM.tell(player, HPS.Localisation.getTranslation("cmdWanGiven"));
             if (HPS.getConfig().getBoolean("wand.explosion-effect")) {
                 player.getWorld().createExplosion(player.getLocation(), 0, false);

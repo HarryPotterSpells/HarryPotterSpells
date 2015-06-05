@@ -1,6 +1,7 @@
 package com.hpspells.core;
 
 import java.util.List;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -19,6 +20,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
+import com.hpspells.core.Wand.Lore;
 import com.hpspells.core.api.event.SpellPreCastEvent;
 import com.hpspells.core.configuration.ConfigurationManager.ConfigurationType;
 import com.hpspells.core.configuration.PlayerSpellConfig;
@@ -36,7 +38,8 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void PIE(PlayerInteractEvent e) {
-        if (e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
+        if (e.getPlayer().hasPermission(CAST_SPELLS) && HPS.WandManager.isWand(e.getPlayer().getItemInHand())) {
+        	HPS.PM.log(Level.INFO, "Is a wand");
             PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
 
             if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE))
@@ -65,19 +68,14 @@ public class Listeners implements Listener {
 
                 try {
                     HPS.PM.newSpell(e.getPlayer(), HPS.SpellManager.setCurrentSpellPosition(e.getPlayer(), neww).getName());
-                    if (HPS.getConfig().getBoolean("lore.show-current-spell")) {
+                    if (HPS.getConfig().getBoolean("wand.lore.show-current-spell")) {
+                    	HPS.PM.log(Level.INFO, "Show current spell");
                     	 //TODO: Somehow get the Wand.Lore and update it cleanly instead of this
-                        ItemStack wand = HPS.Wand.getWandFromInventory(e.getPlayer().getInventory());
-                        ItemMeta meta = wand.getItemMeta();
-                        List<String> lore = meta.getLore();
-                        for (String string : lore) {
-                        	if (ChatColor.stripColor(string).contains("Current Spell: ")) {
-                        		int index = lore.indexOf(string);
-                        		Spell spell = HPS.SpellManager.getCurrentSpell(e.getPlayer());
-                        		lore.set(index, spell == null ? "None" : spell.getName());
-                        		break;
-                        	}
-                        }
+                    	 Wand wand = HPS.WandManager.getWandFromInventory(e.getPlayer().getInventory());
+                         Lore lore = wand.getLore();
+                         Spell spell = HPS.SpellManager.getCurrentSpell(e.getPlayer());
+                         lore.setCurrentSpell((spell == null ? "None" : spell.getName()));
+                         wand.setLore(lore);
                     }
                 } catch (IllegalArgumentException er) {
                     HPS.PM.tell(e.getPlayer(), HPS.Localisation.getTranslation("genKnowNoSpells"));
@@ -100,7 +98,7 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void PIEE(PlayerInteractEntityEvent e) {
-        if (e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
+        if (e.getPlayer().hasPermission(CAST_SPELLS) && HPS.WandManager.isWand(e.getPlayer().getItemInHand())) {
             PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
             Integer knows = psc.getStringListOrEmpty(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
 
@@ -123,6 +121,14 @@ public class Listeners implements Listener {
 
             try {
                 HPS.PM.newSpell(e.getPlayer(), HPS.SpellManager.setCurrentSpellPosition(e.getPlayer(), neww).getName());
+                if (HPS.getConfig().getBoolean("wand.lore.show-current-spell")) {
+               	 //TODO: Somehow get the Wand.Lore and update it cleanly instead of this
+                   Wand wand = HPS.WandManager.getWandFromInventory(e.getPlayer().getInventory());
+                   Lore lore = wand.getLore();
+                   Spell spell = HPS.SpellManager.getCurrentSpell(e.getPlayer());
+                   lore.setCurrentSpell((spell == null ? "None" : spell.getName()));
+                   wand.setLore(lore);
+               }
             } catch (IllegalArgumentException er) {
                 HPS.PM.tell(e.getPlayer(), HPS.Localisation.getTranslation("genKnowNoSpells"));
             } catch (NullPointerException er) {
@@ -152,8 +158,8 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onPlayerCraft(CraftItemEvent e) {
-        if (HPS.Wand.isWand(e.getRecipe().getResult())) {
-            e.setCurrentItem(HPS.Wand.getWand((Player) e.getWhoClicked()));
+        if (HPS.WandManager.isWand(e.getRecipe().getResult())) {
+            e.setCurrentItem(new Wand((Player) e.getWhoClicked()));
             final Player p = (Player) e.getWhoClicked();
             Bukkit.getScheduler().runTask(HPS, new Runnable() {
 
