@@ -1,6 +1,7 @@
 package com.hpspells.core;
 
 import java.util.List;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -65,7 +66,7 @@ public class Listeners implements Listener {
 
                 try {
                     HPS.PM.newSpell(e.getPlayer(), HPS.SpellManager.setCurrentSpellPosition(e.getPlayer(), neww).getName());
-                    if (HPS.getConfig().getBoolean("lore.show-current-spell")) {
+                    if (HPS.getConfig().getBoolean("wand.lore.show-current-spell")) {
                     	 //TODO: Somehow get the Wand.Lore and update it cleanly instead of this
                         ItemStack wand = HPS.Wand.getWandFromInventory(e.getPlayer().getInventory());
                         ItemMeta meta = wand.getItemMeta();
@@ -74,10 +75,20 @@ public class Listeners implements Listener {
                         	if (ChatColor.stripColor(string).contains("Current Spell: ")) {
                         		int index = lore.indexOf(string);
                         		Spell spell = HPS.SpellManager.getCurrentSpell(e.getPlayer());
-                        		lore.set(index, spell == null ? "None" : spell.getName());
+                        		for (String line : HPS.getConfig().getStringList("wand.lore.format")) {
+                        			if (ChatColor.stripColor(line).contains("%spell")) {
+                        				line = ChatColor.translateAlternateColorCodes('&', line);
+                        				line = line.replace("%spell", spell == null ? "None" : spell.getName());
+                        				HPS.PM.log(Level.INFO, line);
+                        				lore.set(index, line);
+                        				break;
+                        			}
+                        		}
                         		break;
                         	}
                         }
+                        meta.setLore(lore);
+                        wand.setItemMeta(meta);
                     }
                 } catch (IllegalArgumentException er) {
                     HPS.PM.tell(e.getPlayer(), HPS.Localisation.getTranslation("genKnowNoSpells"));
