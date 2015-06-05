@@ -33,7 +33,7 @@ public class AvadaKedavra extends Spell {
                 HPS.PM.warn(p, HPS.Localisation.getTranslation("spellLivingEntityOnly"));
 
             }
-        }, 1.00, ParticleEffect.RED_DUST);
+        }, 1f, ParticleEffect.REDSTONE);
         return true;
     }
 

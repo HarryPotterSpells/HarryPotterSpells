@@ -44,7 +44,7 @@ public class Orchideous extends Spell {
                 HPS.PM.warn(p, HPS.Localisation.getTranslation("spellBlockOnly"));
             }
 
-        }, 1.0, ParticleEffect.HEART);
+        }, 1f, ParticleEffect.HEART);
         return true;
     }
 

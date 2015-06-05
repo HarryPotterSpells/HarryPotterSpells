@@ -41,7 +41,7 @@ public class Obliviate extends Spell {
 
             }
 
-        }, 1.0, ParticleEffect.LARGE_SMOKE);
+        }, 1f, ParticleEffect.SMOKE_LARGE);
         return false;
     }
 

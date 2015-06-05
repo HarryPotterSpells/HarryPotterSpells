@@ -232,8 +232,9 @@ public class HPS extends JavaPlugin {
                     Set<String> ingredients = getConfig().getConfigurationSection("wand.crafting.ingredients").getKeys(false);
 
                     wandRecipe.shape(list.get(0), list.get(1), list.get(2));
-                    for (String string : ingredients)
-                        wandRecipe.setIngredient(string.toCharArray()[0], Material.getMaterial(getConfig().getInt("wand.crafting.ingredients." + string)));
+                    for (String string : ingredients) {
+                        wandRecipe.setIngredient(string.toCharArray()[0], Material.matchMaterial(getConfig().getString("wand.crafting.ingredients." + string)));
+                    }
 
                     getServer().addRecipe(wandRecipe);
                 } catch (Exception e) { // It's surrounded by a try/catch block because we can't let any stupid errors in config disable the plugin.

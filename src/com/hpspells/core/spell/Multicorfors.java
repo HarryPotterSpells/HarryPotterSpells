@@ -70,7 +70,7 @@ public class Multicorfors extends Spell {
                 }
             }
 
-        }, 1.10d, ParticleEffect.RED_DUST);
+        }, 1.1f, ParticleEffect.REDSTONE);
 
         return true;
     }

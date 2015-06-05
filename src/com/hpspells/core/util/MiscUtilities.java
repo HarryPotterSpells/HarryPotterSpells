@@ -2,6 +2,7 @@ package com.hpspells.core.util;
 
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Map;
 import java.util.Random;
 
 import static com.hpspells.core.util.SVPBypass.getMethod;
@@ -77,6 +78,27 @@ public class MiscUtilities {
     public static int randomBetween(int min, int max) {
         Random random = new Random();
         return random.nextInt(max - min + 1) + min;
+    }
+
+    /**
+     * Gets a random {@code String} from a map with a weighted probability
+     *
+     * @param probabilities a map of all the strings and {@link Double} probabilities adding up to 1.0
+     *
+     * @return the chosen string or {@code "Invalid Probability"} if the map was invalid
+     */
+    public static String getStringFromProbability(Map<String, Object> probabilities) {
+        double probability = Math.random(), cumulativeProbability = 0.0;
+
+        for (Map.Entry<String, Object> entry : probabilities.entrySet()) {
+            cumulativeProbability += (Double) entry.getValue();
+
+            if (probability <= cumulativeProbability) {
+                return entry.getKey();
+            }
+        }
+
+        return "Invalid Probability";
     }
 
 }

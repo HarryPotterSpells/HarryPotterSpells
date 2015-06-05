@@ -1,10 +1,10 @@
 package com.hpspells.core;
 
-import com.hpspells.core.api.event.SpellPreCastEvent;
-import com.hpspells.core.configuration.ConfigurationManager.ConfigurationType;
-import com.hpspells.core.configuration.PlayerSpellConfig;
-import com.hpspells.core.spell.Spell;
+import java.util.List;
+import java.util.logging.Level;
+
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,8 +15,15 @@ import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
+
+import com.hpspells.core.api.event.SpellPreCastEvent;
+import com.hpspells.core.configuration.ConfigurationManager.ConfigurationType;
+import com.hpspells.core.configuration.PlayerSpellConfig;
+import com.hpspells.core.spell.Spell;
 
 public class Listeners implements Listener {
     private HPS HPS;
@@ -59,6 +66,30 @@ public class Listeners implements Listener {
 
                 try {
                     HPS.PM.newSpell(e.getPlayer(), HPS.SpellManager.setCurrentSpellPosition(e.getPlayer(), neww).getName());
+                    if (HPS.getConfig().getBoolean("wand.lore.show-current-spell")) {
+                    	 //TODO: Somehow get the Wand.Lore and update it cleanly instead of this
+                        ItemStack wand = HPS.Wand.getWandFromInventory(e.getPlayer().getInventory());
+                        ItemMeta meta = wand.getItemMeta();
+                        List<String> lore = meta.getLore();
+                        for (String string : lore) {
+                        	if (ChatColor.stripColor(string).contains("Current Spell: ")) {
+                        		int index = lore.indexOf(string);
+                        		Spell spell = HPS.SpellManager.getCurrentSpell(e.getPlayer());
+                        		for (String line : HPS.getConfig().getStringList("wand.lore.format")) {
+                        			if (ChatColor.stripColor(line).contains("%spell")) {
+                        				line = ChatColor.translateAlternateColorCodes('&', line);
+                        				line = line.replace("%spell", spell == null ? "None" : spell.getName());
+                        				HPS.PM.log(Level.INFO, line);
+                        				lore.set(index, line);
+                        				break;
+                        			}
+                        		}
+                        		break;
+                        	}
+                        }
+                        meta.setLore(lore);
+                        wand.setItemMeta(meta);
+                    }
                 } catch (IllegalArgumentException er) {
                     HPS.PM.tell(e.getPlayer(), HPS.Localisation.getTranslation("genKnowNoSpells"));
                 } catch (NullPointerException er) {

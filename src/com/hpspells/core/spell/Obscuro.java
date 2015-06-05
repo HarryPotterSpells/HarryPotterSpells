@@ -77,7 +77,7 @@ public class Obscuro extends Spell {
 
             }
 
-        }, 1.0, ParticleEffect.CLOUD);
+        }, 1f, ParticleEffect.CLOUD);
         return true;
     }
 

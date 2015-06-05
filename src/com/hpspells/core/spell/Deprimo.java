@@ -63,7 +63,7 @@ public class Deprimo extends Spell implements Listener {
 
             }
 
-        }, 1.0, ParticleEffect.MAGIC_CRIT);
+        }, 1f, ParticleEffect.CRIT_MAGIC);
         return true;
     }
 

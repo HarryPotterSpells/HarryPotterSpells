@@ -56,7 +56,7 @@ public class Expelliarmus extends Spell {
                 return;
             }
 
-        }, 1.0, 0.5f, 10, ParticleEffect.DRIP_LAVA);
+        }, 1f, 0.5f, 10, ParticleEffect.DRIP_LAVA);
         return true;
     }
 }

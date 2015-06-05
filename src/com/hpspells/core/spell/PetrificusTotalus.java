@@ -68,7 +68,7 @@ public class PetrificusTotalus extends Spell implements Listener {
 
             }
 
-        }, 1.0d, ParticleEffect.CRIT);
+        }, 1f, ParticleEffect.CRIT);
         return true;
     }
 

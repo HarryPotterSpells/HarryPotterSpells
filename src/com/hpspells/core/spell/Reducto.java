@@ -65,7 +65,7 @@ public class Reducto extends Spell {
 
             }
 
-        }, 1.0, ParticleEffect.EXPLODE);
+        }, 1f, ParticleEffect.EXPLOSION_LARGE);
 
         return true;
     }
