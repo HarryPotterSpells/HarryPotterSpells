@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -33,9 +34,8 @@ public class Multicorfors extends Spell {
         HPS.SpellTargeter.register(p, new SpellHitEvent() {
 
             @Override
-            public void hitBlock(Block block) { // Hit wool
+            public void hitBlock(final Block block) { // Hit wool
                 if (block.getType() == Material.WOOL) {
-                    final Wool wool = (Wool) block;
 
                     if ((Boolean) getConfig("explosionEffect", true))
                         block.getWorld().createExplosion(block.getLocation(), 0F);
@@ -44,7 +44,10 @@ public class Multicorfors extends Spell {
 
                         @Override
                         public void run() {
+                            BlockState blockState = block.getState();
+                            Wool wool = (Wool) blockState.getData();
                             wool.setColor(randomDyeColor());
+                            blockState.update();
                         }
 
                     });
