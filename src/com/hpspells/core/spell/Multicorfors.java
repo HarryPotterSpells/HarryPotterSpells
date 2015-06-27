@@ -6,14 +6,13 @@ import com.hpspells.core.spell.Spell.SpellInfo;
 import com.hpspells.core.util.ParticleEffect;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
-import org.bukkit.material.Wool;
+import org.bukkit.material.Colorable;
 
 import java.util.Random;
 
@@ -30,12 +29,12 @@ public class Multicorfors extends Spell {
         super(instance);
     }
 
-    public boolean cast(Player p) {
+    public boolean cast(final Player p) {
         HPS.SpellTargeter.register(p, new SpellHitEvent() {
 
             @Override
             public void hitBlock(final Block block) { // Hit wool
-                if (block.getType() == Material.WOOL) {
+                if (block.getState().getData() instanceof Colorable) {
 
                     if ((Boolean) getConfig("explosionEffect", true))
                         block.getWorld().createExplosion(block.getLocation(), 0F);
@@ -45,12 +44,14 @@ public class Multicorfors extends Spell {
                         @Override
                         public void run() {
                             BlockState blockState = block.getState();
-                            Wool wool = (Wool) blockState.getData();
-                            wool.setColor(randomDyeColor());
+                            Colorable colorable = (Colorable) blockState.getData();
+                            colorable.setColor(randomDyeColor());
                             blockState.update();
                         }
 
                     });
+                } else {
+                    HPS.PM.warn(p, "You cannot use this spell on that block.");
                 }
             }
 
