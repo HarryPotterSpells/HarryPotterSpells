@@ -84,7 +84,8 @@ public class Listeners implements Listener {
                                         line = ChatColor.translateAlternateColorCodes('&', line);
                                         line = line.replace("%spell", spell == null ? "None" : spell.getName());
                                         line = e.getPlayer().getName() + " - " + line;
-                                        if (HPS.getConfig().getBoolean("log-on-spell-switch", true)) {
+                                        HPS.PM.debug(line);
+                                        if (HPS.getConfig().getBoolean("log-on-spell-switch", false) && !HPS.getConfig().getBoolean("debug-mode")) {
                                             if (consoleSpamTimer.containsKey(e.getPlayer().getUniqueId()) && ((System.currentTimeMillis() - consoleSpamTimer.get(e.getPlayer().getUniqueId()))) > HPS.getConfig().getLong("log-on-spell-switch-buffer", 500)) {
                                                 HPS.PM.log(Level.INFO, line);
                                             }
