@@ -208,12 +208,6 @@ public class SpellManager {
             return;
         }
 
-        if (HPS.getConfig().getBoolean("spell-particle-toggle")) {
-            Location l = player.getLocation();
-            l.setY(l.getY() + 1);
-            player.getWorld().playEffect(l, Effect.ENDER_SIGNAL, 0);
-        }
-
         SpellPreCastEvent sce = new SpellPreCastEvent(spell, player);
         Bukkit.getServer().getPluginManager().callEvent(sce);
         if (!sce.isCancelled()) {
@@ -226,6 +220,11 @@ public class SpellManager {
             boolean successful = false;
             if (cast) {
                 successful = spell.cast(player);
+                if (HPS.getConfig().getBoolean("spell-particle-toggle")) {
+                    Location l = player.getLocation();
+                    l.setY(l.getY() + 1);
+                    player.getWorld().playEffect(l, Effect.ENDER_SIGNAL, 0);
+                }
             }
             Bukkit.getServer().getPluginManager().callEvent(new SpellPostCastEvent(spell, player, successful));
 
