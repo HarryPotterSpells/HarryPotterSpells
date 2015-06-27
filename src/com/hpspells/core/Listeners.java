@@ -79,7 +79,7 @@ public class Listeners implements Listener {
                         			if (ChatColor.stripColor(line).contains("%spell")) {
                         				line = ChatColor.translateAlternateColorCodes('&', line);
                         				line = line.replace("%spell", spell == null ? "None" : spell.getName());
-                        				HPS.PM.log(Level.INFO, line);
+                        				HPS.PM.debug(line);
                         				lore.set(index, line);
                         				break;
                         			}
