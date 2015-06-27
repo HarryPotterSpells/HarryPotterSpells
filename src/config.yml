@@ -106,6 +106,8 @@ wand:
 spells-craftable: true # Should we allow spells to be craftable into books?
 shout-on-spell-use: false  # If the player should say 'Spellname!' on every spell cast
 notify-on-spell-use: true  # If we should notify the player when they cast a spell
+log-on-spell-switch: false # If we should log in the console when a player changes spells
+log-on-spell-switch-buffer: 500 # The amount of ticks that should pass before another spell switch is logged
 spell-particle-toggle: false  # The purple particle effect that happens when the spell is cast (Kezz thinks it's ugly)
 spell-castable-with-chat: true  # If a spell is castable on the chatting of 'Spellname!'
 spell-effective-time: -1 # The amount of time that the spell should travel in ticks (about 20 ticks a second) before it disappears, Use -1 for it to go forever
