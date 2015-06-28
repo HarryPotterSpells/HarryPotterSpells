@@ -29,7 +29,7 @@ public abstract class Spell {
     }
 
     /**
-     * Called when a spell is cast
+     * Called when a spell is cast.
      *
      * @param p the player who cast the spell
      * @return {@code true} if the spell was a success
@@ -37,7 +37,7 @@ public abstract class Spell {
     public abstract boolean cast(Player p);
 
     /**
-     * Teaches the spell to a target
+     * Teaches the spell to a target.
      *
      * @param sender the person who wants to teach
      * @param target the person who will be taught
@@ -55,7 +55,7 @@ public abstract class Spell {
     }
 
     /**
-     * Teaches the spell to a player
+     * Teaches the spell to a player.
      *
      * @param p the player
      */
@@ -68,7 +68,7 @@ public abstract class Spell {
     }
 
     /**
-     * Gets whether a player knows this spell
+     * Gets whether a player knows this spell.
      *
      * @param p the player
      * @return {@code true} if the player knows this spell
@@ -80,7 +80,7 @@ public abstract class Spell {
     }
 
     /**
-     * Makes a player forget the spell
+     * Makes a player forget the spell.
      *
      * @param p the player
      */
@@ -91,18 +91,18 @@ public abstract class Spell {
         psc.get().set(p.getName(), list);
         psc.save();
     }
-    
+
     /**
-     * Gets the permission required to teach the spell and cast the spell
+     * Gets the permission required to teach the spell and cast the spell.
      * 
      * @return spell permission
      */
     public Permission getPermission() {
-    	return new Permission("harrypotterspells.spell." + this.getName().toLowerCase(), PermissionDefault.TRUE);
+        return new Permission("harrypotterspells.spell." + this.getName().toLowerCase(), PermissionDefault.TRUE);
     }
-    
+
     /**
-     * Gets the name of this spell
+     * Gets the name of this spell.
      *
      * @return the spell's name
      */
@@ -112,7 +112,7 @@ public abstract class Spell {
     }
 
     /**
-     * Gets the description of this spell
+     * Gets the description of this spell.
      *
      * @return the description
      */
@@ -123,12 +123,12 @@ public abstract class Spell {
 
     /**
      * The annotation required for a spell to be used. <br>
-     * This annotation contains all the information needed for using a spell
+     * This annotation contains all the information needed for using a spell.
      */
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
     @interface SpellInfo {
-        String name() default ""; //"" defaults to class name
+        String name() default ""; // "" defaults to class name
 
         String description() default "";
 
@@ -142,7 +142,7 @@ public abstract class Spell {
     }
 
     /**
-     * Gets the icon for this spell
+     * Gets the icon for this spell.
      *
      * @return the icon as a {@link Material}
      */
@@ -152,7 +152,7 @@ public abstract class Spell {
     }
 
     /**
-     * Gets whether the spell can be cast through walls
+     * Gets whether the spell can be cast through walls.
      *
      * @return {@code true} if the spel can be cast through walls.
      */
@@ -162,7 +162,7 @@ public abstract class Spell {
     }
 
     /**
-     * Gets the range of the spell
+     * Gets the range of the spell.
      *
      * @return the range
      */
@@ -172,16 +172,17 @@ public abstract class Spell {
     }
 
     /**
-     * Gets the cool down of the spell for a player
+     * Gets the cool down of the spell for a player.
      *
      * @return the cool down
      */
     public int getCoolDown(Player p) {
-    	FileConfiguration cdConfig = HPS.ConfigurationManager.getConfig(ConfigurationType.COOLDOWN).get();
+        FileConfiguration cdConfig = HPS.ConfigurationManager.getConfig(ConfigurationType.COOLDOWN).get();
         SpellInfo info = this.getClass().getAnnotation(SpellInfo.class);
         if (info == null)
             return 60;
-        if (p.hasPermission(HPS.SpellManager.NO_COOLDOWN_ALL_1) || p.hasPermission(HPS.SpellManager.NO_COOLDOWN_ALL_2) || p.hasPermission("harrypotterspells.nocooldown." + getName().toLowerCase()))
+        if (p.hasPermission(HPS.SpellManager.NO_COOLDOWN_ALL_1) || p.hasPermission(HPS.SpellManager.NO_COOLDOWN_ALL_2)
+                || p.hasPermission("harrypotterspells.nocooldown." + getName().toLowerCase()))
             return 0;
 
         int cooldown;
@@ -194,15 +195,16 @@ public abstract class Spell {
     }
 
     /**
-     * A utility method used to shorten the retrieval of something from the spells configuration file
+     * A utility method used to shorten the retrieval of something from the spells configuration
+     * file.
      *
-     * @param key      the key to the value relative to {@code spells.[spell name].}
+     * @param key the key to the value relative to {@code spells.[spell name].}
      * @param defaultt the nullable value to return if nothing was found
      * @return the object found at that location
      */
     public Object getConfig(String key, @Nullable Object defaultt) {
-    	FileConfiguration spellConfig = HPS.ConfigurationManager.getConfig(ConfigurationType.SPELL).get();
-    	key = "spells." + getName().toLowerCase().replace(" ", "-") + "." + key;
+        FileConfiguration spellConfig = HPS.ConfigurationManager.getConfig(ConfigurationType.SPELL).get();
+        key = "spells." + getName().toLowerCase().replace(" ", "-") + "." + key;
         return defaultt == null ? spellConfig.get(key) : spellConfig.get(key, defaultt);
     }
 
@@ -211,33 +213,30 @@ public abstract class Spell {
      * Default: seconds <br>
      * {@code endsWith("t")}: ticks
      *
-     * @param key      the key to the value relative to {@code spells.[spellname].}
+     * @param key the key to the value relative to {@code spells.[spellname].}
      * @param defaultt the nullable ticks to return if nothing was found
      * @return a {@code long} with the amount of ticks the time specified
      */
     public long getTime(String key, @Nullable long defaultt) {
-    	Object time = getConfig(key, "");
-    	if (time instanceof String || time instanceof Integer) {
-    		String durationString = (String) time;
-    		if (durationString.contains("#")) {
-        		String[] value = durationString.split("#");
-        		durationString = value[0];
-        	}
-        	
-            if (durationString.equals(""))
+        Object time = getConfig(key, "");
+        if (time instanceof String) {
+            String durationString = (String) time;
+            if (durationString.equals("")) {
                 return defaultt;
-
+            }
             int duration = 0;
-
             if (durationString.endsWith("t")) {
                 String ticks = durationString.substring(0, durationString.length() - 1);
                 duration = Integer.parseInt(ticks);
             } else {
-            	duration = Integer.parseInt(durationString) * 20;
+                duration = Integer.parseInt(durationString) * 20; // convert to ticks
             }
             return duration;
-    	}
-    	return defaultt;
+        }
+        if (time instanceof Integer) {
+            return (Long) time * 20; // convert to ticks
+        }
+        return defaultt;
     }
 
 }

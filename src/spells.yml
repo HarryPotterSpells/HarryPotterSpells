@@ -8,67 +8,103 @@
 
 spells:
   accio:
-    radius: 5  # The maximum distance drops can be from the player to still be attracted
+    # The maximum distance drops can be from the player to still be attracted
+    radius: 5
   aguamenti:
-    duration: 30 # How long before the water disappears
+    # How long before the water disappears
+    duration: 30
   aparecium:
-    radius: 5  # The maximum distance players can be from the caster to still be turned visible
+    # The maximum distance players can be from the caster to still be turned visible
+    radius: 5
   arania-exumai:
-    knockback: 10 # How much the spider is knocked backwards
+    # How much the spider is knocked backwards
+    knockback: 10
   avis:
-    randomness: 1 # How randomly should the bats or chickens be spread out
+    # How randomly should the bats or chickens be spread out
+    randomness: 1
     chickens:
-      amount: 5  # How many chickens the wand should shoot
-      velocity: 2 # The velocity of the chickens that get shot out of the wand
+      # How many chickens the wand should shoot
+      amount: 5
+      # The velocity of the chickens that get shot out of the wand
+      velocity: 2
     bats:
-      amount: 0  # How many bats the wand should shoot
-      velocity: 2 # The velocity of the bats that get shot out of the wand
+      # How many bats the wand should shoot
+      amount: 0
+      # The velocity of the bats that get shot out of the wand
+      velocity: 2
   confundo:
-    duration: 200t  # How long the target should be confused for
+    # How long the target should be confused for
+    duration: 200t
   crucio:
-    duration: 10 # How long the target should be victimised for
+    # How long the target should be victimised for
+    duration: 10
   deprimo:
-    duration: 100t  # How long the target should be slowed for
+    # How long the target should be slowed for
+    duration: 100t
   episkey:
-    duration: 100t  # How long the target should be healed for
+    # How long the target should be healed for
+    duration: 100t
   evanesco:
-    duration: 300t  # How long the caster will be invisible for
+    # How long the caster will be invisible for
+    duration: 300t
   expelliarmus:
-    disarm-weapons: true  # Should Expelliarmus disarm weapons (swords and bows) as well as wands?
+    # Should Expelliarmus disarm weapons (swords and bows) as well as wands?
+    disarm-weapons: true
   flame-freezing-charm:
-    duration: 60 # How long the Fire Resistance effect lasts for
+    # How long the Fire Resistance effect lasts for
+    duration: 60
   homenum-revelio:
-    box:  # The size of the box used in the search for nearby players
-      x: 10  # 1/2 the size of the box along x axis
-      y: 10  # 1/2 the size of the box along y axis
-      z: 10  # 1/2 the size of the box along z axis
-    effect-color: yellow  # The color the effect around the hidden player should be
+    # The size of the box used in the search for nearby players
+    box:
+      # 1/2 the size of the box along x, y, z axis
+      x: 10
+      y: 10
+      z: 10
+    # The color the effect around the hidden player should be
+    effect-color: yellow
   incendio:
-    duration: 100t  # How long the fire should last
+    # How long the fire should last
+    duration: 100t 
   legilimens:
-    duration: 20 # How long targets inventory can be seen
+    # How long targets inventory can be seen
+    duration: 20
   multicorfors:
-    explosion-effect: true  # Should an explosion happen on color change
+    # Should an explosion happen on color change
+    explosion-effect: true
   obscuro:
-    duration: 400t  # How long the target should be blinded for
+    # How long the target should be blinded for
+    duration: 400t
   petrificus-totalus:
-    duration: 100t  # How long the target should be petrified (frozen) for
+    # How long the target should be petrified (frozen) for
+    duration: 100t
   reducto:
-    replace-blocks: 100t # After how long should the blocks be replaced
+    # After how long should the blocks be replaced
+    replace-blocks: 100t
   refiling-charm:
-    bucket: water # Wether the spell fills the bucket with water or milk
+    # Wether the spell fills the bucket with water or milk
+    bucket: water
   silencio:
-    duration: 30 # How long the target is muted for.
+    # How long the target is muted for.
+    duration: 30
   spongify:
-    duration: 600t  # How long damage should be cancelled for
+    # How long damage should be cancelled for
+    duration: 600t
   stupefy:
-    vertical-knockback: 2  # How much the target should be knocked backwards
-    horizontal-knockback: 0.5  # How much the target should be knocked upwards (into the air)
-    confusion-duration: 200t  # How long the target should be confused for
-    weakness-duration: 100t  # How long the target should be weakened for
-    damage: 2  # How many half-hearts the user should be damaged (set to 0 for no damage)
+    # How much the target should be knocked backwards
+    vertical-knockback: 2
+    # How much the target should be knocked upwards (into the air)
+    horizontal-knockback: 0.5
+    # How long the target should be confused for
+    confusion-duration: 200t
+    # How long the target should be weakened for
+    weakness-duration: 100t
+    # How many half-hearts the user should be damaged (set to 0 for no damage)
+    damage: 2
   timespell:
-    lightning: true  # Should lightning strike on casting of the spell
+    # Should lightning strike on casting of the spell
+    lightning: true
   wingardium-leviosa:
-    cancel-fall-damage: true  # Should fall damage be cancelled when flying
-    duration: 200t  # How long the caster should be able to fly for
+    # Should fall damage be cancelled when flying
+    cancel-fall-damage: true
+    # How long the caster should be able to fly for
+    duration: 200t
