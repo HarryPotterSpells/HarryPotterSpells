@@ -1,22 +1,20 @@
 package com.hpspells.core.spell;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
+import com.hpspells.core.HPS;
+import com.hpspells.core.configuration.ConfigurationManager.ConfigurationType;
+import com.hpspells.core.configuration.PlayerSpellConfig;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
-import com.hpspells.core.HPS;
-import com.hpspells.core.configuration.ConfigurationManager.ConfigurationType;
-import com.hpspells.core.configuration.PlayerSpellConfig;
+import javax.annotation.Nullable;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.util.List;
 
 /**
  * An abstract class representing a Spell
@@ -234,7 +232,7 @@ public abstract class Spell {
             return duration;
         }
         if (time instanceof Integer) {
-            return (Long) time * 20; // convert to ticks
+            return ((Number) time).longValue() * 20; // convert to ticks
         }
         return defaultt;
     }
