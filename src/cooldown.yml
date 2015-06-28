@@ -9,13 +9,13 @@
 cooldowns:
   accio: 5
   aguamenti: 90
-  alarte ascendare: 45
+  alarte-ascendare: 45
   aparecium: 300
-  arania exumai: 90
-  avada kedavra: 300
+  arania-exumai: 90
+  avada-kedavra: 300
   avis: 300
   bauleo: 10
-  bubble head charm: 45
+  bubble-head-charm: 45
   confringo: 45
   confundo: 180
   crucio: 300
@@ -24,20 +24,20 @@ cooldowns:
   episkey: 60
   evanesco: 45
   expelliarmus: 120
-  finite incantatem: 45
-  flame freezing charm: 300
+  finite-incantatem: 45
+  flame-freezing-charm: 300
   glacius: 120
-  homenum revelio: 600
+  homenum-revelio: 600
   incendio: 45
   legilimens: 180
-  magna tonitrus: 60
+  magna-tonitrus: 60
   morsmordre: 60
   multicorfors: 30
   obscuro: 90
   orchideous: 45
-  petrificus totalus: 300
+  petrificus-totalus: 300
   reducto: 300
-  refilling charm: 120
+  refilling-charm: 120
   reparo: 14400
   sectumsempra: 300
   silencio: 90
@@ -46,5 +46,5 @@ cooldowns:
   stupefy: 120
   time: 600
   tree: 105
-  windgardium leviosa: 180
+  windgardium-leviosa: 180
   workbench: 20

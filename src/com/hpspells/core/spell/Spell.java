@@ -185,8 +185,8 @@ public abstract class Spell {
             return 0;
 
         int cooldown;
-        if (cdConfig.contains("cooldowns." + info.name().toLowerCase()))
-            cooldown = cdConfig.getInt("cooldowns." + info.name().toLowerCase());
+        if (cdConfig.contains("cooldowns." + info.name().toLowerCase().replace(" ", "-")))
+            cooldown = cdConfig.getInt("cooldowns." + info.name().toLowerCase().replace(" ", "-"));
         else
             cooldown = info.cooldown();
 
@@ -202,7 +202,8 @@ public abstract class Spell {
      */
     public Object getConfig(String key, @Nullable Object defaultt) {
     	FileConfiguration spellConfig = HPS.ConfigurationManager.getConfig(ConfigurationType.SPELL).get();
-        return defaultt == null ? spellConfig.get("spells." + getName().toLowerCase() + "." + key) : spellConfig.get("spells." + getName() + "." + key, defaultt);
+    	key = "spells." + getName().toLowerCase().replace(" ", "-") + "." + key;
+        return defaultt == null ? spellConfig.get(key) : spellConfig.get(key, defaultt);
     }
 
     /**
