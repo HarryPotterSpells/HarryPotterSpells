@@ -86,7 +86,7 @@ public class ExtensionManager {
     public void enableExtensions() {
     	for (Extension extension : extensions.keySet()) {
     		if (extensions.get(extension) == Extension.State.LOADED) {
-    			extension.onEnable();
+    			extension.load();
                 HPS.getServer().getPluginManager().registerEvents(extension, HPS);
                 extensions.put(extension, Extension.State.ENABLED);
     		}

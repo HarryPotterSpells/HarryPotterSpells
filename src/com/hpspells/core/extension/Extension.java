@@ -20,12 +20,18 @@ public class Extension implements Listener {
     private HPS HPS;
     private String name, description, authors, version;
     private Logger logger;
+    
+    protected void load() {
+        logger = new ExtensionLogger(this);
+        logger.setParent(HPS.getLogger());
+        onEnable();
+    }
 
     // Functions to be overridden by developers
     public void onEnable() {
-    	logger = Logger.getLogger(getName());
     	logger.info("Has been enabled");
     }
+    
     public void onDisable() {
     	logger.info("Has been disabled");
     }
