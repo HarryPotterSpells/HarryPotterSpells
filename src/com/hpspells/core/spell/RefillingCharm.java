@@ -28,6 +28,9 @@ public class RefillingCharm extends Spell {
         ItemStack[] contents = inventory.getContents();
         //Loop through the inventory
         for (ItemStack is : contents) {
+            if (is == null) {
+                continue;
+            } 
             // If the item stack is a bucket
             if (is.getType() == Material.BUCKET) {
                 inventory.remove(Material.BUCKET);
