@@ -96,7 +96,7 @@ public abstract class Spell {
      * @return spell permission
      */
     public Permission getPermission() {
-        return new Permission("harrypotterspells.spell." + this.getName().toLowerCase(), PermissionDefault.TRUE);
+        return new Permission("harrypotterspells.spell." + this.getName().toLowerCase().replaceAll(" ", "-"), PermissionDefault.TRUE);
     }
 
     /**
