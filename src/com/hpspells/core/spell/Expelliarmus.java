@@ -42,11 +42,11 @@ public class Expelliarmus extends Spell {
             @Override
             public void hitEntity(LivingEntity entity) {
                 Location targetloc = entity.getLocation();
-                List<Material> disarmItems = new ArrayList<Material>(Arrays.asList(Material.getMaterial(HPS.getConfig().getInt("Wand.ID"))));
+                List<Material> disarmItems = new ArrayList<Material>(Arrays.asList(Material.matchMaterial(HPS.getConfig().getString("wand.type"))));
                 if ((Boolean) getConfig("disarm-weapons", true))
                     disarmItems.addAll(Arrays.asList(Material.STICK, Material.WOOD_SWORD, Material.STONE_SWORD, Material.IRON_SWORD, Material.GOLD_SWORD, Material.DIAMOND_SWORD, Material.BOW));
 
-                if (disarmItems.contains(entity.getEquipment().getItemInHand())) {
+                if (disarmItems.contains(entity.getEquipment().getItemInHand().getType())) {
                     Item i = entity.getWorld().dropItem(targetloc, entity.getEquipment().getItemInHand());
                     entity.getEquipment().setItemInHand(null);
                     Vector vector = targetloc.getDirection();
