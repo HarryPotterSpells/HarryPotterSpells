@@ -1,5 +1,6 @@
 language: java
 script: 'mvn test'
+sudo: false
 notifications:
   irc: 'irc.esper.net#harrypotterspells'
   skip_join: true
