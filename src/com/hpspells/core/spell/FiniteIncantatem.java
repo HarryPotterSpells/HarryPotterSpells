@@ -51,7 +51,7 @@ public class FiniteIncantatem extends Spell {
                 }
             }
 
-        }, 1f, ParticleEffect.WATER_BUBBLE);
+        }, 1f, ParticleEffect.FIREWORKS_SPARK);
         return true;
     }
 }
