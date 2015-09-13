@@ -24,7 +24,10 @@ public class HomenumRevelio extends Spell {
 
     @Override
     public boolean cast(Player p) {
-        for (Entity entity : p.getNearbyEntities((Double) getConfig("box.x", 10d), (Double) getConfig("box.y", 10d), (Double) getConfig("box.z", 10d))) {
+    	double x = ((Integer) getConfig("box.x", 10d)).doubleValue();
+    	double y = ((Integer) getConfig("box.y", 10d)).doubleValue();
+    	double z = ((Integer) getConfig("box.z", 10d)).doubleValue();
+        for (Entity entity : p.getNearbyEntities(x, y, z)) {
             if (entity instanceof Player) {
                 try {
                     FireworkEffectPlayer.playFirework(entity.getWorld(), entity.getLocation(), FireworkEffect.builder().flicker(false).with(Type.BURST).withColor(Color.YELLOW).build());
