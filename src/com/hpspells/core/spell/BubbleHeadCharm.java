@@ -49,7 +49,7 @@ public class BubbleHeadCharm extends Spell {
                 }
             }
 
-        }, 1f, ParticleEffect.WATER_BUBBLE);
+        }, 1f, ParticleEffect.WATER_WAKE);
         return true;
     }
 
