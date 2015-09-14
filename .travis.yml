@@ -4,3 +4,7 @@ sudo: false
 notifications:
   irc: 'irc.esper.net#harrypotterspells'
   skip_join: true
+  slack:
+    rooms:
+      - harrypotterspells:BIOP4jNLLLQ4H1sxnMsSzKF8#general
+      - harrypotterspells:BIOP4jNLLLQ4H1sxnMsSzKF8#development
