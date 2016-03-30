@@ -80,7 +80,7 @@ public class SpellList extends HCommandExecutor {
                     String spellList = null;
                     for (String spell : spells) {
                         if (spellList == null)
-                            spellList = HPS.Localisation.getTranslation("cmdSplPlayerKnows", args[0]).concat(spell);
+                            spellList = (HPS.Localisation.getTranslation("cmdSplPlayerKnows", args[0]) + " ").concat(spell);
                         else
                             spellList = spellList.concat(", " + spell);
                     }
