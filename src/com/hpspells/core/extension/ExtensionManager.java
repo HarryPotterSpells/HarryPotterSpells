@@ -56,6 +56,7 @@ public class ExtensionManager {
             }
         })) {
             try {
+            	HPS.PM.debug("File name: " + file.getName());
                 ZipFile zip = new ZipFile(file);
                 ZipEntry description = zip.getEntry("extension.yml");
 
