@@ -1,5 +1,6 @@
 package com.hpspells.core;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -83,56 +84,58 @@ public class HPS extends JavaPlugin {
 
             PlayerSpellConfig PSC = (PlayerSpellConfig) ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
             Double version = PSC.get().getDouble("VERSION_DO_NOT_EDIT", -1d) == -1d ? null : PSC.get().getDouble("VERSION_DO_NOT_EDIT", -1d);
+            
+            if (new File(getDataFolder(), "PlayerSpellConfig.yml").exists()) {
+            	if (version == null || version < PlayerSpellConfig.CURRENT_VERSION) {
+                    // STORE UPDATES HERE
 
-            if (version == null || version < PlayerSpellConfig.CURRENT_VERSION) {
-                // STORE UPDATES HERE
+                    if (version == null) { // Updating from unformatted version to version 1.1
+                        PM.log(Level.INFO, Localisation.getTranslation("pscOutOfDate"));
 
-                if (version == null) { // Updating from unformatted version to version 1.1
-                    PM.log(Level.INFO, Localisation.getTranslation("pscOutOfDate"));
+                        Map<String, List<String>> newConfig = new HashMap<String, List<String>>(), lists = new HashMap<String, List<String>>();
+                        Set<String> css = new HashSet<String>();
 
-                    Map<String, List<String>> newConfig = new HashMap<String, List<String>>(), lists = new HashMap<String, List<String>>();
-                    Set<String> css = new HashSet<String>();
+                        for (String s : PSC.get().getKeys(false)) // This seemingly stupid code is to avoid a ConcurrencyModificationException (google it)
+                            css.add(s);
 
-                    for (String s : PSC.get().getKeys(false)) // This seemingly stupid code is to avoid a ConcurrencyModificationException (google it)
-                        css.add(s);
+                        for (String s : css)
+                            lists.put(s, PSC.get().getStringList(s));
 
-                    for (String s : css)
-                        lists.put(s, PSC.get().getStringList(s));
-
-                    for (String cs : css) {
-                        List<String> list = new ArrayList<String>();
-                        for (String spellString : PSC.get().getStringList(cs)) {
-                            if (spellString.equals("AlarteAscendare")) {
-                                list.add("Alarte Ascendare");
-                            } else if (spellString.equals("AvadaKedavra")) {
-                                list.add("Avada Kedavra");
-                            } else if (spellString.equals("FiniteIncantatem")) {
-                                list.add("Finite Incantatem");
-                            } else if (spellString.equals("MagnaTonitrus")) {
-                                list.add("Magna Tonitrus");
-                            } else if (spellString.equals("PetrificusTotalus")) {
-                                list.add("Petrificus Totalus");
-                            } else if (spellString.equals("TimeSpell")) {
-                                list.add("Time");
-                            } else if (spellString.equals("TreeSpell")) {
-                                list.add("Tree");
-                            } else if (spellString.equals("WingardiumLeviosa")) {
-                                list.add("Wingardium Leviosa");
-                            } else {
-                                list.add(spellString);
+                        for (String cs : css) {
+                            List<String> list = new ArrayList<String>();
+                            for (String spellString : PSC.get().getStringList(cs)) {
+                                if (spellString.equals("AlarteAscendare")) {
+                                    list.add("Alarte Ascendare");
+                                } else if (spellString.equals("AvadaKedavra")) {
+                                    list.add("Avada Kedavra");
+                                } else if (spellString.equals("FiniteIncantatem")) {
+                                    list.add("Finite Incantatem");
+                                } else if (spellString.equals("MagnaTonitrus")) {
+                                    list.add("Magna Tonitrus");
+                                } else if (spellString.equals("PetrificusTotalus")) {
+                                    list.add("Petrificus Totalus");
+                                } else if (spellString.equals("TimeSpell")) {
+                                    list.add("Time");
+                                } else if (spellString.equals("TreeSpell")) {
+                                    list.add("Tree");
+                                } else if (spellString.equals("WingardiumLeviosa")) {
+                                    list.add("Wingardium Leviosa");
+                                } else {
+                                    list.add(spellString);
+                                }
                             }
+
+                            newConfig.put(cs, list);
                         }
 
-                        newConfig.put(cs, list);
+                        for (Entry<String, List<String>> ent : newConfig.entrySet())
+                            PSC.get().set(ent.getKey(), ent.getValue());
+
+                        PSC.get().set("VERSION_DO_NOT_EDIT", 1.1d);
+                        PSC.save();
+
+                        PM.log(Level.INFO, Localisation.getTranslation("pscUpdated", "1.1"));
                     }
-
-                    for (Entry<String, List<String>> ent : newConfig.entrySet())
-                        PSC.get().set(ent.getKey(), ent.getValue());
-
-                    PSC.get().set("VERSION_DO_NOT_EDIT", 1.1d);
-                    PSC.save();
-
-                    PM.log(Level.INFO, Localisation.getTranslation("pscUpdated", "1.1"));
                 }
             }
 
