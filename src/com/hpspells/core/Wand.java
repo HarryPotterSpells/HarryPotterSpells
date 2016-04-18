@@ -47,7 +47,11 @@ public class Wand {
 
         ItemMeta itemMeta = i.getItemMeta();
 
-        return itemMeta.hasDisplayName() && ChatColor.stripColor(itemMeta.getDisplayName()).equals(ChatColor.stripColor((String) getConfig("name", "Wand")));
+//        HPS.PM.broadcastMessage("Wand name: \n" + itemMeta.getDisplayName());
+//        HPS.PM.broadcastMessage("No Color wand name: \n" + ChatColor.stripColor(itemMeta.getDisplayName()));
+//        HPS.PM.broadcastMessage("No Color config: \n" + ChatColor.stripColor((String) getConfig("lore.name", "Wand")) );
+//        HPS.PM.broadcastMessage("Matching?:" + ChatColor.stripColor(itemMeta.getDisplayName()).equals(ChatColor.stripColor(getName())));
+        return itemMeta.hasDisplayName() && ChatColor.stripColor(itemMeta.getDisplayName()).equals(ChatColor.stripColor(getName()));
         //return new NBTContainerItem(i).getTag(TAG_NAME) != null;
     }
 
@@ -91,7 +95,7 @@ public class Wand {
             meta.setLore(wandCreationEvent.getLore().toStringList());
         }
 
-        meta.setDisplayName(ChatColor.RESET + ChatColor.translateAlternateColorCodes('&', (String) getConfig("lore.name", "Wand")));
+        meta.setDisplayName(ChatColor.RESET + getName());
         wand.setItemMeta(meta);
 
         if (wandCreationEvent.hasEnchantmentEffect()) {
@@ -147,7 +151,7 @@ public class Wand {
         ItemStack wand = new ItemStack(wandMaterial);
         ItemMeta meta = HPS.getServer().getItemFactory().getItemMeta(wandMaterial);
 
-        meta.setDisplayName(ChatColor.RESET + ChatColor.translateAlternateColorCodes('&', (String) getConfig("lore.name", "Wand")));
+        meta.setDisplayName(ChatColor.RESET + getName());
         wand.setItemMeta(meta);
 
         if ((Boolean) getConfig("enchantment-effect", true)) {
@@ -160,6 +164,15 @@ public class Wand {
         }
 
         return wand;
+    }
+    
+    /**
+     * Gets the formatted wand name from the config.
+     * 
+     * @return formatted wand name
+     */
+    public String getName() {
+    	return ChatColor.translateAlternateColorCodes('&', (String) getConfig("lore.name", "Wand"));
     }
 
     public Lore generateLore() {

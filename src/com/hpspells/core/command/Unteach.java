@@ -47,7 +47,7 @@ public class Unteach extends HCommandExecutor {
                     if (newSpell.playerKnows(unteachTo)) {
                         if (forgottenspells == null) {
                             newSpell.unTeach(unteachTo);
-                            forgottenspells = HPS.Localisation.getTranslation("cmdUntForgot", unteachTo.getName()) + newSpell.getName();
+                            forgottenspells = HPS.Localisation.getTranslation("cmdUntForgot", unteachTo.getName()) + " " + newSpell.getName();
                         } else {
                             newSpell.unTeach(unteachTo);
                             forgottenspells = forgottenspells.concat(", " + newSpell.getName());

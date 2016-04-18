@@ -1,5 +1,6 @@
 package com.hpspells.core;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -24,6 +26,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.help.GenericCommandHelpTopic;
 import org.bukkit.help.HelpTopic;
 import org.bukkit.help.IndexHelpTopic;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
@@ -48,6 +52,8 @@ import com.hpspells.core.util.ReflectionsReplacement;
 import com.hpspells.core.util.SVPBypass;
 
 public class HPS extends JavaPlugin {
+    public static HPS instance;
+    
     public ConfigurationManager ConfigurationManager;
     public PM PM;
     public SpellManager SpellManager;
@@ -56,6 +62,7 @@ public class HPS extends JavaPlugin {
     public Localisation Localisation;
     public ExtensionManager ExtensionManager;
 
+    private static List<ItemStack> recipeResults = new ArrayList<ItemStack>();
     private static CommandMap commandMap;
     private static Collection<HelpTopic> helpTopics = new ArrayList<HelpTopic>();
 
@@ -67,6 +74,7 @@ public class HPS extends JavaPlugin {
     
     @Override
     public void onEnable() {
+        instance = this;
         // Instance loading
         PM = new PM(this);
         ConfigurationManager = new ConfigurationManager(this);
@@ -83,56 +91,58 @@ public class HPS extends JavaPlugin {
 
             PlayerSpellConfig PSC = (PlayerSpellConfig) ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
             Double version = PSC.get().getDouble("VERSION_DO_NOT_EDIT", -1d) == -1d ? null : PSC.get().getDouble("VERSION_DO_NOT_EDIT", -1d);
+            
+            if (new File(getDataFolder(), "PlayerSpellConfig.yml").exists()) {
+            	if (version == null || version < PlayerSpellConfig.CURRENT_VERSION) {
+                    // STORE UPDATES HERE
 
-            if (version == null || version < PlayerSpellConfig.CURRENT_VERSION) {
-                // STORE UPDATES HERE
+                    if (version == null) { // Updating from unformatted version to version 1.1
+                        PM.log(Level.INFO, Localisation.getTranslation("pscOutOfDate"));
 
-                if (version == null) { // Updating from unformatted version to version 1.1
-                    PM.log(Level.INFO, Localisation.getTranslation("pscOutOfDate"));
+                        Map<String, List<String>> newConfig = new HashMap<String, List<String>>(), lists = new HashMap<String, List<String>>();
+                        Set<String> css = new HashSet<String>();
 
-                    Map<String, List<String>> newConfig = new HashMap<String, List<String>>(), lists = new HashMap<String, List<String>>();
-                    Set<String> css = new HashSet<String>();
+                        for (String s : PSC.get().getKeys(false)) // This seemingly stupid code is to avoid a ConcurrencyModificationException (google it)
+                            css.add(s);
 
-                    for (String s : PSC.get().getKeys(false)) // This seemingly stupid code is to avoid a ConcurrencyModificationException (google it)
-                        css.add(s);
+                        for (String s : css)
+                            lists.put(s, PSC.get().getStringList(s));
 
-                    for (String s : css)
-                        lists.put(s, PSC.get().getStringList(s));
-
-                    for (String cs : css) {
-                        List<String> list = new ArrayList<String>();
-                        for (String spellString : PSC.get().getStringList(cs)) {
-                            if (spellString.equals("AlarteAscendare")) {
-                                list.add("Alarte Ascendare");
-                            } else if (spellString.equals("AvadaKedavra")) {
-                                list.add("Avada Kedavra");
-                            } else if (spellString.equals("FiniteIncantatem")) {
-                                list.add("Finite Incantatem");
-                            } else if (spellString.equals("MagnaTonitrus")) {
-                                list.add("Magna Tonitrus");
-                            } else if (spellString.equals("PetrificusTotalus")) {
-                                list.add("Petrificus Totalus");
-                            } else if (spellString.equals("TimeSpell")) {
-                                list.add("Time");
-                            } else if (spellString.equals("TreeSpell")) {
-                                list.add("Tree");
-                            } else if (spellString.equals("WingardiumLeviosa")) {
-                                list.add("Wingardium Leviosa");
-                            } else {
-                                list.add(spellString);
+                        for (String cs : css) {
+                            List<String> list = new ArrayList<String>();
+                            for (String spellString : PSC.get().getStringList(cs)) {
+                                if (spellString.equals("AlarteAscendare")) {
+                                    list.add("Alarte Ascendare");
+                                } else if (spellString.equals("AvadaKedavra")) {
+                                    list.add("Avada Kedavra");
+                                } else if (spellString.equals("FiniteIncantatem")) {
+                                    list.add("Finite Incantatem");
+                                } else if (spellString.equals("MagnaTonitrus")) {
+                                    list.add("Magna Tonitrus");
+                                } else if (spellString.equals("PetrificusTotalus")) {
+                                    list.add("Petrificus Totalus");
+                                } else if (spellString.equals("TimeSpell")) {
+                                    list.add("Time");
+                                } else if (spellString.equals("TreeSpell")) {
+                                    list.add("Tree");
+                                } else if (spellString.equals("WingardiumLeviosa")) {
+                                    list.add("Wingardium Leviosa");
+                                } else {
+                                    list.add(spellString);
+                                }
                             }
+
+                            newConfig.put(cs, list);
                         }
 
-                        newConfig.put(cs, list);
+                        for (Entry<String, List<String>> ent : newConfig.entrySet())
+                            PSC.get().set(ent.getKey(), ent.getValue());
+
+                        PSC.get().set("VERSION_DO_NOT_EDIT", 1.1d);
+                        PSC.save();
+
+                        PM.log(Level.INFO, Localisation.getTranslation("pscUpdated", "1.1"));
                     }
-
-                    for (Entry<String, List<String>> ent : newConfig.entrySet())
-                        PSC.get().set(ent.getKey(), ent.getValue());
-
-                    PSC.get().set("VERSION_DO_NOT_EDIT", 1.1d);
-                    PSC.save();
-
-                    PM.log(Level.INFO, Localisation.getTranslation("pscUpdated", "1.1"));
                 }
             }
 
@@ -164,6 +174,13 @@ public class HPS extends JavaPlugin {
                 PM.log(Level.WARNING, Localisation.getTranslation("errReflectionsReplacementCmd"));
                 PM.debug(e);
             }
+            
+//            HPSTabCompleter completer = new HPSTabCompleter();
+//            getCommand("spellinfo").setTabCompleter(completer);
+//            getCommand("spellswitch").setTabCompleter(completer);
+//            getCommand("teach").setTabCompleter(completer);
+//            getCommand("unteach").setTabCompleter(completer);
+            
             PM.debug(Localisation.getTranslation("dbgRegisteredCoreCommands", commands));
 
             Bukkit.getHelpMap().addTopic(new IndexHelpTopic("HarryPotterSpells", Localisation.getTranslation("hlpDescription"), "", helpTopics));
@@ -224,36 +241,7 @@ public class HPS extends JavaPlugin {
 
             // Crafting Changes
             PM.debug(Localisation.getTranslation("dbgCraftingStart"));
-
-            if (getConfig().getBoolean("wand.crafting.enabled", true)) {
-                try {
-                    ShapedRecipe wandRecipe = new ShapedRecipe(Wand.getLorelessWand());
-                    List<String> list = getConfig().getStringList("wand.crafting.recipe");
-                    Set<String> ingredients = getConfig().getConfigurationSection("wand.crafting.ingredients").getKeys(false);
-
-                    wandRecipe.shape(list.get(0), list.get(1), list.get(2));
-                    for (String string : ingredients) {
-                        wandRecipe.setIngredient(string.toCharArray()[0], Material.matchMaterial(getConfig().getString("wand.crafting.ingredients." + string)));
-                    }
-
-                    getServer().addRecipe(wandRecipe);
-                } catch (Exception e) { // It's surrounded by a try/catch block because we can't let any stupid errors in config disable the plugin.
-                    PM.log(Level.INFO, Localisation.getTranslation("errCraftingChanges"));
-                    PM.debug(e);
-                }
-            }
-
-            if (getConfig().getBoolean("spells-craftable", true)) {
-                for (Spell s : SpellManager.getSpells()) {
-                    if (s instanceof Craftable) {
-                        SpellBookRecipeAddEvent e = new SpellBookRecipeAddEvent(((Craftable) s).getCraftingRecipe());
-                        getServer().getPluginManager().callEvent(e);
-                        if (!e.isCancelled())
-                            getServer().addRecipe(e.getRecipe());
-                    }
-                }
-            }
-
+            setupCrafting();
             PM.debug(Localisation.getTranslation("dbgCraftingEnd"));
 
             // Extension manager setup
@@ -272,6 +260,70 @@ public class HPS extends JavaPlugin {
     		PM.log(Level.INFO, Localisation.getTranslation("genPluginDisabled"));
     	else
     		PM.log(Level.INFO, "Plugin disabled.");
+    }
+    
+    public boolean onReload() {
+        reloadConfig();
+        ConfigurationManager.reloadConfigAll();
+        Localisation.load();
+        if (!setupCrafting()) return false;
+        return true;
+    }
+    
+    public boolean setupCrafting() {
+        Iterator<Recipe> it = getServer().recipeIterator();
+        while (it.hasNext()) {
+            Recipe recipe = it.next();
+            if (recipeResults.contains(recipe.getResult())) {
+                it.remove();
+            }
+        }
+        recipeResults.clear();
+    	
+        if (getConfig().getBoolean("wand.crafting.enabled", true)) {
+            try {
+                ShapedRecipe wandRecipe = new ShapedRecipe(Wand.getLorelessWand());
+                List<String> list = getConfig().getStringList("wand.crafting.recipe");
+                Set<String> ingredients = getConfig().getConfigurationSection("wand.crafting.ingredients").getKeys(false);
+
+                wandRecipe.shape(list.get(0), list.get(1), list.get(2));
+                for (String string : ingredients) {
+                    wandRecipe.setIngredient(string.toCharArray()[0], Material.matchMaterial(getConfig().getString("wand.crafting.ingredients." + string)));
+                }
+
+                recipeResults.add(wandRecipe.getResult());
+                getServer().addRecipe(wandRecipe);
+                return true;
+            } catch (NullPointerException e) { // It's surrounded by a try/catch block because we can't let any stupid errors in config disable the plugin.
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    if (player.isOp()) {
+                        PM.tell(player, ChatColor.RED + "Unable to load material from crafting config");
+                        PM.tell(player, "Please check that all values are correct");
+                    }
+                }
+                PM.log(Level.INFO, Localisation.getTranslation("errCraftingChanges"));
+                PM.debug(e);
+                return false;
+            } catch (Exception e) {
+                PM.log(Level.INFO, Localisation.getTranslation("errCraftingChanges"));
+                PM.debug(e);
+                return false;
+            }
+        }
+
+        if (getConfig().getBoolean("spells-craftable", true)) {
+            for (Spell s : SpellManager.getSpells()) {
+                if (s instanceof Craftable) {
+                    SpellBookRecipeAddEvent e = new SpellBookRecipeAddEvent(((Craftable) s).getCraftingRecipe());
+                    getServer().getPluginManager().callEvent(e);
+                    if (!e.isCancelled()) {
+                        recipeResults.add(e.getRecipe().getResult());
+                        getServer().addRecipe(e.getRecipe());
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     public ClassLoader getHPSClassLoader() {
@@ -340,6 +392,47 @@ public class HPS extends JavaPlugin {
                     HPS.PM.dependantMessagingTell(sender, ChatColor.RED + HPS.Localisation.getTranslation("cmdUsage", s, getUsage().replace("<command>", commandLabel)));
             }
             return true;
+        }
+        
+        @Override
+        public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+            List<String> cmdList = new ArrayList<>(Arrays.asList("spelllist", "teach", "unteach"));
+            if (cmdList.contains(this.getName().toLowerCase()) && args.length >= 1 && !HPS.SpellManager.isSpell(args[0])) {
+                List<String> list = new ArrayList<String>();
+                if (args[0] == null) {
+                    HPS.SpellManager.getSpells().forEach(spell -> {
+                        String spellName = spell.getName().replace(' ', '_');
+                        list.add(spellName);
+                    });
+                } else {
+                    HPS.SpellManager.getSpells().stream()
+                    .filter(spell -> spell.getName().toLowerCase().startsWith(args[0]))
+                    .forEach(spell -> {
+                        String spellName = spell.getName().replace(' ', '_');
+                        list.add(spellName);
+                    });
+                }
+                return list;
+            } else if (this.getName().equalsIgnoreCase("spellswitch") && args.length >= 1 && !HPS.SpellManager.isSpell(args[0])) {
+                List<String> list = new ArrayList<String>();
+                if (args[0] == null) {
+                    HPS.SpellManager.getSpells().stream()
+                    .filter(spell -> spell.playerKnows((Player) sender))
+                    .forEach(spell -> {
+                        String spellName = spell.getName().replace(' ', '_');
+                        list.add(spellName);
+                    });
+                } else {
+                    HPS.SpellManager.getSpells().stream()
+                    .filter(spell -> spell.getName().toLowerCase().startsWith(args[0]) && spell.playerKnows((Player) sender))
+                    .forEach(spell -> {
+                        String spellName = spell.getName().replace(' ', '_');
+                        list.add(spellName);
+                    });
+                }
+                return list;
+            }
+            return super.tabComplete(sender, alias, args);
         }
 
         /**
