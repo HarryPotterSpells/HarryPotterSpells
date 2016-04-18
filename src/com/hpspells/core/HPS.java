@@ -52,6 +52,8 @@ import com.hpspells.core.util.ReflectionsReplacement;
 import com.hpspells.core.util.SVPBypass;
 
 public class HPS extends JavaPlugin {
+    public static HPS instance;
+    
     public ConfigurationManager ConfigurationManager;
     public PM PM;
     public SpellManager SpellManager;
@@ -72,6 +74,7 @@ public class HPS extends JavaPlugin {
     
     @Override
     public void onEnable() {
+        instance = this;
         // Instance loading
         PM = new PM(this);
         ConfigurationManager = new ConfigurationManager(this);
@@ -171,6 +174,13 @@ public class HPS extends JavaPlugin {
                 PM.log(Level.WARNING, Localisation.getTranslation("errReflectionsReplacementCmd"));
                 PM.debug(e);
             }
+            
+//            HPSTabCompleter completer = new HPSTabCompleter();
+//            getCommand("spellinfo").setTabCompleter(completer);
+//            getCommand("spellswitch").setTabCompleter(completer);
+//            getCommand("teach").setTabCompleter(completer);
+//            getCommand("unteach").setTabCompleter(completer);
+            
             PM.debug(Localisation.getTranslation("dbgRegisteredCoreCommands", commands));
 
             Bukkit.getHelpMap().addTopic(new IndexHelpTopic("HarryPotterSpells", Localisation.getTranslation("hlpDescription"), "", helpTopics));
@@ -382,6 +392,29 @@ public class HPS extends JavaPlugin {
                     HPS.PM.dependantMessagingTell(sender, ChatColor.RED + HPS.Localisation.getTranslation("cmdUsage", s, getUsage().replace("<command>", commandLabel)));
             }
             return true;
+        }
+        
+        @Override
+        public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+            List<String> cmdList = new ArrayList<>(Arrays.asList("spellinfo", "spellswitch", "teach", "unteach"));
+            if (cmdList.contains(this.getName().toLowerCase()) && args.length >= 1 && !HPS.SpellManager.isSpell(args[0])) {
+                List<String> list = new ArrayList<String>();
+                if (args[0] == null) {
+                    HPS.SpellManager.getSpells().forEach(spell -> {
+                        String spellName = spell.getName().replace(' ', '_');
+                        list.add(spellName);
+                    });
+                } else {
+                    HPS.SpellManager.getSpells().stream()
+                    .filter(spell -> spell.getName().toLowerCase().startsWith(args[0]))
+                    .forEach(spell -> {
+                        String spellName = spell.getName().replace(' ', '_');
+                        list.add(spellName);
+                    });
+                }
+                return list;
+            }
+            return super.tabComplete(sender, alias, args);
         }
 
         /**

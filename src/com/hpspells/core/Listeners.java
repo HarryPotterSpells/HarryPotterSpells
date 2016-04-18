@@ -33,7 +33,7 @@ public class Listeners implements Listener {
         this.HPS = instance;
         HPS.getServer().getPluginManager().addPermission(CAST_SPELLS);
     }
-
+    
     @EventHandler
     public void PIE(PlayerInteractEvent e) {
         if (e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
