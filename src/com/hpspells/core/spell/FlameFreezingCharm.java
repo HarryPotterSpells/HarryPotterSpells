@@ -22,9 +22,9 @@ public class FlameFreezingCharm extends Spell {
 
     @Override
     public boolean cast(Player p) {
-        int duration = (int) getTime("duration", 60);
+        int duration = (int) getTime("duration", 60 * 20);
         p.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, duration, 1));
-        HPS.PM.tell(p, "You are now Fire Resistant for " + duration + " seconds.");
+        HPS.PM.tell(p, "You are now Fire Resistant for " + duration / 20 + " seconds.");
         return true;
     }
 
