@@ -396,7 +396,7 @@ public class HPS extends JavaPlugin {
         
         @Override
         public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-            List<String> cmdList = new ArrayList<>(Arrays.asList("spellinfo", "spellswitch", "teach", "unteach"));
+            List<String> cmdList = new ArrayList<>(Arrays.asList("spelllist", "teach", "unteach"));
             if (cmdList.contains(this.getName().toLowerCase()) && args.length >= 1 && !HPS.SpellManager.isSpell(args[0])) {
                 List<String> list = new ArrayList<String>();
                 if (args[0] == null) {
@@ -407,6 +407,24 @@ public class HPS extends JavaPlugin {
                 } else {
                     HPS.SpellManager.getSpells().stream()
                     .filter(spell -> spell.getName().toLowerCase().startsWith(args[0]))
+                    .forEach(spell -> {
+                        String spellName = spell.getName().replace(' ', '_');
+                        list.add(spellName);
+                    });
+                }
+                return list;
+            } else if (this.getName().equalsIgnoreCase("spellswitch") && args.length >= 1 && !HPS.SpellManager.isSpell(args[0])) {
+                List<String> list = new ArrayList<String>();
+                if (args[0] == null) {
+                    HPS.SpellManager.getSpells().stream()
+                    .filter(spell -> spell.playerKnows((Player) sender))
+                    .forEach(spell -> {
+                        String spellName = spell.getName().replace(' ', '_');
+                        list.add(spellName);
+                    });
+                } else {
+                    HPS.SpellManager.getSpells().stream()
+                    .filter(spell -> spell.getName().toLowerCase().startsWith(args[0]) && spell.playerKnows((Player) sender))
                     .forEach(spell -> {
                         String spellName = spell.getName().replace(' ', '_');
                         list.add(spellName);
