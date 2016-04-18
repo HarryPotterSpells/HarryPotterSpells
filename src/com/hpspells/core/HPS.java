@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -25,6 +26,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.help.GenericCommandHelpTopic;
 import org.bukkit.help.HelpTopic;
 import org.bukkit.help.IndexHelpTopic;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
@@ -57,6 +60,7 @@ public class HPS extends JavaPlugin {
     public Localisation Localisation;
     public ExtensionManager ExtensionManager;
 
+    private static List<ItemStack> recipeResults = new ArrayList<ItemStack>();
     private static CommandMap commandMap;
     private static Collection<HelpTopic> helpTopics = new ArrayList<HelpTopic>();
 
@@ -227,36 +231,7 @@ public class HPS extends JavaPlugin {
 
             // Crafting Changes
             PM.debug(Localisation.getTranslation("dbgCraftingStart"));
-
-            if (getConfig().getBoolean("wand.crafting.enabled", true)) {
-                try {
-                    ShapedRecipe wandRecipe = new ShapedRecipe(Wand.getLorelessWand());
-                    List<String> list = getConfig().getStringList("wand.crafting.recipe");
-                    Set<String> ingredients = getConfig().getConfigurationSection("wand.crafting.ingredients").getKeys(false);
-
-                    wandRecipe.shape(list.get(0), list.get(1), list.get(2));
-                    for (String string : ingredients) {
-                        wandRecipe.setIngredient(string.toCharArray()[0], Material.matchMaterial(getConfig().getString("wand.crafting.ingredients." + string)));
-                    }
-
-                    getServer().addRecipe(wandRecipe);
-                } catch (Exception e) { // It's surrounded by a try/catch block because we can't let any stupid errors in config disable the plugin.
-                    PM.log(Level.INFO, Localisation.getTranslation("errCraftingChanges"));
-                    PM.debug(e);
-                }
-            }
-
-            if (getConfig().getBoolean("spells-craftable", true)) {
-                for (Spell s : SpellManager.getSpells()) {
-                    if (s instanceof Craftable) {
-                        SpellBookRecipeAddEvent e = new SpellBookRecipeAddEvent(((Craftable) s).getCraftingRecipe());
-                        getServer().getPluginManager().callEvent(e);
-                        if (!e.isCancelled())
-                            getServer().addRecipe(e.getRecipe());
-                    }
-                }
-            }
-
+            setupCrafting();
             PM.debug(Localisation.getTranslation("dbgCraftingEnd"));
 
             // Extension manager setup
@@ -275,6 +250,70 @@ public class HPS extends JavaPlugin {
     		PM.log(Level.INFO, Localisation.getTranslation("genPluginDisabled"));
     	else
     		PM.log(Level.INFO, "Plugin disabled.");
+    }
+    
+    public boolean onReload() {
+        reloadConfig();
+        ConfigurationManager.reloadConfigAll();
+        Localisation.load();
+        if (!setupCrafting()) return false;
+        return true;
+    }
+    
+    public boolean setupCrafting() {
+        Iterator<Recipe> it = getServer().recipeIterator();
+        while (it.hasNext()) {
+            Recipe recipe = it.next();
+            if (recipeResults.contains(recipe.getResult())) {
+                it.remove();
+            }
+        }
+        recipeResults.clear();
+    	
+        if (getConfig().getBoolean("wand.crafting.enabled", true)) {
+            try {
+                ShapedRecipe wandRecipe = new ShapedRecipe(Wand.getLorelessWand());
+                List<String> list = getConfig().getStringList("wand.crafting.recipe");
+                Set<String> ingredients = getConfig().getConfigurationSection("wand.crafting.ingredients").getKeys(false);
+
+                wandRecipe.shape(list.get(0), list.get(1), list.get(2));
+                for (String string : ingredients) {
+                    wandRecipe.setIngredient(string.toCharArray()[0], Material.matchMaterial(getConfig().getString("wand.crafting.ingredients." + string)));
+                }
+
+                recipeResults.add(wandRecipe.getResult());
+                getServer().addRecipe(wandRecipe);
+                return true;
+            } catch (NullPointerException e) { // It's surrounded by a try/catch block because we can't let any stupid errors in config disable the plugin.
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    if (player.isOp()) {
+                        PM.tell(player, ChatColor.RED + "Unable to load material from crafting config");
+                        PM.tell(player, "Please check that all values are correct");
+                    }
+                }
+                PM.log(Level.INFO, Localisation.getTranslation("errCraftingChanges"));
+                PM.debug(e);
+                return false;
+            } catch (Exception e) {
+                PM.log(Level.INFO, Localisation.getTranslation("errCraftingChanges"));
+                PM.debug(e);
+                return false;
+            }
+        }
+
+        if (getConfig().getBoolean("spells-craftable", true)) {
+            for (Spell s : SpellManager.getSpells()) {
+                if (s instanceof Craftable) {
+                    SpellBookRecipeAddEvent e = new SpellBookRecipeAddEvent(((Craftable) s).getCraftingRecipe());
+                    getServer().getPluginManager().callEvent(e);
+                    if (!e.isCancelled()) {
+                        recipeResults.add(e.getRecipe().getResult());
+                        getServer().addRecipe(e.getRecipe());
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     public ClassLoader getHPSClassLoader() {

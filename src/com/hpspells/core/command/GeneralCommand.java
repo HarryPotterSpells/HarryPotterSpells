@@ -28,10 +28,10 @@ public class GeneralCommand extends HCommandExecutor {
             if (args.length == 1)
                 return false;
             else if (args[1].equalsIgnoreCase("reload")) {
-                HPS.reloadConfig();
-                HPS.ConfigurationManager.reloadConfigAll();
-                HPS.Localisation.load();
-                HPS.PM.dependantMessagingTell(sender, HPS.Localisation.getTranslation("cmdGenConfigReloaded"));
+                if (HPS.onReload())
+                    HPS.PM.dependantMessagingTell(sender, ChatColor.GREEN + HPS.Localisation.getTranslation("cmdGenConfigReloaded"));
+                else 
+                    HPS.PM.dependantMessagingTell(sender, "Config reloaded with errors");
             } else if (args[1].equalsIgnoreCase("edit")) {
                 if (args.length != 5)
                     HPS.PM.dependantMessagingTell(sender, ChatColor.RED + HPS.Localisation.getTranslation("cmdUsage", (sender instanceof Player ? "/" : "") + label, " config edit <key> <new value>"));
