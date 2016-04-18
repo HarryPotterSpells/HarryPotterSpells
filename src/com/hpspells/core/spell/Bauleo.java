@@ -2,6 +2,7 @@ package com.hpspells.core.spell;
 
 import com.hpspells.core.HPS;
 import com.hpspells.core.spell.Spell.SpellInfo;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -34,7 +35,7 @@ public class Bauleo extends Spell {
                 for (int z = -(radius); z <= radius; z++) {
                     Block b = new Location(p.getWorld(), loc.getX() + x, loc.getY() + y, loc.getZ() + z).getBlock();
                     if (b.getType() == Material.CHEST) {
-                        chest = (Chest) b;
+                        chest = (Chest) b.getState();
                         break outerLoop;
                     }
                 }
