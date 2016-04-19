@@ -43,19 +43,6 @@ public class Obscuro extends Spell {
             @Override
             public void hitEntity(LivingEntity entity) {
                 if (entity instanceof Player) {
-
-					/*
-                     * TODO
-					 * Not get the value from the config every spell cast;
-					 * that's really resource intensive and inefficient
-					 *
-					 * from Kezz101: well it's not really. Plus this method takes into account plugin/configuration reloading.
-					 * Unless you want to create a ReloadJob and have every spell listen to it :/
-					 * I guess that might be more resource intensive and innefficient
-					 *
-					 * from zachoooo: You could always just create a configuration cache and use that. It would increase RAM usage but would
-					 * allow you to use an already stored value instead of accessing the config everytime
-					 */
                     int duration = (int) getTime("duration", 400);
                     entity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, duration, 1));//blind them
 
