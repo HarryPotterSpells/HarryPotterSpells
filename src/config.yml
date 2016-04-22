@@ -6,12 +6,17 @@ messaging:
   warning: 'RED'
 
 wand:
-  type: stick # The material type of the wand
-  explosion-effect: false  # Generate explosion when /wand is used?
-  enchantment-effect : true # Should wands have the shiny enchantment effect
+  # The material type of the wand
+  type: stick 
+  # Generate explosion when /wand is used?
+  explosion-effect: false  
+  # Should wands have the shiny enchantment effect
+  enchantment-effect : true 
   lore:
-    name: '&3Wand' # The name we should give the wand
-    enabled: true # Should we display custom lore on the wand (length, core, wood type, etc.)?
+    # The name we should give the wand
+    name: '&3Wand' 
+    # Should we display custom lore on the wand (length, core, wood type, etc.)?
+    enabled: true 
     show-current-spell: true # Should we display the current-spell on the wand itself
     format: # Format for the lore of wands, &x formatting codes can be used
       - '&eCurrent Spell: &6%spell'
@@ -93,7 +98,8 @@ wand:
       - 'Quite springy'
       - 'Very springy'
   crafting:
-    enabled: true # Should we bother making a crafting recipe for the wand?
+    # Should we bother making a crafting recipe for the wand?
+    enabled: true 
     recipe: # The crafting recipe for the wand. Each space represents a slot in the crafting table.
       - ' A '
       - ' B '
