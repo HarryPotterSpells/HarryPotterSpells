@@ -4,7 +4,7 @@ import com.hpspells.core.HPS;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-@CommandInfo(name = "spellinfo", description = "cmdSpiDescription", usage = "<command> <spell>", permissionDefault = "true")
+@CommandInfo(name = "spellinfo", description = "cmdSpiDescription", usage = "<command> <spell>", permissionDefault = "true", aliases = "si")
 public class SpellInfo extends HCommandExecutor {
 
     public SpellInfo(HPS instance) {
