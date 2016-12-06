@@ -266,6 +266,7 @@ public class HPS extends JavaPlugin {
         reloadConfig();
         ConfigurationManager.reloadConfigAll();
         Localisation.load();
+        this.Wand = new Wand(this);
         if (!setupCrafting()) return false;
         return true;
     }

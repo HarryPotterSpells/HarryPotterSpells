@@ -213,4 +213,11 @@ public class PM {
         }
     }
 
+    public ChatColor getInfoColor() {
+        return info;
+    }
+    
+    public ChatColor getWarningColor() {
+        return warning;
+    }
 }
