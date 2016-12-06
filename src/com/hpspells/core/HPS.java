@@ -397,7 +397,7 @@ public class HPS extends JavaPlugin {
         
         @Override
         public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-            List<String> cmdList = new ArrayList<>(Arrays.asList("spelllist", "teach", "unteach"));
+            List<String> cmdList = new ArrayList<>(Arrays.asList("spellinfo", "teach", "unteach"));
             if (cmdList.contains(this.getName().toLowerCase()) && args.length >= 1 && !HPS.SpellManager.isSpell(args[0])) {
                 List<String> list = new ArrayList<String>();
                 if (args[0] == null) {
