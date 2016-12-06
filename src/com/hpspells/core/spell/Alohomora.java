@@ -1,8 +1,5 @@
 package com.hpspells.core.spell;
 
-import com.hpspells.core.HPS;
-import com.hpspells.core.SpellTargeter;
-import com.hpspells.core.util.ParticleEffect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -10,6 +7,10 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Openable;
+import org.inventivetalent.particle.ParticleEffect;
+
+import com.hpspells.core.HPS;
+import com.hpspells.core.SpellTargeter;
 
 /**
  * Created by Zach on 6/26/2015.

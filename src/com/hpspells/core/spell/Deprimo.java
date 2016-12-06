@@ -1,9 +1,8 @@
 package com.hpspells.core.spell;
 
-import com.hpspells.core.HPS;
-import com.hpspells.core.SpellTargeter.SpellHitEvent;
-import com.hpspells.core.spell.Spell.SpellInfo;
-import com.hpspells.core.util.ParticleEffect;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
@@ -13,9 +12,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.inventivetalent.particle.ParticleEffect;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.hpspells.core.HPS;
+import com.hpspells.core.SpellTargeter.SpellHitEvent;
+import com.hpspells.core.spell.Spell.SpellInfo;
 
 @SpellInfo(
         name = "Deprimo",

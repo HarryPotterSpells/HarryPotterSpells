@@ -39,6 +39,7 @@ import org.bukkit.util.Vector;
  * @author DarkBlade12
  * @version 1.7
  */
+@Deprecated
 public enum ParticleEffect {
 	/**
 	 * A particle effect which is displayed by exploding tnt and creepers:

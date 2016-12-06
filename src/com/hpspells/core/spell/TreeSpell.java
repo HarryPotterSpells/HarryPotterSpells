@@ -1,9 +1,8 @@
 package com.hpspells.core.spell;
 
-import com.hpspells.core.HPS;
-import com.hpspells.core.SpellTargeter.SpellHitEvent;
-import com.hpspells.core.spell.Spell.SpellInfo;
-import com.hpspells.core.util.ParticleEffect;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.TreeType;
 import org.bukkit.World;
@@ -11,9 +10,11 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.inventivetalent.particle.ParticleEffect;
 
-import java.util.LinkedList;
-import java.util.List;
+import com.hpspells.core.HPS;
+import com.hpspells.core.SpellTargeter.SpellHitEvent;
+import com.hpspells.core.spell.Spell.SpellInfo;
 
 @SpellInfo(
         name = "Tree",
