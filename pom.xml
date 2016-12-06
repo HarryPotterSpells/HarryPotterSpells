@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>HarryPotterSpells</groupId>
     <artifactId>HarryPotterSpells</artifactId>
-    <version>1.1.5 BETA</version>
+    <version>1.1.6 BETA</version>
     <name>HarryPotterSpells</name>
 
     <properties>
@@ -12,12 +12,12 @@
 
     <repositories>
         <repository>
-            <id>bukkit-repo</id>
-            <url>http://repo.bukkit.org/content/groups/public/</url>
-        </repository>
-        <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
+		</repository>
+		<repository>
+            <id>inventive-repo</id>
+            <url>https://repo.inventivetalent.org/content/groups/public/</url>
 		</repository>
     </repositories>
 
@@ -25,7 +25,7 @@
     	<dependency>
           	<groupId>org.spigotmc</groupId>
           	<artifactId>spigot-api</artifactId>
-         	 <version>1.8.3-R0.1-SNAPSHOT</version>
+         	 <version>1.10-R0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
    		  	<groupId>com.google.code.findbugs</groupId>
@@ -36,6 +36,11 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.inventivetalent</groupId>
+			<artifactId>particleapi</artifactId>
+			<version>2.1.1</version>
 		</dependency>
     </dependencies>
 
@@ -63,6 +68,26 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>2.4.3</version>
+            <configuration>
+                <artifactSet>
+                    <includes>
+                        <include>org.inventivetalent:*</include>
+                    </includes>
+                </artifactSet>
+            </configuration>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>shade</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
         </plugins>
     </build>
 </project>

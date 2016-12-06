@@ -15,7 +15,7 @@ import org.bukkit.permissions.PermissionDefault;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-@CommandInfo(name = "spelllist", description = "cmdSplDescription", usage = "<command> [player]", permissionDefault = "true")
+@CommandInfo(name = "spelllist", description = "cmdSplDescription", usage = "<command> [player]", permissionDefault = "true", aliases = "sl")
 public class SpellList extends HCommandExecutor {
 
     public SpellList(HPS instance) {

@@ -14,6 +14,7 @@ import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.permissions.Permission;
@@ -36,6 +37,10 @@ public class Listeners implements Listener {
     
     @EventHandler
     public void PIE(PlayerInteractEvent e) {
+        HPS.PM.debug("Triggered Once"); // Spellswitch triggered twice when right clicking on a block
+        if (e.getHand() == EquipmentSlot.OFF_HAND) {
+            return;
+        }
         if (e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
             PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
 
@@ -46,7 +51,7 @@ public class Listeners implements Listener {
             if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 Integer knows = psc.getStringListOrEmpty(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
 
-                if (psc.getStringListOrEmpty(e.getPlayer().getName()).isEmpty() || cur == null) {
+                if (knows == -1 || cur == null) {
                     HPS.PM.tell(e.getPlayer(), HPS.Localisation.getTranslation("genKnowNoSpells"));
                     return;
                 }
@@ -79,6 +84,7 @@ public class Listeners implements Listener {
                         				line = ChatColor.translateAlternateColorCodes('&', line);
                         				line = line.replace("%spell", spell == null ? "None" : spell.getName());
                         				HPS.PM.debug(line);
+                        				HPS.PM.debug("Current Spell position: " + neww);
                         				lore.set(index, line);
                         				break;
                         			}
@@ -110,11 +116,12 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void PIEE(PlayerInteractEntityEvent e) {
+        HPS.PM.debug("Fired PlayerInteractEntityEvent");
         if (e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
             PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
             Integer knows = psc.getStringListOrEmpty(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
 
-            if (cur == null) {
+            if (cur == null || knows == -1) {
                 HPS.PM.tell(e.getPlayer(), HPS.Localisation.getTranslation("genKnowNoSpells"));
                 return;
             }

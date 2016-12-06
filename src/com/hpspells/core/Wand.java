@@ -1,5 +1,6 @@
 package com.hpspells.core;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -24,6 +25,7 @@ import com.hpspells.core.util.MiscUtilities;
  */
 public class Wand {
     private HPS HPS;
+    private List<Material> wandTypes = new ArrayList<Material>();
 
     /**
      * Constructs a new {@link Wand}
@@ -32,6 +34,14 @@ public class Wand {
      */
     public Wand(HPS instance) {
         this.HPS = instance;
+        HPS.getConfig().getStringList("wand.types").forEach(string -> {
+            Material material = Material.matchMaterial(string);
+            if (material != null && material != Material.AIR) wandTypes.add(material);
+        });
+        if (wandTypes.isEmpty()) {
+            wandTypes.add(Material.STICK);
+        }
+        HPS.PM.log(Level.INFO, "Registered " + wandTypes.size() + " wand materials!");
     }
 
     /**
@@ -41,7 +51,7 @@ public class Wand {
      * @return {@code true} if the ItemStack is useable as a wand
      */
     public boolean isWand(ItemStack i) {
-        if (i == null || !i.hasItemMeta() || i.getType() != Material.matchMaterial((String) getConfig("type", "STICK"))) {
+        if (i == null || !i.hasItemMeta() || !wandTypes.contains(i.getType())) {
         	return false;
         }
 
@@ -55,6 +65,11 @@ public class Wand {
         //return new NBTContainerItem(i).getTag(TAG_NAME) != null;
     }
 
+    public ItemStack getWand(@Nullable Player owner) {
+        Material wandMaterial = wandTypes.get(0);
+        return getWand(owner, wandMaterial);
+    }
+    
     /**
      * Gets the wand
      *
@@ -62,14 +77,14 @@ public class Wand {
      *
      * @return an {@link ItemStack} that has been specified as a wand in the config
      */
-    public ItemStack getWand(@Nullable Player owner) {
-        Material wandMaterial = Material.matchMaterial((String) getConfig("type", "STICK"));
-
+    public ItemStack getWand(@Nullable Player owner, Material wandMaterial) {
         if (wandMaterial == null || wandMaterial == Material.AIR) {
-            wandMaterial = Material.STICK;
-            HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errWandCreationInvalidType", (String) getConfig("type", "STICK")));
+            HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errWandCreationInvalidType", wandMaterial));
+            wandMaterial = wandTypes.get(0);
         }
-
+        if (!wandTypes.contains(wandMaterial)) {
+            return null;
+        }
         ItemStack wand = new ItemStack(wandMaterial);
         ItemMeta meta = HPS.getServer().getItemFactory().getItemMeta(wandMaterial);
         WandCreationEvent wandCreationEvent = new WandCreationEvent(owner, null, true);
@@ -141,11 +156,11 @@ public class Wand {
      * @return an {@link ItemStack} containing a wand
      */
     public ItemStack getLorelessWand() {
-        Material wandMaterial = Material.matchMaterial((String) getConfig("type", "STICK"));
+        Material wandMaterial = wandTypes.get(0);
 
         if (wandMaterial == null || wandMaterial == Material.AIR) {
             wandMaterial = Material.STICK;
-            HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errWandCreationInvalidType", (String) getConfig("type", "STICK")));
+            HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errWandCreationInvalidType", Material.STICK));
         }
 
         ItemStack wand = new ItemStack(wandMaterial);
@@ -164,6 +179,15 @@ public class Wand {
         }
 
         return wand;
+    }
+    
+    /**
+     * Gets the avaliable wand types.
+     * 
+     * @return formatted wand name
+     */
+    public List<Material> getWandTypes() {
+        return wandTypes;
     }
     
     /**

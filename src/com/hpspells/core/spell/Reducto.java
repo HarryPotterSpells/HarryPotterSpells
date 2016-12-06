@@ -1,20 +1,21 @@
 package com.hpspells.core.spell;
 
-import com.hpspells.core.HPS;
-import com.hpspells.core.SpellTargeter.SpellHitEvent;
-import com.hpspells.core.spell.Spell.SpellInfo;
-import com.hpspells.core.util.ParticleEffect;
-import com.hpspells.core.util.SVPBypass;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.inventivetalent.particle.ParticleEffect;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
+import com.hpspells.core.HPS;
+import com.hpspells.core.SpellTargeter.SpellHitEvent;
+import com.hpspells.core.spell.Spell.SpellInfo;
+import com.hpspells.core.util.SVPBypass;
 
 @SpellInfo(
         name = "Reducto",

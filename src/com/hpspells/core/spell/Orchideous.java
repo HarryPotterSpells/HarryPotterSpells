@@ -1,14 +1,15 @@
 package com.hpspells.core.spell;
 
-import com.hpspells.core.HPS;
-import com.hpspells.core.SpellTargeter.SpellHitEvent;
-import com.hpspells.core.spell.Spell.SpellInfo;
-import com.hpspells.core.util.ParticleEffect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.inventivetalent.particle.ParticleEffect;
+
+import com.hpspells.core.HPS;
+import com.hpspells.core.SpellTargeter.SpellHitEvent;
+import com.hpspells.core.spell.Spell.SpellInfo;
 
 @SpellInfo(
         name = "Orchideous",

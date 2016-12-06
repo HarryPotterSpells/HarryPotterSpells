@@ -41,6 +41,7 @@ public class Unteach extends HCommandExecutor {
 
         if (unteachTo != null) {
             if (args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("*")) {
+                HPS.SpellManager.setCurrentSpellPosition(unteachTo, 0);
                 Set<Spell> spells = HPS.SpellManager.getSpells();
                 String forgottenspells = null;
                 for (Spell newSpell : spells) {

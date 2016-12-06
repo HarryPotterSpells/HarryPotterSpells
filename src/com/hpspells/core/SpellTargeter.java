@@ -1,7 +1,11 @@
 package com.hpspells.core;
 
-import com.hpspells.core.util.FireworkEffectPlayer;
-import com.hpspells.core.util.ParticleEffect;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Level;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
@@ -11,11 +15,9 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import org.inventivetalent.particle.ParticleEffect;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Level;
+import com.hpspells.core.util.FireworkEffectPlayer;
 
 /**
  * A targeter class that targets using a a fake projectile
@@ -174,7 +176,12 @@ public class SpellTargeter {
                 loc.add(direction);
                 try {
                     for (ParticleEffect pe : effect) {
-                        pe.display(offset, offset, offset, spellSpeed, count, loc, 25);
+                        //Old ParticleEffect library
+                        //pe.display(offset, offset, offset, spellSpeed, count, loc, 25);
+                        double x = caster.getLocation().getX();
+                        double y = caster.getLocation().getY();
+                        double z = caster.getLocation().getZ();
+                        pe.send(Bukkit.getOnlinePlayers(), x, y, z, offset, offset, offset, spellSpeed, count);
                     }
                 } catch (Exception e) {
                     HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errParticleEffect"));

@@ -6,7 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandInfo(name = "spellswitch", description = "cmdSpsDescription", usage = "<command> <spell>", permissionDefault = "true")
+@CommandInfo(name = "spellswitch", description = "cmdSpsDescription", usage = "<command> <spell>", permissionDefault = "true", aliases="ss")
 public class SpellSwitch extends HCommandExecutor {
 
     public SpellSwitch(HPS instance) {

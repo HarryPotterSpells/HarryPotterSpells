@@ -266,6 +266,7 @@ public class HPS extends JavaPlugin {
         reloadConfig();
         ConfigurationManager.reloadConfigAll();
         Localisation.load();
+        this.Wand = new Wand(this);
         if (!setupCrafting()) return false;
         return true;
     }
@@ -396,8 +397,9 @@ public class HPS extends JavaPlugin {
         
         @Override
         public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-            List<String> cmdList = new ArrayList<>(Arrays.asList("spelllist", "teach", "unteach"));
-            if (cmdList.contains(this.getName().toLowerCase()) && args.length >= 1 && !HPS.SpellManager.isSpell(args[0])) {
+            List<String> cmdList = new ArrayList<>(Arrays.asList("spellinfo", "teach")); //All spells
+            List<String> cmdList2 = new ArrayList<>(Arrays.asList("spellswitch", "unteach")); //Player known spells
+            if ((cmdList.contains(this.getName().toLowerCase()) || this.getAliases().stream().anyMatch(a -> this.getName().equalsIgnoreCase(a))) && args.length >= 1 && !HPS.SpellManager.isSpell(args[0])) {
                 List<String> list = new ArrayList<String>();
                 if (args[0] == null) {
                     HPS.SpellManager.getSpells().forEach(spell -> {
@@ -406,14 +408,14 @@ public class HPS extends JavaPlugin {
                     });
                 } else {
                     HPS.SpellManager.getSpells().stream()
-                    .filter(spell -> spell.getName().toLowerCase().startsWith(args[0]))
+                    .filter(spell -> spell.getName().toLowerCase().startsWith(args[0].toLowerCase()))
                     .forEach(spell -> {
                         String spellName = spell.getName().replace(' ', '_');
                         list.add(spellName);
                     });
                 }
                 return list;
-            } else if (this.getName().equalsIgnoreCase("spellswitch") && args.length >= 1 && !HPS.SpellManager.isSpell(args[0])) {
+            } else if ((cmdList2.contains(this.getName().toLowerCase()) || this.getAliases().stream().anyMatch(a -> this.getName().equalsIgnoreCase(a))) && args.length >= 1 && !HPS.SpellManager.isSpell(args[0])) {
                 List<String> list = new ArrayList<String>();
                 if (args[0] == null) {
                     HPS.SpellManager.getSpells().stream()
@@ -424,7 +426,7 @@ public class HPS extends JavaPlugin {
                     });
                 } else {
                     HPS.SpellManager.getSpells().stream()
-                    .filter(spell -> spell.getName().toLowerCase().startsWith(args[0]) && spell.playerKnows((Player) sender))
+                    .filter(spell -> spell.getName().toLowerCase().startsWith(args[0].toLowerCase()) && spell.playerKnows((Player) sender))
                     .forEach(spell -> {
                         String spellName = spell.getName().replace(' ', '_');
                         list.add(spellName);
