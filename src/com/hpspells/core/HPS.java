@@ -397,7 +397,8 @@ public class HPS extends JavaPlugin {
         
         @Override
         public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-            List<String> cmdList = new ArrayList<>(Arrays.asList("spellinfo", "teach", "unteach"));
+            List<String> cmdList = new ArrayList<>(Arrays.asList("spellinfo", "teach")); //All spells
+            List<String> cmdList2 = new ArrayList<>(Arrays.asList("spellswitch", "unteach")); //Player known spells
             if (cmdList.contains(this.getName().toLowerCase()) && args.length >= 1 && !HPS.SpellManager.isSpell(args[0])) {
                 List<String> list = new ArrayList<String>();
                 if (args[0] == null) {
@@ -414,7 +415,7 @@ public class HPS extends JavaPlugin {
                     });
                 }
                 return list;
-            } else if (this.getName().equalsIgnoreCase("spellswitch") && args.length >= 1 && !HPS.SpellManager.isSpell(args[0])) {
+            } else if (cmdList2.contains(this.getName().toLowerCase()) && args.length >= 1 && !HPS.SpellManager.isSpell(args[0])) {
                 List<String> list = new ArrayList<String>();
                 if (args[0] == null) {
                     HPS.SpellManager.getSpells().stream()
