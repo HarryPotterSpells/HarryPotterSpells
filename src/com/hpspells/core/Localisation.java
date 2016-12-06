@@ -51,6 +51,7 @@ public class Localisation {
     	}
     	this.registerLang(Language.ENGLISH, new File(langFolder, "us-english.properties"));
         this.registerLang(Language.DUTCH, new File(langFolder, "nl-dutch.properties"));
+        this.registerLang(Language.GERMAN, new File(langFolder, "de-german.properties"));
         if (loadDefaultLang())
         	this.loadLang(Language.getLanuage(HPS.getConfig().getString("language")));
     }
@@ -240,7 +241,8 @@ public class Localisation {
      */
     public enum Language {
     	DUTCH,
-    	ENGLISH;
+    	ENGLISH,
+    	GERMAN;
     	
     	/**
     	 * Gets the language from its configuration name
@@ -250,6 +252,8 @@ public class Localisation {
     	public static Language getLanuage(String name) {
     		if (name.equalsIgnoreCase("nl-dutch")) {
     			return DUTCH;
+    		} else if (name.equalsIgnoreCase("de-german")) {
+    		    return GERMAN;
     		}
     		return ENGLISH;
     	}
