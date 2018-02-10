@@ -2,6 +2,7 @@ package com.hpspells.core.extension;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.InputStreamReader;
 import java.util.Comparator;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -63,7 +64,7 @@ public class ExtensionManager {
                     HPS.PM.log(Level.INFO, HPS.Localisation.getTranslation("extMissingDescription", file.getName()));
                     continue;
                 }
-                extensions.put(Extension.create(HPS, file, YamlConfiguration.loadConfiguration(zip.getInputStream(description))), Extension.State.LOADED);
+                extensions.put(Extension.create(HPS, file, YamlConfiguration.loadConfiguration(new InputStreamReader(zip.getInputStream(description)))), Extension.State.LOADED);
                 zip.close();
             } catch (Exception e) {
                 HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errExtensionLoading", file.getName()));
