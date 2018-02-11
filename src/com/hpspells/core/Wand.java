@@ -79,7 +79,6 @@ public class Wand {
      */
     public ItemStack getWand(@Nullable Player owner, Material wandMaterial) {
         if (wandMaterial == null || wandMaterial == Material.AIR) {
-            HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errWandCreationInvalidType", wandMaterial));
             wandMaterial = wandTypes.get(0);
         }
         if (!wandTypes.contains(wandMaterial)) {

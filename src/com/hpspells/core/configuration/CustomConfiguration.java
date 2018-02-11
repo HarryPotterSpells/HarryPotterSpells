@@ -1,12 +1,14 @@
 package com.hpspells.core.configuration;
 
 import com.hpspells.core.HPS;
+
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.logging.Level;
 
 /**
@@ -41,7 +43,7 @@ public class CustomConfiguration {
         this.file = file;
         this.fileConfiguration = YamlConfiguration.loadConfiguration(file);
         if (stream != null) {
-            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(stream);
+            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
             fileConfiguration.setDefaults(defConfig);
             fileConfiguration.options().copyDefaults(true);
         } 
