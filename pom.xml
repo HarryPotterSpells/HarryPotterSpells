@@ -15,21 +15,22 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
 		</repository>
-		<repository>
-            <id>inventive-repo</id>
-            <url>https://repo.inventivetalent.org/content/groups/public/</url>
-		</repository>
     </repositories>
 
     <dependencies>
     	<dependency>
           	<groupId>org.spigotmc</groupId>
-          	<artifactId>spigot-api</artifactId>
+          	<artifactId>spigot</artifactId>
          	 <version>1.12.2-R0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
           	<groupId>org.bukkit</groupId>
           	<artifactId>bukkit</artifactId>
+         	 <version>1.12.2-R0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+          	<groupId>org.bukkit</groupId>
+          	<artifactId>craftbukkit</artifactId>
          	 <version>1.12.2-R0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
@@ -41,11 +42,6 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.inventivetalent</groupId>
-			<artifactId>particleapi</artifactId>
-			<version>2.1.1</version>
 		</dependency>
     </dependencies>
 
@@ -73,26 +69,6 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-shade-plugin</artifactId>
-            <version>2.4.3</version>
-            <configuration>
-                <artifactSet>
-                    <includes>
-                        <include>org.inventivetalent:*</include>
-                    </includes>
-                </artifactSet>
-            </configuration>
-            <executions>
-                <execution>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>shade</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
         </plugins>
     </build>
 </project>

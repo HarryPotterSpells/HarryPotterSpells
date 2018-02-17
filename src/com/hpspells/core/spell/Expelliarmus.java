@@ -11,11 +11,11 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
-import org.inventivetalent.particle.ParticleEffect;
 
 import com.hpspells.core.HPS;
 import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
+import com.hpspells.core.util.ParticleEffect;
 
 @SpellInfo(
         name = "Expelliarmus",

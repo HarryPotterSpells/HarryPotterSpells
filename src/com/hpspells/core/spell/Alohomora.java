@@ -7,10 +7,10 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Openable;
-import org.inventivetalent.particle.ParticleEffect;
 
 import com.hpspells.core.HPS;
 import com.hpspells.core.SpellTargeter;
+import com.hpspells.core.util.ParticleEffect;
 
 /**
  * Created by Zach on 6/26/2015.
