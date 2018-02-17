@@ -21,7 +21,6 @@ public class RefillingCharm extends Spell {
         super(instance);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public boolean cast(Player p) {
         Inventory inventory = p.getInventory();

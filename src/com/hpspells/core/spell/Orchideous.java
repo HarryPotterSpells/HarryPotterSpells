@@ -75,8 +75,9 @@ public class Orchideous extends Spell {
                 return true;
             case DIRT:
                 return true;
+            default:
+                return false;
         }
-        return false;
     }
 
 

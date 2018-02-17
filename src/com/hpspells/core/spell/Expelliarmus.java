@@ -47,9 +47,9 @@ public class Expelliarmus extends Spell {
                 if ((Boolean) getConfig("disarm-weapons", true))
                     disarmItems.addAll(Arrays.asList(Material.STICK, Material.WOOD_SWORD, Material.STONE_SWORD, Material.IRON_SWORD, Material.GOLD_SWORD, Material.DIAMOND_SWORD, Material.BOW));
 
-                if (disarmItems.contains(entity.getEquipment().getItemInHand().getType())) {
-                    Item i = entity.getWorld().dropItem(targetloc, entity.getEquipment().getItemInHand());
-                    entity.getEquipment().setItemInHand(null);
+                if (disarmItems.contains(entity.getEquipment().getItemInMainHand().getType())) {
+                    Item i = entity.getWorld().dropItem(targetloc, entity.getEquipment().getItemInMainHand());
+                    entity.getEquipment().setItemInMainHand(null);
                     Vector vector = targetloc.getDirection();
                     i.setVelocity(new Vector(vector.getX() * 2, vector.getY() * 2, vector.getZ() * 2));
                 }

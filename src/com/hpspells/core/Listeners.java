@@ -41,7 +41,7 @@ public class Listeners implements Listener {
         if (e.getHand() == EquipmentSlot.OFF_HAND) {
             return;
         }
-        if (e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
+        if (e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getInventory().getItemInMainHand())) {
             PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
 
             if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE))
@@ -117,7 +117,7 @@ public class Listeners implements Listener {
     @EventHandler
     public void PIEE(PlayerInteractEntityEvent e) {
         HPS.PM.debug("Fired PlayerInteractEntityEvent");
-        if (e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
+        if (e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getInventory().getItemInMainHand())) {
             PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
             Integer knows = psc.getStringListOrEmpty(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
 

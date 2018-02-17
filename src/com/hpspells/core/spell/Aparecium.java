@@ -31,7 +31,7 @@ public class Aparecium extends Spell {
 
                 if (!p.canSee(player)) {
                     for (Player players : Bukkit.getServer().getOnlinePlayers()) {
-                        players.showPlayer(player);
+                        players.showPlayer(HPS, player);
                     }
                     Location loc = new Location(player.getWorld(), player.getLocation().getBlockX(), player.getLocation().getBlockY() + 1, player.getLocation().getBlockZ());
                     player.getWorld().createExplosion(loc, 0, false);
