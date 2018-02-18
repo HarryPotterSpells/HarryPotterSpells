@@ -3,7 +3,9 @@ package com.hpspells.core.api;
 import com.hpspells.core.HPS;
 import com.hpspells.core.spell.Spell;
 import com.hpspells.core.util.MiscUtilities;
+
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
@@ -46,7 +48,7 @@ public class SpellBookRecipe implements Recipe {
             HPS.PM.debug(e);
         }
 
-        recipe = new ShapedRecipe(stack);
+        recipe = new ShapedRecipe(new NamespacedKey(HPS, "spellbook"), stack);
     }
 
     /**

@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
@@ -272,18 +273,21 @@ public class HPS extends JavaPlugin {
     }
     
     public boolean setupCrafting() {
+        List<Recipe> recipeList = new ArrayList<Recipe>();
         Iterator<Recipe> it = getServer().recipeIterator();
         while (it.hasNext()) {
             Recipe recipe = it.next();
-            if (recipeResults.contains(recipe.getResult())) {
-                it.remove();
+            if (!recipeResults.contains(recipe.getResult())) {
+                recipeList.add(recipe);
             }
         }
         recipeResults.clear();
+        getServer().clearRecipes();
+        recipeList.stream().forEach(recipe -> getServer().addRecipe(recipe));
     	
         if (getConfig().getBoolean("wand.crafting.enabled", true)) {
             try {
-                ShapedRecipe wandRecipe = new ShapedRecipe(Wand.getLorelessWand());
+                ShapedRecipe wandRecipe = new ShapedRecipe(new NamespacedKey(this, "wand"), Wand.getLorelessWand());
                 List<String> list = getConfig().getStringList("wand.crafting.recipe");
                 Set<String> ingredients = getConfig().getConfigurationSection("wand.crafting.ingredients").getKeys(false);
 

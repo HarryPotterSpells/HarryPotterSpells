@@ -5,6 +5,7 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -23,6 +24,7 @@ import org.bukkit.permissions.PermissionDefault;
 import com.hpspells.core.api.event.SpellPreCastEvent;
 import com.hpspells.core.configuration.ConfigurationManager.ConfigurationType;
 import com.hpspells.core.configuration.PlayerSpellConfig;
+import com.hpspells.core.spell.Colloportus;
 import com.hpspells.core.spell.Spell;
 
 public class Listeners implements Listener {
@@ -38,10 +40,32 @@ public class Listeners implements Listener {
     @EventHandler
     public void PIE(PlayerInteractEvent e) {
         HPS.PM.debug("Triggered Once"); // Spellswitch triggered twice when right clicking on a block
+        //Below code to stop doors from opening for Colloportus
+        if (e.getClickedBlock() != null) {
+            Material material = e.getClickedBlock().getType();
+            if (Colloportus.getDoorTypes().contains(material)) {
+                if (Colloportus.isLockedDoor(e.getClickedBlock()) && e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    HPS.PM.warn(e.getPlayer(), "This door has been locked by a Colloportus spell");
+                    e.setCancelled(true);
+                }
+            }
+            if (e.getAction().equals(Action.PHYSICAL)) {
+                if (Colloportus.getPadTypes().contains(material)) {
+                    
+                }
+            }
+            if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+                if (material == Material.STONE_BUTTON || material == Material.WOOD_BUTTON) {
+                    
+                }
+            }
+        }
+        
+        //Normal wand checking code
         if (e.getHand() == EquipmentSlot.OFF_HAND) {
             return;
         }
-        if (e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
+        if (e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getInventory().getItemInMainHand())) {
             PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
 
             if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE))
@@ -117,7 +141,7 @@ public class Listeners implements Listener {
     @EventHandler
     public void PIEE(PlayerInteractEntityEvent e) {
         HPS.PM.debug("Fired PlayerInteractEntityEvent");
-        if (e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getItemInHand())) {
+        if (e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getInventory().getItemInMainHand())) {
             PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
             Integer knows = psc.getStringListOrEmpty(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
 
@@ -190,5 +214,5 @@ public class Listeners implements Listener {
     		HPS.PM.warn(e.getCaster(), HPS.Localisation.getTranslation("spellUnauthorized"));
     	}
     }
-
+    
 }

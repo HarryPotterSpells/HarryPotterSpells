@@ -32,6 +32,9 @@ spells:
       amount: 0
       # The velocity of the bats that get shot out of the wand
       velocity: 2
+  colloportus:
+    # How long should doors be locked for
+    lock-time: 30
   confundo:
     # How long the target should be confused for
     duration: 200t
@@ -103,6 +106,9 @@ spells:
   timespell:
     # Should lightning strike on casting of the spell
     lightning: true
+  weather:
+    # How long delay untill weather changes
+    delay: 1
   wingardium-leviosa:
     # Should fall damage be cancelled when flying
     cancel-fall-damage: true

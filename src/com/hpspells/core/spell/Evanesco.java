@@ -21,7 +21,7 @@ public class Evanesco extends Spell {
 
     public boolean cast(final Player p) {
         for (Player players : Bukkit.getServer().getOnlinePlayers()) {
-            players.hidePlayer(p);
+            players.hidePlayer(HPS, p);
             Location loc = new Location(p.getWorld(), p.getLocation().getBlockX(), p.getLocation().getBlockY() + 1, p.getLocation().getBlockZ());
             p.getWorld().createExplosion(loc, 0, false);
         }
@@ -33,7 +33,7 @@ public class Evanesco extends Spell {
             @Override
             public void run() {
                 for (Player players : Bukkit.getServer().getOnlinePlayers()) {
-                    players.showPlayer(p);
+                    players.showPlayer(HPS, p);
                 }
                 p.getWorld().createExplosion(p.getLocation(), 0, false);
             }

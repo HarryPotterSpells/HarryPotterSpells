@@ -39,7 +39,6 @@ import org.bukkit.util.Vector;
  * @author DarkBlade12
  * @version 1.7
  */
-@Deprecated
 public enum ParticleEffect {
 	/**
 	 * A particle effect which is displayed by exploding tnt and creepers:
@@ -1401,7 +1400,7 @@ public enum ParticleEffect {
 				return;
 			}
 			try {
-				version = Integer.parseInt(Character.toString(ReflectionUtils.PackageType.getServerVersion().charAt(3)));
+				version = Integer.parseInt(ReflectionUtils.PackageType.getServerVersion().split("_")[1]);
 				if (version > 7) {
 					enumParticle = ReflectionUtils.PackageType.MINECRAFT_SERVER.getClass("EnumParticle");
 				}

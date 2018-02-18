@@ -37,7 +37,6 @@ public class CustomConfiguration {
      * @param stream   an input stream to copy default configuration from
      * @param header   String array of text as header
      */
-    @SuppressWarnings("deprecation")
 	public CustomConfiguration(HPS instance, File file, InputStream stream, String[] header) {
         this.HPS = instance;
         this.file = file;
