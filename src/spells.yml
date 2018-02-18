@@ -32,6 +32,9 @@ spells:
       amount: 0
       # The velocity of the bats that get shot out of the wand
       velocity: 2
+  colloportus:
+    # How long should doors be locked for
+    lock-time: 30
   confundo:
     # How long the target should be confused for
     duration: 200t
