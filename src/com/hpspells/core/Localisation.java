@@ -16,6 +16,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 
 /**
  * A class that manages localisation within the plugin
@@ -182,6 +183,11 @@ public class Localisation {
      * @return the translation or {@code null} if not found
      */
     public String getTranslation(String key, Object... args) {
+    	if (defaultLang.getProperty(key) == null) {
+    		HPS.PM.log(Level.SEVERE, "Translation error occurred. Please contact the developer with the following error:");
+    		HPS.PM.log(Level.SEVERE, "Unable to find property: '" + key + "' for language type: '" + HPS.getConfig().getString("language") + "'");
+    		return ChatColor.RED + "Translation error occurred. Please contact server administrator!";
+    	}
         return activeLang.getProperty(key) == null ? String.format(defaultLang.getProperty(key), args) : String.format(activeLang.getProperty(key), args);
     }
 
