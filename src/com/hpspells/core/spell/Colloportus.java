@@ -13,6 +13,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.material.Door;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Openable;
 
@@ -63,39 +64,34 @@ public class Colloportus extends Spell {
             public void hitBlock(Block block) {
 //                HPS.PM.broadcastMessage("Block type: " + block.getType());
                 if (doorTypes.contains(block.getType())) {
-                    if (doorMap.containsValue(block)) 
-                        HPS.PM.warn(p, "That door is already locked.");
+                    if (doorMap.containsValue(block)) {
+                    	HPS.PM.warn(p, "That door is already locked.");
+                    	return;
+                    }
                     BlockState blockState = block.getState();
-                    MaterialData materialData = blockState.getData();
-                    Openable openable = (Openable) materialData;
-                    openable.setOpen(false);
-                    blockState.setData(materialData);
+                    // The way minecraft works, top door block doesnt have correct state.
+                    if (((Door) blockState.getData()).isTopHalf()) {
+                        blockState = block.getRelative(BlockFace.DOWN).getState();
+                    }
+                    Door door = (Door) blockState.getData();
+                    door.setOpen(false);
+                    blockState.setData(door);
                     blockState.update();
-                    final int id_self = assignId();
-                    Integer up = null, down = null;
-                    HPS.PM.debug("Added door id:" + id_self);
-                    doorMap.put(id_self, block);
-                    Block upBlock = block.getRelative(BlockFace.UP);
-                    Block downBlock = block.getRelative(BlockFace.DOWN);
-                    if (doorTypes.contains(upBlock.getType()))  {
-                        up = assignId();
-                        HPS.PM.debug("Added door id:" + up);
-                        doorMap.put(up, upBlock);
-                    }
-                    if (doorTypes.contains(downBlock.getType())) {
-                        down = assignId();
-                        HPS.PM.debug("Added door id:" + down);
-                        doorMap.put(down, downBlock);
-                    }
-                    final Integer id_up = up;
-                    final Integer id_down = down;
+                    
+                    Block otherDoorBlock = ((Door) block.getState().getData()).isTopHalf() ? block.getRelative(BlockFace.DOWN) : block.getRelative(BlockFace.UP);
+                    final int blockId = assignId(), otherBlockId = assignId();
+                    doorMap.put(blockId, block);
+                    doorMap.put(otherBlockId, otherDoorBlock);
+                    HPS.PM.debug("Added door id:" + blockId);
+                    HPS.PM.debug("Added door id:" + otherBlockId);
+                    
                     Bukkit.getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
                         @Override
                         public void run() {
-                            doorMap.remove(id_self);
-                            if (id_up != null) doorMap.remove(id_up);
-                            if (id_down != null) doorMap.remove(id_down);
-                            HPS.PM.debug("Removed door id:" + idCounter);
+                        	doorMap.remove(blockId);
+                        	doorMap.remove(otherBlockId);
+                        	HPS.PM.debug("Removed door id:" + blockId);
+                        	HPS.PM.debug("Removed door id:" + otherBlockId);
                         }
                     }, ((Integer)getConfig("lock-time", 30) * 20));
                 } else {
