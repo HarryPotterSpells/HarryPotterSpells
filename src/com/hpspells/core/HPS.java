@@ -273,17 +273,10 @@ public class HPS extends JavaPlugin {
     }
     
     public boolean setupCrafting() {
-        List<Recipe> recipeList = new ArrayList<Recipe>();
-        Iterator<Recipe> it = getServer().recipeIterator();
-        while (it.hasNext()) {
-            Recipe recipe = it.next();
-            if (!recipeResults.contains(recipe.getResult())) {
-                recipeList.add(recipe);
-            }
+        if (!recipeResults.isEmpty()) {
+        	recipeResults.clear();
+            getServer().resetRecipes();
         }
-        recipeResults.clear();
-        getServer().clearRecipes();
-        recipeList.stream().forEach(recipe -> getServer().addRecipe(recipe));
     	
         if (getConfig().getBoolean("wand.crafting.enabled", true)) {
             try {
