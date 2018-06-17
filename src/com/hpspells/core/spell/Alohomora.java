@@ -37,7 +37,13 @@ public class Alohomora extends Spell {
 
             @Override
             public void hitBlock(Block block) {
-                if (block.getType() == Material.IRON_DOOR_BLOCK) {
+            	if (Colloportus.isLockedDoor(block)) {
+                	// Assumes door is closed so unlock and force it open.
+                	if (Colloportus.unlockDoor(block)) {
+                		openDoor(block);
+                		HPS.PM.tell(p, "That door has been unlocked.");
+                	}
+                } else if (block.getType() == Material.IRON_DOOR_BLOCK) {
                 	// The way minecraft works, top door block doesnt have correct state.
                 	BlockState blockState = block.getState();
                 	if (((Door) blockState.getData()).isTopHalf()) {
@@ -50,7 +56,7 @@ public class Alohomora extends Spell {
                     }
                     openDoor(block);
                 } else {
-                    HPS.PM.warn(p, "You may only use this spell on iron doors.");
+                    HPS.PM.warn(p, "You may only use this spell on iron/locked doors.");
                 }
             }
 
