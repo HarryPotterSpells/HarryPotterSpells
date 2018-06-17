@@ -40,6 +40,11 @@ public class Listeners implements Listener {
     @EventHandler
     public void PIE(PlayerInteractEvent e) {
         HPS.PM.debug("Triggered Once"); // Spellswitch triggered twice when right clicking on a block
+        // MC 1.9 - Offhand introduction. Only listen to main hand events.
+        if (e.getHand() == EquipmentSlot.OFF_HAND) {
+            return;
+        }
+        
         //Below code to stop doors from opening for Colloportus
         if (e.getClickedBlock() != null) {
             Material material = e.getClickedBlock().getType();
@@ -51,20 +56,17 @@ public class Listeners implements Listener {
             }
             if (e.getAction().equals(Action.PHYSICAL)) {
                 if (Colloportus.getPadTypes().contains(material)) {
-                    
+//                    System.out.println("Pressure pad detected");
                 }
             }
             if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
                 if (material == Material.STONE_BUTTON || material == Material.WOOD_BUTTON) {
-                    
+//                	System.out.println("Button press detected");
                 }
             }
         }
         
         //Normal wand checking code
-        if (e.getHand() == EquipmentSlot.OFF_HAND) {
-            return;
-        }
         if (e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getInventory().getItemInMainHand())) {
             PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
 
