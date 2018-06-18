@@ -3,8 +3,10 @@ package com.hpspells.core.spell;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -13,12 +15,12 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.material.MaterialData;
-import org.bukkit.material.Openable;
+import org.bukkit.material.Door;
 
 import com.hpspells.core.HPS;
 import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
+import com.hpspells.core.util.BlockUtils;
 import com.hpspells.core.util.ParticleEffect;
 
 @SpellInfo(
@@ -63,41 +65,17 @@ public class Colloportus extends Spell {
             public void hitBlock(Block block) {
 //                HPS.PM.broadcastMessage("Block type: " + block.getType());
                 if (doorTypes.contains(block.getType())) {
-                    if (doorMap.containsValue(block)) 
-                        HPS.PM.warn(p, "That door is already locked.");
-                    BlockState blockState = block.getState();
-                    MaterialData materialData = blockState.getData();
-                    Openable openable = (Openable) materialData;
-                    openable.setOpen(false);
-                    blockState.setData(materialData);
-                    blockState.update();
-                    final int id_self = assignId();
-                    Integer up = null, down = null;
-                    HPS.PM.debug("Added door id:" + id_self);
-                    doorMap.put(id_self, block);
-                    Block upBlock = block.getRelative(BlockFace.UP);
-                    Block downBlock = block.getRelative(BlockFace.DOWN);
-                    if (doorTypes.contains(upBlock.getType()))  {
-                        up = assignId();
-                        HPS.PM.debug("Added door id:" + up);
-                        doorMap.put(up, upBlock);
+                    if (doorMap.containsValue(block)) {
+                    	HPS.PM.warn(p, "That door is already locked.");
+                    	return;
                     }
-                    if (doorTypes.contains(downBlock.getType())) {
-                        down = assignId();
-                        HPS.PM.debug("Added door id:" + down);
-                        doorMap.put(down, downBlock);
+                    
+                    lockDoor(block);
+                    
+                    Block otherDoorBlock = getDoubleDoor(block);
+                    if (otherDoorBlock != null) {
+                    	lockDoor(otherDoorBlock);
                     }
-                    final Integer id_up = up;
-                    final Integer id_down = down;
-                    Bukkit.getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
-                        @Override
-                        public void run() {
-                            doorMap.remove(id_self);
-                            if (id_up != null) doorMap.remove(id_up);
-                            if (id_down != null) doorMap.remove(id_down);
-                            HPS.PM.debug("Removed door id:" + idCounter);
-                        }
-                    }, ((Integer)getConfig("lock-time", 30) * 20));
                 } else {
                     HPS.PM.warn(p, "You may only use this spell on doors.");
                 }
@@ -110,6 +88,60 @@ public class Colloportus extends Spell {
             
         }, 1f, ParticleEffect.BARRIER);
         return true;
+    }
+    
+    private void lockDoor(Block block) {
+    	BlockState blockState = block.getState();
+        // The way minecraft works, top door block doesnt have correct state.
+        if (((Door) blockState.getData()).isTopHalf()) {
+            blockState = block.getRelative(BlockFace.DOWN).getState();
+        }
+        Door door = (Door) blockState.getData();
+        door.setOpen(false);
+        blockState.setData(door);
+        blockState.update();
+        
+        Block otherDoorBlock = ((Door) block.getState().getData()).isTopHalf() ? block.getRelative(BlockFace.DOWN) : block.getRelative(BlockFace.UP);
+        final int blockId = assignId(), otherBlockId = assignId();
+        doorMap.put(blockId, block);
+        doorMap.put(otherBlockId, otherDoorBlock);
+        HPS.PM.debug("Added door id:" + blockId);
+        HPS.PM.debug("Added door id:" + otherBlockId);
+        
+        Bukkit.getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
+            @Override
+            public void run() {
+            	doorMap.remove(blockId);
+            	doorMap.remove(otherBlockId);
+            	HPS.PM.debug("Removed door id:" + blockId);
+            	HPS.PM.debug("Removed door id:" + otherBlockId);
+            }
+        }, ((Integer)getConfig("lock-time", 30) * 20));
+    }
+
+    /**
+     * Unlocks a Colloportus locked door. Unlocks both doors if door is a double door.
+     * 
+     * @param block Source block
+     * @return true if door unlocks
+     */
+    public static boolean unlockDoor(Block block) {
+    	if (doorTypes.contains(block.getType())) {
+            if (doorMap.containsValue(block)) {
+	            Block otherDoorBlock = ((Door) block.getState().getData()).isTopHalf() ? block.getRelative(BlockFace.DOWN) : block.getRelative(BlockFace.UP);
+	        	doorMap.values().remove(block);
+	        	doorMap.values().remove(otherDoorBlock);
+	        	
+	        	Block door2Block = getDoubleDoor(block);
+	        	if (door2Block != null && doorMap.containsValue(door2Block)) {
+	        		Block otherDoor2Block = ((Door) door2Block.getState().getData()).isTopHalf() ? door2Block.getRelative(BlockFace.DOWN) : door2Block.getRelative(BlockFace.UP);
+	        		doorMap.values().remove(door2Block);
+		        	doorMap.values().remove(otherDoor2Block);
+	        	}
+	        	return true;
+            }
+        }
+    	return false;
     }
     
     public static boolean isLockedDoor(Block block) {
@@ -135,14 +167,14 @@ public class Colloportus extends Spell {
         return idCounter;
     }
     
-    //TODO: add double doors support
-//    private boolean doorsAreConnected(Block a, Block b) {
-//      if ((a.getType() != b.getType()) || isLockedDoor(a)) {
-//        return false;
-//      }
-//      if ((a.getRelative(BlockFace.UP).getData() & 0x1) == (b.getRelative(BlockFace.UP).getData() & 0x1)) {
-//        return false;
-//      }
-//      return (a.getData() & 0x3) == (b.getData() & 0x3);
-//    }
+    /**
+     * Get the double door for the given block.
+     *
+     * @param block Source block
+     * @return Gets the double door block or return null.
+     */
+    private static Block getDoubleDoor(Block block) {
+        Block found = doorTypes.contains(block.getType()) ? BlockUtils.findAdjacentBlock(block, block.getType()) : null;
+        return found;
+    }
 }

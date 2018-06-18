@@ -34,20 +34,34 @@ public class GeneralCommand extends HCommandExecutor {
                     HPS.PM.dependantMessagingTell(sender, "Config reloaded with errors");
             } else if (args[1].equalsIgnoreCase("edit")) {
                 if (args.length != 5)
-                    HPS.PM.dependantMessagingTell(sender, ChatColor.RED + HPS.Localisation.getTranslation("cmdUsage", (sender instanceof Player ? "/" : "") + label, " config edit <key> <new value>"));
+                    HPS.PM.dependantMessagingTell(sender, ChatColor.RED + HPS.Localisation.getTranslation("cmdUsage", (sender instanceof Player ? "/" : "") + label, " config edit <config_type> <key> <new value>"));
                 else {
                     if (args[2].equalsIgnoreCase("default")) {
-                    	HPS.getConfig().set(args[3], args[4]);
-                        HPS.saveConfig();
-                        HPS.PM.dependantMessagingTell(sender, HPS.Localisation.getTranslation("cmdGenConfigUpdated"));
+                    	if (HPS.getConfig().contains(args[3])) {
+                    		HPS.getConfig().set(args[3], args[4]);
+                            HPS.saveConfig();
+                            HPS.PM.dependantMessagingTell(sender, HPS.Localisation.getTranslation("cmdGenConfigUpdated"));
+                    	} else {
+                    		HPS.PM.dependantMessagingTell(sender, ChatColor.RED + HPS.Localisation.getTranslation("cmdUnknownConfigPaths"));
+                    	}
                     } else if (args[2].equalsIgnoreCase("spell")) {
-                    	HPS.getConfig(ConfigurationType.SPELL).get().set(args[3], args[4]);
-                    	HPS.getConfig(ConfigurationType.SPELL).save();
-                        HPS.PM.dependantMessagingTell(sender, HPS.Localisation.getTranslation("cmdGenConfigSpellUpdated"));
+                    	if (HPS.getConfig(ConfigurationType.SPELL).get().contains(args[3])) {
+                    		HPS.getConfig(ConfigurationType.SPELL).get().set(args[3], args[4]);
+                        	HPS.getConfig(ConfigurationType.SPELL).save();
+                            HPS.PM.dependantMessagingTell(sender, HPS.Localisation.getTranslation("cmdGenConfigSpellUpdated"));
+                    	} else {
+                    		HPS.PM.dependantMessagingTell(sender, ChatColor.RED + HPS.Localisation.getTranslation("cmdUnknownConfigPaths"));
+                    	}
                     } else if (args[2].equalsIgnoreCase("cooldown")) {
-                    	HPS.getConfig(ConfigurationType.COOLDOWN).get().set(args[3], args[4]);
-                    	HPS.getConfig(ConfigurationType.COOLDOWN).save();
-                        HPS.PM.dependantMessagingTell(sender, HPS.Localisation.getTranslation("cmdGenConfigCooldownUpdated"));
+                    	if (HPS.getConfig(ConfigurationType.COOLDOWN).get().contains(args[3])) {
+                    		HPS.getConfig(ConfigurationType.COOLDOWN).get().set(args[3], args[4]);
+                        	HPS.getConfig(ConfigurationType.COOLDOWN).save();
+                            HPS.PM.dependantMessagingTell(sender, HPS.Localisation.getTranslation("cmdGenConfigCooldownUpdated"));
+                    	} else {
+                    		HPS.PM.dependantMessagingTell(sender, ChatColor.RED + HPS.Localisation.getTranslation("cmdUnknownConfigPaths"));
+                    	}
+                    } else {
+                    	HPS.PM.dependantMessagingTell(sender, ChatColor.RED + HPS.Localisation.getTranslation("cmdUnknownConfigTypes","Incorrect config type. Possible config types [default, spell, cooldown]"));
                     }
                 }
             }
