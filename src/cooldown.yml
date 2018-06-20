@@ -47,5 +47,6 @@ cooldowns:
   stupefy: 120
   time: 600
   tree: 105
+  weather: 600
   windgardium-leviosa: 180
   workbench: 20
