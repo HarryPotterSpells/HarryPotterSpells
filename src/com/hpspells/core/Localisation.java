@@ -264,7 +264,7 @@ public class Localisation {
     		    return GERMAN;
     		}
     		else if (name.equalsIgnoreCase("es-spanish")) {
-                return GERMAN;
+                return SPANISH;
             }
     		return ENGLISH;
     	}
