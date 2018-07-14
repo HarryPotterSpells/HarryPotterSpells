@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -28,14 +27,12 @@ import org.bukkit.help.GenericCommandHelpTopic;
 import org.bukkit.help.HelpTopic;
 import org.bukkit.help.IndexHelpTopic;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.hpspells.core.Metrics.Graph;
-import com.hpspells.core.Metrics.Plotter;
+import com.hpspells.core.Localisation.Language;
 import com.hpspells.core.api.APIHandler;
 import com.hpspells.core.api.event.SpellBookRecipeAddEvent;
 import com.hpspells.core.command.CommandInfo;
@@ -188,57 +185,7 @@ public class HPS extends JavaPlugin {
             PM.debug(Localisation.getTranslation("dbgHelpCommandsAdded"));
 
             // Plugin Metrics
-            try {
-                Metrics metrics = new Metrics(this);
-
-                Graph totalAmountOfSpellsCast = metrics.createGraph("Total Amount of Spells Cast");
-
-                // Total amount of spells cast
-                totalAmountOfSpellsCast.addPlotter(new Plotter("Total") {
-
-                    @Override
-                    public int getValue() {
-                        return MetricStatistics.getSpellsCast();
-                    }
-
-                });
-
-                totalAmountOfSpellsCast.addPlotter(new Plotter("Hits") {
-
-                    @Override
-                    public int getValue() {
-                        return MetricStatistics.getSuccesses();
-                    }
-
-                });
-
-                totalAmountOfSpellsCast.addPlotter(new Plotter("Misses") {
-
-                    @Override
-                    public int getValue() {
-                        return MetricStatistics.getFailures();
-                    }
-                });
-
-                // Types of spell cast
-                Graph typesOfSpellCast = metrics.createGraph("Types of Spell Cast");
-
-                for (final Spell spell : SpellManager.getSpells()) {
-                    typesOfSpellCast.addPlotter(new Plotter(spell.getName()) {
-
-                        @Override
-                        public int getValue() {
-                            return MetricStatistics.getAmountOfTimesCast(spell);
-                        }
-
-                    });
-                }
-
-                metrics.start();
-            } catch (IOException e) {
-                PM.log(Level.WARNING, Localisation.getTranslation("errPluginMetrics"));
-                PM.debug(e);
-            }
+            setupCharts(new Metrics(this));
 
             // Crafting Changes
             PM.debug(Localisation.getTranslation("dbgCraftingStart"));
@@ -270,6 +217,38 @@ public class HPS extends JavaPlugin {
         this.Wand = new Wand(this);
         if (!setupCrafting()) return false;
         return true;
+    }
+    
+    private void setupCharts(Metrics metrics) {
+    	try {
+    		// Total Amount of Spells Casted
+//            metrics.addCustomChart(new Metrics.MultiLineChart("spells_casted_total", () -> {
+//            	Map<String, Integer> spellsCastMap = new HashMap<>();
+//				spellsCastMap.put("Total", MetricStatistics.getSpellsCast());
+//				spellsCastMap.put("Hits", MetricStatistics.getSuccesses());
+//				spellsCastMap.put("Misses", MetricStatistics.getFailures());
+//				return spellsCastMap;
+//            }));
+    		
+    		metrics.addCustomChart(new Metrics.SingleLineChart("total_spells_casted", () -> MetricStatistics.getSpellsCast()));
+    		metrics.addCustomChart(new Metrics.SingleLineChart("total_spells_successes", () -> MetricStatistics.getSuccesses()));
+    		metrics.addCustomChart(new Metrics.SingleLineChart("total_spells_failures", () -> MetricStatistics.getFailures()));
+    		
+            // Amount of Spells Casted per Spell
+            metrics.addCustomChart(new Metrics.SimpleBarChart("spells_casted_single", () -> {
+            	Map<String, Integer> spellsCastMap = new HashMap<>();
+				for (Spell spell : SpellManager.getSpells()) {
+					spellsCastMap.put(spell.getName(), MetricStatistics.getAmountOfTimesCast(spell));
+				}
+				return spellsCastMap;
+            } ));
+            
+            // Language used
+            metrics.addCustomChart(new Metrics.SimplePie("Language", () -> Language.getLanuage(getConfig().getString("language")).toString()));
+        } catch (Exception e) {
+            PM.log(Level.WARNING, Localisation.getTranslation("errPluginMetrics"));
+            PM.debug(e);
+        }
     }
     
     public boolean setupCrafting() {
