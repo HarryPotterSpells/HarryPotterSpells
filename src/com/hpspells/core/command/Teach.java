@@ -75,7 +75,7 @@ public class Teach extends HCommandExecutor {
 
                         if (learnedSpells == null) {
                             newSpell.teach(teachTo);
-                            learnedSpells = HPS.Localisation.getTranslation("cmdTeaTaught", teachTo.getName()) + newSpell.getName();
+                            learnedSpells = HPS.Localisation.getTranslation("cmdTeaTaught", teachTo.getName()) + " " + newSpell.getName();
                         } else {
                             newSpell.teach(teachTo);
                             learnedSpells = learnedSpells.concat(", " + newSpell.getName());
