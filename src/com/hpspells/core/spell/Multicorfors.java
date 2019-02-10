@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.EntityType;
@@ -15,7 +16,6 @@ import org.bukkit.material.Colorable;
 import com.hpspells.core.HPS;
 import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
-import com.hpspells.core.util.ParticleEffect;
 
 @SpellInfo(
         name = "Multicorfors",
@@ -75,7 +75,7 @@ public class Multicorfors extends Spell {
                 }
             }
 
-        }, 1.1f, ParticleEffect.REDSTONE);
+        }, 1.1f, Particle.REDSTONE);
 
         return true;
     }

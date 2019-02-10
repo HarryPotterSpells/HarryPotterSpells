@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -19,7 +20,6 @@ import com.hpspells.core.HPS;
 import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
 import com.hpspells.core.util.BlockUtils;
-import com.hpspells.core.util.ParticleEffect;
 
 @SpellInfo(
         name = "Colloportus",
@@ -97,7 +97,7 @@ public class Colloportus extends Spell {
                 HPS.PM.warn(p, HPS.Localisation.getTranslation("spellBlockOnly"));
             }
             
-        }, 1f, ParticleEffect.BARRIER);
+        }, 1f, Particle.BARRIER);
         return true;
     }
     

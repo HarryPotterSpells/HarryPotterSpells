@@ -1,6 +1,7 @@
 package com.hpspells.core.spell;
 
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -12,7 +13,6 @@ import org.bukkit.material.Openable;
 
 import com.hpspells.core.HPS;
 import com.hpspells.core.SpellTargeter;
-import com.hpspells.core.util.ParticleEffect;
 
 /**
  * Created by Zach on 6/26/2015.
@@ -65,7 +65,7 @@ public class Alohomora extends Spell {
                 HPS.PM.warn(p, HPS.Localisation.getTranslation("spellBlockOnly"));
             }
 
-        }, 1f, ParticleEffect.SPELL_INSTANT);
+        }, 1f, Particle.SPELL_INSTANT);
         return true;
     }
     

@@ -7,6 +7,7 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.LivingEntity;
@@ -15,7 +16,6 @@ import org.bukkit.entity.Player;
 import com.hpspells.core.HPS;
 import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
-import com.hpspells.core.util.ParticleEffect;
 import com.hpspells.core.util.SVPBypass;
 
 @SpellInfo(
@@ -69,7 +69,7 @@ public class Reducto extends Spell {
 
             }
 
-        }, 1f, ParticleEffect.EXPLOSION_LARGE);
+        }, 1f, Particle.EXPLOSION_LARGE);
 
         return true;
     }

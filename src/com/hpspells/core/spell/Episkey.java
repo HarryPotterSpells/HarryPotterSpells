@@ -1,5 +1,6 @@
 package com.hpspells.core.spell;
 
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -9,7 +10,6 @@ import org.bukkit.potion.PotionEffectType;
 import com.hpspells.core.HPS;
 import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
-import com.hpspells.core.util.ParticleEffect;
 
 @SpellInfo(
         name = "Episkey",
@@ -46,7 +46,7 @@ public class Episkey extends Spell {
                 entity.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, duration, 1));
             }
 
-        }, 1.05f, ParticleEffect.HEART);
+        }, 1.05f, Particle.HEART);
 
         return true;
     }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -16,7 +17,6 @@ import org.bukkit.potion.PotionEffectType;
 import com.hpspells.core.HPS;
 import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
-import com.hpspells.core.util.ParticleEffect;
 
 @SpellInfo(
         name = "Deprimo",
@@ -64,7 +64,7 @@ public class Deprimo extends Spell implements Listener {
 
             }
 
-        }, 1f, ParticleEffect.CRIT_MAGIC);
+        }, 1f, Particle.CRIT_MAGIC);
         return true;
     }
 

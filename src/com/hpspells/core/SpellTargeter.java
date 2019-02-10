@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import org.bukkit.Effect;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -153,11 +154,11 @@ public class SpellTargeter {
      * @param caster     the player who cast the spell
      * @param onHit      the SpellHitEvent to call when the spell hits something
      * @param spellSpeed the vector multiplier for the movement of the spell
-     * @param effect     the {@link ParticleEffect} to play during the movement of the spell
+     * @param effect     the {@link Particle} to play during the movement of the spell
      * @param offset     how far the particles should randomly offset from the center trail
      * @param count      how many particles should be displayed per tick
      */
-    public void register(final Player caster, final SpellHitEvent onHit, final float spellSpeed, final float offset, final int count, final ParticleEffect... effect) {
+    public void register(final Player caster, final SpellHitEvent onHit, final float spellSpeed, final float offset, final int count, final Particle... effect) {
         new BukkitRunnable() {
             Location loc = caster.getEyeLocation();
             Vector direction = loc.getDirection().multiply(spellSpeed);
@@ -174,8 +175,9 @@ public class SpellTargeter {
 
                 loc.add(direction);
                 try {
-                    for (ParticleEffect pe : effect) {
-                        pe.display(offset, offset, offset, spellSpeed, count, loc, 25);
+                    for (Particle particle : effect) {
+//                        particleEffect.display(offset, offset, offset, spellSpeed, count, loc, 25);
+                    	loc.getWorld().spawnParticle(particle, loc, count, offset, offset, offset, spellSpeed);
                     }
                 } catch (Exception e) {
                     HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errParticleEffect"));
@@ -208,9 +210,9 @@ public class SpellTargeter {
      * @param caster     the player who cast the spell
      * @param onHit      the SpellHitEvent to call when the spell hits something
      * @param spellSpeed the vector multiplier for the movement of the spell
-     * @param effect     the {@link ParticleEffect} to play during the movement of the spell
+     * @param effect     the {@link Particle} to play during the movement of the spell
      */
-    public void register(final Player caster, final SpellHitEvent onHit, final float spellSpeed, final ParticleEffect effect) {
+    public void register(final Player caster, final SpellHitEvent onHit, final float spellSpeed, final Particle effect) {
         register(caster, onHit, spellSpeed, 0.5f, 1, effect);
     }
 

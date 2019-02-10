@@ -2,6 +2,7 @@ package com.hpspells.core.spell;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.LivingEntity;
@@ -14,7 +15,6 @@ import com.hpspells.core.HPS;
 import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
 import com.hpspells.core.util.MiscUtilities;
-import com.hpspells.core.util.ParticleEffect;
 
 @SpellInfo(
         name = "Obscuro",
@@ -65,7 +65,7 @@ public class Obscuro extends Spell {
 
             }
 
-        }, 1f, ParticleEffect.CLOUD);
+        }, 1f, Particle.CLOUD);
         return true;
     }
 
