@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -53,7 +54,9 @@ public class Reducto extends Spell {
                         @Override
                         public void run() {
                             for (DestroyedBlockData destroyedBlockData : blocks) {
-                                destroyedBlockData.getBlock().setTypeIdAndData(destroyedBlockData.getMaterial().getId(), destroyedBlockData.getData(), false);
+//                                destroyedBlockData.getBlock().setTypeIdAndData(destroyedBlockData.getMaterial().getId(), destroyedBlockData.getData(), false);
+                            	destroyedBlockData.getBlock().setType(destroyedBlockData.getMaterial());
+                            	destroyedBlockData.getBlock().setBlockData(destroyedBlockData.getBlockData());
                             }
                         }
                     }, replaceAfter);
@@ -95,12 +98,12 @@ public class Reducto extends Spell {
     private class DestroyedBlockData {
         private Material material;
         private Block block;
-        private byte data;
+        private BlockData blockData;
 
         private DestroyedBlockData(Block block) {
             this.block = block;
             this.material = block.getType();
-            this.data = block.getData();
+            this.blockData = block.getBlockData();
         }
 
         public Material getMaterial() {
@@ -111,8 +114,8 @@ public class Reducto extends Spell {
             return block;
         }
 
-        public byte getData() {
-            return data;
+        public BlockData getBlockData() {
+            return blockData;
         }
     }
 

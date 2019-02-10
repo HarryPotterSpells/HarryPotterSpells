@@ -126,7 +126,7 @@ public class Multicorfors extends Spell {
                 et = DyeColor.RED;
                 break;
             case 14:
-                et = DyeColor.SILVER;
+                et = DyeColor.LIGHT_GRAY;
                 break;
             case 15:
                 et = DyeColor.WHITE;

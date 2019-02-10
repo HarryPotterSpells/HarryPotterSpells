@@ -17,7 +17,7 @@ import com.hpspells.core.util.ParticleEffect;
         range = 50,
         goThroughWalls = false,
         cooldown = 45,
-        icon = Material.RED_ROSE
+        icon = Material.ROSE_RED
 )
 public class Orchideous extends Spell {
 
@@ -32,7 +32,7 @@ public class Orchideous extends Spell {
             @Override
             public void hitBlock(Block block) {
                 if (isValidBlock(block) && blockAboveIsValidBlock(block)) {
-                    getBlockAbove(block).setType(Material.RED_ROSE);
+                    getBlockAbove(block).setType(Material.ROSE_RED);
                     return;
                 } else {
                     HPS.PM.warn(p, HPS.Localisation.getTranslation("spellNoRose"));

@@ -496,9 +496,10 @@ public enum ParticleEffect {
 	 * @param location Location to check
 	 * @return Whether water is at this location or not
 	 */
+	@SuppressWarnings("deprecation")
 	private static boolean isWater(Location location) {
 		Material material = location.getBlock().getType();
-		return material == Material.WATER || material == Material.STATIONARY_WATER;
+		return material == Material.WATER || material == Material.LEGACY_STATIONARY_WATER;
 	}
 
 	/**

@@ -1,5 +1,7 @@
 package com.hpspells.core.spell;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,6 +26,21 @@ import com.hpspells.core.util.ParticleEffect;
         cooldown = 105
 )
 public class TreeSpell extends Spell {
+	
+	private List<Material> logsList = new ArrayList<>(Arrays.asList(
+			Material.ACACIA_LOG,
+			Material.BIRCH_LOG,
+			Material.DARK_OAK_LOG,
+			Material.JUNGLE_LOG,
+			Material.OAK_LOG,
+			Material.SPRUCE_LOG,
+			Material.STRIPPED_ACACIA_LOG,
+			Material.STRIPPED_BIRCH_LOG,
+			Material.STRIPPED_DARK_OAK_LOG,
+			Material.STRIPPED_JUNGLE_LOG,
+			Material.STRIPPED_OAK_LOG,
+			Material.STRIPPED_SPRUCE_LOG
+    ));
 
     public TreeSpell(HPS instance) {
         super(instance);
@@ -67,7 +84,7 @@ public class TreeSpell extends Spell {
     }
 
     public Block getHighestLog(Block block) {
-        while (block.getRelative(BlockFace.UP).getType() == Material.LOG) {
+        while (logsList.contains(block.getRelative(BlockFace.UP).getType())) {
             block = block.getRelative(BlockFace.UP);
         }
         return block;
@@ -110,14 +127,14 @@ public class TreeSpell extends Spell {
             if (!blocks.contains(block.getRelative(BlockFace.UP).getRelative(BlockFace.NORTH_WEST))) {
                 getBranches(block, blocks, block.getRelative(BlockFace.UP).getRelative(BlockFace.NORTH_WEST));
             }
-            if (!blocks.contains(block.getRelative(BlockFace.UP)) && block.getRelative(BlockFace.UP).getType() == Material.LOG) {
+            if (!blocks.contains(block.getRelative(BlockFace.UP)) && logsList.contains(block.getRelative(BlockFace.UP).getType())) {
                 block = block.getRelative(BlockFace.UP);
             } else break;
         }
     }
 
     public void getBranches(Block block, List<Block> blocks, Block other) {
-        if (!blocks.contains(other) && other.getType() == Material.LOG) {
+        if (!blocks.contains(other) && logsList.contains(other.getType())) {
             getBlocksToChop(other, getHighestLog(other), blocks);
         }
     }

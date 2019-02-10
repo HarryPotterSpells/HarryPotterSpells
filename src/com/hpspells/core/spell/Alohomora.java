@@ -43,7 +43,7 @@ public class Alohomora extends Spell {
                 		openDoor(block);
                 		HPS.PM.tell(p, "That door has been unlocked.");
                 	}
-                } else if (block.getType() == Material.IRON_DOOR_BLOCK) {
+                } else if (block.getType() == Material.IRON_DOOR) {
                 	// The way minecraft works, top door block doesnt have correct state.
                 	BlockState blockState = block.getState();
                 	if (((Door) blockState.getData()).isTopHalf()) {
