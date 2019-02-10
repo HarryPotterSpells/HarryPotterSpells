@@ -17,7 +17,7 @@ import com.hpspells.core.spell.Spell.SpellInfo;
         range = 50,
         goThroughWalls = false,
         cooldown = 45,
-        icon = Material.ROSE_RED
+        icon = Material.POPPY
 )
 public class Orchideous extends Spell {
 
@@ -32,7 +32,7 @@ public class Orchideous extends Spell {
             @Override
             public void hitBlock(Block block) {
                 if (isValidBlock(block) && blockAboveIsValidBlock(block)) {
-                    getBlockAbove(block).setType(Material.ROSE_RED);
+                    getBlockAbove(block).setType(Material.POPPY);
                     return;
                 } else {
                     HPS.PM.warn(p, HPS.Localisation.getTranslation("spellNoRose"));
@@ -75,6 +75,8 @@ public class Orchideous extends Spell {
                 return true;
             case DIRT:
                 return true;
+            case GRASS_BLOCK:
+            	return true;
             default:
                 return false;
         }

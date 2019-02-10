@@ -51,7 +51,7 @@ public class TreeSpell extends Spell {
 
             @Override
             public void hitBlock(Block block) {
-                if (block.getType() == Material.GRASS || block.getType() == Material.DIRT) {
+                if (block.getType() == Material.GRASS || block.getType() == Material.DIRT || block.getType() == Material.GRASS_BLOCK) {
                     if (!p.getWorld().generateTree(block.getLocation(), TreeType.TREE)) {
                         HPS.PM.warn(p, HPS.Localisation.getTranslation("spellNoTree"));
                         return;
