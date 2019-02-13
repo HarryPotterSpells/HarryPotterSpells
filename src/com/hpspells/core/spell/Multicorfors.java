@@ -1,17 +1,18 @@
 package com.hpspells.core.spell;
 
 import java.util.Random;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
+import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
-import org.bukkit.material.Colorable;
 
 import com.hpspells.core.HPS;
 import com.hpspells.core.SpellTargeter.SpellHitEvent;
@@ -35,21 +36,15 @@ public class Multicorfors extends Spell {
 
             @Override
             public void hitBlock(final Block block) { // Hit wool
-                if (block.getState().getData() instanceof Colorable) {
-
+            	if (Tag.WOOL.isTagged(block.getType())) {
                     if ((Boolean) getConfig("explosionEffect", true))
                         block.getWorld().createExplosion(block.getLocation(), 0F);
 
                     Bukkit.getScheduler().runTask(HPS, new Runnable() {
-
                         @Override
                         public void run() {
-                            BlockState blockState = block.getState();
-                            Colorable colorable = (Colorable) blockState.getData();
-                            colorable.setColor(randomDyeColor());
-                            blockState.update();
+                        	block.setType(randomWool());
                         }
-
                     });
                 } else {
                     HPS.PM.warn(p, "You cannot use this spell on that block.");
@@ -65,12 +60,10 @@ public class Multicorfors extends Spell {
                         sheep.getWorld().createExplosion(sheep.getLocation(), 0F);
 
                     Bukkit.getScheduler().runTask(HPS, new Runnable() {
-
                         @Override
                         public void run() {
                             sheep.setColor(randomDyeColor());
                         }
-
                     });
                 }
             }
@@ -78,6 +71,18 @@ public class Multicorfors extends Spell {
         }, 1.1f, Particle.REDSTONE);
 
         return true;
+    }
+    
+    private Material randomWool() {
+    	Set<Material> woolList = Tag.WOOL.getValues();
+        int randomNum = new Random().nextInt(woolList.size());
+        int count = 0;
+        for (Material material : woolList) {
+        	if (count == randomNum)
+        		return material;
+        	count++;
+        }
+        return Material.WHITE_WOOL;
     }
 
     private DyeColor randomDyeColor() {
