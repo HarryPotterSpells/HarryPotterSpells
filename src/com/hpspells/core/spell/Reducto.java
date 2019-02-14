@@ -12,6 +12,9 @@ import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockExplodeEvent;
 
 import com.hpspells.core.HPS;
 import com.hpspells.core.SpellTargeter.SpellHitEvent;
@@ -25,7 +28,8 @@ import com.hpspells.core.util.SVPBypass;
         goThroughWalls = false,
         cooldown = 300
 )
-public class Reducto extends Spell {
+public class Reducto extends Spell implements Listener {
+	private List<Block> sourceBlockList = new ArrayList<>();
 
     public Reducto(HPS instance) {
         super(instance);
@@ -37,29 +41,33 @@ public class Reducto extends Spell {
             @Override
             public void hitBlock(Block block) {
                 if (block.getType() != Material.AIR) {
-                    final List<DestroyedBlockData> blocks = new ArrayList<DestroyedBlockData>();
-                    try {
-                        for (Block block1 : createExplosion(block.getLocation(), 4)) {
-                            blocks.add(new DestroyedBlockData(block1));
-                        }
-                    } catch (Exception e) {
-                        // TODO catch this please!
-                        return;
-                    }
-                    long replaceAfter = getTime("replace-blocks", 100);
-                    if (replaceAfter < 0) {
-                        return;
-                    }
-                    Bukkit.getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
-                        @Override
-                        public void run() {
-                            for (DestroyedBlockData destroyedBlockData : blocks) {
-//                                destroyedBlockData.getBlock().setTypeIdAndData(destroyedBlockData.getMaterial().getId(), destroyedBlockData.getData(), false);
-                            	destroyedBlockData.getBlock().setType(destroyedBlockData.getMaterial());
-                            	destroyedBlockData.getBlock().setBlockData(destroyedBlockData.getBlockData());
-                            }
-                        }
-                    }, replaceAfter);
+                	sourceBlockList.add(block);
+                	p.getWorld().createExplosion(block.getLocation(), 4);
+                	
+                	
+//                    final List<DestroyedBlockData> blocks = new ArrayList<DestroyedBlockData>();
+//                    try {
+//                        for (Block block1 : createExplosion(block.getLocation(), 4)) {
+//                            blocks.add(new DestroyedBlockData(block1));
+//                        }
+//                    } catch (Exception e) {
+//                        // TODO catch this please!
+//                        return;
+//                    }
+//                    long replaceAfter = getTime("replace-blocks", 100);
+//                    if (replaceAfter < 0) {
+//                        return;
+//                    }
+//                    Bukkit.getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            for (DestroyedBlockData destroyedBlockData : blocks) {
+////                                destroyedBlockData.getBlock().setTypeIdAndData(destroyedBlockData.getMaterial().getId(), destroyedBlockData.getData(), false);
+//                            	destroyedBlockData.getBlock().setType(destroyedBlockData.getMaterial());
+//                            	destroyedBlockData.getBlock().setBlockData(destroyedBlockData.getBlockData());
+//                            }
+//                        }
+//                    }, replaceAfter);
                 }
             }
 
@@ -72,6 +80,30 @@ public class Reducto extends Spell {
         }, 1f, Particle.EXPLOSION_LARGE);
 
         return true;
+    }
+    
+    @EventHandler
+    public void onExplosion(BlockExplodeEvent event) {
+    	if (sourceBlockList.contains(event.getBlock())) {
+    		long replaceAfter = getTime("replace-blocks", 100);
+            if (replaceAfter < 0) {
+                return;
+            }
+            final List<Block> blockList = event.blockList();
+            Bukkit.getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
+                @Override
+                public void run() {
+//                    for (DestroyedBlockData destroyedBlockData : blocks) {
+////                        destroyedBlockData.getBlock().setTypeIdAndData(destroyedBlockData.getMaterial().getId(), destroyedBlockData.getData(), false);
+//                    	destroyedBlockData.getBlock().setType(destroyedBlockData.getMaterial());
+//                    	destroyedBlockData.getBlock().setBlockData(destroyedBlockData.getBlockData());
+//                    }
+                	for (Block block : blockList) {
+                		block.setType(block.getState().getType());
+                	}
+                }
+            }, replaceAfter);
+    	}
     }
 
     /**
