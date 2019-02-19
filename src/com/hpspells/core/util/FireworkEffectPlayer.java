@@ -1,14 +1,16 @@
 package com.hpspells.core.util;
 
-import org.bukkit.FireworkEffect;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.entity.Firework;
-import org.bukkit.inventory.meta.FireworkMeta;
+import static com.hpspells.core.util.SVPBypass.getMethod;
 
 import java.lang.reflect.Method;
 
-import static com.hpspells.core.util.SVPBypass.getMethod;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Firework;
+import org.bukkit.inventory.meta.FireworkMeta;
 
 /**
  * FireworkEffectPlayer v1.0
@@ -92,6 +94,34 @@ public class FireworkEffectPlayer {
         nms_world_broadcastEntityEffect.invoke(nms_world, new Object[]{nms_firework, (byte) 17});
         // remove from the game
         fw.remove();
+    }
+    
+    /**
+     * Fires a firework with an effect at the location specified with a certain power.
+     * 
+     * @param location Location to fire
+     * @param effect Effects that the fireworks should have
+     * @param power The amount of power the firework should have
+     * @see #playFirework(Location, FireworkEffect)
+     */
+    public static void playFirework(Location location, FireworkEffect effect, int power) {
+        Firework fw = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
+        FireworkMeta fwm = fw.getFireworkMeta();
+        
+        fwm.setPower(power);
+        fwm.addEffect(effect);
+        
+        fw.setFireworkMeta(fwm);
+    }
+    
+    /**
+     * Fires a firework with an effect at the location specified with a power of 1.
+     * 
+     * @param location Location to fire
+     * @param effect Effects that the fireworks should have
+     */
+    public static void playFirework(Location location, FireworkEffect effect) {
+        playFirework(location, effect, 1);
     }
 
 }
