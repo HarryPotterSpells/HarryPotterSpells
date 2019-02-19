@@ -10,6 +10,7 @@ import org.bukkit.Effect;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Particle.DustOptions;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -18,7 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import com.hpspells.core.util.FireworkEffectPlayer;
-import com.hpspells.core.util.ParticleEffect;
+import com.hpspells.core.util.HPSParticle;
 
 /**
  * A targeter class that targets using a a fake projectile
@@ -148,6 +149,18 @@ public class SpellTargeter {
 
         }.run();
     }
+    
+    /**
+     * Registers a new {@link SpellHitEvent} to be called when a spell hits something using the default offset and count.
+     *
+     * @param caster     the player who cast the spell
+     * @param onHit      the SpellHitEvent to call when the spell hits something
+     * @param spellSpeed the vector multiplier for the movement of the spell
+     * @param effect     the {@link Particle} to play during the movement of the spell
+     */
+    public void register(final Player caster, final SpellHitEvent onHit, final double spellSpeed, final Particle effect) {
+        register(caster, onHit, spellSpeed, 0.5f, 1, effect);
+    }
 
     /**
      * Registers a new {@link SpellHitEvent} to be called when a spell hits something.
@@ -158,8 +171,9 @@ public class SpellTargeter {
      * @param offset     how far the particles should randomly offset from the center trail
      * @param count      how many particles should be displayed per tick
      * @param effect     the {@link Particle} to play during the movement of the spell
+     * @see #register(Player, SpellHitEvent, double, HPSParticle) If the particle is redstone
      */
-    public void register(final Player caster, final SpellHitEvent onHit, final float spellSpeed, final float offset, final int count, final Particle... effect) {
+    public void register(final Player caster, final SpellHitEvent onHit, final double spellSpeed, final float offset, final int count, final Particle... effect) {
         new BukkitRunnable() {
             Location loc = caster.getEyeLocation();
             Vector direction = loc.getDirection().multiply(spellSpeed);
@@ -178,7 +192,7 @@ public class SpellTargeter {
                 try {
                     for (Particle particle : effect) {
 //                        particleEffect.display(offset, offset, offset, spellSpeed, count, loc, 25);
-                    	if (particle == Particle.REDSTONE){
+                    	if (particle == Particle.REDSTONE) {
                     		loc.getWorld().spawnParticle(particle, loc, count, offset, offset, offset, spellSpeed, new Particle.DustOptions(Color.RED, 1));
                     	} else {
                     		loc.getWorld().spawnParticle(particle, loc, count, offset, offset, offset, spellSpeed);
@@ -212,15 +226,76 @@ public class SpellTargeter {
     /**
      * Registers a new {@link SpellHitEvent} to be called when a spell hits something using the default offset and count.
      *
-     * @param caster     the player who cast the spell
-     * @param onHit      the SpellHitEvent to call when the spell hits something
-     * @param spellSpeed the vector multiplier for the movement of the spell
-     * @param effect     the {@link Particle} to play during the movement of the spell
+     * @param caster        the player who cast the spell
+     * @param onHit         the SpellHitEvent to call when the spell hits something
+     * @param spellSpeed    the vector multiplier for the movement of the spell
+     * @param hpsParticle   the {@link HPSParticle} to play during the movement of the spell
      */
-    public void register(final Player caster, final SpellHitEvent onHit, final float spellSpeed, final Particle effect) {
-        register(caster, onHit, spellSpeed, 0.5f, 1, effect);
-    }
+    public void register(final Player caster, final SpellHitEvent onHit, final double spellSpeed, final HPSParticle hpsParticle) {
+        register(caster, onHit, spellSpeed, 0.5f, 1, hpsParticle);
+    }   
+    
+    /**
+     * Registers a new {@link SpellHitEvent} to be called when a spell hits something.
+     *
+     * @param caster        the player who cast the spell
+     * @param onHit         the SpellHitEvent to call when the spell hits something
+     * @param spellSpeed    the vector multiplier for the movement of the spell
+     * @param offset        how far the particles should randomly offset from the center trail
+     * @param count         how many particles should be displayed per tick
+     * @param hpsParticle   the {@link HPSParticle} to play during the movement of the spell
+     */
+    public void register(final Player caster, final SpellHitEvent onHit, final double spellSpeed, final double offset, final int count, final HPSParticle... hpsParticles) {
+        new BukkitRunnable() {
+            Location loc = caster.getEyeLocation();
+            Vector direction = loc.getDirection().multiply(spellSpeed);
+            boolean running = false;
+            long tickTracker = 0;
+            long maxTicks = HPS.getConfig().getLong("spell-effective-time"); // Caching so that it doesn't compare the value every single time
 
+            @Override
+            public void run() {
+                if (!running) {
+                    runTaskTimer(HPS, 0l, 1l);
+                    running = true;
+                }
+
+                loc.add(direction);
+                try {
+                    for (HPSParticle hpsParticle : hpsParticles) {
+                    	Particle particle = hpsParticle.getParticle();
+                    	if (particle == Particle.REDSTONE) {
+                    		DustOptions options = hpsParticle.getOptions() != null ? hpsParticle.getOptions() : new Particle.DustOptions(Color.RED, 1);
+                    		loc.getWorld().spawnParticle(particle, loc, count, offset, offset, offset, spellSpeed, options);
+                    	} else {
+                    		loc.getWorld().spawnParticle(particle, loc, count, offset, offset, offset, spellSpeed);
+                    	}
+                    }
+                } catch (Exception e) {
+                    HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errParticleEffect"));
+                    HPS.PM.debug(e);
+                }
+
+                if (!loc.getBlock().getType().isTransparent()) {
+                    onHit.hitBlock(loc.getBlock());
+                    cancel();
+                    return;
+                }
+
+                List<LivingEntity> list = getNearbyEntities(loc, 2, caster);
+                if (list.size() != 0) {
+                    onHit.hitEntity(list.get(0));
+                    cancel();
+                    return;
+                }
+                tickTracker++;
+                if (tickTracker > maxTicks && !(maxTicks == -1)) {
+                    cancel();
+                }
+            }
+        }.run();
+    }
+    
     /**
      * Gets a list of LivingEntity's near a location
      *
