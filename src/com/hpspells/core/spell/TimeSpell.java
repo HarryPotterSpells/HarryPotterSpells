@@ -68,7 +68,7 @@ public class TimeSpell extends Spell implements Craftable {
             recipe.shape("dGd", "dCd", "DBD");
             recipe.setIngredient('d', Material.DIAMOND);
             recipe.setIngredient('G', Material.GHAST_TEAR);
-            recipe.setIngredient('C', Material.WATCH);
+            recipe.setIngredient('C', Material.CLOCK);
             recipe.setIngredient('D', Material.DIAMOND_BLOCK);
             recipe.setIngredient('B', Material.BOOK);
         }

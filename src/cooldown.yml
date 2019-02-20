@@ -16,6 +16,7 @@ cooldowns:
   avis: 300
   bauleo: 10
   bubble-head-charm: 45
+  colloportus: 60
   confringo: 45
   confundo: 180
   crucio: 300
@@ -46,5 +47,6 @@ cooldowns:
   stupefy: 120
   time: 600
   tree: 105
+  weather: 600
   windgardium-leviosa: 180
   workbench: 20

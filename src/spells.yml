@@ -107,7 +107,7 @@ spells:
     # Should lightning strike on casting of the spell
     lightning: true
   weather:
-    # How long delay untill weather changes
+    # How long delay until weather changes
     delay: 1
   wingardium-leviosa:
     # Should fall damage be cancelled when flying

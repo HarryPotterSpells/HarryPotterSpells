@@ -45,7 +45,7 @@ public class RefillingCharm extends Spell {
             // If the item stack is a bowl
             if (inventory.contains(Material.BOWL)) {
                 inventory.remove(Material.BOWL);
-                inventory.addItem(new ItemStack(Material.MUSHROOM_SOUP));
+                inventory.addItem(new ItemStack(Material.MUSHROOM_STEW));
             }
         }
         //Update inventory (NOTE , Only way to update inventory without clicking on the item stack)

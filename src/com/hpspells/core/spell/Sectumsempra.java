@@ -3,6 +3,7 @@ package com.hpspells.core.spell;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -10,7 +11,6 @@ import org.bukkit.entity.Player;
 import com.hpspells.core.HPS;
 import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
-import com.hpspells.core.util.ParticleEffect;
 
 @SpellInfo(
         name = "Sectumsempra",
@@ -42,7 +42,7 @@ public class Sectumsempra extends Spell {
 
             }
 
-        }, 1f, ParticleEffect.REDSTONE);
+        }, 1f, Particle.REDSTONE);
         return true;
     }
 

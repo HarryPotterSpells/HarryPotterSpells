@@ -6,6 +6,7 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -20,7 +21,6 @@ import org.bukkit.potion.PotionEffectType;
 import com.hpspells.core.HPS;
 import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
-import com.hpspells.core.util.ParticleEffect;
 
 @SpellInfo(
         name = "Crucio",
@@ -67,7 +67,7 @@ public class Crucio extends Spell implements Listener {
                 HPS.PM.warn(p, HPS.Localisation.getTranslation("spellPlayerOnly"));
             }
 
-        }, 1.2f, ParticleEffect.SUSPENDED_DEPTH);
+        }, 1.2f, Particle.SUSPENDED_DEPTH);
         return true;
     }
 

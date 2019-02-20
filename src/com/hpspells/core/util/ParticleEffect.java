@@ -39,6 +39,7 @@ import org.bukkit.util.Vector;
  * @author DarkBlade12
  * @version 1.7
  */
+@Deprecated //HPS v1.1.10 in respected to built in API since spigot 1.9
 public enum ParticleEffect {
 	/**
 	 * A particle effect which is displayed by exploding tnt and creepers:
@@ -496,9 +497,10 @@ public enum ParticleEffect {
 	 * @param location Location to check
 	 * @return Whether water is at this location or not
 	 */
+	@SuppressWarnings("deprecation")
 	private static boolean isWater(Location location) {
 		Material material = location.getBlock().getType();
-		return material == Material.WATER || material == Material.STATIONARY_WATER;
+		return material == Material.WATER || material == Material.LEGACY_STATIONARY_WATER;
 	}
 
 	/**

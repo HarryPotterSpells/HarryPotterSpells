@@ -1,5 +1,7 @@
 package com.hpspells.core;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -29,6 +31,16 @@ import com.hpspells.core.spell.Spell;
 
 public class Listeners implements Listener {
     private HPS HPS;
+    
+    private List<Material> buttonTypeList = new ArrayList<>(Arrays.asList(
+    		Material.ACACIA_BUTTON,
+    		Material.BIRCH_BUTTON,
+    		Material.DARK_OAK_BUTTON,
+    		Material.JUNGLE_BUTTON,
+    		Material.OAK_BUTTON,
+    		Material.SPRUCE_BUTTON,
+    		Material.STONE_BUTTON
+    ));
 
     public static final Permission CAST_SPELLS = new Permission("harrypotterspells.cast", PermissionDefault.OP);
 
@@ -60,7 +72,7 @@ public class Listeners implements Listener {
                 }
             }
             if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-                if (material == Material.STONE_BUTTON || material == Material.WOOD_BUTTON) {
+                if (buttonTypeList.contains(material)) {
 //                	System.out.println("Button press detected");
                 }
             }

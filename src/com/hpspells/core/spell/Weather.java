@@ -1,10 +1,10 @@
 package com.hpspells.core.spell;
 
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 
 import com.hpspells.core.HPS;
 import com.hpspells.core.spell.Spell.SpellInfo;
-import com.hpspells.core.util.ParticleEffect;
 
 @SpellInfo(
         name = "Weather",
@@ -22,7 +22,8 @@ public class Weather extends Spell {
     @Override
     public boolean cast(Player p) {
         p.getWorld().setWeatherDuration((int) getTime("delay", 20 * 1));
-        ParticleEffect.WATER_SPLASH.display(0.5f, 0.5f, 0.5f, 0, 1000, p.getLocation(), 1); 
+//        ParticleEffect.WATER_SPLASH.display(0.5f, 0.5f, 0.5f, 0, 1000, p.getLocation(), 1);
+        p.spawnParticle(Particle.WATER_SPLASH, p.getLocation(), 1000, 0.5f, 0.5f, 0.5f, 0);
         return true;
     }
 }

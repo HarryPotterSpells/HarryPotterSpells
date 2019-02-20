@@ -1,7 +1,9 @@
 package com.hpspells.core.spell;
 
-import com.hpspells.core.HPS;
-import com.hpspells.core.spell.Spell.SpellInfo;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -10,8 +12,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.hpspells.core.HPS;
+import com.hpspells.core.spell.Spell.SpellInfo;
 
 @SpellInfo(
         name = "Sonorus",
@@ -21,23 +23,21 @@ import java.util.List;
         cooldown = 15
 )
 public class Sonorus extends Spell implements Listener {
-    private static List<String> players = new ArrayList<String>();
+    private static List<UUID> players = new ArrayList<UUID>();
 
     public Sonorus(HPS instance) {
         super(instance);
     }
 
     public boolean cast(final Player p) {
-        Sonorus.players.add(p.getName());
+        Sonorus.players.add(p.getUniqueId());
         Location loc = new Location(p.getWorld(), p.getLocation().getBlockX(), p.getLocation().getBlockY() + 1, p.getLocation().getBlockZ());
         p.getWorld().createExplosion(loc, 0F);
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(HPS, new Runnable() {
 
             @Override
             public void run() {
-                if (Sonorus.players.contains(p.getName())) {
-                    Sonorus.players.remove(p.getName());
-                }
+                Sonorus.players.remove(p.getUniqueId());
             }
 
         }, 400L);
@@ -46,10 +46,11 @@ public class Sonorus extends Spell implements Listener {
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent e) {
-        if (Sonorus.players.contains(e.getPlayer().getName())) {
+        Player player = e.getPlayer();
+        if (Sonorus.players.contains(player.getUniqueId())) {
             e.setCancelled(true);
-            Bukkit.getServer().broadcastMessage(e.getPlayer().getDisplayName() + ChatColor.WHITE + ": " + e.getMessage());
-            Sonorus.players.remove(e.getPlayer().getName());
+            HPS.PM.broadcastMessage(e.getPlayer().getDisplayName() + ChatColor.WHITE + ": " + e.getMessage());
+            Sonorus.players.remove(e.getPlayer().getUniqueId());
         }
     }
 

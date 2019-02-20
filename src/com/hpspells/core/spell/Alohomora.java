@@ -1,18 +1,15 @@
 package com.hpspells.core.spell;
 
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
+import org.bukkit.block.data.type.Door;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.material.Door;
-import org.bukkit.material.MaterialData;
-import org.bukkit.material.Openable;
 
 import com.hpspells.core.HPS;
 import com.hpspells.core.SpellTargeter;
-import com.hpspells.core.util.ParticleEffect;
+import com.hpspells.core.util.BlockUtils;
 
 /**
  * Created by Zach on 6/26/2015.
@@ -43,18 +40,43 @@ public class Alohomora extends Spell {
                 		openDoor(block);
                 		HPS.PM.tell(p, "That door has been unlocked.");
                 	}
-                } else if (block.getType() == Material.IRON_DOOR_BLOCK) {
-                	// The way minecraft works, top door block doesnt have correct state.
-                	BlockState blockState = block.getState();
-                	if (((Door) blockState.getData()).isTopHalf()) {
-                        blockState = block.getRelative(BlockFace.DOWN).getState();
-                    }
-                	Openable openable = (Openable) blockState.getData();
-                    if (openable.isOpen()) {
-                        HPS.PM.warn(p, "That door is already open.");
+                } else if (block.getType() == Material.IRON_DOOR) {
+                	Block otherBlock = BlockUtils.getOtherDoorBlock(block);
+//                	if (otherBlock != null) {
+//                		if (isOpen(block) && !isOpen(otherBlock)) {
+//                			openDoor(otherBlock);
+//                			return;
+//                		} else if (!isOpen(block) && isOpen(otherBlock)) {
+//                			openDoor(block);
+//                			return;
+//                		} else if (!isOpen(block) && !isOpen(otherBlock)) {
+//                			openDoor(block);
+//                			openDoor(otherBlock);
+//                			return;
+//                		} else {
+//                			HPS.PM.warn(p, "That door is already open.");
+//                            return;
+//                		}
+//                	}
+//                    if (isOpen(block)) {
+//                    	HPS.PM.warn(p, "That door is already open.");
+//                        return;
+//                    }
+                    if (isOpen(block)) {
+                    	if (otherBlock != null) {
+                    		if(!isOpen(otherBlock)) {
+                    			openDoor(otherBlock);
+                    			return;
+                    		}
+                    	}
+                    	HPS.PM.warn(p, "That door is already open.");
                         return;
+                    } else {
+                    	openDoor(block);
+                    	if (otherBlock != null) {
+                    		openDoor(otherBlock);
+                    	}
                     }
-                    openDoor(block);
                 } else {
                     HPS.PM.warn(p, "You may only use this spell on iron/locked doors.");
                 }
@@ -65,20 +87,17 @@ public class Alohomora extends Spell {
                 HPS.PM.warn(p, HPS.Localisation.getTranslation("spellBlockOnly"));
             }
 
-        }, 1f, ParticleEffect.SPELL_INSTANT);
+        }, 1f, Particle.SPELL_INSTANT);
         return true;
     }
     
+    private boolean isOpen(Block block) {
+    	return ((Door) block.getBlockData()).isOpen();
+    }
+    
     private void openDoor(Block block) {
-    	BlockState blockState = block.getState();
-    	// The way minecraft works, top door block doesnt have correct state.
-        if (((Door) blockState.getData()).isTopHalf()) {
-            blockState = block.getRelative(BlockFace.DOWN).getState();
-        }
-        MaterialData materialData = blockState.getData();
-        Openable openable = (Openable) materialData;
-        openable.setOpen(true);
-        blockState.setData(materialData);
-        blockState.update();
+    	Door door = (Door) block.getBlockData();
+    	door.setOpen(true);
+        block.setBlockData(door);
     }
 }

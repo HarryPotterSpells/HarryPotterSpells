@@ -1,5 +1,8 @@
 package com.hpspells.core.spell;
 
+import org.bukkit.Color;
+import org.bukkit.Particle;
+import org.bukkit.Particle.DustOptions;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -7,7 +10,7 @@ import org.bukkit.entity.Player;
 import com.hpspells.core.HPS;
 import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
-import com.hpspells.core.util.ParticleEffect;
+import com.hpspells.core.util.HPSParticle;
 
 @SpellInfo(
         name = "Avada Kedavra",
@@ -34,7 +37,7 @@ public class AvadaKedavra extends Spell {
                 HPS.PM.warn(p, HPS.Localisation.getTranslation("spellLivingEntityOnly"));
 
             }
-        }, 1f, ParticleEffect.REDSTONE);
+        }, 1, 0.5, 2, new HPSParticle(Particle.REDSTONE, new DustOptions(Color.GREEN, 1)));
         return true;
     }
 

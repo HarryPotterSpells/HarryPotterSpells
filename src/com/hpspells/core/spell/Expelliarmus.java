@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
@@ -15,7 +16,6 @@ import org.bukkit.util.Vector;
 import com.hpspells.core.HPS;
 import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
-import com.hpspells.core.util.ParticleEffect;
 
 @SpellInfo(
         name = "Expelliarmus",
@@ -45,7 +45,7 @@ public class Expelliarmus extends Spell {
                 Location targetloc = entity.getLocation();
                 List<Material> disarmItems = new ArrayList<Material>(Arrays.asList(Material.matchMaterial(HPS.getConfig().getString("wand.type"))));
                 if ((Boolean) getConfig("disarm-weapons", true))
-                    disarmItems.addAll(Arrays.asList(Material.STICK, Material.WOOD_SWORD, Material.STONE_SWORD, Material.IRON_SWORD, Material.GOLD_SWORD, Material.DIAMOND_SWORD, Material.BOW));
+                    disarmItems.addAll(Arrays.asList(Material.STICK, Material.WOODEN_SWORD, Material.STONE_SWORD, Material.IRON_SWORD, Material.GOLDEN_SWORD, Material.DIAMOND_SWORD, Material.BOW));
 
                 if (disarmItems.contains(entity.getEquipment().getItemInMainHand().getType())) {
                     Item i = entity.getWorld().dropItem(targetloc, entity.getEquipment().getItemInMainHand());
@@ -57,7 +57,7 @@ public class Expelliarmus extends Spell {
                 return;
             }
 
-        }, 1f, 0.5f, 10, ParticleEffect.DRIP_LAVA);
+        }, 1f, 0.5f, 10, Particle.DRIP_LAVA);
         return true;
     }
 }

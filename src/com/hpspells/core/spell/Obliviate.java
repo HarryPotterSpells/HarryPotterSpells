@@ -1,11 +1,11 @@
 package com.hpspells.core.spell;
 
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.hpspells.core.SpellTargeter.SpellHitEvent;
-import com.hpspells.core.util.ParticleEffect;
 
 public class Obliviate extends Spell {
 
@@ -42,7 +42,7 @@ public class Obliviate extends Spell {
 
             }
 
-        }, 1f, ParticleEffect.SMOKE_LARGE);
+        }, 1f, Particle.SMOKE_LARGE);
         return false;
     }
 

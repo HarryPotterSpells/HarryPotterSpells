@@ -1,6 +1,7 @@
 package com.hpspells.core.spell;
 
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -8,7 +9,6 @@ import org.bukkit.entity.Player;
 import com.hpspells.core.HPS;
 import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
-import com.hpspells.core.util.ParticleEffect;
 
 @SpellInfo(
         name = "Bubble Head Charm",
@@ -34,7 +34,7 @@ public class BubbleHeadCharm extends Spell {
                 HPS.PM.warn(p, HPS.Localisation.getTranslation("spellLivingEntityOnly"));
             }
 
-            @Override
+			@Override
             public void hitEntity(LivingEntity entity) {
                 if (entity instanceof Player) {
                     Player player = (Player) entity;
@@ -43,14 +43,15 @@ public class BubbleHeadCharm extends Spell {
                     Block head = player.getLocation().add(0, 1, 0).getBlock();
 
                     //Checks if it matches water to make sure they are underwater
-                    if ((feet.getType() == Material.WATER || feet.getType() == Material.STATIONARY_WATER) && (head.getType() == Material.WATER || head.getType() == Material.STATIONARY_WATER)) {
+                    //TODO: Check water level to see if its stationary water 1.13
+                    if ((feet.getType() == Material.WATER) && (head.getType() == Material.WATER)) {
                         //Sets player air in ticks (Default max = 300)
                         player.setRemainingAir(300);
                     }
                 }
             }
 
-        }, 1f, ParticleEffect.WATER_WAKE);
+        }, 1f, Particle.WATER_WAKE);
         return true;
     }
 

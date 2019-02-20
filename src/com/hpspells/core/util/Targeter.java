@@ -65,7 +65,7 @@ public class Targeter {
                     target = e;
                     return target;
                 }
-                if (goThroughWalls && !getTransparentBlocks().contains(block.getTypeId()))
+                if (goThroughWalls && !getTransparentBlocks().contains(block.getType()))
                     return null;
             }
         }

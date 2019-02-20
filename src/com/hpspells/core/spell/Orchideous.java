@@ -2,6 +2,7 @@ package com.hpspells.core.spell;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -9,7 +10,6 @@ import org.bukkit.entity.Player;
 import com.hpspells.core.HPS;
 import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
-import com.hpspells.core.util.ParticleEffect;
 
 @SpellInfo(
         name = "Orchideous",
@@ -17,7 +17,7 @@ import com.hpspells.core.util.ParticleEffect;
         range = 50,
         goThroughWalls = false,
         cooldown = 45,
-        icon = Material.RED_ROSE
+        icon = Material.POPPY
 )
 public class Orchideous extends Spell {
 
@@ -32,7 +32,7 @@ public class Orchideous extends Spell {
             @Override
             public void hitBlock(Block block) {
                 if (isValidBlock(block) && blockAboveIsValidBlock(block)) {
-                    getBlockAbove(block).setType(Material.RED_ROSE);
+                    getBlockAbove(block).setType(Material.POPPY);
                     return;
                 } else {
                     HPS.PM.warn(p, HPS.Localisation.getTranslation("spellNoRose"));
@@ -45,7 +45,7 @@ public class Orchideous extends Spell {
                 HPS.PM.warn(p, HPS.Localisation.getTranslation("spellBlockOnly"));
             }
 
-        }, 1f, ParticleEffect.HEART);
+        }, 1f, Particle.HEART);
         return true;
     }
 
@@ -75,6 +75,8 @@ public class Orchideous extends Spell {
                 return true;
             case DIRT:
                 return true;
+            case GRASS_BLOCK:
+            	return true;
             default:
                 return false;
         }

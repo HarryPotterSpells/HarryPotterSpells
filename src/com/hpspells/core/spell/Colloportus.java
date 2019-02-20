@@ -3,13 +3,12 @@ package com.hpspells.core.spell;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -21,7 +20,6 @@ import com.hpspells.core.HPS;
 import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
 import com.hpspells.core.util.BlockUtils;
-import com.hpspells.core.util.ParticleEffect;
 
 @SpellInfo(
         name = "Colloportus",
@@ -35,9 +33,12 @@ public class Colloportus extends Spell {
     
     private static Map<Integer, Block> doorMap = new HashMap<>();
     private static int idCounter = Integer.MIN_VALUE;
-    private static List<Material> doorTypes = new ArrayList<>(Arrays.asList(
-            Material.WOODEN_DOOR,
-            Material.IRON_DOOR_BLOCK,
+	private static List<Material> doorTypes = new ArrayList<>(Arrays.asList(
+			Material.OAK_DOOR,
+            Material.IRON_DOOR,
+            //pre 1.13 doors
+//    		  Material.LEGACY_WOODEN_DOOR,
+//            Material.LEGACY_IRON_DOOR_BLOCK,
             //1.8 Doors
             Material.ACACIA_DOOR,
             Material.BIRCH_DOOR,
@@ -45,11 +46,21 @@ public class Colloportus extends Spell {
             Material.JUNGLE_DOOR,
             Material.SPRUCE_DOOR
     ));
-    private static List<Material> padTypes = new ArrayList<>(Arrays.asList(
-            Material.WOOD_PLATE,
-            Material.STONE_PLATE,
-            Material.IRON_PLATE,
-            Material.GOLD_PLATE
+	private static List<Material> padTypes = new ArrayList<>(Arrays.asList(
+    		Material.ACACIA_PRESSURE_PLATE,
+    		Material.BIRCH_PRESSURE_PLATE,
+    		Material.DARK_OAK_PRESSURE_PLATE,
+    		Material.HEAVY_WEIGHTED_PRESSURE_PLATE,
+    		Material.JUNGLE_PRESSURE_PLATE,
+    		Material.LIGHT_WEIGHTED_PRESSURE_PLATE,
+    		Material.OAK_PRESSURE_PLATE,
+    		Material.SPRUCE_PRESSURE_PLATE,
+    		Material.STONE_PRESSURE_PLATE
+    		//pre 1.13 plates
+//            Material.LEGACY_WOOD_PLATE,
+//            Material.LEGACY_STONE_PLATE,
+//            Material.LEGACY_IRON_PLATE,
+//            Material.LEGACY_GOLD_PLATE
     ));
     
 
@@ -86,7 +97,7 @@ public class Colloportus extends Spell {
                 HPS.PM.warn(p, HPS.Localisation.getTranslation("spellBlockOnly"));
             }
             
-        }, 1f, ParticleEffect.BARRIER);
+        }, 1f, Particle.BARRIER);
         return true;
     }
     
