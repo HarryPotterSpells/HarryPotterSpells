@@ -41,7 +41,7 @@ public class SpellSwitch extends HCommandExecutor {
                         HPS.PM.newSpell(player, spellName);
                         if (HPS.getConfig().getBoolean("wand.lore.show-current-spell")) {
                        	 //TODO: Somehow get the Wand.Lore and update it cleanly instead of this
-                           ItemStack wand = HPS.Wand.getWandFromInventory(player.getInventory());
+                           ItemStack wand = HPS.WandManager.getWandFromInventory(player.getInventory());
                            ItemMeta meta = wand.getItemMeta();
                            List<String> lore = meta.getLore();
                            for (String string : lore) {

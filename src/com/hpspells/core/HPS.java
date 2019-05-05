@@ -1,7 +1,6 @@
 package com.hpspells.core;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,7 +54,7 @@ public class HPS extends JavaPlugin {
     public ConfigurationManager ConfigurationManager;
     public PM PM;
     public SpellManager SpellManager;
-    public Wand Wand;
+    public WandManager WandManager;
     public SpellTargeter SpellTargeter;
     public Localisation Localisation;
     public ExtensionManager ExtensionManager;
@@ -80,7 +79,7 @@ public class HPS extends JavaPlugin {
         if (localeState) {
         	SpellTargeter = new SpellTargeter(this);
             SpellManager = new SpellManager(this);
-            Wand = new Wand(this);
+            WandManager = new WandManager(this);
             ExtensionManager = new ExtensionManager(this);
             new APIHandler(this);
             
@@ -214,7 +213,7 @@ public class HPS extends JavaPlugin {
         reloadConfig();
         ConfigurationManager.reloadConfigAll();
         Localisation.load();
-        this.Wand = new Wand(this);
+        this.WandManager = new WandManager(this);
         if (!setupCrafting()) return false;
         return true;
     }
@@ -259,7 +258,7 @@ public class HPS extends JavaPlugin {
     	
         if (getConfig().getBoolean("wand.crafting.enabled", true)) {
             try {
-                ShapedRecipe wandRecipe = new ShapedRecipe(new NamespacedKey(this, "wand"), Wand.getLorelessWand());
+                ShapedRecipe wandRecipe = new ShapedRecipe(new NamespacedKey(this, "wand"), WandManager.getLorelessWand());
                 List<String> list = getConfig().getStringList("wand.crafting.recipe");
                 Set<String> ingredients = getConfig().getConfigurationSection("wand.crafting.ingredients").getKeys(false);
 
