@@ -1,13 +1,16 @@
 package com.hpspells.core.spell;
 
-import com.google.common.collect.Iterables;
-import com.hpspells.core.HPS;
-import com.hpspells.core.api.event.SpellPostCastEvent;
-import com.hpspells.core.api.event.SpellPreCastEvent;
-import com.hpspells.core.configuration.ConfigurationManager.ConfigurationType;
-import com.hpspells.core.configuration.PlayerSpellConfig;
-import com.hpspells.core.spell.Spell.SpellInfo;
-import com.hpspells.core.util.ReflectionsReplacement;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.logging.Level;
+
+import javax.annotation.Nullable;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -18,9 +21,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
-import javax.annotation.Nullable;
-import java.util.*;
-import java.util.logging.Level;
+import com.google.common.collect.Iterables;
+import com.hpspells.core.HPS;
+import com.hpspells.core.api.event.SpellEvent;
+import com.hpspells.core.api.event.SpellPostCastEvent;
+import com.hpspells.core.api.event.SpellPreCastEvent;
+import com.hpspells.core.configuration.ConfigurationManager.ConfigurationType;
+import com.hpspells.core.configuration.PlayerSpellConfig;
+import com.hpspells.core.spell.Spell.SpellInfo;
+import com.hpspells.core.util.ReflectionsReplacement;
 
 /**
  * A class that manages spells and holds lots of spell related utilities
@@ -191,13 +200,15 @@ public class SpellManager {
     }
 
     /**
-     * Casts a spell cleverly; checking permissions, sending effects ect
+     * Casts a spell cleverly. Checks permissions, triggering {@link SpellEvent}'s , sending effects and applying cooldown.
+     * 
+     * Note: Does not check if player has a wand in their inventory
      *
      * @param player the player who is casting
      * @param spell  the spell that they are casting
      */
     public void cleverCast(Player player, Spell spell) {
-        if (!player.hasPermission("harrypotterspells.cast") || !spell.playerKnows(player) || !player.getInventory().contains(Material.STICK))
+        if (!player.hasPermission("harrypotterspells.cast") || !spell.playerKnows(player))
             return;
 
         PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
