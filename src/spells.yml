@@ -19,6 +19,9 @@ spells:
   arania-exumai:
     # How much the spider is knocked backwards
     knockback: 10
+  arrow:
+    # The velocity of the arrow that gets shot out of the wand
+    velocity: 1.2
   avis:
     # How randomly should the bats or chickens be spread out
     randomness: 1
