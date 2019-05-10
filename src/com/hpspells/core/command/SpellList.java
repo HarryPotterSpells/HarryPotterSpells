@@ -23,7 +23,7 @@ public class SpellList extends HCommandExecutor {
         HPS.getServer().getPluginManager().addPermission(LIST_OTHERS);
     }
 
-    public static final Permission LIST_OTHERS = new Permission("HarryPotterSpells.list.others", PermissionDefault.OP);
+    public static final Permission LIST_OTHERS = new Permission("harrypotterspells.list.others", PermissionDefault.OP);
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
