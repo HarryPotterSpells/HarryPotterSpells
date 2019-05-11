@@ -38,7 +38,7 @@ public class Wand extends HCommandExecutor {
                     Player player = (Player) sender;
                     if (args.length == 2) {
                         Material material = Material.matchMaterial(args[1]);
-                        if (HPS.Wand.getWandTypes().contains(material)) {
+                        if (HPS.WandManager.getWandTypes().contains(material)) {
                             giftWand(player, material);
                         } else {
                             String materialName = material == null ? "NULL" : material.toString();
@@ -57,7 +57,7 @@ public class Wand extends HCommandExecutor {
                 if (target != null) {
                     if (args.length == 2) {
                         Material material = Material.matchMaterial(args[1]);
-                        if (HPS.Wand.getWandTypes().contains(material)) {
+                        if (HPS.WandManager.getWandTypes().contains(material)) {
                             giftWand(target, material);
                         } else {
                             String materialName = material == null ? "NULL" : material.toString();
@@ -86,7 +86,7 @@ public class Wand extends HCommandExecutor {
      * @param material The material to use if required
      */
     public void giftWand(Player player, Material material) {
-        player.getInventory().setItem(player.getInventory().firstEmpty(), HPS.Wand.getWand(player, material));
+        player.getInventory().setItem(player.getInventory().firstEmpty(), HPS.WandManager.getWand(player, material));
         HPS.PM.tell(player, HPS.Localisation.getTranslation("cmdWanGiven"));
         if (HPS.getConfig().getBoolean("wand.explosion-effect")) {
             player.getWorld().createExplosion(player.getLocation(), 0, false);

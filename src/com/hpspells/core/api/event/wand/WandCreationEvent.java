@@ -1,22 +1,22 @@
 package com.hpspells.core.api.event.wand;
 
-import com.hpspells.core.Wand;
+import com.hpspells.core.WandManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 
 /**
- * An event called when {@link com.hpspells.core.Wand} creates a new wand
+ * An event called when {@link com.hpspells.core.WandManager} creates a new wand
  */
 public class WandCreationEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
 
     private Player owner;
-    private Wand.Lore lore;
+    private WandManager.WandLore lore;
     private boolean enchantmentEffect;
 
-    public WandCreationEvent(Player owner, Wand.Lore lore, boolean enchantmentEffect) {
+    public WandCreationEvent(Player owner, WandManager.WandLore lore, boolean enchantmentEffect) {
         this.owner = owner;
         this.lore = lore;
         this.enchantmentEffect = enchantmentEffect;
@@ -54,7 +54,7 @@ public class WandCreationEvent extends Event {
      *
      * @return the lore of the wand
      */
-    public Wand.Lore getLore() {
+    public WandManager.WandLore getLore() {
         return lore;
     }
 
@@ -63,7 +63,7 @@ public class WandCreationEvent extends Event {
      *
      * @param lore the desired lore
      */
-    public void setLore(Wand.Lore lore) {
+    public void setLore(WandManager.WandLore lore) {
         this.lore = lore;
     }
 

@@ -53,10 +53,10 @@ public class Teach extends HCommandExecutor {
             teachTo = Bukkit.getPlayer(args[1]);
         }
 
-        boolean teachOnlyKnown = (sender instanceof Player) && sender.hasPermission(teachKnown);
-        List<String> senderKnownSpells = ((PlayerSpellConfig) HPS.getConfig(ConfigurationManager.ConfigurationType.PLAYER_SPELL)).getStringListOrEmpty(teachTo.getName());
-
         if (teachTo != null) {
+            boolean teachOnlyKnown = (sender instanceof Player) && sender.hasPermission(teachKnown);
+            List<String> senderKnownSpells = ((PlayerSpellConfig) HPS.getConfig(ConfigurationManager.ConfigurationType.PLAYER_SPELL)).getStringListOrEmpty(teachTo.getName());
+            
             if (args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("*")) {
                 Set<Spell> spells = HPS.SpellManager.getSpells();
                 String learnedSpells = null;

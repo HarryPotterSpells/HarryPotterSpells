@@ -23,16 +23,16 @@ import com.hpspells.core.util.MiscUtilities;
 /**
  * This class manages the wand
  */
-public class Wand {
+public class WandManager {
     private HPS HPS;
     private List<Material> wandTypes = new ArrayList<Material>();
 
     /**
-     * Constructs a new {@link Wand}
+     * Constructs a new {@link WandManager}
      *
      * @param instance an instance of {@link HPS}
      */
-    public Wand(HPS instance) {
+    public WandManager(HPS instance) {
         this.HPS = instance;
         HPS.getConfig().getStringList("wand.types").forEach(string -> {
             Material material = Material.matchMaterial(string);
@@ -62,7 +62,7 @@ public class Wand {
 //        HPS.PM.broadcastMessage("No Color config: \n" + ChatColor.stripColor((String) getConfig("lore.name", "Wand")) );
 //        HPS.PM.broadcastMessage("Matching?:" + ChatColor.stripColor(itemMeta.getDisplayName()).equals(ChatColor.stripColor(getName())));
         return itemMeta.hasDisplayName() && ChatColor.stripColor(itemMeta.getDisplayName()).equals(ChatColor.stripColor(getName()));
-        //return new NBTContainerItem(i).getTag(TAG_NAME) != null;
+//        return new NBTContainerItem(i).getTag(TAG_NAME) != null;
     }
 
     public ItemStack getWand(@Nullable Player owner) {
@@ -90,7 +90,7 @@ public class Wand {
         //NBTTagCompound comp = new NBTTagCompound(TAG_NAME);
 
         if ((Boolean) getConfig("lore.enabled", true)) {
-        	Lore lore = generateLore();
+        	WandLore lore = generateLore();
         	if ((Boolean) getConfig("lore.show-current-spell", true)) {
             	Spell spell = HPS.SpellManager.getCurrentSpell(owner);
             	lore.setCurrentSpell(spell == null ? "None" : spell.getName());
@@ -198,8 +198,8 @@ public class Wand {
     	return ChatColor.translateAlternateColorCodes('&', (String) getConfig("lore.name", "Wand"));
     }
 
-    public Lore generateLore() {
-        Lore lore = new Lore();
+    public WandLore generateLore() {
+        WandLore lore = new WandLore();
         Random random = new Random();
         ConfigurationSection cs = HPS.getConfig().getConfigurationSection("wand.lore");
 
@@ -224,7 +224,7 @@ public class Wand {
         return HPS.getConfig().get("wand." + string, defaultt);
     }
 
-    public class Lore {
+    public class WandLore {
         private String currentSpell = "None", wood = "Unknown", manufacturer = "somebody", core = "Unknown", rigidity = "Unknown rigidity";
         private int woodRarity = 0, length = 13;
 

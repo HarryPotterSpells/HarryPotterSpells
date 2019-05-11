@@ -11,6 +11,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import com.hpspells.core.HPS;
@@ -43,11 +44,13 @@ public class Expelliarmus extends Spell {
             @Override
             public void hitEntity(LivingEntity entity) {
                 Location targetloc = entity.getLocation();
-                List<Material> disarmItems = new ArrayList<Material>(Arrays.asList(Material.matchMaterial(HPS.getConfig().getString("wand.type"))));
+                //HPS.getConfig().getStringList("wand.types").stream().map(Material::matchMaterial).collect(Collectors.toList())
+                List<Material> disarmItems = new ArrayList<Material>();
                 if ((Boolean) getConfig("disarm-weapons", true))
-                    disarmItems.addAll(Arrays.asList(Material.STICK, Material.WOODEN_SWORD, Material.STONE_SWORD, Material.IRON_SWORD, Material.GOLDEN_SWORD, Material.DIAMOND_SWORD, Material.BOW));
+                    disarmItems.addAll(Arrays.asList(Material.WOODEN_SWORD, Material.STONE_SWORD, Material.IRON_SWORD, Material.GOLDEN_SWORD, Material.DIAMOND_SWORD, Material.BOW));
 
-                if (disarmItems.contains(entity.getEquipment().getItemInMainHand().getType())) {
+                ItemStack itemStack = entity.getEquipment().getItemInMainHand();
+                if (disarmItems.contains(itemStack.getType()) || HPS.WandManager.isWand(itemStack)) {
                     Item i = entity.getWorld().dropItem(targetloc, entity.getEquipment().getItemInMainHand());
                     entity.getEquipment().setItemInMainHand(null);
                     Vector vector = targetloc.getDirection();

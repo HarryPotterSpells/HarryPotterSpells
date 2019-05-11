@@ -79,7 +79,7 @@ public class Listeners implements Listener {
         }
         
         //Normal wand checking code
-        if (e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getInventory().getItemInMainHand())) {
+        if (e.getPlayer().hasPermission(CAST_SPELLS) && HPS.WandManager.isWand(e.getPlayer().getInventory().getItemInMainHand())) {
             PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
 
             if (e.getPlayer().getGameMode().equals(GameMode.CREATIVE))
@@ -110,7 +110,7 @@ public class Listeners implements Listener {
                     HPS.PM.newSpell(e.getPlayer(), HPS.SpellManager.setCurrentSpellPosition(e.getPlayer(), neww).getName());
                     if (HPS.getConfig().getBoolean("wand.lore.show-current-spell")) {
                     	 //TODO: Somehow get the Wand.Lore and update it cleanly instead of this
-                        ItemStack wand = HPS.Wand.getWandFromInventory(e.getPlayer().getInventory());
+                        ItemStack wand = HPS.WandManager.getWandFromInventory(e.getPlayer().getInventory());
                         ItemMeta meta = wand.getItemMeta();
                         List<String> lore = meta.getLore();
                         for (String string : lore) {
@@ -155,7 +155,7 @@ public class Listeners implements Listener {
     @EventHandler
     public void PIEE(PlayerInteractEntityEvent e) {
         HPS.PM.debug("Fired PlayerInteractEntityEvent");
-        if (e.getPlayer().hasPermission(CAST_SPELLS) && HPS.Wand.isWand(e.getPlayer().getInventory().getItemInMainHand())) {
+        if (e.getPlayer().hasPermission(CAST_SPELLS) && HPS.WandManager.isWand(e.getPlayer().getInventory().getItemInMainHand())) {
             PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
             Integer knows = psc.getStringListOrEmpty(e.getPlayer().getName()).size() - 1, cur = HPS.SpellManager.getCurrentSpellPosition(e.getPlayer()), neww;
 
@@ -207,8 +207,8 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onPlayerCraft(CraftItemEvent e) {
-        if (HPS.Wand.isWand(e.getRecipe().getResult())) {
-            e.setCurrentItem(HPS.Wand.getWand((Player) e.getWhoClicked()));
+        if (HPS.WandManager.isWand(e.getRecipe().getResult())) {
+            e.setCurrentItem(HPS.WandManager.getWand((Player) e.getWhoClicked()));
             final Player p = (Player) e.getWhoClicked();
             Bukkit.getScheduler().runTask(HPS, new Runnable() {
 

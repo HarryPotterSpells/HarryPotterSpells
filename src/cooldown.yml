@@ -12,6 +12,7 @@ cooldowns:
   alarte-ascendare: 45
   aparecium: 300
   arania-exumai: 90
+  arrow: 90
   avada-kedavra: 300
   avis: 300
   bauleo: 10
@@ -21,6 +22,7 @@ cooldowns:
   confundo: 180
   crucio: 300
   deprimo: 180
+  duro: 90
   enderchest: -1
   episkey: 60
   evanesco: 45
