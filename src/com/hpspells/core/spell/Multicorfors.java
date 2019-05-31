@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -35,20 +36,25 @@ public class Multicorfors extends Spell {
         HPS.SpellTargeter.register(p, new SpellHitEvent() {
 
             @Override
-            public void hitBlock(final Block block) { // Hit wool
+            public void hitBlock(Block block) { // Hit wool
+                Material material;
             	if (Tag.WOOL.isTagged(block.getType())) {
-                    if ((Boolean) getConfig("explosionEffect", true))
-                        block.getWorld().createExplosion(block.getLocation(), 0F);
-
-                    Bukkit.getScheduler().runTask(HPS, new Runnable() {
-                        @Override
-                        public void run() {
-                        	block.setType(randomWool());
-                        }
-                    });
+                    material = randomWool();
+                } else if (Tag.CARPETS.isTagged(block.getType())) {
+                    material = randomCarpet();
+                } else if (Tag.CARPETS.isTagged(block.getRelative(BlockFace.UP).getType())) {
+                    material = randomCarpet();
+                    block = block.getRelative(BlockFace.UP);
                 } else {
                     HPS.PM.warn(p, "You cannot use this spell on that block.");
+                    return; // Stop execution of the spell 
                 }
+            	
+            	if ((Boolean) getConfig("explosionEffect", true))
+                    block.getWorld().createExplosion(block.getLocation(), 0F);
+
+            	final Block b = block;
+                Bukkit.getScheduler().runTask(HPS, () -> b.setType(material));
             }
 
             @Override
@@ -83,6 +89,18 @@ public class Multicorfors extends Spell {
         	count++;
         }
         return Material.WHITE_WOOL;
+    }
+    
+    private Material randomCarpet() {
+        Set<Material> carpetsList = Tag.CARPETS.getValues();
+        int randomNum = new Random().nextInt(carpetsList.size());
+        int count = 0;
+        for (Material material : carpetsList) {
+            if (count == randomNum)
+                return material;
+            count++;
+        }
+        return Material.WHITE_CARPET;
     }
 
     private DyeColor randomDyeColor() {
