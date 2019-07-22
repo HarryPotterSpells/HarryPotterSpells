@@ -193,7 +193,7 @@ public class HPS extends JavaPlugin {
 
             // Extension manager setup
             PM.debug(Localisation.getTranslation("dbgExtensionStart"));
-            ExtensionManager.reloadExtensions();
+            ExtensionManager.loadExtensions();
             ExtensionManager.enableExtensions();
             PM.debug(Localisation.getTranslation("dbgExtensionStop"));
 
@@ -203,6 +203,7 @@ public class HPS extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        ExtensionManager.disableExtensions();
     	if (localeState)
     		PM.log(Level.INFO, Localisation.getTranslation("genPluginDisabled"));
     	else
@@ -213,6 +214,7 @@ public class HPS extends JavaPlugin {
         reloadConfig();
         ConfigurationManager.reloadConfigAll();
         Localisation.load();
+        ExtensionManager.reloadExtensions();
         this.WandManager = new WandManager(this);
         if (!setupCrafting()) return false;
         return true;
