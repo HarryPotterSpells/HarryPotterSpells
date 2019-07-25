@@ -5,6 +5,8 @@ import java.util.Comparator;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.bukkit.event.HandlerList;
+
 import com.hpspells.core.HPS;
 import com.hpspells.core.extension.Extension.State;
 import com.hpspells.core.util.FileExtensionFilter;
@@ -91,6 +93,7 @@ public class ExtensionManager {
         for (Extension extension : extensions.keySet()) {
             if (extensions.get(extension) == Extension.State.ENABLED) {
                 extension.onDisable();
+                HandlerList.unregisterAll(extension);
                 extensions.put(extension, Extension.State.DISABLED);
             }
         }
