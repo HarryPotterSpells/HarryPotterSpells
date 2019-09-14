@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 		name = "harrypotterspells", 
 		description = "cmdGenDescription", 
 		aliases = "hps", 
-		usage = "<command> [config (reload|edit)]" + '\n' + "For help run /<command> [help]")
+		usage = "<command> [help]")
 public class GeneralCommand extends HCommandExecutor {
 	
     public GeneralCommand(HPS instance) {
@@ -21,9 +21,6 @@ public class GeneralCommand extends HCommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (args.length == 0)
-            return false;
-
         if (args[0].equalsIgnoreCase("config")) { // Configuration editing/reloading
             if (args.length == 1)
                 return false;
@@ -65,7 +62,14 @@ public class GeneralCommand extends HCommandExecutor {
                     }
                 }
             }
-
+            return true;
+        }
+        if (args[0].equalsIgnoreCase("reload")) {
+            if (HPS.onReload()) {
+                HPS.PM.dependantMessagingTell(sender, ChatColor.GREEN + HPS.Localisation.getTranslation("cmdGenPluginReloaded"));
+            } else {
+                HPS.PM.dependantMessagingTell(sender, ChatColor.RED + HPS.Localisation.getTranslation("errPluginReload"));
+            }
             return true;
         }
         if (args[0].equalsIgnoreCase("help")) {
