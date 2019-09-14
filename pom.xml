@@ -22,16 +22,12 @@
           	<groupId>org.bukkit</groupId>
           	<artifactId>bukkit</artifactId>
          	<version>1.13.2-R0.1-SNAPSHOT</version>
+         	<scope>provided</scope>
 		</dependency>
 		<dependency>
    		  	<groupId>com.google.code.findbugs</groupId>
-    	  	<artifactId>jsr305</artifactId>
+   		  	<artifactId>jsr305</artifactId>
 			<version>3.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.0</version>
 		</dependency>
     </dependencies>
 
