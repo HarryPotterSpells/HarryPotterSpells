@@ -6,11 +6,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -84,7 +86,7 @@ public class Localisation {
     	}
     	try {
 			activeLang = loadedProperties.get(language);
-			activeLang.load(new FileInputStream(languages.get(language)));
+			activeLang.load(new InputStreamReader(new FileInputStream(languages.get(language)), Charset.forName("UTF-8")));
 		} catch (FileNotFoundException e) {
 			HPS.PM.log(Level.WARNING, "Could not find the language file for language " + HPS.getConfig().getString("language") + ". Reverting to default language...");
             HPS.PM.debug(e);
