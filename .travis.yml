@@ -1,6 +1,7 @@
 language: java
 script: 'mvn test'
 sudo: false
+dist: trusty
 jdk:
   - oraclejdk8
 notifications:
