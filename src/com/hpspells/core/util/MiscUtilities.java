@@ -100,5 +100,22 @@ public class MiscUtilities {
 
         return "Invalid Probability";
     }
+    
+    /**
+     * Takes an object and tries to convert to a Double in the case it is an Integer or a String.
+     * Will log an error if toHandle is not a valid double.
+     * 
+     * @param toHandle The value to handle
+     * @return the double value of toHandle or null
+     * @throws NumberFormatException if not a valid number
+     */
+    public static Double handleDouble(Object toHandle) throws NumberFormatException {
+        if (toHandle instanceof Double) {
+            return (Double) toHandle;
+        } else if (toHandle instanceof Integer || toHandle instanceof String) {
+            return Double.parseDouble(toHandle.toString());
+        }
+        return null;
+    }
 
 }
