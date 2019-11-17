@@ -19,7 +19,7 @@ public class Arrow extends Spell {
 
     @Override
     public boolean cast(Player p) {
-        Double velocityModifier = (Double) getConfig("velocity", 1.2);
+        Double velocityModifier = handleDouble(getConfig("velocity", 1.2), 1.2);
         p.launchProjectile(org.bukkit.entity.Arrow.class, p.getLocation().getDirection().multiply(velocityModifier));
         return true;
     }
