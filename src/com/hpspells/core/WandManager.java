@@ -11,8 +11,10 @@ import javax.annotation.Nullable;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -110,16 +112,19 @@ public class WandManager {
         }
 
         meta.setDisplayName(ChatColor.RESET + getName());
-        wand.setItemMeta(meta);
 
         if (wandCreationEvent.hasEnchantmentEffect()) {
             try {
-                wand = MiscUtilities.makeGlow(wand);
+//                wand = MiscUtilities.makeGlow(wand);
+                meta.addEnchant(Enchantment.LURE, 1, true);
+                meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             } catch (Exception e) {
                 HPS.PM.debug(HPS.Localisation.getTranslation("errEnchantmentEffect"));
                 HPS.PM.debug(e);
             }
         }
+        
+        wand.setItemMeta(meta);
 
         /*if(owner != null) {
             NBTTagString tag = new NBTTagString();
@@ -166,16 +171,19 @@ public class WandManager {
         ItemMeta meta = HPS.getServer().getItemFactory().getItemMeta(wandMaterial);
 
         meta.setDisplayName(ChatColor.RESET + getName());
-        wand.setItemMeta(meta);
 
         if ((Boolean) getConfig("enchantment-effect", true)) {
             try {
-                wand = MiscUtilities.makeGlow(wand);
+//                wand = MiscUtilities.makeGlow(wand);
+                meta.addEnchant(Enchantment.LURE, 1, true);
+                meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             } catch (Exception e) {
                 HPS.PM.debug(HPS.Localisation.getTranslation("errEnchantmentEffect"));
                 HPS.PM.debug(e);
             }
         }
+        
+        wand.setItemMeta(meta);
 
         return wand;
     }
