@@ -42,7 +42,7 @@ public class Stupefy extends Spell {
 
                 Vector unitVector = le.getLocation().toVector().subtract(p.getLocation().toVector()).normalize();
                 le.setVelocity(unitVector.multiply((Integer) getConfig("vertical-knockback", 2)));
-                le.setVelocity(le.getVelocity().setY((Double) getConfig("horizontal-knockback", 0.5d)));
+                le.setVelocity(le.getVelocity().setY(handleDouble(getConfig("horizontal-knockback", 0.5), 0.5)));
                 le.damage((Integer) getConfig("damage", 2));
             }
 

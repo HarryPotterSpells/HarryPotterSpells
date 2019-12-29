@@ -44,10 +44,11 @@ public class BubbleHeadCharm extends Spell {
 
                     //Checks if it matches water to make sure they are underwater
                     //TODO: Check water level to see if its stationary water 1.13
-                    if ((feet.getType() == Material.WATER) && (head.getType() == Material.WATER)) {
-                        //Sets player air in ticks (Default max = 300)
-                        player.setRemainingAir(300);
-                    }
+//                    if ((feet.getType() == Material.WATER) && (head.getType() == Material.WATER)) {
+//                        //Sets player air in ticks (Default max = 300)
+//                        player.setRemainingAir(300);
+//                    }
+                    player.setRemainingAir(300);
                 }
             }
 

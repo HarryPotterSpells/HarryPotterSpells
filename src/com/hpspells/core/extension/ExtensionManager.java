@@ -1,25 +1,22 @@
 package com.hpspells.core.extension;
 
 import java.io.File;
-import java.io.FileFilter;
-import java.io.InputStreamReader;
 import java.util.Comparator;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.HandlerList;
 
 import com.hpspells.core.HPS;
 import com.hpspells.core.extension.Extension.State;
+import com.hpspells.core.util.FileExtensionFilter;
 
 /**
  * Handles management of all extensions
  */
 public class ExtensionManager {
     private HPS HPS;
+    private ExtensionLoader extensionLoader;
     private final File extensionFolder;
     private final SortedMap<Extension, Extension.State> extensions = new TreeMap<Extension, State>(new Comparator<Extension>() {
 
@@ -32,49 +29,44 @@ public class ExtensionManager {
 
     /**
      * Constructs a new {@link ExtensionManager}
+     * 
      * @param instance an instance of {@link HPS}
      */
     public ExtensionManager(HPS instance) {
         HPS = instance;
         extensionFolder = new File(HPS.getDataFolder(), "Extensions");
 
-        if(!extensionFolder.exists()) {
+        if (!extensionFolder.exists()) {
             extensionFolder.mkdir();
+        }
+
+        extensionLoader = new ExtensionLoader(instance, extensionFolder);
+    }
+
+    /**
+     * Loads the extensions located in the extensions folder.
+     */
+    public void loadExtensions() {
+        for (File file : extensionFolder.listFiles(new FileExtensionFilter(".jar"))) {
+            Extension extension = extensionLoader.loadExtension(file);
+            extensions.put(extension, State.LOADED);
         }
     }
 
     /**
-     * Disables all extensions and then reloads the extension list.
+     * Disables all extensions, loads and then enables the extension list.
      */
     public void reloadExtensions() {
         disableExtensions();
-        extensions.clear();
-
-        for(File file : extensionFolder.listFiles(new FileFilter() {
-            @Override
-            public boolean accept(File pathname) {
-                return !pathname.isDirectory() && pathname.getName().endsWith(".jar");
-            }
-        })) {
-            try {
-                ZipFile zip = new ZipFile(file);
-                ZipEntry description = zip.getEntry("extension.yml");
-
-                if(description == null) { // The jar is missing a description
-                    HPS.PM.log(Level.INFO, HPS.Localisation.getTranslation("extMissingDescription", file.getName()));
-                    continue;
-                }
-                extensions.put(Extension.create(HPS, file, YamlConfiguration.loadConfiguration(new InputStreamReader(zip.getInputStream(description)))), Extension.State.LOADED);
-                zip.close();
-            } catch (Exception e) {
-                HPS.PM.log(Level.WARNING, HPS.Localisation.getTranslation("errExtensionLoading", file.getName()));
-                HPS.PM.debug(e);
-            }
-        }
+        this.extensions.clear();
+        this.extensionLoader.clearLoaders();
+        loadExtensions();
+        enableExtensions();
     }
 
     /**
      * Gets the folder for storing {@link Extension}s
+     * 
      * @return the folder
      */
     public File getExtensionFolder() {
@@ -85,29 +77,31 @@ public class ExtensionManager {
      * Enables all {@link Extension}s with the {@link Extension.State#LOADED} state
      */
     public void enableExtensions() {
-    	for (Extension extension : extensions.keySet()) {
-    		if (extensions.get(extension) == Extension.State.LOADED) {
-    			extension.load();
+        for (Extension extension : extensions.keySet()) {
+            if (extensions.get(extension) == Extension.State.LOADED) {
+                extension.onEnable();
                 HPS.getServer().getPluginManager().registerEvents(extension, HPS);
                 extensions.put(extension, Extension.State.ENABLED);
-    		}
-    	}
+            }
+        }
     }
 
     /**
      * Disables all {@link Extension}s with the {@link Extension.State#ENABLED} state
      */
     public void disableExtensions() {
-    	for (Extension extension : extensions.keySet()) {
-    		if (extensions.get(extension) == Extension.State.ENABLED) {
-    			extension.onDisable();
+        for (Extension extension : extensions.keySet()) {
+            if (extensions.get(extension) == Extension.State.ENABLED) {
+                extension.onDisable();
+                HandlerList.unregisterAll(extension);
                 extensions.put(extension, Extension.State.DISABLED);
-    		}
-    	}
+            }
+        }
     }
 
     /**
      * Gets the {@link Extension.State} of an {@link Extension}
+     * 
      * @param extension the extension
      * @return the extension's state
      */

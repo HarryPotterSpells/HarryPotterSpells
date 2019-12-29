@@ -3,6 +3,8 @@ package com.hpspells.core.spell;
 import com.hpspells.core.HPS;
 import com.hpspells.core.configuration.ConfigurationManager.ConfigurationType;
 import com.hpspells.core.configuration.PlayerSpellConfig;
+import com.hpspells.core.util.MiscUtilities;
+
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -15,6 +17,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * An abstract class representing a Spell
@@ -235,6 +238,25 @@ public abstract class Spell {
             return ((Number) time).longValue() * 20; // convert to ticks
         }
         return defaultt;
+    }
+    
+    /**
+     * Will attempt to convert an Object to a double. Logs a warning if not able to.
+     * Primarily used for {@link #getConfig(String, Object)}
+     * 
+     * @param toHandle The value to convert
+     * @param defaultt The value to default to on error.
+     * @return the double value of toHandle
+     */
+    public double handleDouble(Object toHandle, @Nullable double defaultt) {
+        Double result = defaultt;
+        try {
+            result = MiscUtilities.handleDouble(toHandle);
+        } catch (NumberFormatException e) {
+            HPS.PM.log(Level.WARNING, "Error when handling double value for Spell: " + getName());
+            HPS.PM.log(Level.WARNING, "Expected double but instead got: " + toHandle.toString());
+        }
+        return result;
     }
 
 }
