@@ -45,7 +45,7 @@ public class SpellList extends HCommandExecutor {
 
         PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
 
-        if (args[0].equalsIgnoreCase("me")) { // List spells I know
+        if (args[0].equalsIgnoreCase("me") || args[0].equalsIgnoreCase(sender.getName())) { // List spells I know
             if (sender instanceof Player) {
                 SortedSet<String> spells = new TreeSet<String>(psc.getStringListOrEmpty(sender.getName()));
                 if (spells.size() == 0)
