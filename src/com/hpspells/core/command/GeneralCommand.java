@@ -21,6 +21,10 @@ public class GeneralCommand extends HCommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        //If command is just /hps send usage.
+        if (args.length == 0)
+            return false;
+        
         if (args[0].equalsIgnoreCase("config")) { // Configuration editing/reloading
             if (args.length == 1)
                 return false;
