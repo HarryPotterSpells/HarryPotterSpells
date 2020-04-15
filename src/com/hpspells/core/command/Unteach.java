@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Set;
 
-@CommandInfo(name = "unteach", description = "cmdUntDescription", usage = "<command> <spell> [player]")
+@CommandInfo(name = "unteach", description = "cmdUntDescription", usage = "<command> <spell> [player|me]")
 public class Unteach extends HCommandExecutor {
 
     public Unteach(HPS instance) {
@@ -24,7 +24,7 @@ public class Unteach extends HCommandExecutor {
         if (!HPS.SpellManager.isSpell(args[0].replace('_', ' '))) {
             if (!(args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("*"))) {
                 HPS.PM.dependantMessagingWarn(sender, HPS.Localisation.getTranslation("genSpellNotRecognized"));
-                return true;
+                return false;
             }
         }
 
@@ -34,13 +34,20 @@ public class Unteach extends HCommandExecutor {
         if ((args.length == 1) || (args[1].equalsIgnoreCase("me"))) {
             if (sender instanceof Player)
                 unteachTo = (Player) sender;
-            else
+            else {
                 HPS.PM.dependantMessagingWarn(sender, HPS.Localisation.getTranslation("cmdPlayerNotSpecified"));
+                return false;
+            }
         } else
             unteachTo = Bukkit.getPlayer(args[1]);
 
         if (unteachTo != null) {
             if (args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("*")) {
+                if (HPS.SpellManager.getCurrentSpellPosition(unteachTo) == null) {
+                    //Player doesn't know any spells
+                    HPS.PM.dependantMessagingWarn(sender, HPS.Localisation.getTranslation("cmdUntDoesntKnowAll", unteachTo.getName()));
+                    return true;
+                }
                 HPS.SpellManager.setCurrentSpellPosition(unteachTo, 0);
                 Set<Spell> spells = HPS.SpellManager.getSpells();
                 String forgottenspells = null;
@@ -67,8 +74,10 @@ public class Unteach extends HCommandExecutor {
                 } else
                     HPS.PM.dependantMessagingWarn(sender, HPS.Localisation.getTranslation("cmdUntDoesntKnowOne", unteachTo.getName(), spell.getName()));
             }
-        } else
+        } else {
             HPS.PM.dependantMessagingTell(sender, HPS.Localisation.getTranslation("cmdPlayerNotFound"));
+            return false;
+        }
         return true;
     }
 

@@ -17,9 +17,10 @@ public class SpellInfo extends HCommandExecutor {
             return false;
         } else {
             String spell = args[0].replace('_', ' ');
-            if (!HPS.SpellManager.isSpell(spell))
+            if (!HPS.SpellManager.isSpell(spell)) {
                 HPS.PM.dependantMessagingWarn(sender, HPS.Localisation.getTranslation("genSpellNotRecognized"));
-            else
+                return false;
+            } else
                 HPS.PM.dependantMessagingTell(sender, spell + ": " + HPS.SpellManager.getSpell(spell).getDescription());
             return true;
         }

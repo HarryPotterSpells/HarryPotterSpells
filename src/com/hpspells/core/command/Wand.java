@@ -13,7 +13,7 @@ import org.bukkit.permissions.PermissionDefault;
 
 import com.hpspells.core.HPS;
 
-@CommandInfo(name = "wand", description = "cmdWanDescription")
+@CommandInfo(name = "wand", description = "cmdWanDescription", usage = "<command> [player|me] [material]")
 public class Wand extends HCommandExecutor {
 
     Permission perm = new Permission("harrypotterspells.wand.others", PermissionDefault.OP);
@@ -73,9 +73,12 @@ public class Wand extends HCommandExecutor {
                     HPS.PM.dependantMessagingTell(sender, HPS.Localisation.getTranslation("cmdWanOffline", ChatColor.GREEN + args[0]));
                 } else {
                     HPS.PM.dependantMessagingWarn(sender, "This player does not exist.");
+                    return false;
                 }
             }
-        } 
+        } else {
+            return false;
+        }
         return true;
     }
     

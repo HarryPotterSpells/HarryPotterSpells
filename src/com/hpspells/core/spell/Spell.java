@@ -182,13 +182,15 @@ public abstract class Spell {
         SpellInfo info = this.getClass().getAnnotation(SpellInfo.class);
         if (info == null)
             return 60;
+        
+        String spellName = info.name().toLowerCase().replace(" ", "-");
         if (p.hasPermission(HPS.SpellManager.NO_COOLDOWN_ALL_1) || p.hasPermission(HPS.SpellManager.NO_COOLDOWN_ALL_2)
-                || p.hasPermission("harrypotterspells.nocooldown." + getName().toLowerCase()))
+                || p.hasPermission("harrypotterspells.nocooldown." + spellName))
             return 0;
 
         int cooldown;
-        if (cdConfig.contains("cooldowns." + info.name().toLowerCase().replace(" ", "-")))
-            cooldown = cdConfig.getInt("cooldowns." + info.name().toLowerCase().replace(" ", "-"));
+        if (cdConfig.contains("cooldowns." + spellName))
+            cooldown = cdConfig.getInt("cooldowns." + spellName);
         else
             cooldown = info.cooldown();
 

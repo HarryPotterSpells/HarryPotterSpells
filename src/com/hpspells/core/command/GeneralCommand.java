@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 		name = "harrypotterspells", 
 		description = "cmdGenDescription", 
 		aliases = "hps", 
-		usage = "<command> [help]")
+		usage = "<command> [help|reload|config]")
 public class GeneralCommand extends HCommandExecutor {
 	
     public GeneralCommand(HPS instance) {
@@ -21,10 +21,15 @@ public class GeneralCommand extends HCommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        //If command is just /hps send usage.
+        if (args.length == 0)
+            return false;
+        
         if (args[0].equalsIgnoreCase("config")) { // Configuration editing/reloading
-            if (args.length == 1)
-                return false;
-            else if (args[1].equalsIgnoreCase("reload")) {
+            if (args.length == 1) {
+                HPS.PM.dependantMessagingTell(sender, ChatColor.RED + HPS.Localisation.getTranslation("cmdUsage", (sender instanceof Player ? "/" : "") + label, " config <reload|edit>"));
+                return true;
+            } else if (args[1].equalsIgnoreCase("reload")) {
                 if (HPS.onReload())
                     HPS.PM.dependantMessagingTell(sender, ChatColor.GREEN + HPS.Localisation.getTranslation("cmdGenConfigReloaded"));
                 else 
@@ -74,6 +79,9 @@ public class GeneralCommand extends HCommandExecutor {
         }
         if (args[0].equalsIgnoreCase("help")) {
         	HPS.PM.dependantMessagingTell(sender, "&6o0=======&c[&eHarryPotterSpells&c]&6========0o");
+        	HPS.PM.dependantMessagingTell(sender, "&b/hps &f- &e" + HPS.Localisation.getTranslation("cmdGenDescription"));
+        	HPS.PM.dependantMessagingTell(sender, "&b/hps reload");
+        	HPS.PM.dependantMessagingTell(sender, "&b/hps config <reload|edit>");
         	HPS.PM.dependantMessagingTell(sender, "&b/spellinfo &f- &e" + HPS.Localisation.getTranslation("cmdSpiDescription"));
         	HPS.PM.dependantMessagingTell(sender, "&b/spelllist &f- &e" + HPS.Localisation.getTranslation("cmdSplDescription"));
         	HPS.PM.dependantMessagingTell(sender, "&b/spellswitch &f- &e" + HPS.Localisation.getTranslation("cmdSpsDescription"));

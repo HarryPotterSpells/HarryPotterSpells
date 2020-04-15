@@ -16,7 +16,7 @@ wand:
   # Generate explosion when /wand is used?
   explosion-effect: false  
   # Should wands have the shiny enchantment effect
-  enchantment-effect : true 
+  enchantment-effect: true 
   lore:
     # The name we should give the wand
     name: '&3Wand' 

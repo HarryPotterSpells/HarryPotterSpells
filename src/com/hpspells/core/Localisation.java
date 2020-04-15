@@ -72,7 +72,7 @@ public class Localisation {
     	loadedProperties.put(language, new Properties());
     	for (Language lang : languages.keySet())
     		if (!languages.get(lang).exists()) 
-    			this.generateFile(file, file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("\\") + 1));
+    			this.generateFile(file, file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf(File.separator) + 1));
     	HPS.PM.debug(file.getAbsolutePath());
     }
     

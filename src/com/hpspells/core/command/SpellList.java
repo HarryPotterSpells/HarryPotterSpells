@@ -15,7 +15,7 @@ import org.bukkit.permissions.PermissionDefault;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-@CommandInfo(name = "spelllist", description = "cmdSplDescription", usage = "<command> [player]", permissionDefault = "true", aliases = "sl")
+@CommandInfo(name = "spelllist", description = "cmdSplDescription", usage = "<command> [player|me]", permissionDefault = "true", aliases = "sl")
 public class SpellList extends HCommandExecutor {
 
     public SpellList(HPS instance) {
@@ -45,7 +45,7 @@ public class SpellList extends HCommandExecutor {
 
         PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
 
-        if (args[0].equalsIgnoreCase("me")) { // List spells I know
+        if (args[0].equalsIgnoreCase("me") || args[0].equalsIgnoreCase(sender.getName())) { // List spells I know
             if (sender instanceof Player) {
                 SortedSet<String> spells = new TreeSet<String>(psc.getStringListOrEmpty(sender.getName()));
                 if (spells.size() == 0)
@@ -66,31 +66,28 @@ public class SpellList extends HCommandExecutor {
         }
 
         // List spells someone else knows
-        if (sender instanceof Player) {
-            if (sender.hasPermission(LIST_OTHERS)) {
-                if (Bukkit.getPlayer(args[0]) == null) {
-                    HPS.PM.tell((Player) sender, HPS.Localisation.getTranslation("cmdPlayerNotFound"));
-                    return true;
-                }
+        if (sender.hasPermission(LIST_OTHERS)) {
+            if (Bukkit.getPlayer(args[0]) == null) {
+                HPS.PM.dependantMessagingTell(sender, HPS.Localisation.getTranslation("cmdPlayerNotFound"));
+                return false;
+            }
 
-                SortedSet<String> spells = new TreeSet<String>(psc.getStringListOrEmpty(args[0]));
-                if (spells.size() == 0)
-                    HPS.PM.tell((Player) sender, HPS.Localisation.getTranslation("cmdSplNoneKnown", args[0]));
-                else {
-                    String spellList = null;
-                    for (String spell : spells) {
-                        if (spellList == null)
-                            spellList = (HPS.Localisation.getTranslation("cmdSplPlayerKnows", args[0]) + " ").concat(spell);
-                        else
-                            spellList = spellList.concat(", " + spell);
-                    }
-                    HPS.PM.dependantMessagingTell(sender, spellList + ".");
+            SortedSet<String> spells = new TreeSet<String>(psc.getStringListOrEmpty(args[0]));
+            if (spells.size() == 0)
+                HPS.PM.dependantMessagingTell(sender, HPS.Localisation.getTranslation("cmdSplNoneKnown", args[0]));
+            else {
+                String spellList = null;
+                for (String spell : spells) {
+                    if (spellList == null)
+                        spellList = (HPS.Localisation.getTranslation("cmdSplPlayerKnows", args[0]) + " ").concat(spell);
+                    else
+                        spellList = spellList.concat(", " + spell);
                 }
-            } else
-                HPS.PM.warn((Player) sender, command.getPermissionMessage());
+                HPS.PM.dependantMessagingTell(sender, spellList + ".");
+            }
         } else
-            HPS.PM.dependantMessagingTell(sender, ChatColor.RED + HPS.Localisation.getTranslation("cmdPlayerOnly"));
-
+            HPS.PM.dependantMessagingWarn(sender, command.getPermissionMessage());
+        
         return true;
     }
 }
