@@ -35,7 +35,7 @@ public class Teach extends HCommandExecutor {
         if (!HPS.SpellManager.isSpell(args[0].replace('_', ' '))) {
             if (!(args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("*"))) {
                 HPS.PM.dependantMessagingWarn(sender, HPS.Localisation.getTranslation("genSpellNotRecognized"));
-                return true;
+                return false;
             }
         }
 
@@ -47,6 +47,7 @@ public class Teach extends HCommandExecutor {
                 teachTo = (Player) sender;
             } else {
                 HPS.PM.dependantMessagingWarn(sender, HPS.Localisation.getTranslation("cmdPlayerNotSpecified"));
+                return false;
             }
         } else {
             teachTo = Bukkit.getPlayer(args[1]);
@@ -113,6 +114,7 @@ public class Teach extends HCommandExecutor {
             }
         } else {
             HPS.PM.dependantMessagingWarn(sender, HPS.Localisation.getTranslation("cmdPlayerNotFound"));
+            return false;
         }
 
         return true;

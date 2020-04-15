@@ -29,6 +29,7 @@ public class SpellSwitch extends HCommandExecutor {
                 String spellName = args[0].replace('_', ' ');
                 if (!HPS.SpellManager.isSpell(spellName)) {
                     HPS.PM.dependantMessagingWarn(player, HPS.Localisation.getTranslation("genSpellNotRecognized"));
+                    return false;
                 } else {
                     Spell spell = HPS.SpellManager.getSpell(spellName);
                     if (!spell.playerKnows(player)) {

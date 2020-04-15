@@ -15,7 +15,7 @@ import org.bukkit.permissions.PermissionDefault;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-@CommandInfo(name = "spelllist", description = "cmdSplDescription", usage = "<command> [player]", permissionDefault = "true", aliases = "sl")
+@CommandInfo(name = "spelllist", description = "cmdSplDescription", usage = "<command> [player|me]", permissionDefault = "true", aliases = "sl")
 public class SpellList extends HCommandExecutor {
 
     public SpellList(HPS instance) {
@@ -69,7 +69,7 @@ public class SpellList extends HCommandExecutor {
         if (sender.hasPermission(LIST_OTHERS)) {
             if (Bukkit.getPlayer(args[0]) == null) {
                 HPS.PM.dependantMessagingTell(sender, HPS.Localisation.getTranslation("cmdPlayerNotFound"));
-                return true;
+                return false;
             }
 
             SortedSet<String> spells = new TreeSet<String>(psc.getStringListOrEmpty(args[0]));
