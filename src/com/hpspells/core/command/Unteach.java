@@ -43,6 +43,11 @@ public class Unteach extends HCommandExecutor {
 
         if (unteachTo != null) {
             if (args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("*")) {
+                if (HPS.SpellManager.getCurrentSpellPosition(unteachTo) == null) {
+                    //Player doesn't know any spells
+                    HPS.PM.dependantMessagingWarn(sender, HPS.Localisation.getTranslation("cmdUntDoesntKnowAll", unteachTo.getName()));
+                    return true;
+                }
                 HPS.SpellManager.setCurrentSpellPosition(unteachTo, 0);
                 Set<Spell> spells = HPS.SpellManager.getSpells();
                 String forgottenspells = null;
