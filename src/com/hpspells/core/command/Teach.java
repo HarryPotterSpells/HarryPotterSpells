@@ -57,18 +57,23 @@ public class Teach extends HCommandExecutor {
             boolean teachOnlyKnown = (sender instanceof Player) && sender.hasPermission(teachKnown);
             List<String> senderKnownSpells = ((PlayerSpellConfig) HPS.getConfig(ConfigurationManager.ConfigurationType.PLAYER_SPELL)).getStringListOrEmpty(teachTo.getName());
             
+            HPS.PM.debug("/teach initiated by " + sender + ". teach only known: " + teachOnlyKnown);
+            
             if (args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("*")) {
                 Set<Spell> spells = HPS.SpellManager.getSpells();
                 String learnedSpells = null;
+                boolean hasDeniedSpell = false; //If any spells get denied eg) No perm or Teach only known.
 
                 for (Spell newSpell : spells) {
                     if (!newSpell.playerKnows(teachTo)) {
                     	if (!teachTo.hasPermission(newSpell.getPermission())) {
+                    	    hasDeniedSpell = true;
                     		HPS.PM.dependantMessagingWarn(teachTo, HPS.Localisation.getTranslation("spellUnauthorized"));
                     		continue;
                     	}
 
                         if (teachOnlyKnown && !senderKnownSpells.contains(newSpell.getName())) {
+                            hasDeniedSpell = true;
                             HPS.PM.warn((Player) sender, HPS.Localisation.getTranslation("cmdTeaCantTeach", teachTo.getName(), newSpell.getName()));
                             continue;
                         }
@@ -84,6 +89,7 @@ public class Teach extends HCommandExecutor {
                 }
 
                 if (learnedSpells == null) {
+                    if (hasDeniedSpell) return true; //If no spells taught and spells were denied end the command here.
                     learnedSpells = HPS.Localisation.getTranslation("cmdTeaKnowsAll", teachTo.getName());
                 }
 
