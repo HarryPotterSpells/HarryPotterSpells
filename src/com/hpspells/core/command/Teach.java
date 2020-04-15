@@ -8,8 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionDefault;
 
 import java.util.List;
 import java.util.Set;
@@ -18,13 +16,14 @@ import java.util.Set;
 public class Teach extends HCommandExecutor {
     private final HPS HPS;
 
-    private static final Permission teachKnown = new Permission("harrypotterspells.teach.known", "Restricts user to teaching only spells they know", PermissionDefault.FALSE);
+    // No need to register a permission that is not granted by default
+//    private static final Permission teachKnown = new Permission("harrypotterspells.teach.known", "Restricts user to teaching only spells they know", PermissionDefault.FALSE);
 
     public Teach(HPS instance) {
         super(instance);
         HPS = instance;
 
-        instance.getServer().getPluginManager().addPermission(teachKnown);
+//        instance.getServer().getPluginManager().addPermission(teachKnown);
     }
 
     @Override
@@ -54,7 +53,7 @@ public class Teach extends HCommandExecutor {
         }
 
         if (teachTo != null) {
-            boolean teachOnlyKnown = (sender instanceof Player) && sender.hasPermission(teachKnown);
+            boolean teachOnlyKnown = (sender instanceof Player) && sender.hasPermission("harrypotterspells.teach.known") && !sender.isOp();
             List<String> senderKnownSpells = ((PlayerSpellConfig) HPS.getConfig(ConfigurationManager.ConfigurationType.PLAYER_SPELL)).getStringListOrEmpty(sender.getName());
             
             HPS.PM.debug("/teach initiated by " + sender + ". teach only known: " + teachOnlyKnown);
