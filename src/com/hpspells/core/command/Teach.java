@@ -55,7 +55,7 @@ public class Teach extends HCommandExecutor {
 
         if (teachTo != null) {
             boolean teachOnlyKnown = (sender instanceof Player) && sender.hasPermission(teachKnown);
-            List<String> senderKnownSpells = ((PlayerSpellConfig) HPS.getConfig(ConfigurationManager.ConfigurationType.PLAYER_SPELL)).getStringListOrEmpty(teachTo.getName());
+            List<String> senderKnownSpells = ((PlayerSpellConfig) HPS.getConfig(ConfigurationManager.ConfigurationType.PLAYER_SPELL)).getStringListOrEmpty(sender.getName());
             
             HPS.PM.debug("/teach initiated by " + sender + ". teach only known: " + teachOnlyKnown);
             
