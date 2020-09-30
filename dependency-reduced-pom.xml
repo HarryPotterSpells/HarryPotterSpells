@@ -16,7 +16,7 @@
         </excludes>
       </resource>
     </resources>
-    <finalName>HarryPotterSpells</finalName>
+    <finalName><strong>HarryPotterSpells</strong></finalName>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
