@@ -1,17 +1,19 @@
 package com.hpspells.core.spell;
 
-import com.hpspells.core.HPS;
-import com.hpspells.core.SpellTargeter.SpellHitEvent;
-import com.hpspells.core.spell.Spell.SpellInfo;
 import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
-import org.bukkit.FireworkEffect.Type;
+import org.bukkit.Particle;
+import org.bukkit.Particle.DustOptions;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
+
+import com.hpspells.core.HPS;
+import com.hpspells.core.SpellTargeter.SpellHitEvent;
+import com.hpspells.core.spell.Spell.SpellInfo;
+import com.hpspells.core.util.HPSParticle;
 
 @SpellInfo(
         name = "Stupefy",
@@ -45,8 +47,7 @@ public class Stupefy extends Spell {
                 le.setVelocity(le.getVelocity().setY(handleDouble(getConfig("horizontal-knockback", 0.5), 0.5)));
                 le.damage((Integer) getConfig("damage", 2));
             }
-
-        }, 1.05, FireworkEffect.builder().trail(false).flicker(true).withColor(Color.RED).with(Type.BURST).build());
+        }, 1.05, new HPSParticle(Particle.REDSTONE, new DustOptions(Color.RED, 1)));
 
         return true;
     }
