@@ -59,6 +59,9 @@ spells:
   flame-freezing-charm:
     # How long the Fire Resistance effect lasts for
     duration: 60
+  flipendo:
+    # The knockback velocity of the target
+    velocity: 2.5
   homenum-revelio:
     # The size of the box used in the search for nearby players
     box:
