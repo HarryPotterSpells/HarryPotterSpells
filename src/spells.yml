@@ -53,6 +53,11 @@ spells:
   evanesco:
     # How long the caster will be invisible for
     duration: 300t
+  expecto-patronum:
+    # How many half-hearts the wither skeleton should be damaged (set to 0 for no damage)
+    damage: 5
+    # The velocity to push the skeletons back by
+    velocity: 3.0
   expelliarmus:
     # Should Expelliarmus disarm weapons (swords and bows) as well as wands?
     disarm-weapons: true
