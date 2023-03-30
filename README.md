@@ -35,5 +35,5 @@ We use [Maven](http://maven.apache.org/) to handle our dependencies and building
 Make sure you only use the file named `HarryPotterSpells`. Out of the others one won't work and the other is far too big!
 
 ### Stats ###
-[![Plugin Metrics for HarryPotterSpells](http://i.mcstats.org/HarryPotterSpells/Global+Statistics.png)](http://mcstats.org/plugin/HarryPotterSpells)
-
+Full stats on [bStats](https://bstats.org/plugin/bukkit/HarryPotterSpells/2858)
+![Plugin Metrics for HarryPotterSpells](https://bstats.org/signatures/bukkit/HarryPotterSpells.svg)
