@@ -1,4 +1,4 @@
-# HarryPotterSpells [![Build Status](https://travis-ci.org/HarryPotterSpells/HarryPotterSpells.svg?branch=master)](https://travis-ci.org/HarryPotterSpells/HarryPotterSpells)
+# HarryPotterSpells [![Build Status](https://jenkins.gmj.net.br/job/HarryPotterSpells/badge/icon)](https://jenkins.gmj.net.br/job/HarryPotterSpells/)
 
 ## What is HarryPotterSpells? ##
 

@@ -1,5 +1,0 @@
-name: HarryPotterSpells
-main: com.hpspells.core.HPS
-prefix: "HPS"
-version: 1.2.4 BETA
-api-version: 1.13
