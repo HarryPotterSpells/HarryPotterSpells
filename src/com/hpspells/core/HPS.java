@@ -180,7 +180,7 @@ public class HPS extends JavaPlugin {
             PM.debug(Localisation.getTranslation("dbgHelpCommandsAdded"));
 
             // Plugin Metrics
-            setupCharts(new Metrics(this));
+            setupCharts(new Metrics(this, 2858));
 
             // Crafting Changes
             PM.debug(Localisation.getTranslation("dbgCraftingStart"));

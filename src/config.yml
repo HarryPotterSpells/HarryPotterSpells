@@ -5,6 +5,10 @@ messaging:
   info: 'YELLOW'
   warning: 'RED'
 
+disabledWorlds:
+  - world1
+  - world2
+
 wand:
   # The material types of the wand
   # Note: Only the first one will be craftable the rest you can only get by using the /wand command

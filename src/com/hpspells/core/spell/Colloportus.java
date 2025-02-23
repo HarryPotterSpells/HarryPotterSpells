@@ -21,6 +21,7 @@ import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
 import com.hpspells.core.util.BlockUtils;
 
+@SuppressWarnings("deprecation")
 @SpellInfo(
         name = "Colloportus",
         description = "descColloportus",
@@ -34,33 +35,35 @@ public class Colloportus extends Spell {
     private static Map<Integer, Block> doorMap = new HashMap<>();
     private static int idCounter = Integer.MIN_VALUE;
 	private static List<Material> doorTypes = new ArrayList<>(Arrays.asList(
-			Material.OAK_DOOR,
-            Material.IRON_DOOR,
-            //pre 1.13 doors
-//    		  Material.LEGACY_WOODEN_DOOR,
-//            Material.LEGACY_IRON_DOOR_BLOCK,
-            //1.8 Doors
             Material.ACACIA_DOOR,
+            Material.BAMBOO_DOOR,
             Material.BIRCH_DOOR,
+            Material.CHERRY_DOOR,
+            Material.CRIMSON_DOOR,
             Material.DARK_OAK_DOOR,
+            Material.IRON_DOOR,
             Material.JUNGLE_DOOR,
-            Material.SPRUCE_DOOR
+            Material.MANGROVE_DOOR,
+            Material.OAK_DOOR,
+            Material.SPRUCE_DOOR,
+            Material.WARPED_DOOR
     ));
 	private static List<Material> padTypes = new ArrayList<>(Arrays.asList(
     		Material.ACACIA_PRESSURE_PLATE,
+    		Material.BAMBOO_PRESSURE_PLATE,
     		Material.BIRCH_PRESSURE_PLATE,
+    		Material.CHERRY_PRESSURE_PLATE,
+    		Material.CRIMSON_PRESSURE_PLATE,
     		Material.DARK_OAK_PRESSURE_PLATE,
     		Material.HEAVY_WEIGHTED_PRESSURE_PLATE,
     		Material.JUNGLE_PRESSURE_PLATE,
     		Material.LIGHT_WEIGHTED_PRESSURE_PLATE,
+    		Material.MANGROVE_PRESSURE_PLATE,
     		Material.OAK_PRESSURE_PLATE,
+    		Material.POLISHED_BLACKSTONE_PRESSURE_PLATE,
     		Material.SPRUCE_PRESSURE_PLATE,
-    		Material.STONE_PRESSURE_PLATE
-    		//pre 1.13 plates
-//            Material.LEGACY_WOOD_PLATE,
-//            Material.LEGACY_STONE_PLATE,
-//            Material.LEGACY_IRON_PLATE,
-//            Material.LEGACY_GOLD_PLATE
+    		Material.STONE_PRESSURE_PLATE,
+    		Material.WARPED_PRESSURE_PLATE
     ));
     
 
@@ -97,11 +100,11 @@ public class Colloportus extends Spell {
                 HPS.PM.warn(p, HPS.Localisation.getTranslation("spellBlockOnly"));
             }
             
-        }, 1f, Particle.BARRIER);
+        }, 1f, Particle.CRIMSON_SPORE);
         return true;
     }
     
-    private void lockDoor(Block block) {
+	private void lockDoor(Block block) {
     	BlockState blockState = block.getState();
         // The way minecraft works, top door block doesnt have correct state.
         if (((Door) blockState.getData()).isTopHalf()) {
@@ -136,7 +139,7 @@ public class Colloportus extends Spell {
      * @param block Source block
      * @return true if door unlocks
      */
-    public static boolean unlockDoor(Block block) {
+	public static boolean unlockDoor(Block block) {
     	if (doorTypes.contains(block.getType())) {
             if (doorMap.containsValue(block)) {
 	            Block otherDoorBlock = ((Door) block.getState().getData()).isTopHalf() ? block.getRelative(BlockFace.DOWN) : block.getRelative(BlockFace.UP);

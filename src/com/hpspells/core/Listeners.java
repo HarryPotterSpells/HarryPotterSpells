@@ -34,12 +34,18 @@ public class Listeners implements Listener {
     
     private List<Material> buttonTypeList = new ArrayList<>(Arrays.asList(
     		Material.ACACIA_BUTTON,
+    		Material.BAMBOO_BUTTON,
     		Material.BIRCH_BUTTON,
+    		Material.CHERRY_BUTTON,
+    		Material.CRIMSON_BUTTON,
     		Material.DARK_OAK_BUTTON,
     		Material.JUNGLE_BUTTON,
+    		Material.MANGROVE_BUTTON,
     		Material.OAK_BUTTON,
+    		Material.POLISHED_BLACKSTONE_BUTTON,
     		Material.SPRUCE_BUTTON,
-    		Material.STONE_BUTTON
+    		Material.STONE_BUTTON,
+    		Material.WARPED_BUTTON
     ));
 
     public static final Permission CAST_SPELLS = new Permission("harrypotterspells.cast", PermissionDefault.OP);
@@ -51,6 +57,7 @@ public class Listeners implements Listener {
     
     @EventHandler
     public void PIE(PlayerInteractEvent e) {
+    	for(String world : HPS.getConfig().getStringList("disabledWorlds")) if(e.getPlayer().getWorld().getName().toLowerCase().equals(world.toLowerCase())) return;
         HPS.PM.debug("Triggered Once"); // Spellswitch triggered twice when right clicking on a block
         // MC 1.9 - Offhand introduction. Only listen to main hand events.
         if (e.getHand() == EquipmentSlot.OFF_HAND) {
@@ -154,6 +161,7 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void PIEE(PlayerInteractEntityEvent e) {
+    	for(String world : HPS.getConfig().getStringList("disabledWorlds")) if(e.getPlayer().getWorld().getName().toLowerCase().equals(world.toLowerCase())) return;
         HPS.PM.debug("Fired PlayerInteractEntityEvent");
         if (e.getPlayer().hasPermission(CAST_SPELLS) && HPS.WandManager.isWand(e.getPlayer().getInventory().getItemInMainHand())) {
             PlayerSpellConfig psc = (PlayerSpellConfig) HPS.ConfigurationManager.getConfig(ConfigurationType.PLAYER_SPELL);
@@ -190,6 +198,7 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onPlayerChat(final AsyncPlayerChatEvent e) {
+    	for(String world : HPS.getConfig().getStringList("disabledWorlds")) if(e.getPlayer().getWorld().getName().toLowerCase().equals(world.toLowerCase())) return;
         if (HPS.getConfig().getBoolean("spell-castable-with-chat")) {
             if (HPS.SpellManager.isSpell(e.getMessage().substring(0, e.getMessage().length() - 1))) {
                 Bukkit.getScheduler().runTask(HPS, new Runnable() {
@@ -208,7 +217,7 @@ public class Listeners implements Listener {
     @EventHandler
     public void onPlayerCraft(CraftItemEvent e) {
         if (HPS.WandManager.isWand(e.getRecipe().getResult())) {
-            e.setCurrentItem(HPS.WandManager.getWand((Player) e.getWhoClicked()));
+        	e.setCurrentItem(HPS.WandManager.getWand((Player) e.getWhoClicked()));
             final Player p = (Player) e.getWhoClicked();
             Bukkit.getScheduler().runTask(HPS, new Runnable() {
 
@@ -223,6 +232,7 @@ public class Listeners implements Listener {
     
     @EventHandler(priority=EventPriority.LOWEST)
     public void onSpellCast(SpellPreCastEvent e) {
+    	for(String world : HPS.getConfig().getStringList("disabledWorlds")) if(e.getCaster().getWorld().getName().toLowerCase().equals(world.toLowerCase())) return;
     	if (!e.getCaster().hasPermission(e.getSpell().getPermission())) {
     		e.setCancelled(true);
     		HPS.PM.warn(e.getCaster(), HPS.Localisation.getTranslation("spellUnauthorized"));
