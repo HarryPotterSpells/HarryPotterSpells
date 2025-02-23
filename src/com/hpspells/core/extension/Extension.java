@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.base.Preconditions;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
@@ -46,8 +46,8 @@ public class Extension implements Listener {
         this.authors = description.getString("authors");
         this.version = description.getString("version");
 
-        Validate.notNull(this.name, "Extension name cannot be null");
-        Validate.notNull(this.version, "Extension name cannot be null");
+        Preconditions.checkNotNull(this.name, "Extension name cannot be null");
+        Preconditions.checkNotNull(this.version, "Extension name cannot be null");
 
         this.logger = new ExtensionLogger(this);
         this.logger.setParent(HPS.getLogger());
