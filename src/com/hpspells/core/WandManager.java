@@ -112,19 +112,16 @@ public class WandManager {
         }
 
         meta.setDisplayName(ChatColor.RESET + getName());
+        wand.setItemMeta(meta);
 
         if (wandCreationEvent.hasEnchantmentEffect()) {
             try {
-//                wand = MiscUtilities.makeGlow(wand);
-                meta.addEnchant(Enchantment.LURE, 1, true);
-                meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                wand = MiscUtilities.makeGlow(wand);
             } catch (Exception e) {
                 HPS.PM.debug(HPS.Localisation.getTranslation("errEnchantmentEffect"));
                 HPS.PM.debug(e);
             }
         }
-        
-        wand.setItemMeta(meta);
 
         /*if(owner != null) {
             NBTTagString tag = new NBTTagString();
@@ -171,19 +168,16 @@ public class WandManager {
         ItemMeta meta = HPS.getServer().getItemFactory().getItemMeta(wandMaterial);
 
         meta.setDisplayName(ChatColor.RESET + getName());
+        wand.setItemMeta(meta);
 
         if ((Boolean) getConfig("enchantment-effect", true)) {
             try {
-//                wand = MiscUtilities.makeGlow(wand);
-                meta.addEnchant(Enchantment.LURE, 1, true);
-                meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                wand = MiscUtilities.makeGlow(wand);
             } catch (Exception e) {
                 HPS.PM.debug(HPS.Localisation.getTranslation("errEnchantmentEffect"));
                 HPS.PM.debug(e);
             }
         }
-        
-        wand.setItemMeta(meta);
 
         return wand;
     }

@@ -46,7 +46,6 @@ import com.hpspells.core.spell.SpellManager;
 import com.hpspells.core.spell.interfaces.Craftable;
 import com.hpspells.core.util.MetricStatistics;
 import com.hpspells.core.util.ReflectionsReplacement;
-import com.hpspells.core.util.SVPBypass;
 
 public class HPS extends JavaPlugin {
     public static HPS instance;
@@ -147,12 +146,9 @@ public class HPS extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new Listeners(this), this);
             getServer().getPluginManager().registerEvents(new MetricStatistics(), this);
 
-            // Hacky command map stuff
+            // Hacky command map stuff - Adding commands without using plugin.yml
             try {
-                Class<?> craftServer = SVPBypass.getCurrentCBClass("CraftServer");
-                if (craftServer == null)
-                    throw new Throwable("Computer says no");
-                Field f = craftServer.getDeclaredField("commandMap");
+                Field f = getServer().getClass().getDeclaredField("commandMap");
                 f.setAccessible(true);
                 commandMap = (CommandMap) f.get(getServer());
             } catch (Throwable e) {
@@ -184,7 +180,7 @@ public class HPS extends JavaPlugin {
             PM.debug(Localisation.getTranslation("dbgHelpCommandsAdded"));
 
             // Plugin Metrics
-            setupCharts(new Metrics(this));
+            setupCharts(new Metrics(this, 2858));
 
             // Crafting Changes
             PM.debug(Localisation.getTranslation("dbgCraftingStart"));
@@ -245,7 +241,7 @@ public class HPS extends JavaPlugin {
             } ));
             
             // Language used
-            metrics.addCustomChart(new Metrics.SimplePie("Language", () -> Language.getLanuage(getConfig().getString("language")).toString()));
+            metrics.addCustomChart(new Metrics.SimplePie("Language", () -> Language.getLanguage(getConfig().getString("language")).toString()));
         } catch (Exception e) {
             PM.log(Level.WARNING, Localisation.getTranslation("errPluginMetrics"));
             PM.debug(e);
@@ -269,9 +265,9 @@ public class HPS extends JavaPlugin {
                     wandRecipe.setIngredient(string.toCharArray()[0], Material.matchMaterial(getConfig().getString("wand.crafting.ingredients." + string)));
                 }
 
+                PM.log(Level.INFO, "Adding recipe for wand");
                 recipeResults.add(wandRecipe.getResult());
                 getServer().addRecipe(wandRecipe);
-                return true;
             } catch (NullPointerException e) { // It's surrounded by a try/catch block because we can't let any stupid errors in config disable the plugin.
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     if (player.isOp()) {
@@ -290,16 +286,24 @@ public class HPS extends JavaPlugin {
         }
 
         if (getConfig().getBoolean("spells-craftable", true)) {
+            PM.debug("spells-craftable config set to true, looking for spell recipes to register");
+            Integer craftableCount = 0;
+            Integer registeredCount = 0;
             for (Spell s : SpellManager.getSpells()) {
                 if (s instanceof Craftable) {
+                    craftableCount++;
+                    PM.debug("Triggering SpellBookRecipeAddEvent for spell: " + s.getName());
                     SpellBookRecipeAddEvent e = new SpellBookRecipeAddEvent(((Craftable) s).getCraftingRecipe());
                     getServer().getPluginManager().callEvent(e);
                     if (!e.isCancelled()) {
+                        PM.debug("Adding recipe for craftable spell: " + s.getName());
                         recipeResults.add(e.getRecipe().getResult());
                         getServer().addRecipe(e.getRecipe());
+                        registeredCount++;
                     }
                 }
             }
+            PM.log(Level.INFO, String.format("Registered %d/%d craftable spell recipes!", craftableCount, registeredCount));
         }
         return true;
     }

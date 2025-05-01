@@ -10,11 +10,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.data.Openable;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.material.Door;
 
 import com.hpspells.core.HPS;
 import com.hpspells.core.SpellTargeter.SpellHitEvent;
@@ -34,33 +33,35 @@ public class Colloportus extends Spell {
     private static Map<Integer, Block> doorMap = new HashMap<>();
     private static int idCounter = Integer.MIN_VALUE;
 	private static List<Material> doorTypes = new ArrayList<>(Arrays.asList(
-			Material.OAK_DOOR,
-            Material.IRON_DOOR,
-            //pre 1.13 doors
-//    		  Material.LEGACY_WOODEN_DOOR,
-//            Material.LEGACY_IRON_DOOR_BLOCK,
-            //1.8 Doors
             Material.ACACIA_DOOR,
+            Material.BAMBOO_DOOR,
             Material.BIRCH_DOOR,
+            Material.CHERRY_DOOR,
+            Material.CRIMSON_DOOR,
             Material.DARK_OAK_DOOR,
+            Material.IRON_DOOR,
             Material.JUNGLE_DOOR,
-            Material.SPRUCE_DOOR
+            Material.MANGROVE_DOOR,
+            Material.OAK_DOOR,
+            Material.SPRUCE_DOOR,
+            Material.WARPED_DOOR
     ));
 	private static List<Material> padTypes = new ArrayList<>(Arrays.asList(
     		Material.ACACIA_PRESSURE_PLATE,
+    		Material.BAMBOO_PRESSURE_PLATE,
     		Material.BIRCH_PRESSURE_PLATE,
+    		Material.CHERRY_PRESSURE_PLATE,
+    		Material.CRIMSON_PRESSURE_PLATE,
     		Material.DARK_OAK_PRESSURE_PLATE,
     		Material.HEAVY_WEIGHTED_PRESSURE_PLATE,
     		Material.JUNGLE_PRESSURE_PLATE,
     		Material.LIGHT_WEIGHTED_PRESSURE_PLATE,
+    		Material.MANGROVE_PRESSURE_PLATE,
     		Material.OAK_PRESSURE_PLATE,
+    		Material.POLISHED_BLACKSTONE_PRESSURE_PLATE,
     		Material.SPRUCE_PRESSURE_PLATE,
-    		Material.STONE_PRESSURE_PLATE
-    		//pre 1.13 plates
-//            Material.LEGACY_WOOD_PLATE,
-//            Material.LEGACY_STONE_PLATE,
-//            Material.LEGACY_IRON_PLATE,
-//            Material.LEGACY_GOLD_PLATE
+    		Material.STONE_PRESSURE_PLATE,
+    		Material.WARPED_PRESSURE_PLATE
     ));
     
 
@@ -97,22 +98,22 @@ public class Colloportus extends Spell {
                 HPS.PM.warn(p, HPS.Localisation.getTranslation("spellBlockOnly"));
             }
             
-        }, 1f, Particle.BARRIER);
+        }, 1f, Particle.CRIMSON_SPORE);
         return true;
     }
     
-    private void lockDoor(Block block) {
-    	BlockState blockState = block.getState();
-        // The way minecraft works, top door block doesnt have correct state.
-        if (((Door) blockState.getData()).isTopHalf()) {
-            blockState = block.getRelative(BlockFace.DOWN).getState();
+	private void lockDoor(Block block) {
+        HPS.PM.debug("Door type", block.getType().toString());
+        BlockState blockState = block.getState();
+        Openable door = (Openable) blockState.getBlockData();
+        if (door.isOpen()) {
+            door.setOpen(false);
+            blockState.setBlockData(door);
+            blockState.update();
+            // TODO: Make door closing sound
         }
-        Door door = (Door) blockState.getData();
-        door.setOpen(false);
-        blockState.setData(door);
-        blockState.update();
-        
-        Block otherDoorBlock = ((Door) block.getState().getData()).isTopHalf() ? block.getRelative(BlockFace.DOWN) : block.getRelative(BlockFace.UP);
+
+        Block otherDoorBlock = BlockUtils.getOtherDoorPartBlock(block);
         final int blockId = assignId(), otherBlockId = assignId();
         doorMap.put(blockId, block);
         doorMap.put(otherBlockId, otherDoorBlock);
@@ -136,16 +137,16 @@ public class Colloportus extends Spell {
      * @param block Source block
      * @return true if door unlocks
      */
-    public static boolean unlockDoor(Block block) {
+	public static boolean unlockDoor(Block block) {
     	if (doorTypes.contains(block.getType())) {
             if (doorMap.containsValue(block)) {
-	            Block otherDoorBlock = ((Door) block.getState().getData()).isTopHalf() ? block.getRelative(BlockFace.DOWN) : block.getRelative(BlockFace.UP);
+	            Block otherDoorBlock = BlockUtils.getOtherDoorPartBlock(block);
 	        	doorMap.values().remove(block);
 	        	doorMap.values().remove(otherDoorBlock);
 	        	
 	        	Block door2Block = getDoubleDoor(block);
 	        	if (door2Block != null && doorMap.containsValue(door2Block)) {
-	        		Block otherDoor2Block = ((Door) door2Block.getState().getData()).isTopHalf() ? door2Block.getRelative(BlockFace.DOWN) : door2Block.getRelative(BlockFace.UP);
+                    Block otherDoor2Block = BlockUtils.getOtherDoorPartBlock(door2Block);
 	        		doorMap.values().remove(door2Block);
 		        	doorMap.values().remove(otherDoor2Block);
 	        	}

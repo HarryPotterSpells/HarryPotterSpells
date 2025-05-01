@@ -1,63 +1,53 @@
 package com.hpspells.core.util;
 
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Map;
 import java.util.Random;
-
-import static com.hpspells.core.util.SVPBypass.getMethod;
 
 /**
  * A class containing a mix of effects
  */
 public class MiscUtilities {
-    private static Class<?> cbItemStack = SVPBypass.getCurrentCBClass("inventory.CraftItemStack"), nmsItemStack = SVPBypass.getCurrentNMSClass("ItemStack"), nmsTagCompound = SVPBypass.getCurrentNMSClass("NBTTagCompound"), nmsTagList = SVPBypass.getCurrentNMSClass("NBTTagList");
+
+    private static Enchantment glowEnchant = Enchantment.LURE;
 
     /**
      * Makes an {@link ItemStack} glow as if enchanted <br>
-     * Based on stirante's {@code addGlow} method in his <a href="https://github.com/SocialCraft/PrettyScaryLib/blob/master/src/com/stirante/PrettyScaryLib/EnchantGlow.java">EnchantGlow</a> class
+     * Used to be based on stirante's {@code addGlow} method in his <a href="https://github.com/SocialCraft/PrettyScaryLib/blob/master/src/com/stirante/PrettyScaryLib/EnchantGlow.java">EnchantGlow</a> class
+     * but now just uses a hidden LURE enchantment.
      *
      * @param item the item stack to make glow
      * @return the glowing item stack
      * @throws Exception if an error occurred whilst making the item glow
      */
     public static ItemStack makeGlow(ItemStack item) throws Exception {
-        Object nmsStack = getMethod(cbItemStack, "asNMSCopy").invoke(cbItemStack, item);
-        Object tag = null;
-
-        if (!((Boolean) getMethod(nmsItemStack, "hasTag").invoke(nmsStack))) {
-            tag = nmsTagCompound.newInstance();
-            getMethod(nmsItemStack, "setTag").invoke(nmsStack, tag);
-        }
-
-        if (tag == null)
-            tag = getMethod(nmsItemStack, "getTag").invoke(nmsStack);
-
-        Object ench = nmsTagList.newInstance();
-        getMethod(nmsTagCompound, "set").invoke(tag, "ench", ench);
-        getMethod(nmsItemStack, "setTag").invoke(nmsStack, tag);
-        return (ItemStack) getMethod(cbItemStack, "asCraftMirror").invoke(cbItemStack, nmsStack);
+        ItemMeta meta = item.getItemMeta();
+        // Replace below with meta.setEnchantmentGlintOverride(true); when migrated to spigot 1.20.5 and above
+        meta.addEnchant(glowEnchant, 1, true);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        item.setItemMeta(meta);
+        return item;
     }
 
     /**
      * Makes an {@link ItemStack} stop glowing as if enchanted <br>
-     * Based on stirante's {@code removeGlow} method in his <a href="https://github.com/SocialCraft/PrettyScaryLib/blob/master/src/com/stirante/PrettyScaryLib/EnchantGlow.java">EnchantGlow</a> class
+     * Used to be based on stirante's {@code removeGlow} method in his <a href="https://github.com/SocialCraft/PrettyScaryLib/blob/master/src/com/stirante/PrettyScaryLib/EnchantGlow.java">EnchantGlow</a> class
+     * but now just removes the LURE enchantment
      *
      * @param item the item stack to make stop glowing
      * @return the non-glowing item stack
-     * @throws Exception if an error occurred whilst making the item glow
      */
-    public static ItemStack stopGlow(ItemStack item) throws Exception {
-        Object nmsStack = getMethod(cbItemStack, "asNMSCopy").invoke(cbItemStack, item);
-        Object tag = null;
-
-        if (!((Boolean) getMethod(nmsItemStack, "hasTag").invoke(nmsStack)))
-            return item;
-
-        tag = getMethod(nmsItemStack, "getTag").invoke(nmsStack);
-        getMethod(nmsTagCompound, "set").invoke(tag, "ench", null);
-        getMethod(nmsItemStack, "setTag").invoke(nmsStack, tag);
-        return (ItemStack) getMethod(cbItemStack, "asCraftMirror").invoke(cbItemStack, nmsStack);
+    public static ItemStack stopGlow(ItemStack item) {
+        ItemMeta meta = item.getItemMeta();
+        // Replace below with meta.setEnchantmentGlintOverride(false); when migrated to spigot 1.20.5 and above
+        if (meta.removeEnchant(glowEnchant)) {
+            item.setItemMeta(meta);
+        }
+        return item;
     }
 
     /**

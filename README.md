@@ -26,6 +26,17 @@ We are looking for more team members to help make this plugin even more awesome.
 
 To contribute to HarryPotterSpells take a look at our [Contributing file](https://github.com/HarryPotterSpells/HarryPotterSpells/blob/master/CONTRIBUTING.md).
 
+## Other Contributions ##
+* [perseu444](https://github.com/perseu444): Translations - Brazilian Portuguese
+* [Daluse](https://github.com/Daluse): Translations - Spanish
+* astronomik: Translations - Spanish Update
+* [signorhuman](https://github.com/signorhuman): Translations - Italian
+* [milo526](https://github.com/milo526): Translations - Netherlands Dutch
+* [yebanme](https://github.com/yebanme): Translations - Chinese
+* Park JiHan: Translations - Korean
+* onderek: Translations - Czech
+* EMP: Translations - Norwegian
+
 ## Other Notes ##
 
 ### Maven ###

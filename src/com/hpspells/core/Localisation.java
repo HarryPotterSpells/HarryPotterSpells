@@ -59,8 +59,11 @@ public class Localisation {
         this.registerLang(Language.ITALIAN, new File(langFolder, "it-italian.properties"));
         this.registerLang(Language.CHINESE, new File(langFolder, "zh-chinese.properties"));
 		this.registerLang(Language.PORTUGUESE, new File(langFolder, "br-portuguese.properties"));
+		this.registerLang(Language.KOREAN, new File(langFolder, "kr-korean.properties"));
+		this.registerLang(Language.CZECH, new File(langFolder, "cz-czech.properties"));
+		this.registerLang(Language.NORWEGIAN, new File(langFolder, "no-norwegian.properties"));
         if (loadDefaultLang())
-        	this.loadLang(Language.getLanuage(HPS.getConfig().getString("language")));
+        	this.loadLang(Language.getLanguage(HPS.getConfig().getString("language")));
     }
     
     /**
@@ -258,14 +261,17 @@ public class Localisation {
     	SPANISH,
     	ITALIAN,
     	CHINESE,
-		PORTUGUESE;
-    	
+    	PORTUGUESE,
+    	KOREAN,
+    	CZECH,
+    	NORWEGIAN;
+
     	/**
     	 * Gets the language from its configuration name
     	 * @param name The configuration language name
     	 * @return Enum of language. ENGLISH if no matches found
     	 */
-    	public static Language getLanuage(String name) {
+    	public static Language getLanguage(String name) {
     		if (name.equalsIgnoreCase("nl-dutch")) {
     			return DUTCH;
     		} else if (name.equalsIgnoreCase("de-german")) {
@@ -278,6 +284,12 @@ public class Localisation {
                 return CHINESE;
             } else if (name.equalsIgnoreCase("br-portuguese")) {
 				return PORTUGUESE;
+			} else if (name.equalsIgnoreCase("kr-korean")) {
+				return KOREAN;
+			} else if (name.equalsIgnoreCase("cz-czech")) {
+				return CZECH;
+			} else if (name.equalsIgnoreCase("no-norwegian")) {
+				return NORWEGIAN;
 			}
     		return ENGLISH;
     	}
