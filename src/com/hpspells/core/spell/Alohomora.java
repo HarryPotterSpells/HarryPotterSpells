@@ -3,7 +3,7 @@ package com.hpspells.core.spell;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.type.Door;
+import org.bukkit.block.data.Openable;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -92,11 +92,11 @@ public class Alohomora extends Spell {
     }
     
     private boolean isOpen(Block block) {
-    	return ((Door) block.getBlockData()).isOpen();
+        return ((Openable) block.getBlockData()).isOpen();
     }
     
     private void openDoor(Block block) {
-    	Door door = (Door) block.getBlockData();
+        Openable door = (Openable) block.getBlockData();
     	door.setOpen(true);
         block.setBlockData(door);
     }

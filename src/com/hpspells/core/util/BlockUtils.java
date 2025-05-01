@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Bisected;
 import org.bukkit.block.data.type.Door;
 import org.bukkit.block.data.type.Door.Hinge;
 
@@ -136,6 +137,15 @@ public final class BlockUtils {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Gets the other part (top or bottom half) of the door
+	 * @param block Block that is part of a door
+	 * @return The block above or block below which is part of the same door
+	 */
+	public static Block getOtherDoorPartBlock(Block block) {
+		return ((Bisected) block.getBlockData()).getHalf() == Bisected.Half.TOP ? block.getRelative(BlockFace.DOWN) : block.getRelative(BlockFace.UP);
 	}
 
 }

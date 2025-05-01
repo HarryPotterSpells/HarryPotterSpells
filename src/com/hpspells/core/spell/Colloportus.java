@@ -10,18 +10,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.data.Openable;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.material.Door;
 
 import com.hpspells.core.HPS;
 import com.hpspells.core.SpellTargeter.SpellHitEvent;
 import com.hpspells.core.spell.Spell.SpellInfo;
 import com.hpspells.core.util.BlockUtils;
 
-@SuppressWarnings("deprecation")
 @SpellInfo(
         name = "Colloportus",
         description = "descColloportus",
@@ -105,17 +103,17 @@ public class Colloportus extends Spell {
     }
     
 	private void lockDoor(Block block) {
-    	BlockState blockState = block.getState();
-        // The way minecraft works, top door block doesnt have correct state.
-        if (((Door) blockState.getData()).isTopHalf()) {
-            blockState = block.getRelative(BlockFace.DOWN).getState();
+        HPS.PM.debug("Door type", block.getType().toString());
+        BlockState blockState = block.getState();
+        Openable door = (Openable) blockState.getBlockData();
+        if (door.isOpen()) {
+            door.setOpen(false);
+            blockState.setBlockData(door);
+            blockState.update();
+            // TODO: Make door closing sound
         }
-        Door door = (Door) blockState.getData();
-        door.setOpen(false);
-        blockState.setData(door);
-        blockState.update();
-        
-        Block otherDoorBlock = ((Door) block.getState().getData()).isTopHalf() ? block.getRelative(BlockFace.DOWN) : block.getRelative(BlockFace.UP);
+
+        Block otherDoorBlock = BlockUtils.getOtherDoorPartBlock(block);
         final int blockId = assignId(), otherBlockId = assignId();
         doorMap.put(blockId, block);
         doorMap.put(otherBlockId, otherDoorBlock);
@@ -142,13 +140,13 @@ public class Colloportus extends Spell {
 	public static boolean unlockDoor(Block block) {
     	if (doorTypes.contains(block.getType())) {
             if (doorMap.containsValue(block)) {
-	            Block otherDoorBlock = ((Door) block.getState().getData()).isTopHalf() ? block.getRelative(BlockFace.DOWN) : block.getRelative(BlockFace.UP);
+	            Block otherDoorBlock = BlockUtils.getOtherDoorPartBlock(block);
 	        	doorMap.values().remove(block);
 	        	doorMap.values().remove(otherDoorBlock);
 	        	
 	        	Block door2Block = getDoubleDoor(block);
 	        	if (door2Block != null && doorMap.containsValue(door2Block)) {
-	        		Block otherDoor2Block = ((Door) door2Block.getState().getData()).isTopHalf() ? door2Block.getRelative(BlockFace.DOWN) : door2Block.getRelative(BlockFace.UP);
+                    Block otherDoor2Block = BlockUtils.getOtherDoorPartBlock(door2Block);
 	        		doorMap.values().remove(door2Block);
 		        	doorMap.values().remove(otherDoor2Block);
 	        	}
